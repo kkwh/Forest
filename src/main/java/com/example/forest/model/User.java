@@ -11,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -51,6 +52,7 @@ public class User extends BaseTimeEntity implements UserDetails {
 	
 	// 프로필 이미지 파일
 	@OneToOne
+	@JoinColumn(name = "image_file_id")
 	private ImageFile imageFile;
 
 	@Override
