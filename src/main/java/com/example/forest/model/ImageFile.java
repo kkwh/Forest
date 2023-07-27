@@ -27,7 +27,7 @@ public class ImageFile extends BaseTimeEntity {
 	private long id;
 	
 	// 파일 원본 이름
-	private String originalFileName;
+	private String originalName;
 	
 	// 확장자
 	private String ext;
