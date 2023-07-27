@@ -29,13 +29,25 @@ public class Post extends BaseTimeEntity {
 	private long id;
 	
 	// 게시글 제목
-	private String title;
+	private String postTitle;
+	
+	// 게시글 말머리
+	private String postType;
 	
 	// 게시글 내용
-	private String content;
+	private String postContent;
+	
+	// 작성자 닉네임 (익명인 경우)
+	private String postNickname;
+	
+	// 작성자 IP (익명인 경우)
+	private String postIp;
+	
+	// 게시물 비밀번호 (익명인 경우)
+	private String postPassword;
 	
 	// 조회수
-	private int views;
+	private int postViews;
 	
 	// 게시글 작성자
 	@ManyToOne(fetch = FetchType.LAZY)

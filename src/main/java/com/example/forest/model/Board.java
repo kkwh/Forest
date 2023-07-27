@@ -28,7 +28,10 @@ public class Board extends BaseTimeEntity {
 	private long id;
 	
 	// 게시판 카테고리
-	private Category category;
+	private Category boardCategory;
+	
+	// 게시판 이름
+	private String boardName;
 	
 	// 게시판 등급(메인, 서브)
 	private String boardGrade;
