@@ -43,9 +43,6 @@ public class User extends BaseTimeEntity implements UserDetails {
 	// 회원의 이메일 주소
 	private String email;
 	
-	// 접속한 PC의 IP 주소
-	private String ipAddress;
-	
 	// 비밀번호
 	private String password;
 	

@@ -28,13 +28,19 @@ public class ReReply extends BaseTimeEntity {
 	private long id;
 	
 	// 답글 내용
-	private String content;
+	private String replyText2;
 	
 	// 답글 작성자 닉네임
-	private String nickname;
+	private String replyNickname2;
 	
-	// 익명 여부
-	private boolean isAnonymous;
+	// 답글 작성자 IP
+	private String replyIp2;
+	
+	// 답글 비밀번호
+	private String replyPassword2;
+	
+	// 사용자 아이디
+	private long userId;
 	
 	// 답글이 작성된 댓글
 	@ManyToOne
