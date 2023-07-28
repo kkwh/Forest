@@ -3,6 +3,7 @@ package com.example.forest.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,7 +32,7 @@ public class Board extends BaseTimeEntity {
 	
 	// 게시판 카테고리
 	@Enumerated(EnumType.STRING)
-	private Category boardCategory;
+	private BoardCategory boardCategory;
 	
 	// 게시판 이름
 	private String boardName;
@@ -39,11 +40,15 @@ public class Board extends BaseTimeEntity {
 	// 게시판 등급(메인, 서브)
 	private String boardGrade;
 	
-	// 관리자 승인 여부
-	private boolean isApproved;
+	// 관리자 승인 여부 (1 -> 승인 완료, 0 -> 승인 대기)
+	private int isApproved;
 	
 	// 게시판 생성자
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;
+	
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 }
