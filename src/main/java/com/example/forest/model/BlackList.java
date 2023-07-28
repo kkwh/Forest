@@ -29,6 +29,9 @@ public class BlackList {
 	// 게시판 아이디
 	private long boardId;
 	
+	// 차단한 사용자 아이디
+	private long userId;
+	
 	// 차단한 IP 주소
 	private String ipAddress;
 
