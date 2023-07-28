@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.forest.dto.board.BoardCreateDto;
 import com.example.forest.model.BoardCategory;
 import com.example.forest.service.BoardService;
+import com.example.forest.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,13 +23,27 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/board")
 public class BoardController {
 	
+	private final UserService userService;
 	private final BoardService boardService;
+	
+	@GetMapping("/mainLand")
+	public String getMainBoard(Model model) {
+		return "board/main";
+	}
+	
+	@GetMapping("/subLand")
+	public String getSubBoard(Model model) {
+		return "board/sub";
+	}
 	
 	@GetMapping("/create")
 	@PreAuthorize("hasRole('USER')")
 	public String create(Principal principal, Model model) {
 		BoardCategory[] categories = BoardCategory.values();
 		model.addAttribute("categories", categories);
+		
+		long userId = userService.getUserId(principal.getName());
+		model.addAttribute("userId", userId);
 		
 		return "board/create";
 	}
