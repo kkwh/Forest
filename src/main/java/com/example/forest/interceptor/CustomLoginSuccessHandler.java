@@ -3,12 +3,17 @@ package com.example.forest.interceptor;
 import java.io.IOException;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import com.example.forest.model.Role;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
 	@Override
@@ -18,15 +23,22 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 	    String loginId = request.getParameter("loginId");
 	    String password = request.getParameter("password");
 	    
-	    // 1. UserRepository에서 해당 정보를 가지고 있는 사용자가 있는지 확인
+	    log.info("id = {}, pw = {}", loginId, password);
+
 	    
-	    // 2. null이 아니면 USER, ADMIN 중 하나
+	 // 사용자의 역할(Role) 확인
+        String role = authentication.getAuthorities().stream()
+                                     .map(GrantedAuthority::getAuthority)
+                                     .findFirst()
+                                     .orElse("");
+
+        // 관리자인지 확인하여 페이지 리다이렉트
+        if (role.equals("ROLE_USER")) {
+            response.sendRedirect("/"); // 일반 사용자 페이지로 리다이렉트
+        } else {
+            response.sendRedirect("/admin/main"); // 관리자 페이지로 리다이렉트
+        }
 	    
-	    // 3. USER일 경우
-	    response.sendRedirect("/");
-	    
-	    // 4. ADMIN일 경우
-	    response.sendRedirect("/admin/main");
 	}
 
 }
