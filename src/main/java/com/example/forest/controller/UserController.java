@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.forest.dto.user.UserSignUpDto;
-import com.example.forest.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/user")
 public class UserController {
 	
-    private final UserService userService;
+//    private final UserService userService;
     
     
     @GetMapping("/signup")
@@ -29,8 +28,8 @@ public class UserController {
     public String signUp(UserSignUpDto dto) {
         log.info("signUp(dto={})",dto);
         
-       Long id = userService.registerUser(dto);
-       log.info("회원 가입 id", id);
+//       Long id = userService.registerUser(dto);
+//       log.info("회원 가입 id", id);
        
        return "index";
     }
