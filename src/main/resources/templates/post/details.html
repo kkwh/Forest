@@ -6,7 +6,7 @@
     <main layout:fragment="main">
         <div class="my-2 card">
             <div class="card-header text-center">
-                <h1>포스트 상세보기 페이지</h1>
+                <h1>랜드 상세보기</h1>
             </div>
             <div class="card-body">
                 <form>
@@ -18,40 +18,40 @@
                     <div>
                         <label class="form-label" for="title">제목</label>
                         <input class="form-control"
-                            id="title" th:value="${post.title}" readonly />
+                            id="title" th:value="${post.postTitle}" readonly />
                     </div>
                     <div>
                         <label class="form-label" for="content">내용</label>
                         <textarea class="form-control"
-                            id="content" th:text="${post.content}" readonly></textarea>
+                            id="content" th:text="${post.postContent}" readonly></textarea>
                     </div>
                     <div>
-                        <label class="form-label" for="author">작성자</label>
+                        <label class="form-label" for="author">글쓴이</label>
                         <input class="form-control" 
-                            id="author" th:value="${post.author}" readonly />
+                            id="author" th:value="${post.postNickname}" readonly />
                     </div>
                     <div>
                         <label class="form-label" for="createdTime">작성시간</label>
                         <input class="form-control" id="createdTime"
-                            th:value="${ #temporals.format(post.createdTime, 'yyyy-MM-dd HH:mm:ss') }" 
+                            th:value="${ #temporals.format(post.createdTime, 'yyyy.MM.dd HH:mm:ss') }" 
                             readonly />
                     </div>
                     <div>
                         <label class="form-label" for="modifiedTime">수정시간</label>
                         <input class="form-control" id="modifiedTime"
-                            th:value="${ #temporals.format(post.modifiedTime, 'yyyy-MM-dd HH:mm:ss') }"
+                            th:value="${ #temporals.format(post.modifiedTime, 'yyyy.MM.dd HH:mm:ss') }"
                             readonly />
                     </div>
                 </form>
                 <!-- 로그인 사용자와 포스트 작성자가 같으면 -->
-                <div th:if="${ #authentication.name} == ${ post.author }">
+                <!-- <div th:if="${ #authentication.name} == ${ post.author }"> -->
                     <a class="btn btn-outline-primary"
-                        th:href="@{ /post/modify?id={id} (id = ${post.id}) }">수정하기</a>
-                </div>
+                        th:href="@{ /post/modify?id={id} (id = ${post.id}) }">가지치기</a>
+                <!-- </div> -->
             </div>
         </div>
         
-        <div class="my-2 card">
+        <!-- <div class="my-2 card">
             <div class="card-header">
                 <span>댓글</span>
                 <span id="replyCount" th:text="${replyCount}"></span>개
@@ -70,15 +70,15 @@
                     </div>
                 </div>
                 
-                <!-- 댓글 목록을 보여줄 영역 -->
+                댓글 목록을 보여줄 영역
                 <div class="my-2 row" id="replies"></div>
             </div>
-        </div>
+        </div> -->
     </main>
     
     <th:block layout:fragment="myscripts">
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <script src="/js/reply/reply.js"></script>
+        <script src="/js/post/modify.js"></script>
     </th:block>
     
 </html>

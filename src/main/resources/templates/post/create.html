@@ -6,20 +6,36 @@
      <main layout:fragment="main">
         <div class="my-2 card">
             <div class="card-header text-center">
-                <h1>새 포스트 작성 페이지</h1>
+                <h1>뉴진스 랜드</h1>
             </div>
             <div class="card-body">
                 <form method="post">
                     <div class="my-2">
+                        <label class="form-label" for="nickname">닉네임</label>
+                        <input class="form-control" id="nickname"
+                            type="text" name="postNickname" required autofocus />
+                    </div>
+                    <div class="my-2">
+                        <label class="form-label" for="password">비밀번호</label>
+                        <input class="form-control" id="password"
+                            type="text" name="postPassword" required autofocus />
+                    </div>
+                    <div class="my-2">
+                        <label class="form-label" for="type">말머리</label>
+                        <input class="form-control" id="type"
+                            type="text" name="postType" required autofocus />
+                    </div>
+                    <div class="my-2">
                         <label class="form-label" for="title">제목</label>
                         <input class="form-control" id="title"
-                            type="text" name="title" required autofocus />
+                            type="text" name="postTitle" required autofocus />
                     </div>
                     <div class="my-2">
                         <label class="form-label" for="content">내용</label>
-                        <textarea class="form-control" id="content" name="content" required></textarea>
+                        <textarea class="form-control" id="content" name="postContent" required></textarea>
                     </div>               
                     <div>
+                        <a class="nav-link form-control btn btn-outline-success" th:href="@{/post}">취소</a>
                         <input class="form-control btn btn-outline-success" type="submit" value="작성 완료"/>
                     </div>
                 </form>
