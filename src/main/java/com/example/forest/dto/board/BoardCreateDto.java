@@ -18,7 +18,7 @@ public class BoardCreateDto {
 		return Board.builder()
 				.boardCategory(category)
 				.boardName(boardName)
-				.boardGrade("Minor")
+				.boardGrade("Sub")
 				.isApproved(0)
 				.build();
 	}

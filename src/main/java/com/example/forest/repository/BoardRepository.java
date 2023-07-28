@@ -3,6 +3,7 @@ package com.example.forest.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -24,7 +25,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	 * @param category
 	 * @return
 	 */
-	@Query("select * from Board b "
+	@Query("select b from Board b "
 			+ " where b.boardCategory = :category "
 			+ " and b.boardGrade = :grade "
 			+ " and b.isApproved = 1 "
@@ -37,10 +38,16 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	 * @param keyword
 	 * @return
 	 */
-	@Query("select * from Board b "
+	@Query("select b from Board b "
 			+ " where lower(b.boardName) like ('%' || :keyword || '%') "
 			+ " and b.isApproved = 1"
 			+ " order by b.boardName desc")
 	List<Board> findAllByKeyword(@Param("keyword") String keyword);
+	
+	@Query("update Board b "
+			+ " set b.boardGrade = :grade "
+			+ " where b.id = :boardId")
+	@Modifying
+	int updateBoardGrade(long boardId, String grade);
 
 }

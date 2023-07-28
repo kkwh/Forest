@@ -90,5 +90,15 @@ public class BoardService {
 				.map(board -> BoardListDto.fromEntity(board))
 				.toList();
 	}
-
+	
+	/**
+	 * 게시판이 메인 랜드로 승급될 경우 게시판 등급을 변경하는 메서드
+	 * @param boardId
+	 */
+	public void updateBoardGrade(long boardId) {
+		log.info("update(id = {})", boardId);
+		
+		boardRepository.updateBoardGrade(boardId, "Main");
+	}
+	
 }
