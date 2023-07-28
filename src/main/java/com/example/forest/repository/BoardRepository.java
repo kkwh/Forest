@@ -24,7 +24,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	 * @param category
 	 * @return
 	 */
-	@Query("select * from Board b "
+	@Query("select b from Board b "
 			+ " where b.boardCategory = :category "
 			+ " and b.boardGrade = :grade "
 			+ " and b.isApproved = 1 "
@@ -37,7 +37,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	 * @param keyword
 	 * @return
 	 */
-	@Query("select * from Board b "
+	@Query("select b from Board b "
 			+ " where lower(b.boardName) like ('%' || :keyword || '%') "
 			+ " and b.isApproved = 1"
 			+ " order by b.boardName desc")
