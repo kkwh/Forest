@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.forest.dto.user.UserSignUpDto;
+import com.example.forest.model.Role;
 import com.example.forest.model.User;
 import com.example.forest.repository.UserRepository;
 
@@ -32,6 +33,8 @@ public class UserService implements UserDetailsService {
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .email(dto.getEmail())
                 .build();
+                    
+        
         log.info("save 전: entity={}", entity);
         
         userRepository.save(entity); // 디비 집어넣기

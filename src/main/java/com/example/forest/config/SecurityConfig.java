@@ -30,29 +30,30 @@ public class SecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 	
-	@Bean
-    public UserDetailsService inMemoryUserDetailsService() {
-        // 사용자 상세 정보
-        UserDetails user1 = User
-                .withUsername("user1") // 로그인할 때 사용할 사용자 이름(아이디)
-                .password(passwordEncoder().encode("1111")) // 로그인할 때 사용할 비밀번호
-                .roles("USER") // 사용자 권한(USER, ADMIN, ...)
-                .build(); // UserDetails 객체 생성.
-        
-        UserDetails user2 = User
-                .withUsername("user2")
-                .password(passwordEncoder().encode("2222"))
-                .roles("USER", "ADMIN")
-                .build();
-        
-        UserDetails user3 = User
-                .withUsername("user3")
-                .password(passwordEncoder().encode("3333"))
-                .roles("ADMIN")
-                .build();
-        
-        return new InMemoryUserDetailsManager(user1, user2, user3);
-    }
+	//내가 할 떈 지우기
+//	@Bean
+//    public UserDetailsService inMemoryUserDetailsService() {
+//        // 사용자 상세 정보
+//        UserDetails user1 = User
+//                .withUsername("user1") // 로그인할 때 사용할 사용자 이름(아이디)
+//                .password(passwordEncoder().encode("1111")) // 로그인할 때 사용할 비밀번호
+//                .roles("USER") // 사용자 권한(USER, ADMIN, ...)
+//                .build(); // UserDetails 객체 생성.
+//        
+//        UserDetails user2 = User
+//                .withUsername("user2")
+//                .password(passwordEncoder().encode("2222"))
+//                .roles("USER", "ADMIN")
+//                .build();
+//        
+//        UserDetails user3 = User
+//                .withUsername("user3")
+//                .password(passwordEncoder().encode("3333"))
+//                .roles("ADMIN")
+//                .build();
+//        
+//        return new InMemoryUserDetailsManager(user1, user2, user3);
+//    }
 	
 	@Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
@@ -64,17 +65,17 @@ public class SecurityConfig {
         http.csrf((csrf) -> csrf.disable());
         
         // 로그인 페이지 설정 //기본 로그인 페이지 사용
-        http.formLogin(Customizer.withDefaults());
+        //http.formLogin(Customizer.withDefaults());
         
         // 로그인 처리 (내가 만들 html, 커스텀)
-//        http.formLogin(formLogin -> //이걸 꺼놔서 username파라미터를 userId라고 못읽나?
-//        	formLogin
-//        		.loginPage("/login")
-//	        	.loginProcessingUrl("/user/login/process")
-//	        	.usernameParameter("username")
-//	        	.passwordParameter("password")
-//	        	.successHandler(new CustomLoginSuccessHandler())
-//    	);
+        http.formLogin(formLogin -> //이걸 꺼놔서 username파라미터를 userId라고 못읽나?
+        	formLogin
+        		.loginPage("/user/login")
+        		.loginProcessingUrl("/user/login/process")
+	        	.usernameParameter("loginId")
+	        	.passwordParameter("password")
+	        	.successHandler(new CustomLoginSuccessHandler())
+    	);
         
         // 로그아웃 처리
        http.logout((logout) -> 

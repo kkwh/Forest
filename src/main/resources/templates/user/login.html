@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html>
+<head>
+<meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+ <h1>Login Page</h1>
+ <form action="/user/login/process" method="post">
+  <input type="text" id="loginId" name="loginId" /> <input
+   type="password" id="password" name="password" />
+  <button type="submit" id="loginBtn">login</button>
+ </form>
+</body>
+</html>
+
+<!-- 
+1. 회원가입
+   - 회원가입 UI
+   - 로그인 아이디 중복 체크
+   - 닉네임 중복 체크
+   - 비밀번호 길이
+   - 프로필 사진
+2. 로그인 시
+   - 로그인 UI
+   - 아이디/비밀번호 찾기
+   - SuccessHandler 구현 (USER, ADMIN일 때 다르게 처리)
+ -->

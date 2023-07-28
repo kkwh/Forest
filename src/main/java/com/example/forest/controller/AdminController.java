@@ -14,30 +14,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/admin")
+public class AdminController {
 	
     private final UserService userService;
     
     
-    @GetMapping("/signup")
-    public void signUp() {
-        log.info("signUp() GET");
+    @GetMapping("/main")
+    public void main() {
+        log.info("main() GET");
     }
-    
-    @PostMapping("/signup")
-    public String signUp(UserSignUpDto dto) {
-        log.info("signUp(dto={})",dto);
-        
-       Long id = userService.registerUser(dto);
-       log.info("회원 가입 id", id);
-       
-       return "index";
-    }
-    
-    @GetMapping("/login")
-    public String login() {
-        return "user/login";
-    }
+   
 	
 }
