@@ -33,5 +33,10 @@ public class UserController {
        
        return "index";
     }
+    
+    @GetMapping("/login")
+    public String login() {
+        return "user/login";
+    }
 	
 }

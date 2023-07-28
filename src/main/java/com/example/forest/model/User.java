@@ -60,13 +60,14 @@ public class User extends BaseTimeEntity implements UserDetails {
 	@JoinColumn(name = "image_file_id")
 	private ImageFile imageFile;
 
-    @Builder
+    @Builder 
     private User(String loginId, String password, String nickname, String email, ImageFile imageFile) {
         this.loginId = loginId;
+        this.nickname = nickname;
         this.password = password;
         this.email = email;
         this.imageFile = imageFile;
-        this.role = Role.USER;
+        this.role = Role.USER; //권한 바꾸는 곳, 관리자 = ADMIN 
     }
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
