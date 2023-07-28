@@ -27,7 +27,7 @@ public class ImageFile extends BaseTimeEntity {
 	private long id;
 	
 	// 파일 원본 이름
-	private String originalFileName;
+	private String originalName;
 	
 	// 확장자
 	private String ext;
@@ -40,5 +40,8 @@ public class ImageFile extends BaseTimeEntity {
 	
 	// 파일 저장 경로
 	private String uploadPath;
+	
+	// 게시물에 저장된 사진일 경우
+	private long postId;
 
 }

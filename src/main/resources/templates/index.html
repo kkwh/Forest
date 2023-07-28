@@ -1,10 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"    
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorate="~{layout/base_layout}">
-
-<main layout:fragment="main">
-    <h1 th:text="|현재시간:${now}|">현재 시간</h1>
-</main>
-
+   <head>
+      <meta charset="UTF-8">
+      <title>Insert title here</title>
+   </head>
+   <body>
+      <h1>Index page</h1>
+      
+      <a href="/test">test page</a>
+       <th:block sec:authorize="isAnonymous()">
+         <li class="nav-item">
+            <a class="nav-link" th:href="@{/login}">로그인</a>
+         </li>
+         <li class="nav-item">
+            <a class="nav-link" th:href="@{ /user/signup}">회원가입</a>
+         </li>
+       </th:block>
+   </body>
 </html>

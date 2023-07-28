@@ -55,38 +55,38 @@ public class SecurityConfig {
     }
 	
 	@Bean
-	public WebSecurityCustomizer webSecurityCustomizer() {
-		return (web) -> web.ignoring().requestMatchers("/css/**", "/js/**", "/img/**");
-	}
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers("/css/**", "/js/**", "/img/**");
+    }
 	
 	@Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf((csrf) -> csrf.disable());
         
-        // 로그인 페이지 설정 
+        // 로그인 페이지 설정 //기본 로그인 페이지 사용
         http.formLogin(Customizer.withDefaults());
         
-//        // 로그인 처리
-//        http.formLogin(formLogin -> 
+        // 로그인 처리 (내가 만들 html, 커스텀)
+//        http.formLogin(formLogin -> //이걸 꺼놔서 username파라미터를 userId라고 못읽나?
 //        	formLogin
-//        		.loginPage("/user/login")
+//        		.loginPage("/login")
 //	        	.loginProcessingUrl("/user/login/process")
-//	        	.usernameParameter("loginId")
+//	        	.usernameParameter("username")
 //	        	.passwordParameter("password")
 //	        	.successHandler(new CustomLoginSuccessHandler())
 //    	);
-//        
-//        // 로그아웃 처리
-//        http.logout((logout) -> 
-//        	logout
-//        		.logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
-//        		.logoutSuccessUrl("/")
-//        );
-//        
-//        // 접근 제한 처리
-//        http.exceptionHandling(exceptionHandling -> 
-//        	exceptionHandling.accessDeniedHandler(new CustomAccessDeniedHandler())
-//        );
+        
+        // 로그아웃 처리
+       http.logout((logout) -> 
+        	logout
+        		.logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
+        		.logoutSuccessUrl("/")
+        );
+        
+        // 접근 제한 처리
+        http.exceptionHandling(exceptionHandling -> 
+        	exceptionHandling.accessDeniedHandler(new CustomAccessDeniedHandler())
+        );
         
         // 로그아웃 이후 이동할 페이지 - 메인 페이지
         http.logout((logout) -> logout.logoutSuccessUrl("/"));
