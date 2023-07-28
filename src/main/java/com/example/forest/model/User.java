@@ -7,11 +7,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -20,42 +22,55 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Getter
 @ToString
 @Entity
-@Table(name = "USERS")
+@Table(name = "USERS") //선아 개인 DB테이블 
 @SequenceGenerator(name = "USERS_SEQ_GEN", sequenceName = "USERS_SEQ", allocationSize = 1)
 public class User extends BaseTimeEntity implements UserDetails {
 	
-	@Id
+	@Id //프라이 머리키
 	@GeneratedValue(generator = "USERS_SEQ_GEN", strategy = GenerationType.SEQUENCE)
 	private long id;
 	
 	// 로그인 시 사용할 아이디
+	@Column(nullable = false, unique = true)
 	private String loginId;
 	
 	// 사이트 내 회원 닉네임
+    @Column(nullable = true)
 	private String nickname;
 	
 	// 회원의 이메일 주소
+    @Column(nullable = true)
 	private String email;
 	
 	// 접속한 PC의 IP 주소
+    @Column(nullable = true)
 	private String ipAddress;
 	
 	// 비밀번호
+    @Column(nullable = true)
 	private String password;
 	
 	// 사용자 권한
+    @Column(nullable = true)
 	private Role role;
 	
 	// 프로필 이미지 파일
 	@OneToOne
+	@PrimaryKeyJoinColumn
 	private ImageFile imageFile;
 
+    @Builder
+    private User(String loginId, String password, String nickname, String email, ImageFile imageFile) {
+        this.loginId = loginId;
+        this.password = password;
+        this.email = email;
+        this.imageFile = imageFile;
+        this.role = Role.USER;
+    }
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return Arrays.asList(new SimpleGrantedAuthority(role.getKey()));
@@ -63,22 +78,22 @@ public class User extends BaseTimeEntity implements UserDetails {
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return true;
+		return true;// 계정(account)이 non-expired(만료되지 않음).
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return true;
+		return true; // 계정이 non-lock(잠기지 않음).
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return true;
+		return true;// 비밀번호가 non-expired.
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return true;// 사용자 상세정보(UserDetails)가 활성화(enable)
 	}
 
 	@Override
