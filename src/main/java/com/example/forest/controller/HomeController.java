@@ -18,7 +18,7 @@ public class HomeController {
 	 * @return
 	 */
 	@GetMapping("/test")
-	@PreAuthorize("hasRole('USER')")
+	//@PreAuthorize("hasRole('USER')")
 	public String test() {
 		return "test";
 	}
