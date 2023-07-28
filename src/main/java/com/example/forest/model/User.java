@@ -12,8 +12,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -22,6 +22,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @ToString
@@ -45,11 +46,7 @@ public class User extends BaseTimeEntity implements UserDetails {
 	// 회원의 이메일 주소
     @Column(nullable = true)
 	private String email;
-	
-	// 접속한 PC의 IP 주소
-    @Column(nullable = true)
-	private String ipAddress;
-	
+
 	// 비밀번호
     @Column(nullable = true)
 	private String password;
@@ -60,7 +57,7 @@ public class User extends BaseTimeEntity implements UserDetails {
 	
 	// 프로필 이미지 파일
 	@OneToOne
-	@PrimaryKeyJoinColumn
+	@JoinColumn(name = "image_file_id")
 	private ImageFile imageFile;
 
     @Builder

@@ -32,13 +32,16 @@ public class Reply extends BaseTimeEntity {
 	private String replyText;
 	
 	// 댓글 작성자 닉네임
-	private String nickname;
+	private String replyNickname;
 	
-	// 익명 여부
-	private boolean isAnonymous;
+	// 답글 작성자 IP
+	private String replyIp;
 	
-	// 댓글 추천수
-	private int recommendations;
+	// 비밀번호
+	private String replyPassword;
+	
+	// 로그인 한 사용자 일 경우 userId
+	private long userId;
 	
 	// 댓글이 작성된 게시물
 	@ManyToOne(fetch = FetchType.LAZY)
