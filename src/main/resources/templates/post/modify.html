@@ -6,55 +6,37 @@
     <main layout:fragment="main">
         <div class="my-2 card">
             <div class="card-header text-center">
-                <h1>포스트 수정 페이지</h1>
+                <h1>뉴진스 랜드</h1>
             </div>
             <div class="card-body">
-                <form id="postModifyForm">
-                    <div>
-                        <label class="form-label" for="id">번호</label>
-                        <input class="form-control"
-                            id="id" name="id" th:value="${post.id}" readonly />
+                <form method="post">
+                    <div class="my-2">
+                        <label class="form-label" for="nickname">닉네임</label>
+                        <input class="form-control" id="nickname"
+                            type="text" name="postNickname" th:value="${post.postNickname}" readonly />
                     </div>
-                    <div>
+                    <div class="my-2">
+                        <label class="form-label" for="password">비밀번호</label>
+                        <input class="form-control" id="password"
+                            type="text" name="postPassword" th:value="${post.postPassword}" readonly />
+                    </div>
+                    <div class="my-2">
                         <label class="form-label" for="title">제목</label>
-                        <input class="form-control"
-                            id="title" name="title" th:value="${post.title}" />
+                        <input class="form-control" id="title"
+                            type="text" name="postTitle" th:value="${post.postTitle}" required autofocus />
                     </div>
-                    <div>
+                    	<input type="hidden" name="id" id="id" th:value="${post.id}">
+                    <div class="my-2">
                         <label class="form-label" for="content">내용</label>
-                        <textarea class="form-control"
-                            id="content" name="content" th:text="${post.content}"></textarea>
-                    </div>
+                        <textarea class="form-control" id="content" name="postContent" th:text="${post.postContent}" required></textarea>
+                    </div>               
                     <div>
-                        <label class="form-label" for="author">작성자</label>
-                        <input class="form-control" 
-                            id="author" name="author" th:value="${post.author}" readonly />
-                    </div>
-                    <div>
-                        <label class="form-label" for="createdTime">작성시간</label>
-                        <input class="form-control" id="createdTime"
-                            th:value="${ #temporals.format(post.createdTime, 'yyyy-MM-dd HH:mm:ss') }" 
-                            readonly />
-                    </div>
-                    <div>
-                        <label class="form-label" for="modifiedTime">수정시간</label>
-                        <input class="form-control" id="modifiedTime"
-                            th:value="${ #temporals.format(post.modifiedTime, 'yyyy-MM-dd HH:mm:ss') }"
-                            readonly />
+                        <a class="nav-link form-control btn btn-outline-success" th:href="@{ /post/details?id={id} (id = ${post.id}) }">취소</a>
+                        <input class="form-control btn btn-outline-success" type="submit" value="가지치기"/>
                     </div>
                 </form>
-                
-                <!-- 로그인 사용자와 포스트 작성자가 같을 때만 삭제, 업데이트 버튼을 보여줌 -->
-                <div th:if="${ #authentication.name } == ${ post.author }">
-                    <button class="btn btn-outline-danger" id="btnDelete">삭제</button>
-                    <button class="btn btn-outline-success" id="btnUpdate">업데이트</button>
-                </div>
             </div>
         </div>
     </main>
-    
-    <th:block layout:fragment="myscripts">
-        <script src="/js/post/modify.js"></script>
-    </th:block>
     
 </html>

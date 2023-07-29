@@ -48,6 +48,11 @@
                     <a class="btn btn-outline-primary"
                         th:href="@{ /post/modify?id={id} (id = ${post.id}) }">가지치기</a>
                 <!-- </div> -->
+                <a class="btn btn-outline-primary" th:href="@{ /post/deleteCheck?id={id} (id = ${post.id}) }">벌목하기</a>
+                <a class="btn btn-outline-primary" th:href="@{ /post/modifyCheck?id={id} (id = ${post.id}) }">가지치기</a>
+                <a class="btn btn-outline-primary" th:href="@{ /post/create }">나무심기</a>
+                <a class="btn btn-outline-primary" th:href="@{ /post }">전체글</a>
+                <a class="btn btn-outline-primary" th:href="@{ /post }">인기글</a>
             </div>
         </div>
         

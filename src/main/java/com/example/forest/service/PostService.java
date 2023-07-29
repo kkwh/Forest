@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.forest.dto.post.PostCreateDto;
+import com.example.forest.dto.post.PostSearchDto;
+import com.example.forest.dto.post.PostUpdateDto;
 import com.example.forest.model.Post;
 import com.example.forest.repository.PostRepository;
 
@@ -47,55 +49,49 @@ public class PostService {
         
         return postRepository.findById(id).orElseThrow();
     }
-//    
-//    // DB POSTS 테이블에 엔터티 업데이트:
-//    
-//    @Transactional // (readOnly = true ) DB의 값을 변경하지 않을 시 설정 // (1)
-//    public void update(PostUpdateDto dto) {
-//        log.info("update(dto={})", dto);
-//        
-//        // (1) 메서드에 @Transactional 애너테이션을 설정하고,
-//        // (2) DB에서 엔터티를 검색하고,
-//        // (3) 검색한 엔터티를 수정하면,
-//        // 트랜잭션이 끝나는 시점에 DB update가 자동으로 수행됨!
-//        
-//        Post entity = postRepository.findById(dto.getId()).orElseThrow(); // (2)
-//        entity.update(dto); // (3)
-//        // postRepository.saveAndFlush(entity);
-//
-//    }
-//    
-//    // DB POSTS 삭제 기능
-//    public void delete(Long id) {
-//        log.info("delete(id={})", id);
-//        
-//        postRepository.deleteById(id);
-//        
-//    }
-//    
-//    @Transactional(readOnly = true)
-//    public List<Post> search(PostSearchDto dto) {
-//        log.info("search(dto={})", dto);
-//        
-//        List<Post> list = null;
-//        switch (dto.getType()) {
-//        case "t":
-//            list = postRepository.findByTitleContainsIgnoreCaseOrderByIdDesc(dto.getKeyword());
-//            break;
-//        case "c":
-//            list = postRepository.findByContentContainsIgnoreCaseOrderByIdDesc(dto.getKeyword());
-//            break;
-//        case "tc":
-//            list = postRepository.searchByKeyword(dto.getKeyword());
-//            break;
-//        case "a":
-//            list = postRepository.findByAuthorContainsIgnoreCaseOrderByIdDesc(dto.getKeyword());
-//            break;
-//            
-//        }
-//        
-//        return list;
-//    }
+    
+    // DB POSTS 테이블에 엔터티 업데이트:    
+    @Transactional // (readOnly = true )
+    public void update(PostUpdateDto dto) {
+        log.info("update(dto={})", dto);
+
+        Post entity = postRepository.findById(dto.getId()).orElseThrow();
+        entity.update(dto);
+        postRepository.saveAndFlush(entity);
+
+    }
+    
+    // DB POSTS 삭제 기능
+    public void delete(Long id) {
+        log.info("delete(id={})", id);
+        
+        postRepository.deleteById(id);
+        
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Post> search(PostSearchDto dto) {
+        log.info("search(dto={})", dto);
+        
+        List<Post> list = null;
+        switch (dto.getType()) {
+        case "t":
+           list = postRepository.findByPostTitleContainsIgnoreCaseOrderByIdDesc(dto.getKeyword());
+            break;
+        case "c":
+            list = postRepository.findByPostContentContainsIgnoreCaseOrderByIdDesc(dto.getKeyword());
+            break;
+        case "tc":
+            list = postRepository.searchByKeyword(dto.getKeyword());
+            break;
+        case "a":
+           list = postRepository.findByPostNicknameContainsIgnoreCaseOrderByIdDesc(dto.getKeyword());
+            break;
+            
+        }
+        
+        return list;
+    }
     
     
     

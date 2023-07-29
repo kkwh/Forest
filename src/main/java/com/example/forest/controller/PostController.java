@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.forest.dto.post.PostCreateDto;
+import com.example.forest.dto.post.PostSearchDto;
+import com.example.forest.dto.post.PostUpdateDto;
 import com.example.forest.model.Post;
 import com.example.forest.service.PostService;
 
@@ -23,6 +25,11 @@ import lombok.extern.slf4j.Slf4j;
 public class PostController {
     
     private final PostService postService;
+    
+    @GetMapping("/practice")
+    public void practice() {
+        log.info("practice() GET");
+    }
     
     @GetMapping
     public String post(Model model) {
@@ -63,7 +70,55 @@ public class PostController {
                
         // 결과를 model에 저장 -> 뷰로 전달됨.   
         model.addAttribute("post", post);
-
+    }
+    
+    @GetMapping("/modifyCheck")
+    public void modifyCheck(Long id, Model model) {
+        log.info("modifyCheck(id={})", id);
+        
+        Post post = postService.read(id);
+        
+        model.addAttribute("post", post);
+    }
+    
+    @GetMapping("/modify")
+    public void modify(Long id, Model model) {
+        log.info("modify(id={})", id);
+        
+        Post post = postService.read(id);
+               
+        model.addAttribute("post", post);
+    }
+    
+    @PostMapping("/modify")
+    public String modify(PostUpdateDto dto) {
+        log.info("modify(dto={}) POST", dto);
+        
+       postService.update(dto);
+        
+       return "redirect:/post";
+    }
+    
+    @GetMapping("/deleteCheck")
+    public void deleteCheck(Long id, Model model) {
+        log.info("deleteCheck(id={})", id);
+        
+        Post post = postService.read(id);
+        
+        model.addAttribute("post", post);
+    }
+    
+    @GetMapping("/search")
+    public String search(PostSearchDto dto, Model model) {
+        log.info("search(dto={})", dto);
+        
+        // postService의 검색 기능 호출:
+        List<Post> list = postService.search(dto);
+        
+        // 검색 결과를 Model에 저장해서 뷰로 전달:
+        model.addAttribute("posts", list);
+        
+        return "/post/read";
     }
     
 
