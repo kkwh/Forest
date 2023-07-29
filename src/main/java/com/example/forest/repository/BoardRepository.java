@@ -6,9 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.forest.model.Board;
 import com.example.forest.model.BoardCategory;
+import com.example.forest.model.User;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
 	
@@ -18,6 +20,16 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	 * @return
 	 */
 	Board findByBoardName(@Param("boardName") String boardName);
+	
+	/**
+	 * 승인(대기) 상태의 게시판 목록을 불러옴
+	 * 과거순으로 불러옴
+	 * @return
+	 */
+	@Query("select b from Board b "
+			+ " where b.isApproved = :status"
+			+ " order by b.id desc")
+	List<Board> findAllBoardsByStatus(@Param("status") int status);
 	
 	/**
 	 * 메인(서브) 랜드에 존재하는 모든 랜드들을 카테고리 별로 불러옴
@@ -44,10 +56,50 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 			+ " order by b.boardName desc")
 	List<Board> findAllByKeyword(@Param("keyword") String keyword);
 	
+	/**
+	 * 특정 사용자가 관리자 권한을 가지고 있는 게시판 목록을 불러옴
+	 * @param user
+	 * @return
+	 */
+	List<Board> findAllBoardsByUser(User user);
+	
+	/**
+	 * 관리자가 게시판의 등급을 메인 랜드로 업데이트
+	 * @param boardId
+	 * @param grade
+	 * @return
+	 */
+	@Transactional
+	@Modifying
 	@Query("update Board b "
 			+ " set b.boardGrade = :grade "
 			+ " where b.id = :boardId")
+	int updateBoardGrade(@Param("boardId") long boardId, @Param("grade") String grade);
+	
+	/**
+	 * 관리자가 신청된 게시판을 승인
+	 * @param boardId
+	 * @param status
+	 * @return
+	 */
+	@Transactional
 	@Modifying
-	int updateBoardGrade(long boardId, String grade);
+	@Query("update Board b "
+			+ " set b.isApproved = :status "
+			+ " where b.id = :boardId")
+	int approveBoard(@Param("boardId") long boardId, @Param("status") int status);
+	
+	/**
+	 * 게시판을 생성한 사용자의 권한을 뺏음
+	 * @param user
+	 * @param boardId
+	 * @return
+	 */
+	@Transactional
+	@Modifying
+	@Query("update Board b "
+			+ " set b.user = :user "
+			+ " where b.id = :boardId")
+	int updateBoardOwner(@Param("user") User user, @Param("boardId") long boardId);
 
 }

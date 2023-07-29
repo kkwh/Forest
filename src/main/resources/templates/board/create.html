@@ -4,18 +4,74 @@
     layout:decorate="~{layout/base_layout}">
 
 <div layout:fragment="main" class="mt-5 p-3">
+    
     <hr/>
-	<h1>Board Create Page</h1>
-	<form id="createForm" action="/board/create" method="post">
-		<select class="form-select" aria-label="Default select example" id="category" name="category">
-			<th:block th:each="category : ${categories}">
-				<option th:value="${category}" th:text="${category}"></option>
-			</th:block>
-		</select>
-		<input type="hidden" id="userId" name="userId" th:value="${userId}" />
-		<input type="text" id="boardName" name="boardName" />
-		<button type="submit" id="createBtn">Create</button>
-	</form>
+	
+	<div id="form-section" class="p-3">
+		<form id="create-form" class="row g-3" enctype="multipart/form-data">
+		  <div class="col-12">
+		    <label for="category" class="form-label">카테고리</label>
+		    <select id="category" name="category" class="form-select">
+		      	<th:block th:each="category : ${categories}">
+					<option th:value="${category}" th:text="${category.value}"></option>
+				</th:block>
+		    </select>
+		  </div>
+		  <div class="col-12">
+		    <label for="boardName" class="form-label">랜드 이름</label>
+		    <input type="text" class="form-control" id="boardName" name="boardName" oninput="javascript:checkName();">
+		    <span id="message"></span>
+		  </div>
+		  <div class="col-12">
+		    <label for="imageFile" class="form-label">랜드 배경사진</label>
+            <input type="file" id="imageFile" class="form-control" name="imageFile" accept=".png, .jpg, .jpeg, .webp">
+		  </div>
+		  <div class="col-12 d-none">
+		    <input type="hidden" id="userId" name="userId" th:value="${userId}" />
+		  </div>
+		  <div class="col-12">
+		    <button id="createBtn" type="button" class="btn btn-outline-dark w-100">랜드 생성</button>
+		  </div>
+		  <div class="col-12">
+		  	<a href="/board/subLand" class="btn btn-outline-danger w-100">취소</a>
+		  </div>
+		</form>
+	</div>
+	
 </div>
+
+<th:block layout:fragment="myscripts">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="/js/board/board-create.js"></script>
+    <script type="text/javascript">
+	    function checkName() {
+			const boardName = document.querySelector('input#boardName').value;
+			
+			const url = '/api/v1/board/checkName';
+			const data = { boardName };
+			
+			axios.post(url, data)
+				.then((response) => {					
+					const message = document.querySelector('span#message');
+					
+					// 이미 사용중인 이름인 경우
+					if(boardName == '') {
+						message.innerHTML = '';
+						return false;
+					}
+					if(response.data == '1' || response.data == 1) {
+						message.innerHTML = '이미 사용중인 이름입니다.';
+						message.style.color='red';
+					} else {
+						message.innerHTML = '사용 가능한 이름입니다.';
+						message.style.color='blue';
+					}
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		}
+    </script>
+</th:block>
 
 </html>

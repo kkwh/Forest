@@ -1,12 +1,19 @@
 package com.example.forest.controller;
 
+import java.security.Principal;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.forest.dto.board.BoardCheckDto;
+import com.example.forest.dto.board.BoardRevokeDto;
 import com.example.forest.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -20,15 +27,65 @@ public class BoardApiController {
 	
 	private final BoardService boardService;
 	
+	/**
+	 * 사용자가 게시판을 등록할 때 게시판 이름의 중복 여부를 체크
+	 * @param dto
+	 * @return
+	 */
 	@PostMapping("/checkName")
 	@ResponseBody
-	public ResponseEntity<Integer> checkName(@RequestParam("boardName") String boardName) {
-		log.info("checkName({})", boardName);
-		
-		int result = boardService.checkBoardNameExists(boardName);
-		log.info("result = {}", result);
+	public ResponseEntity<Integer> checkName(@RequestBody BoardCheckDto dto) {	
+		int result = boardService.checkBoardNameExists(dto.getBoardName());
 		
 		return ResponseEntity.ok(result);
+	}
+	
+	/**
+	 * 관리자가 게시판 생성을 승인
+	 * @param boardId
+	 * @return
+	 */
+	@PutMapping("/approve/{boardId}")
+	@ResponseBody
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<String> approve(@PathVariable long boardId) {
+		log.info("approve(id = {})", boardId);
+		
+		boardService.approveBoard(boardId);
+		
+		return ResponseEntity.ok("Success");
+	}
+	
+	/**
+	 * 관리자가 게시판 생성을 거절
+	 * @param boardId
+	 * @return
+	 */
+	@PutMapping("/decline/{boardId}")
+	@ResponseBody
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<String> decline(@PathVariable long boardId) {
+		log.info("decline(id = {})", boardId);
+		
+		boardService.declineBoard(boardId);
+		
+		return ResponseEntity.ok("Success");
+	}
+	
+	/**
+	 * 관리자가 게시판 생성자의 권한을 뺏음
+	 * @param dto
+	 * @return
+	 */
+	@PutMapping("/revoke")
+	@ResponseBody
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<String> revoke(@RequestBody BoardRevokeDto dto, Principal principal) {
+		log.info("revoke(dto = {})", dto);
+		
+		boardService.revokeAuthority(dto, principal.getName());
+		
+		return ResponseEntity.ok("Success");
 	}
 
 }
