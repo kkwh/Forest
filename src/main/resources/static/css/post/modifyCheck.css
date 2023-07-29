@@ -1,0 +1,172 @@
+@charset "UTF-8";
+
+article {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    background: transparent;
+    font-style: normal;
+}
+
+body {
+    font-size: 12px;
+    font-family: -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",arial,Dotum,돋움,sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* viewport height */
+    margin: 0;
+}
+
+.no_member_cont {
+    width: 394px;
+    height: 165px;
+    padding-top: 48px;
+    border: 3px solid #188038;;
+    background: #fff;
+}
+
+div {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    background: transparent;
+    font-style: normal;
+}
+
+.no_member_cont .inner {
+    width: 176px;
+    margin: 0 auto;
+}
+
+.no_member_cont .inner .txt {
+    display: block;
+    font-size: 15px;
+    color: #188038;
+    text-align: center;
+}
+
+ b {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    background: transparent;
+    font-style: normal;
+    font-weight: bold;
+}
+
+.pw_inquiry {
+    width: 164px;
+    height: 37px;
+    padding: 0 5px;
+    margin-top: 14px;
+    background: #f3f3f3;
+    border: 1px solid #cecdce;
+}
+
+input {
+    font-size: 12px;
+    font-family: -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",arial,Dotum,돋움,sans-serif;
+    border-radius: 0;
+    vertical-align: middle;
+}
+
+input:not([type="range"]):not([type="color"]) {
+    writing-mode: horizontal-tb !important;
+}
+
+input[type="password" i] {
+    -webkit-text-security: disc !important;
+    padding: 1px 2px;
+}
+
+input:not([type="file" i], [type="image" i], [type="checkbox" i], [type="radio" i]) {
+}
+
+.no_memberwrap .btn_box {
+    position: static;
+}
+
+.no_member_cont .btn_box {
+    border-top: 0;
+    padding: 15px 0 0;
+}
+
+.no_member_cont .btn_grey.small {
+    margin-left: 0;
+    height: 31px;
+    line-height: 29px;
+    margin-left: 3px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 2px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.btn_grey {
+    background: #666;
+    border-color: #444;
+    text-shadow: 0px -1px #474747;
+    color: #fff;
+    width: 85px;
+    padding-right: 2px;
+}
+
+.no_memberwrap .no_member_cont .btn_box button:nth-child(2) {
+    position: absolute;
+    margin-left: 5px;
+}
+
+.btn_blue.small {
+    height: 31px;
+    line-height: 29px;
+    margin-left: 3px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 2px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.btn_blue {
+    background: #188038;;
+    border-color: #29367c;
+    text-shadow: 0px -1px #1d2761;
+    color: #fff;
+    width: 85px;
+    padding-right: 2px;
+}
+
+.blind {
+    position: absolute;
+    overflow: hidden;
+    visibility: hidden;
+    margin: -1px;
+    width: 0px;
+    height: 0px;
+    top: -9999px;
+    font-size: 0;
+}
+
+.no_memberwrap .no_member_cont .btn_box button:nth-child(2) {
+    position: static; /* position: absolute; 대신 static을 사용합니다. */
+    margin-left: 5px;
+}
+
+.no_member_cont .btn_box {
+    display: flex;
+    justify-content: center;
+    padding: 15px 0 0;
+}
+
+.no_member_cont {
+    width: 394px;
+    height: 200px; /* height 값을 조정합니다. */
+    padding-top: 48px;
+    border: 3px solid #188038;
+    background: #fff;
+}
