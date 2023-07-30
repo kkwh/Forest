@@ -40,7 +40,7 @@ public class Reply extends BaseTimeEntity {
 	private String replyNickname;
 	
 	// 답글 작성자 IP
-	@Column(nullable = false) // not null
+	//@Column(nullable = false) // not null
 	private String replyIp;
 	
 	// 비밀번호(익명인경우)
