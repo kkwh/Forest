@@ -84,11 +84,30 @@ document.addEventListener('DOMContentLoaded', () => {
            if(authName === reply.replyNickname) {
               htmlStr += `
                 <textarea id="replyText_${reply.id}">${reply.replyText}</textarea>  
+                <div class="my-2">
+                        <label class="form-label" for="replyPassword">비밀번호</label>
+                         <input class="form-control" id="replyPassword"
+                            type="text" name="replyPassword" required autofocus />
+                </div>
                 <div>
                     <button class="btnDelete btn btn-outline-danger" data-id="${reply.id}">삭제</button>
                 </div>
                 `;                
-                
+            
+            } else if('anonymousUser' === reply.replyNickname) {
+                 htmlStr += `
+                   <textarea id="replyText_${reply.id}">${reply.replyText}</textarea>  
+                   
+                   <div class="my-2">
+                        <label class="form-label" for="replyPassword">비밀번호</label>
+                         <input class="form-control" id="replyPassword"
+                            type="text" name="replyPassword" required autofocus />
+                    </div>
+                    <div>
+                    <button class="btnDelete btn btn-outline-danger" data-id="${reply.id}">삭제</button>
+                    </div>
+                 `;                
+            
             } else {
                 htmlStr += `
                 <textarea id="replyText_${reply.id}" readonly>${reply.replyText}</textarea>
