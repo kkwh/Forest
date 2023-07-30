@@ -1,13 +1,13 @@
 package com.example.forest.service;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.forest.dto.file.ImageFileCreateDto;
+import com.example.forest.model.ImageFile;
 import com.example.forest.repository.ImageFileRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -22,6 +22,11 @@ public class FileService {
 	
 	private final ImageFileRepository fileRepository;
 	
+	/**
+	 * 게시판 프로필 이미지를 지정된 폴더와 DB에 저장하는 메서드
+	 * @param imageFile
+	 * @param boardId
+	 */
 	public void saveBoardProfileImage(MultipartFile imageFile, long boardId) {
 		File file = new File(UPLOAD_PATH);
 		
@@ -61,6 +66,18 @@ public class FileService {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	/**
+	 * 게시판의 프로필 사진을 삭제하는 메서드
+	 * @param entity
+	 */
+	public void deleteImage(ImageFile entity) {
+		File uploadPath = new File(UPLOAD_PATH + "\\" + entity.getFileName());
+		
+		fileRepository.delete(entity);
+		
+		uploadPath.delete();
 	}
 
 }

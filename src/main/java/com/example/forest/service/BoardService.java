@@ -1,5 +1,7 @@
 package com.example.forest.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.forest.dto.board.BoardCreateDto;
 import com.example.forest.dto.board.BoardListDto;
 import com.example.forest.dto.board.BoardRevokeDto;
+import com.example.forest.dto.board.BoardSearchDto;
 import com.example.forest.model.Board;
 import com.example.forest.model.BoardCategory;
 import com.example.forest.model.ImageFile;
@@ -66,20 +69,11 @@ public class BoardService {
 	}
 	
 	/**
-	 * 특정 카테고리에 있는 모든 랜드를 불러오는 메서드
-	 * @param category
-	 * @param grade
+	 * DB에서 불러온 게시판 리스트를 DTO 타입의 리스트로 변환하고 
+	 * ImageFile을 추가하는 메서드
+	 * @param boards
 	 * @return
 	 */
-	@Transactional(readOnly = true)
-	public List<BoardListDto> findAllByCategory(BoardCategory category, String grade) {
-		log.info("findAllByCategory({})", category);
-		
-		List<Board> boards = boardRepository.findAllByCategory(category, grade);
-		
-		return addImageFile(boards);
-	}
-	
 	private List<BoardListDto> addImageFile(List<Board> boards) {
 		List<BoardListDto> list = new ArrayList<>();
 		
@@ -96,19 +90,64 @@ public class BoardService {
 	}
 	
 	/**
+	 * 특정 카테고리에 있는 모든 랜드를 불러오는 메서드
+	 * @param category
+	 * @param grade
+	 * @return
+	 */
+	@Transactional(readOnly = true)
+	public List<BoardListDto> findAllByCategory(BoardCategory category, String grade) {
+		log.info("findAllByCategory({})", category);
+		
+		List<Board> boards = boardRepository.findAllByCategory(category, grade);
+		
+		return addImageFile(boards);
+	}
+	
+	/**
 	 * 해당 키워드가 포함되어 있는 모든 랜드를 불러오는 메서드
 	 * @param keyword
 	 * @return
 	 */
 	@Transactional(readOnly = true)
-	public List<BoardListDto> findAllByKeyword(String keyword) {
-		log.info("findAllByKeyword({})", keyword);
+	public List<BoardListDto> findAllByKeyword(BoardSearchDto dto) {
+		log.info("findAllByKeyword({})", dto);
 		
-		List<Board> boards = boardRepository.findAllByKeyword(keyword);
+		User entity = userRepository.findById(dto.getUserId()).orElseThrow();
 		
-		return boards.stream()
-				.map(board -> BoardListDto.fromEntity(board))
-				.toList();
+		List<Board> boards = boardRepository.findAllByKeyword(dto.getKeyword(), entity);
+		
+		return addImageFile(boards);
+	}
+	
+	/**
+	 * 게시물 목록을 정렬 조건에 따라 정렬하여 리턴하는 메서드
+	 * @param dto
+	 * @return
+	 */
+	@Transactional(readOnly = true)
+	public List<BoardListDto> findAllOrderByType(BoardSearchDto dto) {
+		log.info("findAllOrderByType(dto = {})", dto);
+		
+		List<Board> boards = new ArrayList<>();
+		User entity = userRepository.findById(dto.getUserId()).orElseThrow();
+		
+		switch(dto.getType()) {
+		case "recent":
+			boards = boardRepository.findAllByOrderByCreatedTimeDesc(entity);
+			break;
+		case "past":
+			boards = boardRepository.findAllByOrderByCreatedTime(entity);
+			break;
+		case "name_asc":
+			boards = boardRepository.findAllByOrderByBoardName(entity);
+			break;
+		case "name_desc":
+			boards = boardRepository.findAllByOrderByBoardNameDesc(entity);
+			break;
+		}
+		
+		return addImageFile(boards);
 	}
 	
 	/**
@@ -166,6 +205,10 @@ public class BoardService {
 	 */
 	public void declineBoard(long boardId) {
 		log.info("delete(id = {})", boardId);
+		
+		ImageFile file = fileRepository.findByBoardId(boardId);
+		fileService.deleteImage(file);
+		log.info("deleteImage()");
 		
 		Board entity = boardRepository.findById(boardId).orElseThrow();
 		log.info("entity = {}", entity);

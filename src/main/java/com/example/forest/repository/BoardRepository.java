@@ -52,9 +52,10 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	 */
 	@Query("select b from Board b "
 			+ " where lower(b.boardName) like ('%' || :keyword || '%') "
-			+ " and b.isApproved = 1"
+			+ " and b.isApproved = 1 "
+			+ " and b.user = :user "
 			+ " order by b.boardName desc")
-	List<Board> findAllByKeyword(@Param("keyword") String keyword);
+	List<Board> findAllByKeyword(@Param("keyword") String keyword, @Param("user") User user);
 	
 	/**
 	 * 특정 사용자가 관리자 권한을 가지고 있는 게시판 목록을 불러옴
@@ -62,6 +63,57 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	 * @return
 	 */
 	List<Board> findAllBoardsByUser(User user);
+	
+	/**
+	 * 게시판 목록을 생성일자 오름차순으로 불러옴
+	 * @param user
+	 * @return
+	 */
+	@Query("select b from Board b "
+			+ " where b.user = :user "
+			+ " order by b.createdTime")
+	List<Board> findAllByOrderByCreatedTime(@Param("user") User user);
+	
+	/**
+	 * 게시판 목록을 생성일자 내림차순으로 불러옴
+	 * @param user
+	 * @return
+	 */
+	@Query("select b from Board b "
+			+ " where b.user = :user "
+			+ " order by b.createdTime desc")
+	List<Board> findAllByOrderByCreatedTimeDesc(@Param("user") User user);
+	
+	/**
+	 * 게시판 목록을 이름 오름차순으로 불러옴
+	 * @param user
+	 * @return
+	 */
+	@Query("select b from Board b "
+			+ " where b.user = :user "
+			+ " order by b.boardName")
+	List<Board> findAllByOrderByBoardName(@Param("user") User user);
+	
+	/**
+	 * 게시판 목록을 이름 내림차순으로 불러옴
+	 * @param user
+	 * @return
+	 */
+	@Query("select b from Board b "
+			+ " where b.user = :user "
+			+ " order by b.boardName desc")
+	List<Board> findAllByOrderByBoardNameDesc(@Param("user") User user);
+	
+	/**
+	 * 특정 게시판에 작성된 게시글 수를 가져옴
+	 * @param boardId
+	 * @return
+	 */
+	@Query("select count(p.id) "
+			+ " from Post p, Board b "
+			+ " where b = p.board "
+			+ " and b.id = :boardId")
+	int countPostsByBoardId(@Param("boardId") long boardId);
 	
 	/**
 	 * 관리자가 게시판의 등급을 메인 랜드로 업데이트

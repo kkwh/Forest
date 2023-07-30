@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.forest.dto.board.BoardListDto;
 import com.example.forest.service.BoardService;
+import com.example.forest.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/admin/board")
 public class AdminBoardController {
 	
+	private final UserService userService;
 	private final BoardService boardService;
 	
 	/**
@@ -62,6 +64,10 @@ public class AdminBoardController {
 		
 		List<BoardListDto> boards = boardService.findAllByUser(principal.getName());
 		model.addAttribute("boards", boards);
+		
+		long userId = userService.getUserId(principal.getName());
+		log.info("userId = {}", userId);
+		model.addAttribute("userId", userId);
 		
 		return "admin/boardList";
 	}

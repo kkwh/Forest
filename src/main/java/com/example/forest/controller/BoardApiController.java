@@ -1,6 +1,7 @@
 package com.example.forest.controller;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.forest.dto.board.BoardCheckDto;
+import com.example.forest.dto.board.BoardListDto;
 import com.example.forest.dto.board.BoardRevokeDto;
+import com.example.forest.dto.board.BoardSearchDto;
 import com.example.forest.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -86,6 +89,26 @@ public class BoardApiController {
 		boardService.revokeAuthority(dto, principal.getName());
 		
 		return ResponseEntity.ok("Success");
+	}
+	
+	@PostMapping("/search")
+	@ResponseBody
+	public ResponseEntity<List<BoardListDto>> searchByKeyword(@RequestBody BoardSearchDto dto) {
+		log.info("searchByKeyword({})", dto);
+		
+		List<BoardListDto> boards = boardService.findAllByKeyword(dto);
+		
+		return ResponseEntity.ok(boards);
+	}
+	
+	@PostMapping("/sortBy")
+	@ResponseBody
+	public ResponseEntity<List<BoardListDto>> sortBy(@RequestBody BoardSearchDto dto) {
+		log.info("sortBy({})", dto);
+		
+		List<BoardListDto> boards = boardService.findAllOrderByType(dto);
+		
+		return ResponseEntity.ok(boards);
 	}
 
 }

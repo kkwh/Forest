@@ -8,41 +8,62 @@
 	<hr />
 
 	<div id="list" class="p-3">
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th scope="col">아이디</th>
-					<th scope="col">이미지</th>
-					<th scope="col">카테고리</th>
-					<th scope="col">랜드 이름</th>
-					<th scope="col">관리자</th>
-					<th scope="col">생성 일자</th>
-					<th scope="col">수정</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="board : ${boards}">
-					<td th:text="${board.id}" class="boardId"></td>
-					<td>
-						<img th:src="${board.file.uploadPath}" alt="Not found" width="100px" height="auto" />
-					</td>
-					<td th:text="${board.category.value}"></td>
-					<td th:text="${board.boardName}"></td>
-					<td th:text="${board.user.nickname}"></td>
-					<td th:text="${board.createdTime}"></td>
-					<td>
-						<button type="button" th:data-id="${board.id}" class="btn btn-outline-success modifyBtn">수정하기</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		<div id="filter-list" class="row">
+			<div class="col-3">
+				<select class="form-select" id="type">
+				  <option value="recent">최신순</option>
+				  <option value="past">과거순</option>
+				  <option value="name_asc">이름 오름차순</option>
+				  <option value="name_desc">이름 내림차순</option>	  
+				</select>
+			</div>
+			<div class="col-8">
+				<input type="text" class="form-control" id="keyword" />
+			</div>
+			<div class="col-1">
+				<button id="searchBtn" type="button" class="form-control btn btn-outline-dark">Search</button>
+			</div>
+		</div>
+		<div class="d-none">
+			<input type="hidden" id="userId" th:value="${userId}" />
+		</div>
+		<div class="py-3">
+			<table class="table table-striped text-center align-middle">
+				<thead>
+					<tr>
+						<th scope="col">아이디</th>
+						<th scope="col">이미지</th>
+						<th scope="col">카테고리</th>
+						<th scope="col">랜드 이름</th>
+						<th scope="col">관리자</th>
+						<th scope="col">생성 일자</th>
+						<th scope="col">수정</th>
+					</tr>
+				</thead>
+				<tbody id="board-list">
+					<tr th:each="board : ${boards}">
+						<td th:text="${board.id}" class="boardId"></td>
+						<td>
+							<img th:src="${board.file.uploadPath}" alt="Not found" width="100px" height="auto" />
+						</td>
+						<td th:text="${board.category.value}"></td>
+						<td th:text="${board.boardName}"></td>
+						<td th:text="${board.user.nickname}"></td>
+						<td class="createdDate" th:text="${board.createdTime}"></td>
+						<td>
+							<button type="button" th:data-id="${board.id}" class="btn btn-outline-success modifyBtn">수정하기</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 
 </div>
 
 <th:block layout:fragment="myscripts">
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-	<script type="text/javascript" src="/js/admin/board.js"></script>
+	<script type="text/javascript" src="/js/admin/board-list.js"></script>
 </th:block>
 
 </html>
