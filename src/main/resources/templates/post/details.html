@@ -3,7 +3,7 @@
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorate="~{layout/base_layout}">
     
-    <main layout:fragment="main">
+    <main layout:fragment="main"  class="mt-5 p-4">
         <div class="my-2 card">
             <div class="card-header text-center">
                 <h1>랜드 상세보기</h1>
@@ -51,34 +51,59 @@
             </div>
         </div>
         
-        <!-- <div class="my-2 card">
-            <div class="card-header">
+        <!-- 채한별: --> 
+        <!-- 열매(댓글) 부분 -->
+        <div class="my-2 card">
+            <div class= "card-header">
                 <span>댓글</span>
-                <span id="replyCount" th:text="${replyCount}"></span>개
+                <span id="replyCount" th:text="${replyCount}">댓글 개수</span>
                 <button class="btn btn-outline-dark" id="btnToggleReply">보이기</button>
             </div>
+            
+            <!--로그인사용자와 댓글 작성자가 같으면 -->
             <div class="d-none" id="authName" th:text="${ #authentication.name }"></div>
+  
             <div class="card-body collapse" id="replyToggleDiv">
                 <div class="my-2 row">
-                    <div class="col-10">
-                        <textarea class="form-control" id="replyText"
-                         placeholder="댓글 내용 입력"></textarea>
+                  
+                   <!-- 
+                    <div class="my-2">
+                        <label class="form-label" for="replyNickname">닉네임</label>
+                        <input class="form-control" id="replyNickname"
+                            type="text" name="replyNickname" required autofocus />
                     </div>
-                    <div class="col-2">
-                        <button class="form-control btn btn-outline-success"
-                        id="btnReplyCreate">등록</button>
+                    <div class="my-2">
+                        <label class="form-label" for="replyPassword">비밀번호</label>
+                         <input class="form-control" id="replyPassword"
+                            type="text" name="replyPassword" required autofocus />
                     </div>
+                    -->
+                 
+                    
+                <div class="col-10">
+                    <textarea class="form-control" id="replyText" 
+                        placeholder="열매를 달아주세요"></textarea>
                 </div>
+                <div>
+                    <button class="form-control btn btn-outline-success" id="btnReplyCreate">열매 달기</button>
+                </div>
+           </div>
                 
-                댓글 목록을 보여줄 영역
+                <!-- 댓글 목록을 보여줄 영역 -->
                 <div class="my-2 row" id="replies"></div>
             </div>
-        </div> -->
+        </div>
+        
+        <!--  //열매(댓글) 부분 -->
+ 
+ 
+ 
     </main>
     
     <th:block layout:fragment="myscripts">
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="/js/post/modify.js"></script>
+        <script src="/js/reply/reply.js"></script>
     </th:block>
     
 </html>
