@@ -9,6 +9,7 @@ import com.example.forest.dto.post.PostCreateDto;
 import com.example.forest.dto.post.PostSearchDto;
 import com.example.forest.dto.post.PostUpdateDto;
 import com.example.forest.dto.post.PostWithLikesCount;
+import com.example.forest.dto.post.PostWithLikesCount2;
 import com.example.forest.model.Post;
 import com.example.forest.repository.PostRepository;
 
@@ -107,9 +108,13 @@ public class PostService {
     
     // POST + 좋아요 수
     @Transactional(readOnly = true)
-    public List<PostWithLikesCount> findAllPostsWithLikesCount() {
-              
+    public List<PostWithLikesCount> findAllPostsWithLikesCount() {              
         return postRepository.findAllPostsWithLikesCount();
+    }
+    
+    // 인기글 조회 (좋아요와 싫어요의 차이가 5 이상인 게시물)
+    public List<PostWithLikesCount2> findPostsByLikesDifference() {
+        return postRepository.findAllPostsWithLikesDifference();
     }
     
     

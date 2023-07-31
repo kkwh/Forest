@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.example.forest.dto.post.PostWithLikesCount;
+import com.example.forest.dto.post.PostWithLikesCount2;
 import com.example.forest.model.Post;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
@@ -51,6 +52,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     )
     List<Post> searchByKeyword(@Param("keyword") String keyword);
     
+    
+    // POST + 좋아요 수 조회
     @Query("SELECT new com.example.forest.dto.post.PostWithLikesCount(p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, "
             + " (SELECT COUNT(l.id) FROM Likes l where l.post = p and l.likeDislike = 1) as likesCount) "
             + " FROM Post p LEFT JOIN Likes l "
@@ -58,5 +61,20 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             + " GROUP BY p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews "
             + " ORDER BY p.id desc")
     List<PostWithLikesCount> findAllPostsWithLikesCount();
+    
+    
+    // 인기글 조회(POST + 좋아요 수)
+    @Query("SELECT new com.example.forest.dto.post.PostWithLikesCount2(p.id as id, p.postType as postType, p.postTitle as postTitle, p.postNickname as postNickname, p.createdTime as createdTime, p.postViews as postViews, "
+            + " (SELECT COUNT(l.id) FROM Likes l WHERE l.post = p AND l.likeDislike = 1) as likesCount, "
+            + " (SELECT COUNT(l.id) FROM Likes l WHERE l.post = p AND l.likeDislike = 1) - "
+            + " (SELECT COUNT(l.id) FROM Likes l WHERE l.post = p AND l.likeDislike = 0) as likesDifference) "
+            + " FROM Post p "
+            + " GROUP BY p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews "
+            + " HAVING (SELECT COUNT(l.id) FROM Likes l WHERE l.post = p AND l.likeDislike = 1) - "
+            + " (SELECT COUNT(l.id) FROM Likes l WHERE l.post = p AND l.likeDislike = 0) >= 5 "
+            + " ORDER BY p.id DESC")
+    List<PostWithLikesCount2> findAllPostsWithLikesDifference();
+
+
     
 }

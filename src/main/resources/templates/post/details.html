@@ -56,8 +56,8 @@
                 <a class="btn btn-outline-success" th:href="@{ /post }">전체글</a>
                 <a class="btn btn-outline-success" th:href="@{ /post }">인기글</a>
                 
-                <button id="like-button" class="btn btn-outline-success" th:data-post-id="${post.id}">좋아요 <span id="like-count">0</span></button>
-				<button id="dislike-button" class="btn btn-outline-success" th:data-post-id="${post.id}">싫어요 <span id="dislike-count">0</span></button>
+                <button id="like-button" class="btn btn-outline-success" th:data-post-id="${post.id}">좋아요 <span id="like-count" th:text="${ likesCount }">0</span></button>
+				<button id="dislike-button" class="btn btn-outline-success" th:data-post-id="${post.id}">싫어요 <span id="dislike-count" th:text="${ dislikesCount }">0</span></button>
                 
                 
             </div>

@@ -12,6 +12,7 @@ import com.example.forest.dto.post.PostCreateDto;
 import com.example.forest.dto.post.PostSearchDto;
 import com.example.forest.dto.post.PostUpdateDto;
 import com.example.forest.dto.post.PostWithLikesCount;
+import com.example.forest.dto.post.PostWithLikesCount2;
 import com.example.forest.model.Post;
 import com.example.forest.service.LikesService;
 import com.example.forest.service.PostService;
@@ -38,14 +39,24 @@ public class PostController {
     public String post(Model model) {
         log.info("post()");
         
-        // 포스트 목록 검색
-        // List<Post> list = postService.read();
         List<PostWithLikesCount> list = postService.findAllPostsWithLikesCount();
+        log.info("post(list={})", list);
         
-        // Model 검색 결과를 세팅:
         model.addAttribute("posts", list);
         
         return "/post/read";
+    }
+    
+    @GetMapping("/popular")
+    public String popular(Model model) {
+        log.info("popular()");
+        
+        List<PostWithLikesCount2> list = postService.findPostsByLikesDifference();
+        log.info("popular(list={})", list);
+        
+        model.addAttribute("posts", list);
+        
+        return "/post/read-popular";
     }
     
 //    @PreAuthorize("hasRole('USER')") // 페이지 접근 이전에 인증(권한, 로그인) 여부를 확인.
@@ -71,9 +82,13 @@ public class PostController {
         
         // id로 Posts 테이블에서 id에 해당하는 포스트를 검색.
         Post post = postService.read(id);
+        long likesCount = likesService.countLikesByPostId(id);
+        long dislikesCount = likesService.countDislikesByPostId(id);
                
         // 결과를 model에 저장 -> 뷰로 전달됨.   
         model.addAttribute("post", post);
+        model.addAttribute("likesCount", likesCount);
+        model.addAttribute("dislikesCount", dislikesCount);
     }
     
     @GetMapping("/modifyCheck")
