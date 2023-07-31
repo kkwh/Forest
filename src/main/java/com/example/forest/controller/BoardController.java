@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.forest.dto.board.BoardCreateDto;
 import com.example.forest.model.BoardCategory;
@@ -51,6 +52,7 @@ public class BoardController {
 	@PostMapping("/create")
 	public String create(BoardCreateDto dto) {
 		log.info("create(dto = {})", dto);
+		log.info("file = {}", dto.getImageFile().getOriginalFilename());
 		
 		boardService.createBoard(dto);
 		

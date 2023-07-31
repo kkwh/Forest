@@ -24,7 +24,7 @@
 							<!-- 로고 영역! -->
 							<div class="logo_search_container">
 								<h1 id="forest_logo">
-									<a href="/"> <img src="/img/forest_logo.png" alt="포레스트 로고"
+									<a href="/admin/main"> <img src="/img/forest_logo.png" alt="포레스트 로고"
 										width="250px" height="auto" />
 									</a>
 								</h1>
@@ -55,15 +55,10 @@
 							</div>
 
 							<ul class="nav_ul">
-								<li><a href="/board/mainLand">메인 랜드</a></li>
-								<li><a href="/board/subLand">서브 랜드</a></li>
-								<li><a href="/">가든</a></li>
-								<li><a href="/post/reply">댓글</a></li>
-								<li><a href="/post">포레스트 뉴스</a></li>
-								<li><a href="/">이벤트</a></li>
-								<li><a href="/">포레스트 뉴스</a></li>
+								<li><a href="/admin/board/list">나의 게시판</a></li>
+								<li><a href="/admin/board/unapproved">승인 대기 게시판 목록</a></li>
+								<li><a href="/admin/board/approved">승인된 게시판 목록</a></li>
 								<li sec:authorize="isAnonymous()"><a href="/user/login">로그인</a></li>
-								<li sec:authorize="isAnonymous()"><a href="/user/signup">회원가입</a></li>
 								<li sec:authorize="isAuthenticated()"><a href="/user/logout">로그아웃</a></li>
 							</ul>
 

@@ -44,7 +44,7 @@ public class Board extends BaseTimeEntity {
 	private int isApproved;
 	
 	// 게시판 생성자
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private User user;
 	
 	public void setUser(User user) {
