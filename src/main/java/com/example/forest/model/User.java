@@ -67,7 +67,7 @@ public class User extends BaseTimeEntity implements UserDetails {
         this.password = password;
         this.email = email;
         this.imageFile = imageFile;
-        this.role = Role.USER; //권한 바꾸는 곳, 관리자 = ADMIN 
+        this.role = Role.ADMIN; //권한 바꾸는 곳, 관리자 = ADMIN 
     }
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
