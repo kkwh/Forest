@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.example.forest.dto.post.PostWithLikesCount;
 import com.example.forest.model.Post;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
@@ -49,5 +50,13 @@ public interface PostRepository extends JpaRepository<Post, Long> {
         " order by p.id desc"
     )
     List<Post> searchByKeyword(@Param("keyword") String keyword);
+    
+    @Query("SELECT new com.example.forest.dto.post.PostWithLikesCount(p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, "
+            + " (SELECT COUNT(l.id) FROM Likes l where l.post = p and l.likeDislike = 1) as likesCount) "
+            + " FROM Post p LEFT JOIN Likes l "
+            + " ON p = l.post "
+            + " GROUP BY p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews "
+            + " ORDER BY p.id desc")
+    List<PostWithLikesCount> findAllPostsWithLikesCount();
     
 }

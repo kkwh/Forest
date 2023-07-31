@@ -7,12 +7,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.forest.dto.post.PostCreateDto;
 import com.example.forest.dto.post.PostSearchDto;
 import com.example.forest.dto.post.PostUpdateDto;
+import com.example.forest.dto.post.PostWithLikesCount;
 import com.example.forest.model.Post;
+import com.example.forest.service.LikesService;
 import com.example.forest.service.PostService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PostController {
     
     private final PostService postService;
+    private final LikesService likesService;
     
     @GetMapping("/practice")
     public void practice() {
@@ -37,7 +39,8 @@ public class PostController {
         log.info("post()");
         
         // 포스트 목록 검색
-        List<Post> list = postService.read();
+        // List<Post> list = postService.read();
+        List<PostWithLikesCount> list = postService.findAllPostsWithLikesCount();
         
         // Model 검색 결과를 세팅:
         model.addAttribute("posts", list);

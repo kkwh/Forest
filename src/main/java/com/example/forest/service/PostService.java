@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.forest.dto.post.PostCreateDto;
 import com.example.forest.dto.post.PostSearchDto;
 import com.example.forest.dto.post.PostUpdateDto;
+import com.example.forest.dto.post.PostWithLikesCount;
 import com.example.forest.model.Post;
 import com.example.forest.repository.PostRepository;
 
@@ -93,6 +94,7 @@ public class PostService {
         return list;
     }
     
+    // 조회수
     public int increaseViewCount(Long postId) {
     	log.info("increaseViewCount(postId={})", postId);
     	
@@ -103,6 +105,12 @@ public class PostService {
         return post.getPostViews();
     }
     
+    // POST + 좋아요 수
+    @Transactional(readOnly = true)
+    public List<PostWithLikesCount> findAllPostsWithLikesCount() {
+              
+        return postRepository.findAllPostsWithLikesCount();
+    }
     
     
 }

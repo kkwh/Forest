@@ -1,5 +1,6 @@
 package com.example.forest.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -30,12 +31,12 @@ public class Likes extends BaseTimeEntity {
 	private long id;
 	
 	// 추천 or 비추천
-	private boolean likeDislike;
+	private int likeDislike;
 	
 	@OneToOne
 	private User user;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Post post;
 
 }

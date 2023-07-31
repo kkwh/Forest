@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.forest.dto.post.ModifyPasswordCheckDto;
+import com.example.forest.dto.post.PostLikesDto;
 import com.example.forest.model.Post;
+import com.example.forest.service.LikesService;
 import com.example.forest.service.PostService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PostRestController {
     
 	private final PostService postService;
+	private final LikesService likesService;
 	
 	@PostMapping("/check-password")
     public boolean checkPassword(@RequestBody ModifyPasswordCheckDto dto) {
@@ -46,6 +49,7 @@ public class PostRestController {
         return ResponseEntity.ok("success");
     }
 	
+	// 조회수
 	@PostMapping("/increaseViewCount")
     public int increaseViewCount(@RequestParam Long postId) {
     	log.info("increaseViewCount(postId={})", postId);
@@ -53,18 +57,24 @@ public class PostRestController {
         return postService.increaseViewCount(postId);
     }
 	
+	// 총 좋아요 개수
 	@PostMapping("/like")
-    public int createLike(@RequestParam Long postId) {
-    	log.info("createLike(postId={})", postId);
+    public long createLike(@RequestBody PostLikesDto dto) {
+    	log.info("createLike(postId={})", dto.getPostId());
     	
-        return postService.increaseViewCount(postId);
+        likesService.saveLikeDislikeForPost(1, dto.getPostId());
+        
+        return likesService.countLikesByPostId(dto.getPostId());
     }
 	
+	// 총 싫어요 개수
 	@PostMapping("/dislike")
-    public int createDislike(@RequestParam Long postId) {
-    	log.info("createDislike(postId={})", postId);
+    public long createDislike(@RequestBody PostLikesDto dto) {
+    	log.info("createDislike(postId={})", dto.getPostId());
     	
-        return postService.increaseViewCount(postId);
+    	likesService.saveLikeDislikeForPost(0, dto.getPostId());
+        
+        return likesService.countDislikesByPostId(dto.getPostId());
     }
 	
     

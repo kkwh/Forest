@@ -216,7 +216,7 @@ $(document).ready(function(){
 				            <td th:text="${post.postNickname}"></td>
 				            <td th:text="${ #temporals.format(post.createdTime, 'yyyy-MM-dd HH:mm:ss') }"></td>
 				            <td class="post-views" th:text="${post.postViews}"></td>
-				            <td th:text="0"></td>
+				            <td th:text="${ post.likesCount }"></td>
 				        </tr>
 				    </tbody>
                 </table>
