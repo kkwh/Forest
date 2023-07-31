@@ -6,46 +6,86 @@
 <div layout:fragment="main" class="mt-5 p-3">
 
 	<hr />
-
+	
 	<div id="list" class="p-3">
-		<table class="table table-striped text-center align-middle">
-			<thead>
-				<tr>
-					<th scope="col">아이디</th>
-					<th scope="col">이미지</th>
-					<th scope="col">카테고리</th>
-					<th scope="col">랜드 이름</th>
-					<th scope="col">생성자</th>
-					<th scope="col">신청일자</th>
-					<th scope="col">권한 뺏기</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="board : ${boards}">
-					<td th:text="${board.id}" th:data-id="${board.id}" class="boardId"></td>
-					<td>
-						<img th:src="${board.file.uploadPath}" alt="Not found" width="100px" height="auto" />
-					</td>
-					<td th:text="${board.category.value}"></td>
-					<td th:text="${board.boardName}"></td>
-					<td th:text="${board.user.nickname}"></td>
-					<td th:text="${board.createdTime}"></td>
-					<td>
-						<th:block th:if="${#authentication.principal.username} != ${board.user.loginId}">
-							<button type="button" th:data-user-id="${board.user.id}" 
-								th:data-board-id="${board.id}" class="btn btn-outline-danger revokeBtn">권한 뺏기</button>
-						</th:block>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		<div id="filter-list" class="row">
+			<div class="col-2">
+				<select class="form-select" id="type">
+				  <option value="recent">최신순</option>
+				  <option value="past">과거순</option>
+				  <option value="name_asc">이름 오름차순</option>
+				  <option value="name_desc">이름 내림차순</option>	  
+				</select>
+			</div>
+			<div class="col-3">
+				<div class="dropdown">
+				  	<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+				    	Category Filters
+				  	</button>
+				  	<ul class="dropdown-menu">
+					    <li th:each="category : ${categories}">
+						    <input class="form-check-input checkBtn" type="checkbox" th:value="${category.value}" 
+						    	th:id="${category}" checked>
+					  		<label class="form-check-label" th:for="${category.value}" th:text="${category.value}"></label>
+					    </li>
+				  	</ul>
+				</div>
+			</div>
+			<div class="col-6">
+				<input type="text" class="form-control" id="keyword" />
+			</div>
+			<div class="col-1">
+				<button id="searchBtn" type="button" class="form-control btn btn-outline-dark">Search</button>
+			</div>
+		</div>
+		<div class="d-none">
+			<input type="hidden" id="userId" th:value="${userId}" />
+		</div>
+		<div class="py-3">
+			<table class="table table-striped text-center align-middle">
+				<thead>
+					<tr>
+						<th scope="col">아이디</th>
+						<th scope="col">이미지</th>
+						<th scope="col">카테고리</th>
+						<th scope="col">랜드이름</th>
+						<th scope="col">관리자</th>
+						<th scope="col">생성일자</th>
+						<th scope="col">권한뺏기</th>
+					</tr>
+				</thead>
+				<tbody id="board-list">
+					<tr th:each="board : ${boards}">
+						<td th:text="${board.id}" class="boardId"></td>
+						<td>
+							<img th:src="${board.file.uploadPath}" alt="Not found" width="100px" height="auto" />
+						</td>
+						<td th:text="${board.category}"></td>
+						<td>
+							<a th:href="@{'/board/details/' + ${board.id}}" th:text="${board.boardName}" class="link-dark"></a>
+						</td>
+						<td th:text="${board.user.nickname}"></td>
+						<td class="createdDate" th:text="${board.createdTime}"></td>
+						<td>
+							<button th:if="${board.boardGrade} eq 'Sub'" type="button" th:data-id="${board.id}" 
+								class="btn btn-outline-success upgradeBtn">승격</button>
+							<button th:if="${board.boardGrade} eq 'Main'" type="button" th:data-id="${board.id}" 
+								class="btn btn-outline-danger relegateBtn">강등</button>
+							<th:block th:if="${#authentication.principal.username} != ${board.user.loginId}">
+								<button type="button" th:data-user-id="${board.user.id}" 
+									th:data-board-id="${board.id}" class="btn btn-outline-danger revokeBtn">권한 뺏기</button>
+							</th:block>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
-
 </div>
 
 <th:block layout:fragment="myscripts">
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-	<script type="text/javascript" src="/js/admin/board.js"></script>
+	<script type="text/javascript" src="/js/admin/approved-list.js"></script>
 </th:block>
 
 </html>

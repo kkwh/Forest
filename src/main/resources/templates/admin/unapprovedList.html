@@ -26,8 +26,10 @@
 					<td>
 						<img th:src="${board.file.uploadPath}" alt="Not found" width="100px" height="auto" />
 					</td>
-					<td th:text="${board.category.value}"></td>
-					<td th:text="${board.boardName}"></td>
+					<td th:text="${board.category}"></td>
+					<td>
+						<a th:href="@{'/board/details/' + ${board.id}}" th:text="${board.boardName}" class="link-dark"></a>
+					</td>
 					<td th:text="${board.user.nickname}"></td>
 					<td th:text="${board.createdTime}"></td>
 					<td>

@@ -17,6 +17,7 @@ import com.example.forest.dto.board.BoardCheckDto;
 import com.example.forest.dto.board.BoardListDto;
 import com.example.forest.dto.board.BoardRevokeDto;
 import com.example.forest.dto.board.BoardSearchDto;
+import com.example.forest.dto.board.UserBlockDto;
 import com.example.forest.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -91,24 +92,70 @@ public class BoardApiController {
 		return ResponseEntity.ok("Success");
 	}
 	
-	@PostMapping("/search")
+	@PutMapping("/updateGrade/{id}")
+	public ResponseEntity<String> updateBoardGrade(@PathVariable long id) {
+		log.info("updateBoardGrade(id = {})", id);
+		
+		boardService.updateBoardGrade(id);
+		
+		return ResponseEntity.ok("Success");
+	}
+	
+	@PutMapping("/blockById")
 	@ResponseBody
-	public ResponseEntity<List<BoardListDto>> searchByKeyword(@RequestBody BoardSearchDto dto) {
+	public ResponseEntity<String> blockUser(@RequestBody UserBlockDto dto) {
+		log.info("blockUser(dto = {})", dto);
+		
+		return ResponseEntity.ok("Success");
+	}
+	
+	@PutMapping("/blockByIp")
+	@ResponseBody
+	public ResponseEntity<String> blockByIP(@RequestBody UserBlockDto dto) {
+		log.info("blockUser(dto = {})", dto);
+		
+		return ResponseEntity.ok("Success");
+	}
+	
+	@PostMapping("/searchUnapproved")
+	@ResponseBody
+	public ResponseEntity<List<BoardListDto>> searchUnapproved(@RequestBody BoardSearchDto dto) {
 		log.info("searchByKeyword({})", dto);
 		
-		List<BoardListDto> boards = boardService.findAllByKeyword(dto);
+		List<BoardListDto> boards = boardService.findAllByApprovalStatus(dto, 0);
 		
 		return ResponseEntity.ok(boards);
 	}
 	
-	@PostMapping("/sortBy")
+	@PostMapping("/searchApproved")
 	@ResponseBody
-	public ResponseEntity<List<BoardListDto>> sortBy(@RequestBody BoardSearchDto dto) {
-		log.info("sortBy({})", dto);
+	public ResponseEntity<List<BoardListDto>> searchApproved(@RequestBody BoardSearchDto dto) {
+		log.info("searchByKeyword({})", dto);
 		
-		List<BoardListDto> boards = boardService.findAllOrderByType(dto);
+		List<BoardListDto> boards = boardService.findAllByApprovalStatus(dto, 1);
 		
 		return ResponseEntity.ok(boards);
+	}
+	
+//	
+//	@PostMapping("/sortBy")
+//	@ResponseBody
+//	public ResponseEntity<List<BoardListDto>> sortBy(@RequestBody BoardSearchDto dto) {
+//		log.info("sortBy({})", dto);
+//		
+//		List<BoardListDto> boards = boardService.findAllOrderByType(dto);
+//		
+//		return ResponseEntity.ok(boards);
+//	}
+	
+	@PostMapping("/filterBy")
+	@ResponseBody
+	public ResponseEntity<List<BoardListDto>> filterBy(@RequestBody BoardSearchDto dto) {
+		log.info("filterBy(dto = {})", dto);	
+
+		List<BoardListDto> list = boardService.findAllOrderByType(dto);
+		
+		return ResponseEntity.ok(list);
 	}
 
 }
