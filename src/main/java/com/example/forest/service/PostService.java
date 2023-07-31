@@ -93,6 +93,16 @@ public class PostService {
         return list;
     }
     
+    public int increaseViewCount(Long postId) {
+    	log.info("increaseViewCount(postId={})", postId);
+    	
+        Post post = postRepository.findById(postId).orElseThrow();
+                                  
+        post.setPostViews(post.getPostViews() + 1);
+        postRepository.save(post);
+        return post.getPostViews();
+    }
+    
     
     
 }

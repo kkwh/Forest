@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.forest.dto.post.ModifyPasswordCheckDto;
@@ -44,5 +45,27 @@ public class PostRestController {
         
         return ResponseEntity.ok("success");
     }
+	
+	@PostMapping("/increaseViewCount")
+    public int increaseViewCount(@RequestParam Long postId) {
+    	log.info("increaseViewCount(postId={})", postId);
+    	
+        return postService.increaseViewCount(postId);
+    }
+	
+	@PostMapping("/like")
+    public int createLike(@RequestParam Long postId) {
+    	log.info("createLike(postId={})", postId);
+    	
+        return postService.increaseViewCount(postId);
+    }
+	
+	@PostMapping("/dislike")
+    public int createDislike(@RequestParam Long postId) {
+    	log.info("createDislike(postId={})", postId);
+    	
+        return postService.increaseViewCount(postId);
+    }
+	
     
 }
