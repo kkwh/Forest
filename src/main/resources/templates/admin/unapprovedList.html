@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/admin_base_layout}">
+
+<div layout:fragment="main" class="mt-5 p-3">
+
+	<hr />
+
+	<div id="list" class="p-3">
+		<table class="table table-striped text-center align-middle">
+			<thead>
+				<tr>
+					<th scope="col">아이디</th>
+					<th scope="col">이미지</th>
+					<th scope="col">카테고리</th>
+					<th scope="col">랜드 이름</th>
+					<th scope="col">생성자</th>
+					<th scope="col">신청일자</th>
+					<th scope="col">승인 여부</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="board : ${boards}">
+					<td th:text="${board.id}" class="boardId"></td>
+					<td>
+						<img th:src="${board.file.uploadPath}" alt="Not found" width="100px" height="auto" />
+					</td>
+					<td th:text="${board.category}"></td>
+					<td>
+						<a th:href="@{'/board/details/' + ${board.id}}" th:text="${board.boardName}" class="link-dark"></a>
+					</td>
+					<td th:text="${board.user.nickname}"></td>
+					<td th:text="${board.createdTime}"></td>
+					<td>
+						<button type="button" th:data-id="${board.id}" class="btn btn-outline-success approveBtn">승인</button>
+						<button type="button" th:data-id="${board.id}" class="btn btn-outline-danger declineBtn">거절</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+</div>
+
+<th:block layout:fragment="myscripts">
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script type="text/javascript" src="/js/admin/board.js"></script>
+</th:block>
+
+</html>

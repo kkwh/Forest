@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/base_layout}">
+
+<div layout:fragment="main" class="mt-5 p-4">
+	<hr/>
+	
+	<div>
+		<button type="button" id="searchBtn" class="btn btn-outline-success">랜드 전체 보기</button>
+	</div>
+	
+
+	<div id="filter-list" style="display:none; margin-top: 15px; width: 40%;">
+		<div style="height: 250px; border: 1px solid black; display: flex;">
+			<div class="w-50">
+				<div style="height: 50px;">
+				
+				<div class="d-flex">
+				  <div class="flex-grow-1"><input type="text" class="form-control" id="keyword" /></div>
+				  <div><button id="searchBtn" type="button" class="form-control btn btn-outline-dark">Search</button></div>
+				</div>
+					
+
+					
+				</div>
+				<div style="height: 200px;">
+					<ul>
+					    <li th:each="category : ${categories}">
+						    <input class="form-check-input checkBtn" type="checkbox" th:value="${category.value}" 
+						    	th:id="${category}" checked>
+					  		<label class="form-check-label" th:for="${category.value}" th:text="${category.value}"></label>
+					    </li>
+				  	</ul>
+				</div>
+			</div>
+			<div class="w-50">
+				<div style="height: 20px;">
+					<button type="button" id="closeBtn" class="btn btn-outline-danger">Close</button>
+				</div>
+				<div id="searchResult" style="height: 230px;">
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="land-create" class="py-3">
+		<button sec:authorize="isAnonymous()" id="createBtn" class="btn btn-outline-success" onclick="createLand();">랜드 생성</button>
+		<a sec:authorize="isAuthenticated()" href="/board/create" class="btn btn-outline-success">랜드 생성</a>
+	</div>
+	
+	<div id="board-section" class="my-3">
+		<div>
+			<div class="card my-3" th:each="entry : ${boardMap}">
+			  <div class="card-header" th:text="|${entry.key.value} (${entry.value.size})|"></div>
+			  <ul class="list-group list-group-flush">
+		  		<th:block th:each="board : ${entry.value}">
+				    <li class="list-group-item">
+				    	<a href="#" th:text="${board.boardName}" class="link-dark"></a>
+				    </li>
+			    </th:block>
+			  </ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<th:block layout:fragment="myscripts">
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script type="text/javascript" src="/js/board/sub-board.js"></script>
+	<script type="text/javascript">
+		function createLand() {
+			alert('로그인 후 이용 가능합니다.');
+			window.location.href='/user/login';
+		}
+	</script>
+</th:block>
+
+</html>

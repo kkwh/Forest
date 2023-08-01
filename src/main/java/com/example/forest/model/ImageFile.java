@@ -41,6 +41,9 @@ public class ImageFile extends BaseTimeEntity {
 	// 파일 저장 경로
 	private String uploadPath;
 	
+	// 게시판의 배경화면인 경우
+	private long boardId;
+	
 	// 게시물에 저장된 사진일 경우
 	private long postId;
 

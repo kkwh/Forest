@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorate="~{layout/base_layout}">
-    
+   
     <head>
 		<link rel="stylesheet" th:href="@{/css/post/create.css}">
 		<link rel="stylesheet" th:href="@{/css/post/read.css}">
 		<link rel="stylesheet" th:href="@{/css/post/detail.css}">
 	</head>
     
-    <main layout:fragment="main">
+    <main layout:fragment="main"  class="mt-5 p-4">
         <div class="container">
+
         <div class="my-2 card">
             <div class="card-header text-center">
                 <h1>랜드 상세보기</h1>
@@ -187,11 +189,92 @@
         </div>
         </div>
         
+        <!-- 채한별: --> 
+        <!-- 열매(댓글) 부분 -->
+        <input type="hidden" id="userId" name="userId" th:value="${userId}" />
+        <div class="my-2 card">
+            <div class= "card-header">
+                <span>나무 열매</span>
+                <span id="replyCount" th:text="|${replyCount} 개|">열매 개수</span>
+                <button class="btn btn-outline-dark" id="btnToggleReply">보이기</button>
+            </div>
+            
+            <!--로그인사용자와 댓글 작성자가 같으면 -->
+            <div class="d-none" id="authName" th:text="${ #authentication.name }"></div>
+  
+            <div class="card-body collapse" id="replyToggleDiv">
+                <div class="my-2 row">
+                
+                
+                <!-- 로그인 상태이면 -->
+                <th:block sec:authorize="isAuthenticated()">
+                <div class="my-2">
+                    <label class="form-label" for="replyNickname" th:value="${ #authentication.name }"
+                    id="replyNickname" th:text="${ #authentication.name }" ></label>
+                    <input class="form-control" type="hidden" id="replyNickname" name="replyNickname" th:value="${ #authentication.name }"required readonly />
+                </div>
+                <div class="my-2">
+                    <label class="form-label" for="replyPassword" th:value="0" id="replyPassword"></label>
+                    <input class="form-control" type="hidden" id="replyPassword" name="replyPassword" th:value="0" required autofocus />
+                </div>                            
+                <div class="col-10">
+                    <textarea class="form-control" id="replyText" 
+                        placeholder="열매를 달아주세요"></textarea>
+                </div>
+                <div>
+                    <button class="form-control btn btn-outline-success" id="btnReplyCreate">열매 달기</button>
+                </div>
+                </th:block>
+                
+                <!-- 비로그인 상태이면 -->
+                <th:block sec:authorize="isAnonymous()">    
+                <div class="my-2">
+                    <label class="form-label" for="replyNickname">닉네임</label>
+                    <input class="form-control" id="replyNickname"
+                       type="text" name="replyNickname" placeholder="닉네임을 입력하세요" required autofocus />
+                    
+                </div>
+                <div class="my-2">
+                    <label class="form-label" for="replyPassword">비밀번호</label>
+                    <input class="form-control" id="replyPassword"
+                       type="text" name="replyPassword" placeholder="비밀번호를 입력하세요" required autofocus />
+                </div>                
+                <div class="col-10">
+                    <textarea class="form-control" id="replyText" 
+                        placeholder="열매를 달아주세요"></textarea>
+                </div>
+                <div>
+                    <button class="form-control btn btn-outline-success" id="btnReplyCreate">열매 달기</button>
+                </div>
+                </th:block>                
+           </div>
+                
+                <!-- 댓글 목록을 보여줄 영역 -->
+                <div class="my-2 row" id="replies"></div>
+            </div>
+        </div>
+        
+        <!-- 로그인 여부를 스크립트에 전달 -->
+        <th:block th:if="${ #authentication.principal != null }">
+            <script>
+                var isAuthenticated = true;
+            </script>
+        </th:block>
+        <th:block th:unless="${ #authentication.principal != null }">
+            <script>
+                var isAuthenticated = false;
+            </script>
+        </th:block>
+        
+        <!--  //열매(댓글) 부분 -->
+
     </main>
     
     <th:block layout:fragment="myscripts">
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="/js/post/likedislike.js"></script>
+        <script src="/js/post/modify.js"></script>
+        <script src="/js/reply/reply.js"></script>
     </th:block>
     
 </html>
