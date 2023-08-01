@@ -83,6 +83,8 @@ public class BoardService {
 			BoardListDto dto = BoardListDto.fromEntity(b);
 			dto.setFile(file);
 			
+			log.info("file = {}", file);
+			
 			list.add(dto);
 		}
 		

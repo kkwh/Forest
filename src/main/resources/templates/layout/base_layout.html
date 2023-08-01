@@ -12,6 +12,8 @@
 	integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
 	crossorigin="anonymous">
 <link rel="stylesheet" href="/css/base_layout/main.css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.0/css/all.css">
+<link rel="stylesheet" th:href="@{/css/base_layout/darkmode/darkmode.css}" />
 </head>
 <body>
 
@@ -52,7 +54,18 @@
 									</form>
 									<!-- // 랜드 통합검색  -->
 								</div>
-							</div>
+							     <div class="wrap" th:fragment="darkmode"> 
+                                    <div class="darkmode">
+                                        <div class="inner">
+                                            <input type="radio" name="toggle" id="toggle-radio-light" checked><label for="toggle-radio-light" class="tolight"><i class="fas fa-sun tolight"></i></label>
+                                            <input type="radio" name="toggle" id="toggle-radio-dark"><label for="toggle-radio-dark" class="todark"><i class="fas fa-moon todark"></i></label>
+                                            <div class="darkmode-bg"></div>
+                                        </div>
+                                    </div>
+                                 </div>
+                            </div>
+                                
+                            
 
 							<ul class="nav_ul">
 								<li><a href="/board/mainLand">메인 랜드</a></li>
@@ -88,6 +101,8 @@
 		crossorigin="anonymous"></script>
 
 	<!-- 자바스크립 파일 추가할 영역 -->
-	<th:block layout:fragment="myscripts"></th:block>
+	<th:block layout:fragment="myscripts">
+    <script src="/js/base_layout/darkmode.js"></script>
+    </th:block>
 </body>
 </html>
