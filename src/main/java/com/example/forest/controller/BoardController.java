@@ -1,7 +1,6 @@
 package com.example.forest.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.forest.dto.board.BlackListDto;
 import com.example.forest.dto.board.BoardCreateDto;
 import com.example.forest.dto.board.BoardDetailDto;
 import com.example.forest.dto.board.BoardListDto;
@@ -38,6 +38,17 @@ public class BoardController {
 	
 	@GetMapping("/mainLand")
 	public String getMainBoard(Model model) {
+		Map<BoardCategory, List<BoardListDto>> boardMap = new HashMap<>();
+		
+		BoardCategory[] categories = BoardCategory.values();
+		for(BoardCategory category : categories) {
+			List<BoardListDto> subList = boardService.findAllByCategory(category, "Main");
+			
+			boardMap.put(category, subList);
+		}
+		
+		model.addAttribute("boardMap", boardMap);
+		
 		return "board/main";
 	}
 	
@@ -52,6 +63,7 @@ public class BoardController {
 			boardMap.put(category, subList);
 		}
 		
+		model.addAttribute("categories", categories);
 		model.addAttribute("boardMap", boardMap);
 		
 		return "board/sub";
@@ -105,7 +117,7 @@ public class BoardController {
 		BoardDetailDto dto = boardService.findById(id);
 		model.addAttribute("board", dto);
 		
-		List<BlackList> blackList = boardService.getBlackList(id);
+		List<BlackListDto> blackList = boardService.getBlackList(id);
 		model.addAttribute("blackList", blackList);
 		
 		long userId = userService.getUserId(principal.getName());

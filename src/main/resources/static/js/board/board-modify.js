@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const blockUser = (e) => {
 		console.log(e.target);
 		
-		const userId = e.target.getAttribute('data-id');
+		var userId = e.target.getAttribute('data-id');
 		const boardId = document.querySelector('input#boardId').value;
 		
 		const url = '/api/v1/board/blockById';
@@ -137,6 +137,34 @@ document.addEventListener('DOMContentLoaded', () => {
 		axios.put(url, data)
 			.then((response) => {
 				console.log(response);
+				
+				// 블랙 리스트를 불러옴
+				const url1 = `/api/v1/board/getBlackList/${boardId}`;
+				axios.post(url1)
+					.then((response) => {
+						console.log(response);
+						
+						loadBlackList(response);
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+				
+				// 사용자 리스트를 불러옴
+				var userId = document.querySelector('input#boardOwnerId').value;
+				
+				const url2 = `/api/v1/board/getUserList`;
+				const data2 = { userId, boardId };
+				
+				axios.post(url2, data2)
+					.then((response) => {
+						console.log(response);
+						
+						loadUserList(response);
+					})
+					.catch((error) => {
+						console.log(error);
+					});
 			})
 			.catch((error) => {
 				console.log(error);
@@ -146,6 +174,116 @@ document.addEventListener('DOMContentLoaded', () => {
 	const blockBtns = document.querySelectorAll('button.blockBtn');
 	for(let btn of blockBtns) {
 		btn.addEventListener('click', blockUser);
+	}
+	
+	const loadBlackList = (rsp) => {
+		console.log(rsp.data);
+		
+		const blockUsers = document.querySelector('div#blockUsers');
+		let htmlStr = '';
+		
+		for(let user of rsp.data) {
+			htmlStr += `
+				<div class="row">
+	    			<div class="col-9">${user.nickname}</div>
+	    			<div class="col-3">
+	    				<button type="button" class="btn btn-outline-dark blockCancelBtn" data-id="${user.boardId}" 
+	    					data-user-id="${user.userId}">해제</button>
+	    			</div>
+	    		</div>
+			`;
+		}
+		
+		let listLength = rsp.data.length;
+		
+		const message = document.querySelector('h5#blocklist-message');
+		message.innerText = `차단 리스트 (${listLength})`;
+		
+		blockUsers.innerHTML = htmlStr;
+		
+		const blockCancelBtns = document.querySelectorAll('button.blockCancelBtn');
+		for(let btn of blockCancelBtns) {
+			btn.addEventListener('click', cancelBlock);
+		}
+	};
+	
+	const loadUserList = (rsp) => {
+		console.log(rsp.data);
+		
+		const blockList = document.querySelector('ul#block-list');
+		blockList.innerHTML = '';
+		
+		let htmlStr = '';
+		for(let user of rsp.data) {
+			htmlStr += `
+				<li class="list-group-item">
+		    		<div class="row">
+		    			<div class="col-9">
+		    				${user.nickname}
+		    			</div>
+		    			<div class="col-3 justify-content-end">
+		    				<button type="button" class="btn btn-outline-dark blockBtn" data-id="${user.id}">차단</button>
+		    			</div>
+		    		</div>
+	    		</li>
+			`;
+		}
+		
+		blockList.innerHTML = htmlStr;
+		
+		const blockBtns = document.querySelectorAll('button.blockBtn');
+		for(let btn of blockBtns) {
+			btn.addEventListener('click', blockUser);
+		}
+	};
+	
+	const cancelBlock = (e) => {
+		const boardId = e.target.getAttribute('data-id');
+		const userId = e.target.getAttribute('data-user-id');
+		
+		const url = '/api/v1/board/cancelBlock';
+		const data = { boardId, userId };
+		
+		axios.put(url, data)
+			.then((response) => {
+				console.log(response);
+				
+				// 블랙 리스트를 불러옴
+				const url1 = `/api/v1/board/getBlackList/${boardId}`;
+				axios.post(url1)
+					.then((response) => {
+						console.log(response);
+						
+						loadBlackList(response);
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+				
+				// 사용자 리스트를 불러옴
+				var userId = document.querySelector('input#boardOwnerId').value;
+				
+				const url2 = `/api/v1/board/getUserList`;
+				const data2 = { userId, boardId };
+				
+				axios.post(url2, data2)
+					.then((response) => {
+						console.log(response);
+						
+						loadUserList(response);
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+	
+	const blockCancelBtns = document.querySelectorAll('button.blockCancelBtn');
+	for(let btn of blockCancelBtns) {
+		btn.addEventListener('click', cancelBlock);
 	}
 	
 });

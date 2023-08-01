@@ -6,12 +6,14 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.forest.dto.board.BlackListDto;
 import com.example.forest.dto.board.BoardCreateDto;
 import com.example.forest.dto.board.BoardDetailDto;
 import com.example.forest.dto.board.BoardListDto;
 import com.example.forest.dto.board.BoardModifyDto;
 import com.example.forest.dto.board.BoardRevokeDto;
 import com.example.forest.dto.board.BoardSearchDto;
+import com.example.forest.dto.board.UserBlockDto;
 import com.example.forest.model.BlackList;
 import com.example.forest.model.Board;
 import com.example.forest.model.BoardCategory;
@@ -335,17 +337,56 @@ public class BoardService {
 		boardRepository.updateBoardOwner(entity, dto.getBoardId());
 	}
 	
+	/**
+	 * 해당 게시판에서 블랙 리스트에 등록되어 있는 유저 리스트를 불러오는 메서드
+	 * @param boardId
+	 * @return
+	 */
 	@Transactional(readOnly = true)
-	public List<BlackList> getBlackList(long boardId) {
+	public List<BlackListDto> getBlackList(long boardId) {
 		log.info("getBlackList(id = {})", boardId);
 		
 		return blackListRepository.findAllByBoardId(boardId);
 	}
 	
+	/**
+	 * 특정 게시판에서 전체 유저중에 블랙리스트에 등록되어 있지 않은 유저만 불러오는 메서드
+	 * @param boardId
+	 * @param userId
+	 * @return
+	 */
 	@Transactional(readOnly = true)
 	public List<User> getUserList(long boardId, long userId) {
+		log.info("getUserList(boardId = {}, userId = {})", boardId, userId);;
 		
 		return blackListRepository.findAllUserNotInList(boardId, userId, Role.ADMIN);
+	}
+	
+	public void addToList(UserBlockDto dto) {		
+		BlackList entity = null;
+		
+		if(dto.getIpAddr() != null) {
+			entity = BlackList.builder()
+					.boardId(dto.getBoardId())
+					.ipAddress(dto.getIpAddr())
+					.build();
+		} 
+		else {
+			entity = BlackList.builder()
+					.boardId(dto.getBoardId())
+					.userId(dto.getUserId())
+					.build();
+		}
+		
+		blackListRepository.save(entity);
+	}
+	
+	public void removeFromList(UserBlockDto dto) {
+		BlackList entity = blackListRepository.findByBoardIdAndUserId(dto.getBoardId(), dto.getUserId());
+		
+		log.info("entity = {}", entity);
+		
+		blackListRepository.delete(entity);
 	}
 	
 }
