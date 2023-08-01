@@ -1,6 +1,7 @@
 package com.example.forest.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +12,7 @@ import com.example.forest.model.Reply;
 import com.example.forest.repository.PostRepository;
 import com.example.forest.repository.ReplyRepository;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,11 +25,27 @@ public class ReplyService {
     private final PostRepository postRepository;
     
     
-    public void delete(long id) {
+    // 비회원 댓글 삭제
+    public void delete(Long id) {
         log.info("delete(id= {})", id);
         
-        // DB replies 테이블에서 ID(고유키)로 엔터티 삭제하기     
         replyRepository.deleteById(id);
+    }
+    
+    // 비회원 댓글 삭제
+    public void delete(Long id, String replyPassword) {
+        log.info("delete(id= {}, replyPassword={})", id, replyPassword);
+        
+     // 댓글 ID와 비밀번호로 댓글 조회
+        Optional<Reply> optionalReply = replyRepository.findByIdAndReplyPassword(id, replyPassword);
+        
+        if (optionalReply.isPresent()) {
+            // 비밀번호가 일치하면 댓글 삭제
+            replyRepository.delete(optionalReply.get());
+        } else {
+            // 비밀번호가 일치하지 않으면 예외 처리
+            throw new IllegalArgumentException("댓글을 삭제할 수 없습니다. 비밀번호가 일치하지 않습니다.");
+        }
     }
     
     @Transactional(readOnly = true)
@@ -59,6 +77,7 @@ public class ReplyService {
 
     public Reply create(ReplyCreateDto dto) {
         log.info("create(dto={})", dto);
+
         
         // 1. Post 엔터티검색
         Post post = postRepository.findById(dto.getPostId()).orElseThrow();
@@ -66,6 +85,8 @@ public class ReplyService {
         // 2. ReplyCreateDto 객체를 Reply 엔터티 객체로 변환.
         Reply entity = Reply.builder()
                 .post(post)
+                .userId(dto.getUserId())
+                .replyIp(dto.getReplyIp())
                 .replyText(dto.getReplyText())
                 .replyNickname(dto.getReplyNickname())
                 .replyPassword(dto.getReplyPassword())
