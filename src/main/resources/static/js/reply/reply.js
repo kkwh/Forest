@@ -86,7 +86,7 @@ const deleteReply = (e) => {
         // div 안에 삽입할 HTML 코드 초기화.
         let htmlStr = '';
         for (let reply of data.list) {
-        if(reply.userId == 0) {    
+        if(reply.userId == 0 & reply.replyPassword === null) {    
             htmlStr += `
             <div class="card my-2">
                 <div>
@@ -106,6 +106,19 @@ const deleteReply = (e) => {
                         data-password="${reply.replyPassword}" data-user-id="${reply.userId}" data-id="${reply.id}">삭제</button>
                 </div>
             `;
+        } else if(reply.userId == 0 & reply.replyPassword !== null) {    
+            htmlStr += `
+            <div class="card my-2">
+                <div>
+                    <span class="d-none">${reply.id}</span>
+                    <span class="fw-bold">${reply.replyNickname}</span>
+                    <span class="fw-bold">(${reply.replyIp})</span>
+                </div>
+            
+                <textarea id="replyText_${reply.id}">${reply.replyText}</textarea>
+               `; 
+            
+        
         } else {
             if(reply.userId == data.userId) {
                 htmlStr += `

@@ -44,11 +44,12 @@
                             <div class="gall_writer ub-writer" data-nick="ㅇㅇ" data-uid="" data-ip="183.100" data-loc="view">
                             <div class="fl">
                                 <span class="nickname" title="ㅇㅇ" th:text="${post.postNickname}"><em></em></span>
-                                <span class="ip">(183.100)</span>                                                               <span class="gall_date" title="2023-08-01 12:03:25">2023.08.01 12:03:25</span>
+                                <span class="ip">(183.100)</span>                                                               
+                                <span class="gall_date" title="2023-08-01 12:03:25">2023.08.01 12:03:25</span>
                             </div>
                             <div class="fr">
-                                <span class="gall_count" th:text="'조회' + ${ viewCount }">조회 0</span>
-                                <span class="gall_reply_num" th:text="'좋아요' + ${ likesCount }">좋아요 0</span>
+                                <span class="gall_count" th:text="'조회 ' + ${ viewCount }">조회 0</span>
+                                <span class="gall_reply_num" th:text="'좋아요 ' + ${ likesCount }">좋아요 0</span>
                                 <span class="gall_comment">댓글 1</a></span>
                             </div>
                         </div>
@@ -187,7 +188,6 @@
                 
             </div>
         </div>
-        </div>
         
         <!-- 채한별: --> 
         <!-- 열매(댓글) 부분 -->
@@ -267,14 +267,16 @@
         </th:block>
         
         <!--  //열매(댓글) 부분 -->
+        
+        </div>
 
     </main>
     
     <th:block layout:fragment="myscripts">
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="/js/post/likedislike.js"></script>
-        <script src="/js/post/modify.js"></script>
         <script src="/js/reply/reply.js"></script>
+        <script src="/js/post/modify.js"></script>
     </th:block>
     
 </html>
