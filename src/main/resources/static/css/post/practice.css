@@ -1,0 +1,90 @@
+@charset "UTF-8";
+
+.wrap_inner {
+    position: relative;
+    width: 1450px;
+    margin: 0 auto;
+}
+
+body {
+    font-size: 12px;
+    font-family: -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",arial,Dotum,돋움,sans-serif;
+}
+
+.clear:after {
+    clear: both;
+    display: block;
+    visibility: hidden;
+    content: "";
+}
+
+.width1160 .left_content {
+    width: 840px;
+}
+
+.left_content {
+    float: left;
+    width: 728px;
+    background: #fff;
+}
+
+.page_head h2 {
+    font-size: 24px;
+    font-family: 'Nanum Gothic', sans-serif;
+    letter-spacing: -1px;
+    margin: 2px 8px 0 3px;
+    max-width: 416px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    color: #29367c;
+    float: left;
+}
+
+h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+
+.page_head h2 a {
+    color: #29367c;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+.pagehead_titicon.mgall {
+    width: 22px;
+    height: 22px;
+    background-position: -195px -844px;
+    margin-top: 3px;
+}
+
+.pagehead_titicon {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 6px;
+}
+
+.sp_img {
+    background-image: url(https://nstatic.dcinside.com/dc/w/images/sp/sp_img.png);
+    background-repeat: no-repeat;
+}
+
+.blind {
+    position: absolute;
+    overflow: hidden;
+    visibility: hidden;
+    margin: -1px;
+    width: 0px;
+    height: 0px;
+    top: -9999px;
+    font-size: 0;
+}
