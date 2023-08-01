@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.forest.dto.board.BoardListDto;
+import com.example.forest.model.BoardCategory;
 import com.example.forest.service.BoardService;
 import com.example.forest.service.UserService;
 
@@ -35,6 +36,9 @@ public class AdminBoardController {
 	public String getUnapprovedList(Model model) {
 		log.info("getUnapprovedList()");
 		
+		BoardCategory[] categories = BoardCategory.values();
+		model.addAttribute("categories", categories);
+		
 		List<BoardListDto> boards = boardService.findAllByApprovalStatus(0);
 		model.addAttribute("boards", boards);
 		
@@ -51,6 +55,9 @@ public class AdminBoardController {
 	public String getApprovedList(Model model) {
 		log.info("getApprovedList()");
 		
+		BoardCategory[] categories = BoardCategory.values();
+		model.addAttribute("categories", categories);
+		
 		List<BoardListDto> boards = boardService.findAllByApprovalStatus(1);
 		model.addAttribute("boards", boards);
 		
@@ -61,6 +68,9 @@ public class AdminBoardController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public String getBoardList(Principal principal, Model model) {
 		log.info("getBoardList()");
+		
+		BoardCategory[] categories = BoardCategory.values();
+		model.addAttribute("categories", categories);
 		
 		List<BoardListDto> boards = boardService.findAllByUser(principal.getName());
 		model.addAttribute("boards", boards);

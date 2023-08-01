@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -13,10 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.forest.dto.board.BlackListDto;
 import com.example.forest.dto.board.BoardCheckDto;
 import com.example.forest.dto.board.BoardListDto;
 import com.example.forest.dto.board.BoardRevokeDto;
 import com.example.forest.dto.board.BoardSearchDto;
+import com.example.forest.dto.board.UserBlockDto;
+import com.example.forest.model.BlackList;
+import com.example.forest.model.User;
 import com.example.forest.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -91,24 +96,99 @@ public class BoardApiController {
 		return ResponseEntity.ok("Success");
 	}
 	
-	@PostMapping("/search")
+	@PutMapping("/updateGrade/{id}")
+	public ResponseEntity<String> updateBoardGrade(@PathVariable long id) {
+		log.info("updateBoardGrade(id = {})", id);
+		
+		boardService.updateBoardGrade(id);
+		
+		return ResponseEntity.ok("Success");
+	}
+	
+	@PutMapping("/blockById")
 	@ResponseBody
-	public ResponseEntity<List<BoardListDto>> searchByKeyword(@RequestBody BoardSearchDto dto) {
+	public ResponseEntity<String> blockByUserId(@RequestBody UserBlockDto dto) {
+		log.info("blockUser(dto = {})", dto);
+		
+		boardService.addToList(dto);
+		
+		return ResponseEntity.ok("Success");
+	}
+	
+	@PutMapping("/blockByIp")
+	@ResponseBody
+	public ResponseEntity<String> blockByIP(@RequestBody UserBlockDto dto) {
+		log.info("blockUser(dto = {})", dto);
+		
+		boardService.addToList(dto);
+		
+		return ResponseEntity.ok("Success");
+	}
+	
+	@PutMapping("/cancelBlock")
+	@ResponseBody
+	public ResponseEntity<String> cancelBlock(@RequestBody UserBlockDto dto) {
+		log.info("cancelBlock(dto = {})", dto);
+		
+		boardService.removeFromList(dto);
+		
+		return ResponseEntity.ok("Success");
+	}
+	
+	@PostMapping("/searchUnapproved")
+	@ResponseBody
+	public ResponseEntity<List<BoardListDto>> searchUnapproved(@RequestBody BoardSearchDto dto) {
 		log.info("searchByKeyword({})", dto);
 		
-		List<BoardListDto> boards = boardService.findAllByKeyword(dto);
+		List<BoardListDto> boards = boardService.findAllByApprovalStatus(dto, 0);
 		
 		return ResponseEntity.ok(boards);
 	}
 	
-	@PostMapping("/sortBy")
+	@PostMapping("/searchApproved")
 	@ResponseBody
-	public ResponseEntity<List<BoardListDto>> sortBy(@RequestBody BoardSearchDto dto) {
-		log.info("sortBy({})", dto);
+	public ResponseEntity<List<BoardListDto>> searchApproved(@RequestBody BoardSearchDto dto) {
+		log.info("searchByKeyword({})", dto);
 		
-		List<BoardListDto> boards = boardService.findAllOrderByType(dto);
+		List<BoardListDto> boards = boardService.findAllByApprovalStatus(dto, 1);
 		
 		return ResponseEntity.ok(boards);
+	}
+	
+//	
+//	@PostMapping("/sortBy")
+//	@ResponseBody
+//	public ResponseEntity<List<BoardListDto>> sortBy(@RequestBody BoardSearchDto dto) {
+//		log.info("sortBy({})", dto);
+//		
+//		List<BoardListDto> boards = boardService.findAllOrderByType(dto);
+//		
+//		return ResponseEntity.ok(boards);
+//	}
+	
+	@PostMapping("/filterBy")
+	@ResponseBody
+	public ResponseEntity<List<BoardListDto>> filterBy(@RequestBody BoardSearchDto dto) {
+		log.info("filterBy(dto = {})", dto);	
+
+		List<BoardListDto> list = boardService.findAllOrderByType(dto);
+		
+		return ResponseEntity.ok(list);
+	}
+
+	@PostMapping("/getBlackList/{boardId}")
+	public ResponseEntity<List<BlackListDto>> getBlackList(@PathVariable("boardId") long boardId) {
+		List<BlackListDto> blackList = boardService.getBlackList(boardId);
+		
+		return ResponseEntity.ok(blackList);
+	}
+	
+	@PostMapping("/getUserList")
+	@ResponseBody
+	public ResponseEntity<List<User>> getUserList(@RequestBody UserBlockDto dto) {
+		List<User> users = boardService.getUserList(dto.getBoardId(), dto.getUserId());
+		
+		return ResponseEntity.ok(users);
 	}
 
 }

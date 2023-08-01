@@ -27,7 +27,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	 * @return
 	 */
 	@Query("select b from Board b "
-			+ " where b.isApproved = :status"
+			+ " where b.isApproved = :status "
 			+ " order by b.id desc")
 	List<Board> findAllBoardsByStatus(@Param("status") int status);
 	
@@ -41,8 +41,20 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 			+ " where b.boardCategory = :category "
 			+ " and b.boardGrade = :grade "
 			+ " and b.isApproved = 1 "
-			+ " order by b.boardName desc")
+			+ " order by b.boardName")
 	List<Board> findAllByCategory(@Param("category") BoardCategory category, @Param("grade") String grade);
+	
+	/**
+	 * 모든 랜드들을 카테고리 별로 불러옴
+	 * 게시판 이름 오름차순으로 정렬
+	 * @param category
+	 * @return
+	 */
+	@Query("select b from Board b "
+			+ " where b.boardCategory = :category "
+			+ " and b.isApproved = 1 "
+			+ " order by b.boardName")
+	List<Board> findAllByCategory(@Param("category") BoardCategory category);
 	
 	/**
 	 * 해당 키워드가 포함되어 있는 게시판을 불러옴
@@ -62,7 +74,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	 * @param user
 	 * @return
 	 */
-	List<Board> findAllBoardsByUser(User user);
+	List<Board> findAllBoardsByUserOrderByIdDesc(User user);
 	
 	/**
 	 * 게시판 목록을 생성일자 오름차순으로 불러옴
@@ -71,8 +83,11 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	 */
 	@Query("select b from Board b "
 			+ " where b.user = :user "
+			+ " and lower(b.boardName) like ('%' || :keyword || '%')"
+			+ " and b.boardCategory in (:categories)"
+			+ " and b.isApproved = 1 "
 			+ " order by b.createdTime")
-	List<Board> findAllByOrderByCreatedTime(@Param("user") User user);
+	List<Board> findAllByOrderByCreatedTime(@Param("user") User user, @Param("keyword") String keyword, @Param("categories") List<BoardCategory> categories);
 	
 	/**
 	 * 게시판 목록을 생성일자 내림차순으로 불러옴
@@ -81,8 +96,11 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	 */
 	@Query("select b from Board b "
 			+ " where b.user = :user "
+			+ " and lower(b.boardName) like ('%' || :keyword || '%')"
+			+ " and b.boardCategory in (:categories)"
+			+ " and b.isApproved = 1 "
 			+ " order by b.createdTime desc")
-	List<Board> findAllByOrderByCreatedTimeDesc(@Param("user") User user);
+	List<Board> findAllByOrderByCreatedTimeDesc(@Param("user") User user, @Param("keyword") String keyword, @Param("categories") List<BoardCategory> categories);
 	
 	/**
 	 * 게시판 목록을 이름 오름차순으로 불러옴
@@ -91,8 +109,11 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	 */
 	@Query("select b from Board b "
 			+ " where b.user = :user "
+			+ " and lower(b.boardName) like ('%' || :keyword || '%')"
+			+ " and b.boardCategory in (:categories)"
+			+ " and b.isApproved = 1 "
 			+ " order by b.boardName")
-	List<Board> findAllByOrderByBoardName(@Param("user") User user);
+	List<Board> findAllByOrderByBoardName(@Param("user") User user, @Param("keyword") String keyword, @Param("categories") List<BoardCategory> categories);
 	
 	/**
 	 * 게시판 목록을 이름 내림차순으로 불러옴
@@ -101,8 +122,60 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	 */
 	@Query("select b from Board b "
 			+ " where b.user = :user "
+			+ " and lower(b.boardName) like ('%' || :keyword || '%')"
+			+ " and b.boardCategory in (:categories)"
+			+ " and b.isApproved = 1 "
 			+ " order by b.boardName desc")
-	List<Board> findAllByOrderByBoardNameDesc(@Param("user") User user);
+	List<Board> findAllByOrderByBoardNameDesc(@Param("user") User user, @Param("keyword") String keyword, @Param("categories") List<BoardCategory> categories);
+	
+	/**
+	 * 게시판 목록을 생성일자 오름차순으로 불러옴
+	 * @param user
+	 * @return
+	 */
+	@Query("select b from Board b "
+			+ " where lower(b.boardName) like ('%' || :keyword || '%')"
+			+ " and b.boardCategory in (:categories)"
+			+ " and b.isApproved = :status "
+			+ " order by b.createdTime")
+	List<Board> findAllByOrderByCreatedTime(@Param("keyword") String keyword, @Param("categories") List<BoardCategory> categories, @Param("status") int status);
+	
+	/**
+	 * 게시판 목록을 생성일자 내림차순으로 불러옴
+	 * @param user
+	 * @return
+	 */
+	@Query("select b from Board b "
+			+ " where lower(b.boardName) like ('%' || :keyword || '%')"
+			+ " and b.boardCategory in (:categories)"
+			+ " and b.isApproved = :status "
+			+ " order by b.createdTime desc")
+	List<Board> findAllByOrderByCreatedTimeDesc(@Param("keyword") String keyword, @Param("categories") List<BoardCategory> categories, @Param("status") int status);
+	
+	/**
+	 * 게시판 목록을 이름 오름차순으로 불러옴
+	 * @param user
+	 * @return
+	 */
+	@Query("select b from Board b "
+			+ " where lower(b.boardName) like ('%' || :keyword || '%')"
+			+ " and b.boardCategory in (:categories)"
+			+ " and b.isApproved = :status "
+			+ " order by b.boardName")
+	List<Board> findAllByOrderByBoardName(@Param("keyword") String keyword, @Param("categories") List<BoardCategory> categories, @Param("status") int status);
+	
+	/**
+	 * 게시판 목록을 이름 내림차순으로 불러옴
+	 * @param user
+	 * @return
+	 */
+	@Query("select b from Board b "
+			+ " where lower(b.boardName) like ('%' || :keyword || '%')"
+			+ " and b.boardCategory in (:categories)"
+			+ " and b.isApproved = :status "
+			+ " order by b.boardName desc")
+	List<Board> findAllByOrderByBoardNameDesc(@Param("keyword") String keyword, @Param("categories") List<BoardCategory> categories, @Param("status") int status);
+	
 	
 	/**
 	 * 특정 게시판에 작성된 게시글 수를 가져옴
