@@ -65,6 +65,7 @@ public class Post extends BaseTimeEntity {
     public Post update(PostUpdateDto dto) {
         this.postTitle = dto.getPostTitle();
         this.postContent = dto.getPostContent();
+        this.postType = dto.getPostType();
         
         return this;
     }

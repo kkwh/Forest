@@ -84,11 +84,13 @@ public class PostController {
         Post post = postService.read(id);
         long likesCount = likesService.countLikesByPostId(id);
         long dislikesCount = likesService.countDislikesByPostId(id);
+        long viewCount = postService.increaseViewCount(id) - 1;
                
         // 결과를 model에 저장 -> 뷰로 전달됨.   
         model.addAttribute("post", post);
         model.addAttribute("likesCount", likesCount);
         model.addAttribute("dislikesCount", dislikesCount);
+        model.addAttribute("viewCount", viewCount);
     }
     
     @GetMapping("/modifyCheck")

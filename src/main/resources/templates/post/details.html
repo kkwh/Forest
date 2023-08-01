@@ -5,48 +5,171 @@
     
     <head>
 		<link rel="stylesheet" th:href="@{/css/post/create.css}">
+		<link rel="stylesheet" th:href="@{/css/post/read.css}">
+		<link rel="stylesheet" th:href="@{/css/post/detail.css}">
 	</head>
     
     <main layout:fragment="main">
+        <div class="container">
         <div class="my-2 card">
             <div class="card-header text-center">
                 <h1>랜드 상세보기</h1>
             </div>
+            
+            <div class="page_head clear">
+                <div class="fl clear">
+                    <h2>
+                        <a th:href="@{/post}">뉴진스 랜드
+                            <div class="pagehead_titicon mgall sp_img">
+                                <span class="blind">마이너</span>
+                            </div>
+                        </a>
+                    </h2>
+                    </div>
+            </div>
+            
             <div class="card-body">
-                <form>
-                    <div>
-                        <label class="form-label" for="id">번호</label>
-                        <input class="form-control"
-                            id="id" th:value="${post.id}" readonly />
+                
+                
+                <div class="view_content_wrap">
+                <header>
+                    <div class="gallview_head clear ub-content">
+                        <!-- 모바일에서 작성 icon_write_mbl -->
+                        <h3 class="title ub-word">
+                            <span class="title_headtext" th:text="'[' + ${post.postType} + ']'"></span> 
+                            <span class="title_subject" th:text="${post.postTitle}"></span>
+                        </h3>
+                            <div class="gall_writer ub-writer" data-nick="ㅇㅇ" data-uid="" data-ip="183.100" data-loc="view">
+                            <div class="fl">
+                                <span class="nickname" title="ㅇㅇ" th:text="${post.postNickname}"><em></em></span>
+                                <span class="ip">(183.100)</span>                                                               <span class="gall_date" title="2023-08-01 12:03:25">2023.08.01 12:03:25</span>
+                            </div>
+                            <div class="fr">
+                                <span class="gall_count" th:text="'조회' + ${ viewCount }">조회 0</span>
+                                <span class="gall_reply_num" th:text="'좋아요' + ${ likesCount }">좋아요 0</span>
+                                <span class="gall_comment">댓글 1</a></span>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <label class="form-label" for="title">제목</label>
-                        <input class="form-control"
-                            id="title" th:value="${post.postTitle}" readonly />
+                </header>
+                <div class="gallview_contents">
+                    <div class="inner clear">
+                                            <div class="writing_view_box">
+                            <div id="zzbang_div"><span id="zzbang_ad" style=""><script type="text/javascript" src="https://addc.dcinside.com/NetInsight/text/dcinside/pc/body@auto_minor_sport"></script><iframe src="//adex.ednplus.com/xc/h/7Md9gKH5" width="300" height="250" frameborder="0" scrolling="no" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0" referrerpolicy="no-referrer-when-downgrade"></iframe></span><span id="zzbang_img" style="display:none"><img src="https://dcimg2.dcinside.co.kr/viewimage.php?id=2eb5d52a&amp;no=24b0d769e1d32ca73fea81fa1bd625317f6affbb20657da06fea89d8546808fc182cd078c038409a05ae9d5a252e5f56759339de153361d0b7c7071946cdaaace4a36ca0" style="width:550px;height:350px;"></span></div><pre></pre>                          <div class="write_div" style="overflow:hidden;width:900px;" data-tracking="eeac926d142aabebce3f2e9a774a5e0cba6702aa656a7eba9495">
+                            
+                        <p></p>
+                            <div>
+                                <div th:text="${post.postContent}">
+                                    
+                                </div>
+                            </div>
+                         <p></p>              
+                            </div>                                                                                    
+                                                        
+                        </div>
+                        
+                        <!--  본문 우측 광고 -->
+                         <!-- <div class="con_banner writing_banbox" style="position:relative;min-width:160px; min-height:600px;">
+    <script type="text/javascript" src="https://ad.xc.netinsight.co.kr/xc/j/WxABrJ9K/x/fst"></script><script async="async" type="text/javascript" src="https://static.criteo.net/js/ld/publishertag.js"></script><div id="criteo_slot_2419"><iframe id="cto_iframe_criteo_slot_2419" frameborder="0" allowtransparency="true" hspace="0" marginwidth="0" marginheight="0" scrolling="no" vspace="0" width="160px" height="600px"></iframe></div>
+<script>
+!function(){
+ var criteoZoneId = 1366613;
+ var criteoSlotId = "criteo_slot_2419";
+ var passback = function () {
+  var width = "160", height = "600";
+  var div = document.getElementById(criteoSlotId);
+  if (div) { var ifr = document.createElement('iframe'); ifr.setAttribute("id", criteoSlotId+"_iframe"), ifr.setAttribute("frameborder","0"), ifr.setAttribute("allowtransparency","true"), ifr.setAttribute("hspace","0"), ifr.setAttribute("marginwidth","0"), ifr.setAttribute("marginheight","0"), ifr.setAttribute("scrolling","no"), ifr.setAttribute("vspace","0"), ifr.setAttribute("width", width), ifr.setAttribute("height", height);
+  div.appendChild(ifr);
+  var htmlcode = "<html><head></head><body><iframe src='https://ad.xc.netinsight.co.kr/xc/h/WxABrJ9K/x/cpd/0?rurl=https%3A%2F%2Fgall.dcinside.com%2Fmgallery%2Fboard%2Fview%2F%3Fid%3Dchel%26no%3D2764692%26page%3D1&slots=1&is_da_cache=N' frameborder='0' marginwidth='0' marginheight='0' allowtransparency='true' scrolling='no' width='160' height='600'></iframe></body></html>";
+  var ifrd = ifr.contentWindow.document; ifrd.open(); ifrd.write(htmlcode); ifrd.close(); }
+ };
+ var CriteoAdUnits = { "placements": [{ "slotid": criteoSlotId, "zoneid": criteoZoneId }]};
+ window.Criteo = window.Criteo || {}; window.Criteo.events = window.Criteo.events || [];
+ var processCdbBid = function() {
+  var bids = Criteo.GetBidsForAdUnit(criteoSlotId);
+  if (bids.length > 0) {
+   var bidFound = bids[0]; Criteo.RenderAd({ bidId: bidFound.id, containerId: bidFound.impressionId });
+  } else { passback(); }
+ };
+ Criteo.events.push(function() { Criteo.RequestBids(CriteoAdUnits, processCdbBid, 2000);});
+}();
+</script>
+</div> -->                       
                     </div>
-                    <div>
-                        <label class="form-label" for="content">내용</label>
-                        <textarea class="form-control"
-                            id="content" th:text="${post.postContent}" readonly></textarea>
-                    </div>
-                    <div>
-                        <label class="form-label" for="author">글쓴이</label>
-                        <input class="form-control" 
-                            id="author" th:value="${post.postNickname}" readonly />
-                    </div>
-                    <div>
-                        <label class="form-label" for="createdTime">작성시간</label>
-                        <input class="form-control" id="createdTime"
-                            th:value="${ #temporals.format(post.createdTime, 'yyyy.MM.dd HH:mm:ss') }" 
-                            readonly />
-                    </div>
-                    <div>
-                        <label class="form-label" for="modifiedTime">수정시간</label>
-                        <input class="form-control" id="modifiedTime"
-                            th:value="${ #temporals.format(post.modifiedTime, 'yyyy.MM.dd HH:mm:ss') }"
-                            readonly />
-                    </div>
-                </form>
+                                        
+                  
+                    <div class="positionr"><!--221018 감싸주는 div 추가 -->
+                                             
+                                            <!-- 추천 비추천 -->
+                                                <div class="btn_recommend_box recomuse_y morebox">
+                                                    <h3 class="blind">추천 비추천</h3>
+                       <div class="inner_box">
+                            <div class="inner">
+                                 <!-- <div class="up_num_box">
+                                    <p class="up_num font_red" id="recommend_view_up_2764692">0</p>
+                                   
+                                </div> -->
+                                <button id="like-button" class="btn btn-outline-success" th:data-post-id="${post.id}">좋아요 <span id="like-count" th:text="${ likesCount }">0</span></button>
+                            </div>
+                            <div class="inner">
+                                 <button id="dislike-button" class="btn btn-outline-success" th:data-post-id="${post.id}">싫어요 <span id="dislike-count" th:text="${ dislikesCount }">0</span></button>
+                                <!-- <div class="down_num_box">
+                                    <p class="down_num" id="recommend_view_down_2764692">0</p>
+                                </div> -->
+                            </div>
+                        </div><!-- 둥 -->
+                                                             <div class="recom_bottom_box clear">
+                                                                
+                                <button type="button" class="btn_report" data-no="2764692"><em class="sp_img icon_report"></em>신고</button>
+                            </div>
+                        </div>
+                        <!-- //추천 비추천 -->
+                                            </div>
+                    <!--// nft 221018 -->
+                    
+                    
+                    
+                                        <!-- 본문 하단 광고 -->
+                                         <div id="taboola-below-article-thumbnails" class=" trc_related_container trc_spotlight_widget"></div>
+                                        <script type="text/javascript">
+                                          window._taboola = window._taboola || [];
+                                          _taboola.push({
+                                            mode: 'thumbnails-d',
+                                            container: 'taboola-below-article-thumbnails',
+                                            placement: 'Below Article Thumbnails',
+                                            target_type: 'mix'
+                                          });
+                                        </script><div style="width:100%;overflow:hidden;text-align:center;margin-top:10px;">
+    <script type="text/javascript" src="https://ad.xc.netinsight.co.kr/xc/j/ccDkYbfd/x/fst" referrerpolicy="no-referrer-when-downgrade"></script><script async="async" type="text/javascript" src="https://static.criteo.net/js/ld/publishertag.js"></script><div id="criteo_slot_6381"><iframe id="criteo_slot_6381_iframe" frameborder="0" allowtransparency="true" hspace="0" marginwidth="0" marginheight="0" scrolling="no" vspace="0" width="728" height="90"></iframe></div>
+<script>
+!function(){
+ var criteoZoneId = 1634700;
+ var criteoSlotId = "criteo_slot_6381";
+ var passback = function () {
+  var width = "728", height = "90";
+  var div = document.getElementById(criteoSlotId);
+  if (div) { var ifr = document.createElement('iframe'); ifr.setAttribute("id", criteoSlotId+"_iframe"), ifr.setAttribute("frameborder","0"), ifr.setAttribute("allowtransparency","true"), ifr.setAttribute("hspace","0"), ifr.setAttribute("marginwidth","0"), ifr.setAttribute("marginheight","0"), ifr.setAttribute("scrolling","no"), ifr.setAttribute("vspace","0"), ifr.setAttribute("width", width), ifr.setAttribute("height", height);
+   div.appendChild(ifr);
+   var htmlcode = "<html><head></head><body><iframe src='https://ad.xc.netinsight.co.kr/xc/h/ccDkYbfd/x/cpd/0?is_da_cache=N&slots=1&rurl=https%3A%2F%2Fgall.dcinside.com%2Fmgallery%2Fboard%2Fview%2F%3Fid%3Dchel%26no%3D2764692%26page%3D1' frameborder='0' marginwidth='0' marginheight='0' allowtransparency='true' scrolling='no' width='728' height='90'></iframe></body></html>";
+   var ifrd = ifr.contentWindow.document; ifrd.open(); ifrd.write(htmlcode); ifrd.close(); }
+ };
+ var CriteoAdUnits = { "placements": [{ "slotid": criteoSlotId, "zoneid": criteoZoneId }]};
+ window.Criteo = window.Criteo || {}; window.Criteo.events = window.Criteo.events || [];
+ var processCdbBid = function() {
+  var bids = Criteo.GetBidsForAdUnit(criteoSlotId);
+  if (bids.length > 0) {
+   var bidFound = bids[0]; Criteo.RenderAd({ bidId: bidFound.id, containerId: bidFound.impressionId });
+  } else { passback(); }
+ };
+ Criteo.events.push(function() { Criteo.RequestBids(CriteoAdUnits, processCdbBid, 2000);});
+}();
+</script> 
+</div>                  <!-- //본문 하단 광고 -->
+                                    </div>
+            </div>
+                
+                
+                
                 <!-- 로그인 사용자와 포스트 작성자가 같으면 -->
                 <!-- <div th:if="${ #authentication.name} == ${ post.author }"> -->
                 <!-- </div> -->
@@ -54,13 +177,14 @@
                 <a class="btn btn-outline-success" th:href="@{ /post/modifyCheck?id={id} (id = ${post.id}) }">가지치기</a>
                 <a class="btn btn-outline-success" th:href="@{ /post/create }">나무심기</a>
                 <a class="btn btn-outline-success" th:href="@{ /post }">전체글</a>
-                <a class="btn btn-outline-success" th:href="@{ /post }">인기글</a>
+                <a class="btn btn-outline-success" th:href="@{ /post/popular }">인기글</a>
                 
                 <button id="like-button" class="btn btn-outline-success" th:data-post-id="${post.id}">좋아요 <span id="like-count" th:text="${ likesCount }">0</span></button>
 				<button id="dislike-button" class="btn btn-outline-success" th:data-post-id="${post.id}">싫어요 <span id="dislike-count" th:text="${ dislikesCount }">0</span></button>
                 
                 
             </div>
+        </div>
         </div>
         
     </main>

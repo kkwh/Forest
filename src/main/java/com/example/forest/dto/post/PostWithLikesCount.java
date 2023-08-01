@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
-public class PostWithLikesCount {
+public class PostWithLikesCount { // 전체글 조회 + 좋아요 수
     private Long id;
     private String postType;
     private String postTitle;
