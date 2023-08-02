@@ -229,7 +229,7 @@ const deleteReply = (e) => {
                 
            })  // 성공 응답(response)일 때 실행할 콜백 등록
            .catch((error) => console.log(error)); // 실패(error)일 때 실행할 콜백 등록
-       
+       /*...*/
        
     });
     
