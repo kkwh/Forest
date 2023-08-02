@@ -82,7 +82,7 @@ public class BoardController {
         
         model.addAttribute("posts", list);
 		
-		return "/post/read";
+		return "/board/read";
 	}
 	
 	@GetMapping("/create")

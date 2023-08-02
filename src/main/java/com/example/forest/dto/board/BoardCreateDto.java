@@ -14,6 +14,7 @@ public class BoardCreateDto {
 	
 	private BoardCategory category;
 	private String boardName;
+	private String boardInfo;
 	private long userId;
 	
 	private MultipartFile imageFile;
@@ -22,6 +23,7 @@ public class BoardCreateDto {
 		return Board.builder()
 				.boardCategory(category)
 				.boardName(boardName)
+				.boardInfo(boardInfo)
 				.boardGrade("Sub")
 				.isApproved(0)
 				.build();
