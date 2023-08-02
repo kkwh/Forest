@@ -7,38 +7,52 @@
 	<hr/>
 	
 	<div>
-		<button type="button" id="searchBtn" class="btn btn-outline-success">랜드 전체 보기</button>
+		<button type="button" id="openTabBtn" class="btn btn-outline-success">랜드 전체 보기</button>
 	</div>
 	
 
-	<div id="filter-list" style="display:none; margin-top: 15px; width: 40%;">
+	<div id="filter-list" style="display:none; margin-top: 15px; width: 50%;">
 		<div style="height: 250px; border: 1px solid black; display: flex;">
 			<div class="w-50">
 				<div style="height: 50px;">
 				
-				<div class="d-flex">
-				  <div class="flex-grow-1"><input type="text" class="form-control" id="keyword" /></div>
-				  <div><button id="searchBtn" type="button" class="form-control btn btn-outline-dark">Search</button></div>
+					<div class="d-flex">
+					  	<div class="flex-grow-1">
+					  		<input type="text" class="form-control" id="keyword" name="keyword" placeholder="랜드 검색" />
+					  	</div>
+					  	<div>
+					  		<button id="searchBtn" type="button" class="form-control btn btn-outline-dark">Search</button>
+				  		</div>
+					</div>
+	
 				</div>
-					
-
-					
-				</div>
-				<div style="height: 200px;">
-					<ul>
-					    <li th:each="category : ${categories}">
-						    <input class="form-check-input checkBtn" type="checkbox" th:value="${category.value}" 
-						    	th:id="${category}" checked>
-					  		<label class="form-check-label" th:for="${category.value}" th:text="${category.value}"></label>
-					    </li>
-				  	</ul>
+				<div id="categoryList" class="w-100 d-flex align-items-stretch" style="height: 200px;">
+					<div class="w-100 py-2">
+						<strong>카테고리 목록</strong>
+						<ul class="list-group list-group-flush w-100">
+							<th:block th:each="category : ${boardMap}">
+								<li class="list-group-item">
+									<a class="categoryBtn link-dark" th:text="${category.key.value}" th:data-name="${category.key.value}" th:data-id="${category.key}"></a>
+								</li>
+							</th:block>
+						</ul>
+					</div>
 				</div>
 			</div>
 			<div class="w-50">
-				<div style="height: 20px;">
-					<button type="button" id="closeBtn" class="btn btn-outline-danger">Close</button>
+				<div style="height: 50px;">
+					<div class="d-flex">
+					  	<div class="flex-grow-1 p-2">
+					  		<span id="resultMessage" class="p-3">검색어를 입력해주세요.</span>
+					  	</div>
+					  	<div>
+					  		<button type="button" id="closeBtn" class="btn btn-outline-danger">Close</button>
+				  		</div>
+					</div>	
 				</div>
-				<div id="searchResult" style="height: 230px;">
+				<div id="searchResult" style="height: 200px;">
+					<div id="landList" class="overflow-y-scroll py-2">
+					</div>
 				</div>
 			</div>
 		</div>
@@ -56,7 +70,7 @@
 			  <ul class="list-group list-group-flush">
 		  		<th:block th:each="board : ${entry.value}">
 				    <li class="list-group-item">
-				    	<a href="#" th:text="${board.boardName}" class="link-dark"></a>
+				    	<a th:href="@{'/board/' + ${board.id}}" th:text="${board.boardName}" class="link-dark"></a>
 				    </li>
 			    </th:block>
 			  </ul>

@@ -9,7 +9,7 @@
 		<link rel="stylesheet" th:href="@{/css/post/read.css}">
 	 </head>
      
-     <main layout:fragment="main">
+     <main layout:fragment="main"  class="mt-5 p-3">
         <div class="container">
         <div class="my-2 card">
             <div class="card-header text-center">
@@ -36,6 +36,9 @@
             <fieldset>
                 <legend class="blind">글쓰기 정보 입력폼</legend>
                 <!-- 닉네임, 비밀번호-->
+                	<div class="input_box input_infotxt d-none">
+                        <input id="boardId" class="put_inquiry f_blank" th:value="${boardId}" type="text" name="boardId">
+                    </div>
                                                     
                     <div class="input_box input_infotxt">
                         <input id="name" class="put_inquiry f_blank" type="text" name="postNickname" maxlength="15" placeholder="닉네임">

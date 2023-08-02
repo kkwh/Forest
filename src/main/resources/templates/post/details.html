@@ -192,6 +192,7 @@
         <!-- 채한별: --> 
         <!-- 열매(댓글) 부분 -->
         <input type="hidden" id="userId" name="userId" th:value="${userId}" />
+        <input type="hidden" id="postId" name="postId" th:value="${post.id}" />
         <div class="my-2 card">
             <div class= "card-header">
                 <span>나무 열매</span>
@@ -251,6 +252,8 @@
                 
                 <!-- 댓글 목록을 보여줄 영역 -->
                 <div class="my-2 row" id="replies"></div>
+                
+                
             </div>
         </div>
         
@@ -274,9 +277,10 @@
     
     <th:block layout:fragment="myscripts">
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <script src="/js/post/likedislike.js"></script>
         <script src="/js/reply/reply.js"></script>
+        <script src="/js/post/likedislike.js"></script>
         <script src="/js/post/modify.js"></script>
+        
     </th:block>
     
 </html>

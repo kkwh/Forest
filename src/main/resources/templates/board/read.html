@@ -3,30 +3,32 @@
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorate="~{layout/base_layout}">
    
-    <head>
-		<link rel="stylesheet" th:href="@{/css/post/read.css}">
-		<link rel="stylesheet" th:href="@{/css/post/create.css}">
-	</head>
+<head>
+	<link rel="stylesheet" th:href="@{/css/post/read.css}">
+	<link rel="stylesheet" th:href="@{/css/post/create.css}">
+</head>    
     
-    <main layout:fragment="main">
+    <main layout:fragment="main" class="mt-5 p-3">
     
     <div class="container">
 
         <div class="my-2 card">
             <div class="card-header text-center">
-                <h1>뉴진스랜드</h1>
+                <h1 th:text="|${board.boardName} 랜드|"></h1>
             </div>
             
             <div class="page_head clear">
 				<div class="fl clear">
       				<h2>
-      					<a th:href="@{/post}">뉴진스 랜드
+      					<a th:href="@{/post}">[[${board.boardName}]] 랜드
 	      					<div class="pagehead_titicon mgall sp_img">
-	      						<span class="blind">마이너</span>
+	      						<th:block th:if="${board.boardGrade} eq 'Sub'">
+	      							<span class="blind">마이너</span>
+	      						</th:block>
 	      					</div>
       					</a>
       				</h2>
-      				</div>
+    			</div>
       		</div>
       		
       		
@@ -42,15 +44,13 @@
 	  <div class="img_contbox clear">
 		<div class="bgcover">
 			<a th:href="@{ /post }" class="mintro_imgbox in_img ">
-				
-					<img th:src="@{https://image.fmkorea.com/files/attach/new3/20230130/4366334379/3123099352/5448454351/52c72a46192085f1a2ab4bc8bba667bb.jpg}" alt="Description" class="cover"/>
-				
+				<img th:src="${board.file.uploadPath}" alt="Description" class="cover"/>	
 			</a>
 			
 		</div>
 		<div class="mintro_txtbox ">
 		  <p class="mintro_txt">
-			21세기 최고 걸그룹 뉴진스 랜드 입니다.
+			[[${board.boardInfo}]]
 		  </p>
 		</div>
 	  </div>
@@ -58,7 +58,7 @@
 		<div class="info_cont">
 		  <strong class="tit">매니저</strong>
 		  <p class="cont">
-						<span class="mng_nick">민지민지(minmin57)</span>
+						<span class="mng_nick">[[${board.user.nickname}]] ([[${board.user.loginId}]])</span>
 						
 		  </p>
 		</div>
@@ -77,7 +77,7 @@
 		</div>
 		<div class="info_cont">
 		  <strong class="tit">개설일</strong>
-		  <p class="cont">2023-07-30</p>
+		  <p class="cont">[[${board.createdTime}]]</p>
 		</div>
 	  </div>	  	  	  
 	</div>
@@ -248,7 +248,7 @@ $(document).ready(function(){
             <a class="nav-link form-control btn btn-outline-success" th:href="@{/post}">전체글</a>
             <a class="nav-link form-control btn btn-outline-success" th:href="@{/post/popular}">인기글</a>
             <a class="nav-link form-control btn btn-outline-success" th:href="@{/post}">공지</a>
-            <a class="nav-link form-control btn btn-outline-success" th:href="@{/post/create}">나무심기</a>
+            <a class="nav-link form-control btn btn-outline-success" th:href="@{/post/create?id={id} (id = ${board.id})}">나무심기</a>
  
         </div>
         </div>

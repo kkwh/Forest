@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.forest.dto.post.PostCreateDto;
 import com.example.forest.dto.post.PostSearchDto;
@@ -14,7 +15,7 @@ import com.example.forest.dto.post.PostUpdateDto;
 import com.example.forest.dto.post.PostWithLikesCount;
 import com.example.forest.dto.post.PostWithLikesCount2;
 import com.example.forest.model.Post;
-
+import com.example.forest.service.BoardService;
 import com.example.forest.service.LikesService;
 import com.example.forest.model.Reply;
 import com.example.forest.service.PostService;
@@ -30,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/post")
 public class PostController {
     
+	private final BoardService boardService;
     private final PostService postService;
     private final LikesService likesService;
     private final ReplyService replyService; 
@@ -47,6 +49,18 @@ public class PostController {
         
         return "/post/read";
     }
+
+//    @GetMapping
+//    public String post(Model model) {
+//        log.info("post()");
+//        
+//        List<PostWithLikesCount> list = postService.findAllPostsWithLikesCount();
+//        log.info("post(list={})", list);
+//        
+//        model.addAttribute("posts", list);
+//        
+//        return "/post/read";
+//    }
     
     @GetMapping("/popular")
     public String popular(Model model) {
@@ -62,8 +76,11 @@ public class PostController {
     
 //    @PreAuthorize("hasRole('USER')") // 페이지 접근 이전에 인증(권한, 로그인) 여부를 확인.
     @GetMapping("/create")
-    public void create() {
+    public void create(@RequestParam("id") long id, Model model) {
         log.info("create() GET");
+        
+        long boardId = boardService.findById(id).getId();
+        model.addAttribute("boardId", boardId);
     }
     
     @PostMapping("/create")
@@ -74,7 +91,7 @@ public class PostController {
        postService.create(dto);
         
         // DB 테이블 insert 후 포스트 목록 페이지로 redirect 이동.
-        return "redirect:/post";
+        return "redirect:/board/" + dto.getBoardId();
     }
     
     
@@ -147,7 +164,7 @@ public class PostController {
         
         // 검색 결과를 Model에 저장해서 뷰로 전달:
         model.addAttribute("posts", list);
-        
+
         return "/post/read";
     }
     

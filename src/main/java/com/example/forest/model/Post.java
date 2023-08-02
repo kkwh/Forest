@@ -54,11 +54,11 @@ public class Post extends BaseTimeEntity {
 	private int postViews;
 	
 	// 게시글 작성자
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private User user;
 	
 	// 게시판 종류
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Board board;
 	
 	// Post 엔티티의 title과 content를 수정해서 리턴하는 메서드:

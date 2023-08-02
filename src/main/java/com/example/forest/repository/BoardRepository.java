@@ -50,11 +50,11 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	 * @param category
 	 * @return
 	 */
-	@Query("select b from Board b "
-			+ " where b.boardCategory = :category "
-			+ " and b.isApproved = 1 "
-			+ " order by b.boardName")
-	List<Board> findAllByCategory(@Param("category") BoardCategory category);
+//	@Query("select b from Board b "
+//			+ " where b.boardCategory = :category "
+//			+ " and b.isApproved = 1 "
+//			+ " order by b.boardName")
+//	List<Board> findAllByCategory(@Param("category") BoardCategory category);
 	
 	/**
 	 * 해당 키워드가 포함되어 있는 게시판을 불러옴
@@ -65,9 +65,9 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	@Query("select b from Board b "
 			+ " where lower(b.boardName) like ('%' || :keyword || '%') "
 			+ " and b.isApproved = 1 "
-			+ " and b.user = :user "
-			+ " order by b.boardName desc")
-	List<Board> findAllByKeyword(@Param("keyword") String keyword, @Param("user") User user);
+			+ " and b.boardGrade = :boardGrade "
+			+ " order by b.boardName")
+	List<Board> findAllByKeyword(@Param("keyword") String keyword, @Param("boardGrade") String boardGrade);
 	
 	/**
 	 * 특정 사용자가 관리자 권한을 가지고 있는 게시판 목록을 불러옴

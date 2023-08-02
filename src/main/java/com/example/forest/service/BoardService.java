@@ -166,16 +166,14 @@ public class BoardService {
 	 * @param keyword
 	 * @return
 	 */
-//	@Transactional(readOnly = true)
-//	public List<BoardListDto> findAllByKeyword(BoardSearchDto dto) {
-//		log.info("findAllByKeyword({})", dto);
-//		
-//		User entity = userRepository.findById(dto.getUserId()).orElseThrow();
-//		
-//		List<Board> boards = boardRepository.findAllByKeyword(dto.getKeyword(), entity);
-//		
-//		return addImageFile(boards);
-//	}
+	@Transactional(readOnly = true)
+	public List<BoardListDto> findAllByKeyword(String keyword, String boardGrade) {
+		log.info("findAllByKeyword(keyword = {})", keyword);
+		
+		List<Board> boards = boardRepository.findAllByKeyword(keyword, boardGrade);
+		
+		return addImageFile(boards);
+	}
 	
 	/**
 	 * 게시물 목록을 정렬 조건에 따라 정렬하여 리턴하는 메서드
@@ -186,8 +184,7 @@ public class BoardService {
 	public List<BoardListDto> findAllOrderByType(BoardSearchDto dto) {
 		log.info("findAllOrderByType(dto = {})", dto);
 		
-		List<Board> boards = new ArrayList<>();
-		
+		List<Board> boards = new ArrayList<>();	
 		
 		User entity = userRepository.findById(dto.getUserId()).orElseThrow();
 		

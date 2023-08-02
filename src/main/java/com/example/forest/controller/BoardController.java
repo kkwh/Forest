@@ -18,10 +18,12 @@ import com.example.forest.dto.board.BoardCreateDto;
 import com.example.forest.dto.board.BoardDetailDto;
 import com.example.forest.dto.board.BoardListDto;
 import com.example.forest.dto.board.BoardModifyDto;
+import com.example.forest.dto.post.PostWithLikesCount;
 import com.example.forest.model.BlackList;
 import com.example.forest.model.BoardCategory;
 import com.example.forest.model.User;
 import com.example.forest.service.BoardService;
+import com.example.forest.service.PostService;
 import com.example.forest.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -33,6 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/board")
 public class BoardController {
 	
+	private final PostService postService;
 	private final UserService userService;
 	private final BoardService boardService;
 	
@@ -67,6 +70,19 @@ public class BoardController {
 		model.addAttribute("boardMap", boardMap);
 		
 		return "board/sub";
+	}
+	
+	@GetMapping("/{id}")
+	public String board(@PathVariable("id") long id, Model model) {
+		BoardDetailDto dto = boardService.findById(id);
+		model.addAttribute("board", dto);
+		
+		List<PostWithLikesCount> list = postService.findAllPostsWithLikesCount();
+        log.info("post(list={})", list);
+        
+        model.addAttribute("posts", list);
+		
+		return "/board/read";
 	}
 	
 	@GetMapping("/create")

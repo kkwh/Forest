@@ -21,6 +21,7 @@
 				    	<p class="card-text" th:text="|카테고리: ${board.category.value}|"></p>
 				    	<p class="card-text" th:text="|관리자: ${board.user.nickname}|"></p>
 				    	<p class="card-text" th:text="|생성일자: ${board.createdTime}|"></p>
+				    	<p class="card-text" th:text="|랜드 소개: ${board.boardInfo}|"></p>
 				  	</div>
 				  	
 				  	<th:block th:if="${#authentication.principal.username} eq ${board.user.loginId}">
