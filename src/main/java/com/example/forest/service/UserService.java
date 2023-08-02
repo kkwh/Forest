@@ -23,7 +23,7 @@ public class UserService implements UserDetailsService {
     
     private final PasswordEncoder passwordEncoder;
     
-    public Long registerUser(UserSignUpDto dto) {
+    public Long registerUser(UserSignUpDto dto) { //유저 회원가입
         log.info("registerUser(dto={})", dto);
         
         User entity = User.builder()
@@ -55,4 +55,33 @@ public class UserService implements UserDetailsService {
 	    throw new UsernameNotFoundException(loginId + " - not found");
 	}
 
+    public int validateLoginId(String loginId) {
+        User user = userRepository.selectUserByLoginId(loginId);
+        
+        if(user == null) {
+            return 1;
+        }
+        return 0;
+    }
+    
+    public int validateLoginNickname(String nickname) {
+        User user = userRepository.selectUserByNickname(nickname);
+        if(user == null) {
+            return 1;
+            
+        }
+        return 0;
+    }
+
+    public int validateLoginEmail(String email) {
+       User user = userRepository.selectUserByEmail(email);
+       if(user == null) {
+           return 1;
+       }
+        return 0;
+    }
+
+   
+
+	
 }

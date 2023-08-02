@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <title>Insert title here</title>
+      <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+    crossorigin="anonymous" />
+ <style>
+        :root{
+
+ --body-background-color: #f5f6f7;
+ --font-color: #4e4e4e;
+ --border-gray-color : #dadada;
+ --naver-green-color: #04c75a;
+ --naver-green-border-color: #06b350;
+}
+.main-container {
+ width:100%;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ margin-top: 21px;
+}
+.main-container .main-wrap{
+ width:768px;
+}
+
+.main-container .main-wrap{
+ width: 96px;
+ height: 30px;
+ color: var(--font-color);
+ border: solid 1px var(--border-gray-color);
+}
+
+.main-container .main-wrap .logo-wrap{
+ padding-top:55px;
+}
+
+.main-container .main-wrap .logo-wrap img
+{
+ width: 231px;
+ height: 44px;
+}
+
+.main-container .main-wrap header{
+ display:flex;
+ justify-content:flex-end;
+}
+
+.main-container .main-wrap header .logo-wrap{
+ display:flex; 
+ flex-direction: column;
+ align-items: center;
+}
+.login-input-idpw-wrap{
+ padding-top: 60px;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+}
+
+.login-input-wrap{
+ width: 465px;
+ height :48px;
+ border: solid 1px var( --border-gray-color );
+ background: white;
+}
+.password-wrap{
+ margin-top: 13px;
+}
+.login-input-wrap input{
+ border: none;
+ width:430px;
+ margin-top: 10px;
+ font-size: 14px;
+ margin-left: 10px;
+ height:30px;
+}
+.login-button-wrap {
+ padding-top: 13px;
+}
+.login-button-wrap button{
+ width: 465px;
+ height :48px;
+ font-size: 18px;
+ background: var(--naver-green-color);
+ color: white;
+ border: solid 1px var(--naver-green-border-color);
+}
+
+.login-btn-wrap{
+    display:flex;
+
+}
+ </style>     
+   </head>
+   <body>
+    <div>
+        <div class="main-wrap">
+            <div class="logo-wrap">
+                <img src="/img/forestlogo.png"  alt="포레스트 로고"
+                                           width="250px" height="auto" >
+           </div>
+        <section class="login-input-idpw-wrap">
+                <form >
+           <div class="login-input-wrap"> 
+            <input type="text" class="form-control" id="loginId" name="loginId"
+                            placeholder="사용자 아이디" oninput="checkLoginId();" required autofocus />
+           </div>
+                   <span id="duplicateMessage"></span>
+           <div class="login-input-wrap password-wrap"> 
+                        <input type="text" class="form-control" id="nickname" name="nickname"
+                            placeholder="닉네임" oninput="checkLoginNickname();" required autofocus />   
+                    </div>
+                    <span id="duplicateMessageNickName"></span>
+                    <div class="login-input-wrap password-wrap"> 
+                     <input type="text" class="form-control" name="email" id ="email"
+                            placeholder="이메일" oninput="checkLoginEmail();" required/>
+                    </div>
+                    <span id="duplicateMessageEmail"></span>
+                    <div>
+                       <button id="emailConfirmBtn">인증하기</button>
+                       <input id="emailConfirm"/>
+                       <button type="button">확인</button>
+                       <span id="emailConfirmMsg" ></span>
+                    </div>
+                       
+                    <div class="login-input-wrap password-wrap">
+                        <input type="password" class="form-control" name="password" id="password"
+                               placeholder="비밀번호" required />
+                    </div>
+                    <div class="login-input-wrap password-wrap">
+                        <input type="password" class="form-control" name="passwordConfirm" id="passwordConfirm"
+                              placeholder="비밀번호 확인" required />
+                   </div>
+                   <span id="confirmMsg"></span>
+             <div class="login-button-wrap">
+            <button type="button" id="btnSaveUser"  >가입 완료</button>
+             </div>
+                 </form>
+       </section>
+        </div>
+    </div>
+    
+      <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/user/user-create.js"></script>
+   </body>
+    
+</html>
