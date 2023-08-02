@@ -16,6 +16,7 @@ public class BoardSearchDto {
 	private long userId;
 	private String type;
 	private String keyword;
+	private String boardGrade;
 	private List<BoardCategory> categoryList;
 
 }
