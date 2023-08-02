@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	
 	const searchByKeyword = async () => {
 		const keyword = document.querySelector('input#keyword').value;
-		const boardGrade = 'Sub';
+		const boardGrade = 'Main';
 		
 		const url = `/api/v1/board/searchByKeyword?keyword=${keyword}&boardGrade=${boardGrade}`;
 		
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const searchByCategory = async (e) => {
 		const name = e.target.getAttribute('data-name');
 		const category = e.target.getAttribute('data-id');
-		const boardGrade = 'Sub';
+		const boardGrade = 'Main';
 		
 		console.log(`category = {}`, category);
 		

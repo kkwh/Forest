@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +22,7 @@ import com.example.forest.dto.board.BoardRevokeDto;
 import com.example.forest.dto.board.BoardSearchDto;
 import com.example.forest.dto.board.UserBlockDto;
 import com.example.forest.model.BlackList;
+import com.example.forest.model.BoardCategory;
 import com.example.forest.model.User;
 import com.example.forest.service.BoardService;
 
@@ -175,9 +177,30 @@ public class BoardApiController {
 		
 		return ResponseEntity.ok(list);
 	}
+	
+	@GetMapping("/searchByCategory")
+	public ResponseEntity<List<BoardListDto>> searchByCategory(@RequestParam("category") BoardCategory category, @RequestParam("boardGrade") String boardGrade) {
+		log.info("searchByCategory(category = {})", category);
+		
+		List<BoardListDto> list = boardService.findAllByCategory(category, boardGrade);
+		
+		return ResponseEntity.ok(list);
+	}
+	
+	@GetMapping("/searchByKeyword")
+	@ResponseBody
+	public ResponseEntity<List<BoardListDto>> searchByKeyword(@RequestParam("keyword") String keyword, @RequestParam("boardGrade") String boardGrade) {
+		log.info("searchByKeyword(keyword = {})", keyword);
+		
+		List<BoardListDto> list = boardService.findAllByKeyword(keyword, boardGrade);
+		
+		return ResponseEntity.ok(list);
+	}
 
 	@PostMapping("/getBlackList/{boardId}")
 	public ResponseEntity<List<BlackListDto>> getBlackList(@PathVariable("boardId") long boardId) {
+		log.info("getBlackList(id = {})", boardId);
+		
 		List<BlackListDto> blackList = boardService.getBlackList(boardId);
 		
 		return ResponseEntity.ok(blackList);

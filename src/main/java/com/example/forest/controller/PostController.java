@@ -93,6 +93,11 @@ public class PostController {
         model.addAttribute("likesCount", likesCount);
         model.addAttribute("dislikesCount", dislikesCount);
         model.addAttribute("viewCount", viewCount);
+        
+        // 채한별 추가 : 
+        // REPLIES 테이브에서 해당 포스트에 달린 댓글 개수를 검색.
+        long count = replyService.countByPost(post);
+        model.addAttribute("replyCount", count);
     }
     
     @GetMapping("/modifyCheck")
@@ -140,12 +145,7 @@ public class PostController {
         
         // 검색 결과를 Model에 저장해서 뷰로 전달:
         model.addAttribute("posts", list);
-      
-        // 채한별 추가 : 
-        // REPLIES 테이브에서 해당 포스트에 달린 댓글 개수를 검색.
-        long count = replyService.countByPost(post);
-        model.addAttribute("replyCount", count);
-        
+
         return "/post/read";
     }
     
