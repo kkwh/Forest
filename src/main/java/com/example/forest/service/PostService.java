@@ -12,8 +12,10 @@ import com.example.forest.dto.post.PostWithLikesCount;
 import com.example.forest.dto.post.PostWithLikesCount2;
 import com.example.forest.model.Board;
 import com.example.forest.model.Post;
+import com.example.forest.model.User;
 import com.example.forest.repository.BoardRepository;
 import com.example.forest.repository.PostRepository;
+import com.example.forest.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,7 @@ public class PostService {
     // 생성자를 사용한 의존성 주입:
 	private final BoardRepository boardRepository;
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
     
     // DB POSTS 테이블에서 전체 검색한 결과를 리턴:
     @Transactional(readOnly = true)
@@ -44,7 +47,14 @@ public class PostService {
         
         Board board = boardRepository.findById(dto.getBoardId()).orElseThrow();
         entity.setBoard(board);
+        log.info("entity-board={}", entity);
         
+        if(dto.getUserId() != 0) { // userId == 0 (null, 익명)
+        	User user = userRepository.findById(dto.getUserId()).orElseThrow();
+            entity.setUser(user);
+            log.info("entity-user={}", entity);
+        }
+               
         postRepository.save(entity);
         log.info("entity={}", entity);
         

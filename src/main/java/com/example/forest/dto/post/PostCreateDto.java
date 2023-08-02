@@ -15,6 +15,7 @@ public class PostCreateDto {
     private String postContent;
     private long boardId;
     private String postIp;
+    private long userId;
     
     // DTO를 엔터티 객체로 변환해서 리턴하는 메서드:
     public Post toEntity() {

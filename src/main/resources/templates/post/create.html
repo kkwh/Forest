@@ -40,7 +40,14 @@
                 	<div class="input_box input_infotxt d-none">
                         <input id="boardId" class="put_inquiry f_blank" th:value="${boardId}" type="text" name="boardId">
                     </div>
-                    
+                 
+                 <!-- 로그인 상태이면 -->
+                <th:block sec:authorize="isAuthenticated()">
+                	<input type="hidden" name="postNickname" id="postNickname" th:value="${ user.nickname }">
+                	<input type="hidden" name="postPassword" id="postPassword" th:value="${ user.password }">
+                </th:block>
+                
+                     
                     <!-- 비로그인 상태이면 -->
                  <th:block sec:authorize="isAnonymous()">        
                     <div class="input_box input_infotxt">
@@ -74,6 +81,7 @@
                     <input id="subject" class="put_inquiry f_blank" type="text" name="postTitle" maxlength="40" placeholder="제목을 입력해 주세요.">
                 </div>
                 <input type="hidden" name="postIp" id="postIp" th:value="${ shortIp }">
+                <input type="hidden" name="userId" id="userId" th:value="${ userId }">
                 <!-- //글 제목 입력 / 노출 -->
             </fieldset>
             <div class="write_infobox">

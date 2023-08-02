@@ -7,7 +7,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.forest.dto.user.UserSignUpDto;
-import com.example.forest.model.Role;
 import com.example.forest.model.User;
 import com.example.forest.repository.UserRepository;
 
@@ -60,5 +59,9 @@ public class UserService implements UserDetailsService {
 	    }
 	    throw new UsernameNotFoundException(loginId + " - not found");
 	}
+	
+	public User findUserById(Long id) {
+        return userRepository.findById(id).orElseThrow();
+    }
 
 }

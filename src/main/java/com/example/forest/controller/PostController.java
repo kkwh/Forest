@@ -17,6 +17,7 @@ import com.example.forest.dto.post.PostUpdateDto;
 import com.example.forest.dto.post.PostWithLikesCount;
 import com.example.forest.dto.post.PostWithLikesCount2;
 import com.example.forest.model.Post;
+import com.example.forest.model.User;
 import com.example.forest.service.BoardService;
 import com.example.forest.service.IpService;
 import com.example.forest.service.LikesService;
@@ -71,6 +72,12 @@ public class PostController {
             userId = userService.getUserId(principal.getName());
         }
         log.info("userId: {}", userId);
+        model.addAttribute("userId", userId);
+        
+        if(userId != 0) {
+        	User user = userService.findUserById(userId);
+            model.addAttribute("user", user);
+        }
         
         String ip = ipService.getServerIp();
         String shortIp = ip.substring(0, ip.lastIndexOf(".", ip.lastIndexOf(".") - 1));
