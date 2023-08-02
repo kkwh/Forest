@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/admin_base_layout}">
+
+<div layout:fragment="main" class="mt-5 p-3">
+    
+    <hr/>
+	
+	<div id="card-section" class="p-3 align-items-center justify-content-center">
+		<div class="container w-50 py-3">
+			<form id="modify-form" enctype="multipart/form-data">
+				<div class="card">
+					<div id="image-show">
+						<img th:src="${board.file.uploadPath}" class="card-img-top" alt="Not Found">
+					</div>
+					<input type="hidden" th:value="${board.id}" id="boardId" name="boardId" />
+					<input type="hidden" th:value="${board.user.id}" id="boardOwnerId" name="boardOwnerId" />
+				  	<div class="card-body">
+				    	<h5 class="card-title" th:text="${board.boardName}"></h5>
+				    	<p class="card-text" th:text="|카테고리: ${board.category.value}|"></p>
+				    	<p class="card-text" th:text="|관리자: ${board.user.nickname}|"></p>
+				    	<p class="card-text" th:text="|생성일자: ${board.createdTime}|"></p>
+				    	<p class="card-text" th:text="|랜드 소개: ${board.boardInfo}|"></p>
+				  	</div>
+				  	
+				  	<th:block th:if="${#authentication.principal.username} eq ${board.user.loginId}">
+					  	<div class="card-body">
+				  			<button id="modifyBtn" type="button" class="btn btn-outline-success w-100 my-1">수정</button>
+					    	<a href="/" id="cancelBtn" class="btn btn-outline-danger w-100 my-1">취소</a>
+						</div>
+						<div class="card-body">
+							<div class="form-check form-switch my-1">
+					  			<input class="form-check-input" type="checkbox" role="switch" id="toggleBtn" data-switch="off" />
+							  	<label class="form-check-label" for="toggleBtn">랜드 배경사진 변경하기</label>
+							</div>
+						</div>
+						<div class="card-body" id="file-section" style="display: none;">
+						    <input type="file" id="imageFile" class="form-control" name="imageFile" accept="image/*">
+						</div>
+						<ul class="list-group list-group-flush">
+					  		<li class="list-group-item">
+							    <div class="form-check form-switch">
+						  			<input class="form-check-input" type="checkbox" role="switch" id="toggleBtn2" data-switch="off" />
+								  	<label class="form-check-label" for="toggleBtn2">사용자 차단 리스트</label>
+								</div>
+						    </li>
+						</ul>
+						<div class="card-body" id="user-list" style="display: none;">
+							<h5 id="blocklist-message">차단 리스트 ([[${blackList.size}]])</h5>
+							
+							<button id="addBtn" type="button" class="btn btn-outline-dark my-2" data-bs-toggle="modal" data-bs-target="#exampleModal">추가</button>
+							<div id="blockUsers" class="overflow-y-scroll">
+								<th:block th:each="user : ${blackList}">
+									<div class="row">
+						    			<div class="col-9">
+						    				[[${user.nickname}]]
+						    			</div>
+						    			<div class="col-3">
+						    				<button type="button" class="btn btn-outline-dark blockCancelBtn" th:data-id="${user.boardId}" 
+						    					th:data-user-id="${user.userId}">해제</button>
+						    			</div>
+						    		</div>
+								</th:block>
+							</div>
+						</div>
+					</th:block>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h1 class="modal-title fs-5" id="exampleModalLabel">블랙리스트 추가</h1>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	        <div class="card">
+			  <div class="card-header">
+			    유저 리스트
+			  </div>
+			  <ul id="block-list" class="list-group list-group-flush">
+			  	<th:block th:each="user : ${userList}">
+			    	<li class="list-group-item">
+			    		<div class="row">
+			    			<div class="col-9">
+			    				[[${user.nickname}]]
+			    			</div>
+			    			<div class="col-3">
+			    				<button type="button" class="btn btn-outline-dark blockBtn" th:data-id="${user.id}">차단</button>
+			    			</div>
+			    		</div>
+		    		</li>
+			    </th:block>
+			  </ul>
+			</div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary">Save changes</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+</div>
+
+<th:block layout:fragment="myscripts">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/board/board-modify.js"></script>
+</th:block>
+
+</html>

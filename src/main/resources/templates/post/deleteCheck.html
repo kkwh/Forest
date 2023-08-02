@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    
+<head>
+	<link rel="stylesheet" th:href="@{/css/post/modifyCheck.css}">
+	<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+		rel="stylesheet"
+		integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+		crossorigin="anonymous">
+</head>
+<body>
+   	<div class="cent">		
+		<article>
+		<div class="no_memberwrap">
+			<div class="no_member_cont">
+				<h3 class="blind">비회원 글삭제,수정 </h3>
+				<div class="inner">
+				<b class="txt">비밀번호를 입력하세요.</b>
+				<input class="pw_inquiry" id="password" name="password" type="password" title="비밀번호 입력">
+					<div class="btn_box">
+						<button type="button" class="btn_grey small" id="cancel-button">취소</button>
+						<button type="button" class="btn_blue small btn_ok" id="confirm-button">확인</button>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</article>
+	</div>
+
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script th:inline="javascript">
+		$(document).ready(function(){
+		  $('#confirm-button').click(function(){
+		    var password = $('#password').val();
+		    axios.post('/api/post/check-password', {
+		      'password': password,
+		      'postId': /*[[${post.id}]]*/ 'postId' // postId 는 서버로부터 받아온 게시물 ID
+		    })
+		    .then(function(response) {
+		    	if(response.data) {
+		    		postId = /*[[${post.id}]]*/ 'postId'
+		            axios.delete('/api/post/' + postId)
+		            .then(function(secondResponse) {
+		              console.log(response);
+		              window.location.href = '/post';
+		            })
+		            .catch(function(secondError) {
+		              console.error(secondError);
+		            });
+		          } else {
+		            alert('비밀번호가 맞지 않습니다. 다시 시도해 주세요.'); // 비밀번호가 일치하지 않을 때
+		          }
+		        })
+		    .catch(function(error) {
+		      console.error(error);
+		    });
+		  });
+		  
+		  
+		// 취소 버튼 클릭 이벤트 처리
+		  $('.btn_grey').click(function(){
+			 postId = /*[[${post.id}]]*/ 'postId'
+		     window.location.href = '/post/details?id=' + postId; 
+		  });
+		});
+	</script>
+	<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+	crossorigin="anonymous"></script>
+</body>
+</html>

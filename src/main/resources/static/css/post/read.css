@@ -1,0 +1,546 @@
+@charset "UTF-8";
+
+.container {
+  width: 80%; 
+  margin: 0 auto; 
+}
+
+
+.text-link {
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+}
+
+.text-link:hover {
+    text-decoration: underline;
+}
+
+.gall_listwrap {
+    position: relative;
+}
+
+div {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    background: transparent;
+    font-style: normal;
+}
+
+body {
+    font-size: 12px;
+    font-family: -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",arial,Dotum,돋움,sans-serif;
+}
+
+table {
+    font-size: 12px;
+    font-family: -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",arial,Dotum,돋움,sans-serif;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    background: transparent;
+    font-style: normal;
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    border-spacing: 2px;
+    border-color: gray;
+}
+
+caption {
+    position: relative;
+    width: 0px;
+    height: 0px;
+    font-size: 0;
+    line-height: 0;
+    z-index: -1;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    background: transparent;
+    font-style: normal;
+    display: table-caption;
+    text-align: -webkit-center;
+}
+
+colgroup {
+    display: table-column-group;
+}
+
+col {
+    display: table-column;
+}
+
+thead {
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    background: transparent;
+    font-style: normal;
+}
+
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+
+th {
+    height: 37px;
+    border-width: 2px 0 1px;
+    border-style: solid;
+    border-color: #188038;
+    vertical-align: middle;
+    text-align: center;
+    color: #333;
+    font-family: -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",arial,Dotum,돋움,sans-serif;
+    display: table-cell;
+    vertical-align: inherit;
+    font-weight: bold;
+    text-align: -internal-center;
+}
+
+tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+
+.gall_list .gall_num, .gall_list .gall_date, .gall_list .gall_count, .gall_list .gall_recommend {
+    font-family: tahoma,sans-serif;
+    font-size: 11px;
+    padding-top: 1px;
+}
+
+tr:first-child td {
+    border-top: none;
+}
+
+.gall_list td {
+    padding: 0px 4px;
+}
+
+td {
+    padding: 2px 4px;
+    border-top: 1px solid #eee;
+    vertical-align: middle;
+    text-align: center;
+    color: #333;
+    display: table-cell;
+    vertical-align: inherit;
+}
+    
+ .list .gall_subject {
+    padding: 2px 0px 0 0;
+}
+
+.gall_subject {
+    position: relative;
+}
+
+.gall_tit {
+    position: relative;
+    text-align: left;
+    font-size: 13px;
+}
+
+.list .gall_writer {
+    padding-top: 2px;
+}
+
+.gall_writer {
+    position: relative;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.page_head {
+    height: 37px;
+    margin-bottom: 3px;
+    padding-top: 4px;
+}
+
+.fl {
+    float: left;
+}
+
+.page_head h2 {
+    margin: -2px 8px 0 3px;
+}
+
+.page_head h2 {
+    font-size: 24px;
+    font-family: 'Nanum Gothic', sans-serif;
+    letter-spacing: -1px;
+    margin: 2px 8px 0 3px;
+    max-width: 416px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    color: #188038;
+    float: left;
+}
+
+h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+
+.page_head h2 a {
+    color: #188038;
+    text-decoration: none;
+}
+
+.pagehead_titicon.mgall {
+    width: 22px;
+    height: 22px;
+    background-position: -195px -844px;
+    margin-top: 3px;
+}
+
+.pagehead_titicon {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 6px;
+}
+
+.sp_img {
+    background-image: url(https://nstatic.dcinside.com/dc/w/images/sp/sp_img.png);
+    background-repeat: no-repeat;
+}
+
+.blind {
+    position: absolute;
+    overflow: hidden;
+    visibility: hidden;
+    margin: -1px;
+    width: 0px;
+    height: 0px;
+    top: -9999px;
+    font-size: 0;
+}
+
+/* <!-- 이슈 박스 --> */
+.listwrap .issue_wrap, .visit_bookmark ~ #container .issue_wrap, .visit_bookmark + .wrap_inner #container .issue_wrap {
+    padding-bottom: 0;
+}
+
+.issue_wrap {
+    position: relative;
+    border-top: 2px solid #188038;
+    padding-bottom: 37px;
+    z-index: 13;
+}
+
+.listwrap .issuebox {
+    width: 840px;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.issuebox {
+    width: 1158px;
+    background: #fff;
+}
+
+.list_wrap .visit_bookmark + .wrap_inner #container .concept_wrap, .list_wrap .visit_bookmark + .wrap_inner #container .issue_contentbox {
+    border-bottom: 1px solid #d5d5d5;
+    margin-bottom: 0;
+}
+
+.listwrap .issue_contentbox {
+    display: block;
+}
+
+.listwrap .minor_intro_box {
+    width: 684px;
+    padding: 24px 0 0 2px;
+}
+
+.minor_intro_box {
+    float: left;
+    width: 975px;
+    padding: 24px 14px 2px 15px;
+    color: #333;
+}
+
+.blind {
+    position: absolute;
+    overflow: hidden;
+    visibility: hidden;
+    margin: -1px;
+    width: 0px;
+    height: 0px;
+    top: -9999px;
+    font-size: 0;
+}
+
+.img_contbox {
+    float: left;
+    width: 56%;
+}
+
+.mintro_imgbox {
+    position: relative;
+    display: block;
+    float: left;
+    width: 156px;
+    height: 104px;
+    background-color: #fff;
+    background-image: url(https://nstatic.dcinside.com/dc/w/images/minorbg.png);
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: 156px 104px;
+}
+
+.mintro_imgbox {
+    position: relative;
+    display: block;
+    float: left;
+    width: 156px;
+    height: 104px;
+    background-color: #fff;
+    background-image: url(https://nstatic.dcinside.com/dc/w/images/minorbg.png);
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: 156px 104px;
+}
+
+element.style {
+    background-image: url(https://dcimg2.dcinside.co.kr/viewimage.php?id=2eb5d52a&no=24b0d76…);
+}
+
+.mintro_imgbox .cover {
+    width: 156px;
+    height: 104px;
+}
+
+.mintro_imgbox .cover {
+    width: 156px;
+    height: 104px;
+}
+
+.cover {
+    display: block;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: cover;
+    background-color: #fff;
+}
+
+.width1160 .listwrap .mintro_txtbox {
+    width: 204px;
+}
+
+.mintro_txtbox {
+    overflow-y: auto;
+    float: left;
+    width: 372px;
+    height: 104px;
+    padding-right: 5px;
+    margin: -1px 0 0 12px;
+    line-height: 20px;
+}
+
+.mintro_txt {
+    letter-spacing: -0.05em;
+    word-wrap: break-word;
+}
+
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+.visit_bookmark + .wrap_inner .info_contbox, .visit_bookmark + #container .info_contbox {
+    margin-top: 0;
+}
+
+.info_contbox {
+    overflow-y: auto;
+    position: relative;
+    float: left;
+    width: 42%;
+    height: 104px;
+    margin-top: -1px;
+    margin-left: 4px;
+    z-index: 1;
+}
+
+.info_cont {
+    overflow: hidden;
+    line-height: 22px;
+}
+
+.info_cont .tit {
+    display: block;
+    float: left;
+    width: 73px;
+    line-height: 20px;
+}
+
+.info_cont .tit::before {
+    content: "";
+    display: inline-block;
+    width: 2px;
+    height: 2px;
+    background: #333;
+    margin: 0 7px 0 1px;
+    vertical-align: 4px;
+}
+
+.info_cont .cont {
+    float: left;
+    text-align: left;
+    width: auto;
+    padding: 0;
+    line-height: 20px;
+}
+
+.mng_nick {
+    display: block;
+}
+
+.info_cont {
+    overflow: hidden;
+    line-height: 22px;
+}
+
+.info_cont .tit {
+    display: block;
+    float: left;
+    width: 73px;
+    line-height: 20px;
+}
+
+
+/* 인기랜드  */
+.visit_bookmark + .wrap_inner .minor_ranking_box, .visit_bookmark + #container .minor_ranking_box {
+    height: 152px;
+}
+
+.minor_ranking_box {
+    position: relative;
+    float: right;
+    width: 152px;
+    height: 153px;
+    background: #f3f3f3;
+    border-left: 1px solid #d5d5d5;
+    text-align: center;
+}
+
+.ranking_tit.hot1 {
+    width: 105px;
+    height: 30px;
+    background-position: -117px -37px;
+}
+
+.ranking_tit {
+    height: 32px;
+    margin: 29px auto 0;
+    background-image: url(https://nstatic.dcinside.com/dc/w/images/sp/sp_minor_txt.png?4);
+    background-repeat: no-repeat;
+}
+
+.rank_img {
+    padding: 7px 0 17px 1px;
+    font-size: 0;
+}
+
+.num_img.num1 {
+    background-position: 2px -31px;
+}
+
+.num_img:first-child {
+    margin-left: 0;
+}
+
+.num_img {
+    display: inline-block;
+    width: 16px;
+    background-image: url(https://nstatic.dcinside.com/dc/w/images/sp/sp_num.png);
+    background-repeat: no-repeat;
+}
+
+.num_img, .txt_img {
+    height: 28px;
+    margin-left: 2px;
+    vertical-align: top;
+}
+
+.num_img.num6 {
+    background-position: 0 -205px;
+}
+
+.num_img {
+    display: inline-block;
+    width: 16px;
+    background-image: url(https://nstatic.dcinside.com/dc/w/images/sp/sp_num.png);
+    background-repeat: no-repeat;
+}
+
+.num_img, .txt_img {
+    height: 28px;
+    margin-left: 2px;
+    vertical-align: top;
+}
+
+.txt_img {
+    display: inline-block;
+    width: 23px;
+    background: url(https://nstatic.dcinside.com/dc/w/images/sp/sp_minor_txt.png) 0 -188px no-repeat;
+}
+
+.num_img, .txt_img {
+    height: 28px;
+    margin-left: 2px;
+    vertical-align: top;
+}
+
+.btn_hotall_list {
+    width: 112px;
+    height: 21px;
+    background-position: -175px -244px;
+}
+
+.sp_img {
+    background-image: url(https://nstatic.dcinside.com/dc/w/images/sp/sp_img.png);
+    background-repeat: no-repeat;
+}
+
+button {
+    font-size: 12px;
+    font-family: -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",arial,Dotum,돋움,sans-serif;
+    border-radius: 0;
+    vertical-align: middle;
+    cursor: pointer;
+    
+}

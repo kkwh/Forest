@@ -43,6 +43,12 @@ public class UserService implements UserDetailsService {
         return entity.getId();
     }
     
+    public long getUserId(String loginId) {
+    	long userId = userRepository.findByLoginId(loginId).getId();
+    	
+    	return userId;
+    }
+    
 	@Override
 	public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
 		
@@ -80,8 +86,5 @@ public class UserService implements UserDetailsService {
        }
         return 0;
     }
-
-   
-
-	
+ 
 }

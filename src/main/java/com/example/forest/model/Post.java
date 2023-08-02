@@ -1,5 +1,7 @@
 package com.example.forest.model;
 
+import com.example.forest.dto.post.PostUpdateDto;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -12,11 +14,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @ToString
 @Builder
 @Entity
@@ -50,11 +54,20 @@ public class Post extends BaseTimeEntity {
 	private int postViews;
 	
 	// 게시글 작성자
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private User user;
 	
 	// 게시판 종류
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Board board;
+	
+	// Post 엔티티의 title과 content를 수정해서 리턴하는 메서드:
+    public Post update(PostUpdateDto dto) {
+        this.postTitle = dto.getPostTitle();
+        this.postContent = dto.getPostContent();
+        this.postType = dto.getPostType();
+        
+        return this;
+    }
 
 }

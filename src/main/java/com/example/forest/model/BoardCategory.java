@@ -5,15 +5,17 @@ package com.example.forest.model;
  * @author User
  *
  */
-public enum Category {
+public enum BoardCategory {
 	
 	/**
 	 * TODO: 필요한 카테고리 향후 추가
 	 */
-	SPORTS("SPORTS"),
-	IT("IT");
+	SPORTS("Sports"),
+	IT("IT"),
+    IDOL("아이돌");
+    
 	
-	Category(String value) {
+	BoardCategory(String value) {
 		this.value = value;
 	}
 	

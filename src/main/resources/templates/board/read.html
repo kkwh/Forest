@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/base_layout}">
+   
+<head>
+	<link rel="stylesheet" th:href="@{/css/post/read.css}">
+	<link rel="stylesheet" th:href="@{/css/post/create.css}">
+</head>    
+    
+    <main layout:fragment="main" class="mt-5 p-3">
+    
+    <div class="container">
+
+        <div class="my-2 card">
+            <div class="card-header text-center">
+                <h1 th:text="|${board.boardName} 랜드|"></h1>
+            </div>
+            
+            <div class="page_head clear">
+				<div class="fl clear">
+      				<h2>
+      					<a th:href="@{/post}">[[${board.boardName}]] 랜드
+	      					<div class="pagehead_titicon mgall sp_img">
+	      						<th:block th:if="${board.boardGrade} eq 'Sub'">
+	      							<span class="blind">마이너</span>
+	      						</th:block>
+	      					</div>
+      					</a>
+      				</h2>
+    			</div>
+      		</div>
+      		
+      		
+      		<div class="issue_wrap">
+  	  
+	<div class="issuebox gallery_box">
+	  
+	  <!-- 상단 이슈 박스 -->
+	  <div class="issue_contentbox clear">
+	<!-- 마이너 갤러리 설명 -->
+	<div class="minor_intro_box clear">
+	  <h3 class="blind">마이너 갤러리 소개</h3>
+	  <div class="img_contbox clear">
+		<div class="bgcover">
+			<a th:href="@{ /post }" class="mintro_imgbox in_img ">
+				<img th:src="${board.file.uploadPath}" alt="Description" class="cover"/>	
+			</a>
+			
+		</div>
+		<div class="mintro_txtbox ">
+		  <p class="mintro_txt">
+			[[${board.boardInfo}]]
+		  </p>
+		</div>
+	  </div>
+	  <div class="info_contbox">
+		<div class="info_cont">
+		  <strong class="tit">매니저</strong>
+		  <p class="cont">
+						<span class="mng_nick">[[${board.user.nickname}]] ([[${board.user.loginId}]])</span>
+						
+		  </p>
+		</div>
+		<div class="info_cont">
+		  <strong class="tit">부매니저</strong>
+		  <p class="cont">
+			
+		    			<span class="mng_nick">하니(<span title="masounmount">hani123</span>)
+						<span class="mng_nick">다니엘(<span title="prim09">dani2353</span>)
+						<span class="mng_nick">해린(<span title="pable9449">haha987</span>)
+						<span class="mng_nick">혜인(<span title="ekdls1129">hye7777</span>)
+						<span class="mng_nick">하입보이(<span title="imiimi1111">toggy123</span>)
+						
+						
+		  </span></span></span></span></span></p>
+		</div>
+		<div class="info_cont">
+		  <strong class="tit">개설일</strong>
+		  <p class="cont">[[${board.createdTime}]]</p>
+		</div>
+	  </div>	  	  	  
+	</div>
+
+	<!-- <div class="minor_ranking_box">
+	  	  흥한갤
+	  <div class="ranking" style="display:block">
+	  			<div class="ranking_tit hot1">
+		  <span class="blind">인기랜드</span>
+		</div>
+		<div class="rank_img">
+		
+		  		  <span class="num_img num1"><em class="blind">1</em></span>
+		  		  <span class="num_img num6"><em class="blind">6</em></span>
+		  		  <span class="num_img num1"><em class="blind">1</em></span>
+		  		  
+		  <span class="txt_img"><em class="blind">위</em></span>
+		</div>
+	  </div>
+	  	  
+	  
+	  <button type="button" class="btn_mgall_dcp" onclick="toggle_hot_tip_pop()">
+		<span class="blind">흥한갤이란</span><em class="icon_mgall_dcp sp_img"></em>
+	  </button>
+
+	  <button type="button" class="btn_hotall_list sp_img" onclick="toggle_hot_rank_pop()"><span class="blind">흥한갤 전체 순위</span></button>
+	 
+	  //흥한갤 전체 순위 레이어 팝업
+	</div> -->
+</div>
+
+<div id="hot_rank_thumb" style="border-width:0px; border-style:none; width:0px; height:14px; position:absolute; left:0px; top:0px; z-index:4001; display:none;">
+  <img src="" data-noimg="https://wstatic.dcinside.com/thum/noimg.gif" width="120" height="80" border="0">
+</div>
+	  
+
+<script id="block_word-tmpl" type="text/x-jquery-tmpl">
+<li>
+	<span class="block_word">${word}</span>
+	<button type="button" class="" onclick="ub_remove_text(this)"><span class="blind">차단설정 단어 삭제</span><em class="sp_img icon_bword_del"></em></button>
+</li>
+</script>	  
+	  <div class="banner_box">
+	  <script type="text/javascript" src="https://addc.dcinside.com/NetInsight/js/dcinside/pc/list@top_minor_sport"></script><style type="text/css">.ad-layer {display:none; position:absolute; top:0px; left:0px; width:840px; height:243px; z-index:1000;}
+.ad-pop-layer {display:none; position: relative; top:0px; left: 0px; width: 0px; height:0px; border: 0px; z-index: 2000;}
+.ad-layer-closer {display:none; position:absolute; top:0px; left:0px; width:0px; height:0px; z-index:3000;}
+.ad-pop-layer-closer {display:none; position: relative; top: 2px; left: 0px; width: 18px; height:18px; border: 0px; z-index: 4000;}
+</style>
+
+
+<script type="text/javascript">
+var layer_target = 'gallery_box';
+var banner_target = 'banner_box';
+
+function makeLayerImageScript(){ // 레이어 이미지 코드 생성 및 위치 포지셔닝
+    var make_code = '<a href="https://ares.kakaogames.com/" target="_blank"><img src="https://nstatic.dcinside.com/ad/2023/banner/google_ares_GPG_DCIncide_840_243_A.jpg" width="840" height="243" title="" style="border:0px" /></a>';
+    $('.ad-pop-layer').css('height', '243px');
+    $('.ad-pop-layer').css('width', '840px');
+    return make_code;
+}
+
+function makeBannerImageScript(){ // 배너 이미지 코드 생성 및 위치 포지셔닝
+    var make_code = '<a href="https://ares.kakaogames.com/" target="_blank"><img src="https://nstatic.dcinside.com/ad/2023/banner/google_ares_GPG_DCIncide_840_90_A.jpg" width="840" height="90" title="" style="border:0px" /></a>';
+    return make_code;
+}
+
+
+function makeLayerCloser(){  // 닫기버튼 코드 생성 및 삽입, 위치 포지셔닝
+    var make_code = '<a href="#" onclick="javascript:layerCloser(); return false;"><img src="https://nstatic.dcinside.com/ad/ad_bar/close.jpg" width="18" height="18"></a>';
+    $('.ad-pop-layer-closer').css('left', eval(840 -20) + 'px');
+    $('#ad-pop-layer-closer').append(make_code);
+}
+
+function layerCloser(){ //레이어 close 및 삽입코드 초기화
+    $('#ad-layer').hide();
+    $('#ad-pop-layer').hide();
+    $('#ad-layer-closer').hide();
+    $('#ad-pop-layer-closer').hide();
+}
+
+function createPopupLayer(){	// 레이어 관련 div 생성
+    $('<div id="ad-layer" class="ad-layer"><div id="ad-pop-layer" class="ad-pop-layer"></div></div><div id="ad-layer-closer" class="ad-layer-closer"><div id="ad-pop-layer-closer" class="ad-pop-layer-closer"></div></div>').appendTo('.'+layer_target);
+}
+
+$(document).ready(function(){
+    createPopupLayer();
+    $('#ad-pop-layer').append(makeLayerImageScript());
+    $('.'+banner_target).append(makeBannerImageScript());
+    makeLayerCloser(); // close 버튼 처리
+
+    $('#ad-layer').show();
+    $('#ad-pop-layer').show();
+    $('#ad-layer-closer').show();
+    $('#ad-pop-layer-closer').show();
+});
+</script>
+	  <a href="http://addc.dcinside.com/click/dcinside/pc/list@top_minor_sport?ads_id=17598&amp;creative_id=79531&amp;click_id=76316&amp;content_series=&amp;event=" target="_blank"><img src="https://nstatic.dcinside.com/ad/2023/banner/google_ares_GPG_DCIncide_840_90_A.jpg" width="840" height="90" title="" style="border:0px"></a></div>
+	  
+	<div id="ad-layer" class="ad-layer" style="display: none;"><div id="ad-pop-layer" class="ad-pop-layer" style="height: 243px; width: 840px; display: none;"><a href="https://play.google.com/googleplaygames?hl=ko&utm_source=apac_med&utm_medium=offdis&utm_content=Jul2523&utm_campaign=Ares&pcampaignid=MKT-EAC-apac-kr-1606110-med-offdis-gm-Ares-Jul2523-840x243-KRSimship_DCInside_UPList_GPG_PC_Ares_A_TQ3|DISP_pid_371676520-cid_194726908-aid_562662973-sid_1643812&dclid=CjgKEAjw2qKmBhCdidfbgd_0xnoSJADMn5rad6oPibNhWVjR04EOrCAdX-NJHqlqc9P-_X7y-kNUTvD_BwE" target="_blank"><img src="https://nstatic.dcinside.com/ad/2023/banner/google_ares_GPG_DCIncide_840_243_A.jpg" width="840" height="243" title="" style="border:0px"></a></div></div><div id="ad-layer-closer" class="ad-layer-closer" style="display: none;"><div id="ad-pop-layer-closer" class="ad-pop-layer-closer" style="left: 820px; display: none;"><a href="#" onclick="javascript:layerCloser(); return false;"><img src="https://nstatic.dcinside.com/ad/ad_bar/close.jpg" width="18" height="18"></a></div></div></div>
+  </div>
+		
+      		
+      		
+            
+            <div class="gall_listwrap list">
+                <table class="gall_list">
+                	<caption>랜드 리스트</caption>
+                	<colgroup>
+						<col style="width:7%">
+						<col style="width:51px">
+						<col>
+						<col style="width:18%">
+						<col style="width:6%">
+						<col style="width:6%">
+						<col style="width:6%">
+					  </colgroup>
+                    <thead>
+                        <tr>
+                            <th scope="col">번호</th>
+                            <th scope="col">말머리</th>
+                            <th scope="col">제목</th>
+                            <th scope="col">글쓴이</th>
+                            <th scope="col">작성일</th>
+                            <th scope="col">조회</th>
+                            <th scope="col">좋아요</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+				        <tr th:each="post : ${posts}" class="ub-content ">
+				            <td th:text="${post.id}" ></td>
+				            <td th:text="${post.postType}"></td>
+				            <td>
+				                <button th:text="${post.postTitle}" class="text-link view-post" th:data-post-id="${post.id}" data-href="@{/post/details?id={id} (id = ${post.id}) }"
+				                		style="background: none; border: none; cursor: pointer; text-decoration: none; color: black;" 
+				                		onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'"></button>
+				            </td>
+				            <td th:text="${post.postNickname}"></td>
+				            <td th:text="${ #temporals.format(post.createdTime, 'yyyy-MM-dd HH:mm:ss') }"></td>
+				            <td class="post-views" th:text="${post.postViews}"></td>
+				            <td th:text="${ post.likesCount }"></td>
+				        </tr>
+				    </tbody>
+                </table>
+            </div>
+            
+            <div class="card-footer">
+                <form method="get" th:action="@{/post/search}">
+                    <div class="row">
+                        <div class="col-3">
+                            <select class="form-control" name="type">
+                                <option value="t">제목</option>
+                                <option value="c">내용</option>
+                                <option value="tc">제목 + 내용</option>
+                                <option value="a">작성자</option>
+                            </select>
+                        </div>
+                        <div class="col-8">
+                            <input class="form-control" name="keyword" type="text" placeholder="검색어 입력" required/>
+                        </div>
+                        <div class="col-1">
+                            <input class="form-control btn btn-outline-dark" type="submit" value="검색" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <a class="nav-link form-control btn btn-outline-success" th:href="@{/post}">랜드 전체 순위</a>
+            <a class="nav-link form-control btn btn-outline-success" th:href="@{/post}">전체글</a>
+            <a class="nav-link form-control btn btn-outline-success" th:href="@{/post/popular}">인기글</a>
+            <a class="nav-link form-control btn btn-outline-success" th:href="@{/post}">공지</a>
+            <a class="nav-link form-control btn btn-outline-success" th:href="@{/post/create?id={id} (id = ${board.id})}">나무심기</a>
+ 
+        </div>
+        </div>
+    </main>
+    
+    <th:block layout:fragment="myscripts">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+			<script>
+			$(document).ready(function(){
+			  $('.view-post').click(function(){
+			    var postId = $(this).data('post-id');
+			    var postLink = $(this).data('href');
+			    var postViewsElement = $(this).closest('tr').find('.post-views');
+			
+			    $.ajax({
+			      url: '/api/post/increaseViewCount',
+			      type: 'POST',
+			      data: {
+			        'postId': postId
+			      },
+			      success: function(viewCount) {
+			        postViewsElement.text(viewCount); // 해당 게시글의 조회수 업데이트
+			        window.location.href = '/post/details?id=' + postId;  // 게시글 상세 페이지로 이동
+			      }
+			    });
+			  });
+			});
+			</script>
+    </th:block>
+    
+</html>
