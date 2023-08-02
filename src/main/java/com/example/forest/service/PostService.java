@@ -78,22 +78,22 @@ public class PostService {
     }
     
     @Transactional(readOnly = true)
-    public List<Post> search(PostSearchDto dto) {
+    public List<PostWithLikesCount> search(PostSearchDto dto) {
         log.info("search(dto={})", dto);
         
-        List<Post> list = null;
+        List<PostWithLikesCount> list = null;
         switch (dto.getType()) {
         case "t":
-           list = postRepository.findByPostTitleContainsIgnoreCaseOrderByIdDesc(dto.getKeyword());
+            list = postRepository.findByPostTitleContainsIgnoreCaseOrderByIdDesc(dto.getKeyword());
             break;
-        case "c":
-            list = postRepository.findByPostContentContainsIgnoreCaseOrderByIdDesc(dto.getKeyword());
-            break;
-        case "tc":
-            list = postRepository.searchByKeyword(dto.getKeyword());
-            break;
-        case "a":
-           list = postRepository.findByPostNicknameContainsIgnoreCaseOrderByIdDesc(dto.getKeyword());
+        case "c": 
+            list = postRepository.findByPostContentContainsIgnoreCaseOrderByIdDesc(dto.getKeyword()); 
+            break; 
+        case "tc": 
+            list = postRepository.findByTitleContainsIgnoreCaseOrContentContainsIgnoreCaseOrderByIdDesc(dto.getKeyword(), dto.getKeyword()); 
+            break; 
+        case "a": 
+            list = postRepository.findByPostNicknameContainsIgnoreCaseOrderByIdDesc(dto.getKeyword()); 
             break;
             
         }
@@ -114,13 +114,17 @@ public class PostService {
     
     // POST + 좋아요 수
     @Transactional(readOnly = true)
-    public List<PostWithLikesCount> findAllPostsWithLikesCount() {              
-        return postRepository.findAllPostsWithLikesCount();
+    public List<PostWithLikesCount> findAllPostsWithLikesCount(Long boardId) {              
+        return postRepository.findAllPostsWithLikesCount(boardId);
     }
     
     // 인기글 조회 (좋아요와 싫어요의 차이가 5 이상인 게시물)
-    public List<PostWithLikesCount2> findPostsByLikesDifference() {
-        return postRepository.findAllPostsWithLikesDifference();
+    public List<PostWithLikesCount2> findPostsByLikesDifference(Long boardId) {
+        return postRepository.findAllPostsWithLikesDifference(boardId);
+    }
+    
+    public Long findBoardIdByPostId(Long postId) {
+        return postRepository.findBoardIdByPostId(postId);
     }
     
     

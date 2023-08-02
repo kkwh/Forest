@@ -19,6 +19,9 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
     // Post에 달린 댓글 개수:
     Long countByPost(Post post);
     
+    // Post에 달린 댓글 개수: by postId
+    Long countByPostId(Long postId);
+    
     // 댓글 ID와 비밀번호로 댓글 조회 메서드 추가
     Optional<Reply> findByIdAndReplyPassword(Long id, String replyPassword);
     

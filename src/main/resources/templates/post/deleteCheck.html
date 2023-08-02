@@ -39,14 +39,16 @@
 		    axios.post('/api/post/check-password', {
 		      'password': password,
 		      'postId': /*[[${post.id}]]*/ 'postId' // postId 는 서버로부터 받아온 게시물 ID
+		   
 		    })
 		    .then(function(response) {
 		    	if(response.data) {
 		    		postId = /*[[${post.id}]]*/ 'postId'
+		    		boardId = /*[[${board.id}]]*/ 'boardId'
 		            axios.delete('/api/post/' + postId)
 		            .then(function(secondResponse) {
 		              console.log(response);
-		              window.location.href = '/post';
+		              window.location.href = '/board/' + boardId
 		            })
 		            .catch(function(secondError) {
 		              console.error(secondError);
@@ -64,7 +66,8 @@
 		// 취소 버튼 클릭 이벤트 처리
 		  $('.btn_grey').click(function(){
 			 postId = /*[[${post.id}]]*/ 'postId'
-		     window.location.href = '/post/details?id=' + postId; 
+		     boardId = /*[[${board.id}]]*/ 'boardId'
+		     window.location.href = '/post/details?boardId=' + boardId+ '&id=' + postId;
 		  });
 		});
 	</script>

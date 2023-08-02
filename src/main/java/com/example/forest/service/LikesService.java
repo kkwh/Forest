@@ -41,5 +41,9 @@ public class LikesService {
         return likesRepository.countDislikesByPostId(postId);
     }
     
+    public void deleteByPost_Id(long postId) {
+        likesRepository.deleteByPost_Id(postId);
+    }
+    
     
 }

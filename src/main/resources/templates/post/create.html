@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
      layout:decorate="~{layout/base_layout}">
      
@@ -13,13 +14,13 @@
         <div class="container">
         <div class="my-2 card">
             <div class="card-header text-center">
-                <h1>뉴진스 랜드</h1>
+                <h1>[[${board.boardName}]] 랜드</h1>
             </div>
             
             <div class="page_head clear">
                 <div class="fl clear">
                     <h2>
-                        <a th:href="@{/post}">뉴진스 랜드
+                        <a th:href="@{ /board/ } + ${boardId}">[[${board.boardName}]] 랜드
                             <div class="pagehead_titicon mgall sp_img">
                                 <span class="blind">마이너</span>
                             </div>
@@ -39,13 +40,16 @@
                 	<div class="input_box input_infotxt d-none">
                         <input id="boardId" class="put_inquiry f_blank" th:value="${boardId}" type="text" name="boardId">
                     </div>
-                                                    
+                    
+                    <!-- 비로그인 상태이면 -->
+                 <th:block sec:authorize="isAnonymous()">        
                     <div class="input_box input_infotxt">
                         <input id="name" class="put_inquiry f_blank" type="text" name="postNickname" maxlength="15" placeholder="닉네임">
                     </div>
                     <div class="input_box input_infotxt">
                         <input id="password" class="put_inquiry f_blank" type="password" name="postPassword" maxlength="20" autocomplete="new-password" placeholder="비밀번호">
                     </div>
+                 </th:block>
                                 <!-- //닉네임, 비밀번호-->
                 
                                     
@@ -69,6 +73,7 @@
                 <div class="input_box input_write_tit">
                     <input id="subject" class="put_inquiry f_blank" type="text" name="postTitle" maxlength="40" placeholder="제목을 입력해 주세요.">
                 </div>
+                <input type="hidden" name="postIp" id="postIp" th:value="${ shortIp }">
                 <!-- //글 제목 입력 / 노출 -->
             </fieldset>
             <div class="write_infobox">
@@ -92,7 +97,7 @@
                         <textarea class="form-control" id="content" name="postContent" required></textarea>
                     </div>               
                     <div>
-                        <a class="nav-link form-control btn btn-outline-success" th:href="@{/post}">취소</a>
+                        <a class="nav-link form-control btn btn-outline-success" th:href="@{ /board/ } + ${boardId}">취소</a>
                         <input class="form-control btn btn-outline-success" type="submit" value="나무심기"/>
               </div>
                         

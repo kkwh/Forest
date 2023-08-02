@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorate="~{layout/base_layout}">
     
@@ -13,8 +14,23 @@
         <div class="container">
         <div class="my-2 card">
             <div class="card-header text-center">
-                <h1>뉴진스 랜드</h1>
+                <h1>[[${board.boardName}]] 랜드</h1>
             </div>
+            
+            <div class="page_head clear">
+                <div class="fl clear">
+                    <h2>
+                        <a th:href="@{ /board/ } + ${board.id}">[[${board.boardName}]] 랜드
+                            <div class="pagehead_titicon mgall sp_img">
+                                <th:block th:if="${board.boardGrade} eq 'Sub'">
+                                    <span class="blind">마이너</span>
+                                </th:block>
+                            </div>
+                        </a>
+                    </h2>
+                </div>
+            </div>
+            
             <div class="card-body">
             
                 <form method="post" name="write" id="write" action="/post/modify" autocomplete="off" novalidate="novalidate">       
@@ -76,7 +92,7 @@
                         <textarea class="form-control" id="content" name="postContent" th:text="${post.postContent}" required></textarea>
                     </div>               
                     <div>
-                        <a class="nav-link form-control btn btn-outline-success" th:href="@{/post}">취소</a>
+                        <a class="nav-link form-control btn btn-outline-success" th:href="@{'/post/details?boardId=' + ${boardId} + '&id=' + ${post.id}}">취소</a>
                         <input class="form-control btn btn-outline-success" type="submit" value="가지치기"/>
               </div>
                         

@@ -1,6 +1,7 @@
 package com.example.forest.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,13 +41,16 @@ public class PostRestController {
         return inputPassword.equals(post.getPostPassword());
     }
 	
+	@Transactional
 	@DeleteMapping("/{postId}")
     public ResponseEntity<String> deletePost(@PathVariable long postId) {
         log.info("deletePost(id={})", postId);
         
+        likesService.deleteByPost_Id(postId);
+        
         postService.delete(postId);
         
-        return ResponseEntity.ok("success");
+        return ResponseEntity.ok("Likes for postId " + postId + " has been deleted.");
     }
 	
 	// 조회수

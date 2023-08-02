@@ -77,7 +77,7 @@ public class BoardController {
 		BoardDetailDto dto = boardService.findById(id);
 		model.addAttribute("board", dto);
 		
-		List<PostWithLikesCount> list = postService.findAllPostsWithLikesCount();
+		List<PostWithLikesCount> list = postService.findAllPostsWithLikesCount(id);
         log.info("post(list={})", list);
         
         model.addAttribute("posts", list);

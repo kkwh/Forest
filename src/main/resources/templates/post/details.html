@@ -15,13 +15,13 @@
 
         <div class="my-2 card">
             <div class="card-header text-center">
-                <h1>랜드 상세보기</h1>
+                <h1>[[${board.boardName}]] 랜드</h1>
             </div>
             
             <div class="page_head clear">
                 <div class="fl clear">
                     <h2>
-                        <a th:href="@{/post}">뉴진스 랜드
+                        <a th:href="@{ /board/ } + ${boardId}">[[${board.boardName}]] 랜드
                             <div class="pagehead_titicon mgall sp_img">
                                 <span class="blind">마이너</span>
                             </div>
@@ -44,13 +44,13 @@
                             <div class="gall_writer ub-writer" data-nick="ㅇㅇ" data-uid="" data-ip="183.100" data-loc="view">
                             <div class="fl">
                                 <span class="nickname" title="ㅇㅇ" th:text="${post.postNickname}"><em></em></span>
-                                <span class="ip">(183.100)</span>                                                               
-                                <span class="gall_date" title="2023-08-01 12:03:25">2023.08.01 12:03:25</span>
+                                <span class="ip" th:text="'(' + ${ post.postIp } + ')'"></span>                                                               
+                                <span class="gall_date" title="2023-08-01 12:03:25" th:text="${ #temporals.format(post.createdTime, 'yyyy.MM.dd HH:mm:ss') }"></span>
                             </div>
                             <div class="fr">
                                 <span class="gall_count" th:text="'조회 ' + ${ viewCount }">조회 0</span>
                                 <span class="gall_reply_num" th:text="'좋아요 ' + ${ likesCount }">좋아요 0</span>
-                                <span class="gall_comment">댓글 1</a></span>
+                                <span class="gall_comment" th:text="'댓글 ' + ${ replyCount }">댓글 0</a></span>
                             </div>
                         </div>
                     </div>
@@ -178,12 +178,11 @@
                 <!-- </div> -->
                 <a class="btn btn-outline-success" th:href="@{ /post/deleteCheck?id={id} (id = ${post.id}) }">벌목하기</a>
                 <a class="btn btn-outline-success" th:href="@{ /post/modifyCheck?id={id} (id = ${post.id}) }">가지치기</a>
-                <a class="btn btn-outline-success" th:href="@{ /post/create }">나무심기</a>
-                <a class="btn btn-outline-success" th:href="@{ /post }">전체글</a>
-                <a class="btn btn-outline-success" th:href="@{ /post/popular }">인기글</a>
+                <a class="btn btn-outline-success" th:href="@{ /post/create?id={id} (id = ${boardId}) }">나무심기</a>
+                <a class="btn btn-outline-success" th:href="@{ /board/ } + ${boardId}">전체글</a>
+                <a class="btn btn-outline-success" th:href="@{/post/popular?id={id} (id = ${boardId})}">인기글</a>
                 
-                <button id="like-button" class="btn btn-outline-success" th:data-post-id="${post.id}">좋아요 <span id="like-count" th:text="${ likesCount }">0</span></button>
-				<button id="dislike-button" class="btn btn-outline-success" th:data-post-id="${post.id}">싫어요 <span id="dislike-count" th:text="${ dislikesCount }">0</span></button>
+
                 
                 
             </div>

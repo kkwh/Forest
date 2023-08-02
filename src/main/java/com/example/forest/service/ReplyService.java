@@ -74,6 +74,12 @@ public class ReplyService {
         
         return replyRepository.countByPost(post);
     }
+    
+    public Long countByPostId(Long postId) {
+        log.info("countByPostId(postId={})", postId);
+        
+        return replyRepository.countByPostId(postId);
+    }
 
     public Reply create(ReplyCreateDto dto) {
         log.info("create(dto={})", dto);

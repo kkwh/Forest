@@ -7,7 +7,9 @@
       <meta charset="UTF-8">
       <title>Insert title here</title>
    </head>
-   <body>
+   
+   <div layout:fragment="main">
+   <div class="mt-5 py-5">
       <h1>Index page</h1>
       <h2>안녕하세요</h2>
       <a href="/post/create">post create page</a>
@@ -26,5 +28,7 @@
             <a class="nav-link" th:href="@{ /user/signup}">회원가입</a>
          </li>
        </th:block>
-   </body>
+   </div>
+   </div>
+   
 </html>

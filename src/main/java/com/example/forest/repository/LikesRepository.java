@@ -23,4 +23,8 @@ public interface LikesRepository extends JpaRepository<Likes, Long> {
     // 해당 게시글의 총 싫어요 개수를 리턴하는 메서드
     @Query("SELECT COUNT(l) FROM Likes l WHERE l.post.id = :postId AND l.likeDislike = 0")
     long countDislikesByPostId(@Param("postId") long postId);
+    
+    // post.id로 Likes를 Delete.
+    void deleteByPost_Id(long postId);
+
 }
