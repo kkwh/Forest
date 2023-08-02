@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const createBoard = (e) => {
 		const boardName = document.querySelector('input#boardName').value;
 		const message = document.querySelector('span#message').innerHTML;
+		const boardInfo = document.querySelector('textarea#boardInfo').innerHTML;
 		const imageFile = document.querySelector('input#imageFile');
 		
 		if(boardName == '') {
@@ -19,6 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 		if(message == '이미 사용중인 이름입니다.') {
 			alert('이미 사용중인 이릅입니다.');
+			return false;
+		}
+		if(boardInfo.length == 0) {
+			alert('랜드 소개글을 입력해주세요.');
 			return false;
 		}
 		if(imageFile.files.length == 0) {

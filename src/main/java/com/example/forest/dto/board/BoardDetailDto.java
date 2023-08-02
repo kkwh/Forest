@@ -18,6 +18,7 @@ public class BoardDetailDto {
 	private long id;
 	private BoardCategory category;
 	private String boardName;
+	private String boardInfo;
 	private String boardGrade;
 	private int isApproved;
 	private long totalPosts;
@@ -30,6 +31,7 @@ public class BoardDetailDto {
 				.id(entity.getId())
 				.category(entity.getBoardCategory())
 				.boardName(entity.getBoardName())
+				.boardInfo(entity.getBoardInfo())
 				.boardGrade(entity.getBoardGrade())
 				.isApproved(entity.getIsApproved())
 				.user(entity.getUser())

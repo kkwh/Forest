@@ -10,7 +10,9 @@ import com.example.forest.dto.post.PostSearchDto;
 import com.example.forest.dto.post.PostUpdateDto;
 import com.example.forest.dto.post.PostWithLikesCount;
 import com.example.forest.dto.post.PostWithLikesCount2;
+import com.example.forest.model.Board;
 import com.example.forest.model.Post;
+import com.example.forest.repository.BoardRepository;
 import com.example.forest.repository.PostRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PostService {
     
     // 생성자를 사용한 의존성 주입:
+	private final BoardRepository boardRepository;
     private final PostRepository postRepository;
     
     // DB POSTS 테이블에서 전체 검색한 결과를 리턴:
@@ -38,6 +41,9 @@ public class PostService {
         // DTO를 Entity로 변환:
         Post entity = dto.toEntity();
         log.info("entity={}", entity);
+        
+        Board board = boardRepository.findById(dto.getBoardId()).orElseThrow();
+        entity.setBoard(board);
         
         postRepository.save(entity);
         log.info("entity={}", entity);

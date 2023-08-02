@@ -37,6 +37,9 @@ public class Board extends BaseTimeEntity {
 	// 게시판 이름
 	private String boardName;
 	
+	// 게시판 정보
+	private String boardInfo;
+	
 	// 게시판 등급(메인, 서브)
 	private String boardGrade;
 	
