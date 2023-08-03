@@ -55,7 +55,7 @@
 		<div class="info_cont">
 		  <strong class="tit">매니저</strong>
 		  <p class="cont">
-						<span class="mng_nick">[[${board.user.nickname}]] ([[${board.user.loginId}]])</span>
+						<span class="mng_nick" style="color: orange;">[[${board.user.nickname}]] ([[${board.user.loginId}]])</span>
 						
 		  </p>
 		</div>
@@ -211,7 +211,13 @@ $(document).ready(function(){
 				                		style="background: none; border: none; cursor: pointer; text-decoration: none; color: black;" 
 				                		onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'"></button>
 				            </td>
-				            <td th:text="${post.postNickname} + '(' + ${ post.postIp } + ')'"></td>
+				            <th:block th:if="${ board.user.nickname } != ${post.postNickname}"> 
+                                <td th:text="${post.postNickname} + '(' + ${ post.postIp } + ')'"></td>
+                            </th:block>
+                                
+                            <th:block th:if="${ board.user.nickname } == ${post.postNickname}"> 
+                                <td style="color: orange;" th:text="${post.postNickname}"></td>
+                            </th:block>
 				            <td th:text="${ #temporals.format(post.createdTime, 'yyyy-MM-dd HH:mm:ss') }"></td>
 				            <td class="post-views" th:text="${post.postViews}"></td>
 				            <td th:text="${ post.likesCount }"></td>
@@ -221,7 +227,7 @@ $(document).ready(function(){
             </div>
             
             <div class="card-footer">
-                <form method="get" th:action="@{/post/search}">
+                <form method="get" th:action="@{/post/search2}">
                     <div class="row">
                         <div class="col-3">
                             <select class="form-control" name="type">
@@ -238,13 +244,14 @@ $(document).ready(function(){
                             <input class="form-control btn btn-outline-dark" type="submit" value="검색" />
                         </div>
                     </div>
+                    <input type="hidden" name="boardId" id="boardId" th:value="${ board.id }">
                 </form>
             </div>
             
             <a class="nav-link form-control btn btn-outline-success" th:href="@{ /board/ } + ${board.id}">랜드 전체 순위</a>
             <a class="nav-link form-control btn btn-outline-success" th:href="@{ /board/ } + ${board.id}">전체글</a>
             <a class="nav-link form-control btn btn-outline-success" th:href="@{/post/popular?id={id} (id = ${board.id})}">인기글</a>
-            <a class="nav-link form-control btn btn-outline-success" th:href="@{ /board/ } + ${board.id}">공지</a>
+            <a class="nav-link form-control btn btn-outline-success" th:href="@{/post/notice?id={id} (id = ${board.id})}">공지</a>
             <a class="nav-link form-control btn btn-outline-success" th:href="@{/post/create?id={id} (id = ${board.id})}">나무심기</a>
  
         </div>

@@ -67,7 +67,9 @@ public class ReplyRestController {
              // HttpServletRequest 객체에서 클라이언트 IP 주소 가져오기
              
              long userId = 0;
-             
+             if(principal != null) {
+                 userId = userService.getUserId(principal.getName());
+             }
              
             
              dto.setUserId(userId);

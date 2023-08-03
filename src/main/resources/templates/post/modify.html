@@ -39,13 +39,22 @@
             <fieldset>
                 <legend class="blind">글쓰기 정보 입력폼</legend>
                 <!-- 닉네임, 비밀번호-->
-                                                    
+                    
+                <!-- 로그인 상태이면 -->
+                <th:block sec:authorize="isAuthenticated()">
+                    <input type="hidden" name="postNickname" id="postNickname" th:value="${ user.nickname }">
+                    <input type="hidden" name="postPassword" id="postPassword" th:value="${ user.password }">
+                </th:block>
+                    
+                  <!-- 비로그인 상태이면 -->
+                 <th:block sec:authorize="isAnonymous()">                                     
                     <div class="input_box input_infotxt">
                         <input id="name" class="put_inquiry f_blank" type="text" name="postNickname" maxlength="15" placeholder="닉네임" th:value="${post.postNickname}" readonly />
                     </div>
                     <div class="input_box input_infotxt">
                         <input id="password" class="put_inquiry f_blank" type="password" name="postPassword" maxlength="20" autocomplete="new-password" placeholder="비밀번호"  th:value="${post.postPassword}" readonly />
                     </div>
+                  </th:block>
                                 <!-- //닉네임, 비밀번호-->
                 
                                     
@@ -55,7 +64,9 @@
                     <strong class="tit">말머리</strong>
                     <ul class="subject_list clear">
                         <li class="일반" data-no="0" onclick="write_headtext(this, '일반')"><em class="sp_img"></em>일반</li>
+                      <th:block th:if="${ board.user.nickname } == ${#authentication.name}">
                         <li data-no="50" onclick="write_headtext(this, '공지')">공지</li>
+                      </th:block>
                         <li data-no="150" onclick="write_headtext(this, '뉴스')">뉴스</li>
                         <li data-no="180" onclick="write_headtext(this, 'SNS')">SNS</li>
                         <li data-no="190" onclick="write_headtext(this, '사진/움짤')">사진/움짤</li>

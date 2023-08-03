@@ -66,13 +66,17 @@
                     <strong class="tit">말머리</strong>
                     <ul class="subject_list clear">
                         <li class="일반" data-no="0" onclick="write_headtext(this, '일반')"><em class="sp_img"></em>일반</li>
+                    
+                      <th:block th:if="${ board.user.nickname } == ${#authentication.name}">
                         <li data-no="50" onclick="write_headtext(this, '공지')">공지</li>
+                      </th:block>
+                    
                         <li data-no="150" onclick="write_headtext(this, '뉴스')">뉴스</li>
                         <li data-no="180" onclick="write_headtext(this, 'SNS')">SNS</li>
                         <li data-no="190" onclick="write_headtext(this, '사진/움짤')">사진/움짤</li>
                         <li class="not" data-no="160" onclick="write_headtext(this, '이벤트')">이벤트</li>
                                              
-                        <!-- li class="sel"><em class="sp_img"></em>일이삼사오</li--><!-- 선택된 말머리 : 클래스 sel, 태그em 추가됨 -->
+                        <!-- 선택된 말머리 : 클래스 sel, 태그em 추가됨 -->
                         
                     </ul>
                 </div>

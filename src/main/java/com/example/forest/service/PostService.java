@@ -133,6 +133,12 @@ public class PostService {
         return postRepository.findAllPostsWithLikesDifference(boardId);
     }
     
+    // 공지글(NOTICE) 조회
+    @Transactional(readOnly = true)
+    public List<PostWithLikesCount> findAllPostsWithLikesCountWhenNotice(Long boardId) {              
+        return postRepository.findAllPostsWithLikesCountWhenNotice(boardId);
+    }
+    
     public Long findBoardIdByPostId(Long postId) {
         return postRepository.findBoardIdByPostId(postId);
     }

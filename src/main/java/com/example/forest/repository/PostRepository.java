@@ -110,6 +110,18 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             + " ORDER BY p.id DESC")
     List<PostWithLikesCount2> findAllPostsWithLikesDifference(@Param("boardId") Long boardId);
     
+    // 공지글(NOTICE) 조회
+    @Query("SELECT new com.example.forest.dto.post.PostWithLikesCount(p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, p.postIp, "
+            + " (SELECT COUNT(l.id) FROM Likes l where l.post = p and l.likeDislike = 1) as likesCount, "
+            + " (SELECT COUNT(r.id) FROM Reply r where r.post = p) as replyCount) "
+            + " FROM Post p LEFT JOIN Likes l "
+            + " ON p = l.post "
+            + " WHERE p.board.id = :boardId " // 해당 board.id
+            + " AND p.postType = '공지' "
+            + " GROUP BY p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, p.postIp "
+            + " ORDER BY p.id desc")
+    List<PostWithLikesCount> findAllPostsWithLikesCountWhenNotice(@Param("boardId") Long boardId);
+    
     // postId로 board.id를 구하기 위함
     @Query("SELECT p.board.id FROM Post p WHERE p.id = :postId")
     Long findBoardIdByPostId(@Param("postId") Long postId);

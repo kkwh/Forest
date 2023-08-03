@@ -56,6 +56,20 @@ public class PostController {
         return "/post/read-popular";
     }
     
+    @GetMapping("/notice")
+    public String notice(@RequestParam("id") long id, Model model) { // id - boardId
+        log.info("notice(id={})", id);
+        BoardDetailDto dto = boardService.findById(id);
+        model.addAttribute("board", dto);
+        
+        List<PostWithLikesCount> list = postService.findAllPostsWithLikesCountWhenNotice(id);
+        log.info("notice(list={})", list);
+        
+        model.addAttribute("posts", list);
+        
+        return "/post/read-notice";
+    }
+    
 //    @PreAuthorize("hasRole('USER')") // 페이지 접근 이전에 인증(권한, 로그인) 여부를 확인.
     @GetMapping("/create")
     public void create(@RequestParam("id") long id, Principal principal, Model model) { // id - boardId
@@ -139,7 +153,7 @@ public class PostController {
     }
     
     @GetMapping("/modify")
-    public void modify(Long id, Model model) {
+    public void modify(Long id, Principal principal, Model model) {
         log.info("modify(id={})", id);
         
         Long boardId = postService.findBoardIdByPostId(id);
@@ -148,6 +162,18 @@ public class PostController {
         
         BoardDetailDto dto = boardService.findById(boardId);
         model.addAttribute("board", dto);
+        
+        long userId = 0;
+        if(principal != null) {
+            userId = userService.getUserId(principal.getName());
+        }
+        log.info("userId: {}", userId);
+        model.addAttribute("userId", userId);
+        
+        if(userId != 0) {
+            User user = userService.findUserById(userId);
+            model.addAttribute("user", user);
+        }
         
         Post post = postService.read(id);
                
@@ -190,6 +216,24 @@ public class PostController {
         model.addAttribute("board", dto2);
         
         return "/board/read";
+    }
+    
+    @GetMapping("/search2")
+    public String search2(PostSearchDto dto, Model model) {
+        log.info("search2(dto={})", dto);
+        
+        // postService의 검색 기능 호출:
+        List<PostWithLikesCount> list = postService.search(dto);
+        
+        // 검색 결과를 Model에 저장해서 뷰로 전달:
+        model.addAttribute("posts", list);
+        log.info("search2(list={})", list);
+        
+        BoardDetailDto dto2 = boardService.findById(dto.getBoardId());
+        model.addAttribute("board", dto2);
+        log.info("board={}", dto2);
+        
+        return "/post/read-popular";
     }
     
 
