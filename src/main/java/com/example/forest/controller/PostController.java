@@ -114,7 +114,7 @@ public class PostController {
     
     // 채한별  추가:  댓글 개수 불러오기
     @GetMapping("/details")
-    public void details(@RequestParam("boardId") long boardId, @RequestParam("id") long id, Model model) { 
+    public void details(@RequestParam("boardId") long boardId, @RequestParam("id") long id, Principal principal, Model model) { 
         log.info("details(boardId={})", boardId);
         log.info("details(id={})", id);
         model.addAttribute("boardId", boardId);
@@ -133,6 +133,18 @@ public class PostController {
         model.addAttribute("dislikesCount", dislikesCount);
         model.addAttribute("viewCount", viewCount);
 //        model.addAttribute("replyCount", replyCount);
+        
+        long userId = 0;
+        if(principal != null) {
+            userId = userService.getUserId(principal.getName());
+        }
+        log.info("userId: {}", userId);
+        model.addAttribute("userId", userId);
+        
+        if(userId != 0) {
+            User user = userService.findUserById(userId);
+            model.addAttribute("user", user);
+        }
         
         // 채한별 추가 : 
         // REPLIES 테이브에서 해당 포스트에 달린 댓글 개수를 검색.

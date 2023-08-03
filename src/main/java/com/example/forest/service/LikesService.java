@@ -1,13 +1,18 @@
 package com.example.forest.service;
 
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.example.forest.model.Likes;
 import com.example.forest.model.Post;
+import com.example.forest.model.User;
 import com.example.forest.repository.LikesRepository;
 import com.example.forest.repository.PostRepository;
+import com.example.forest.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,12 +24,17 @@ public class LikesService {
     
     @Autowired
     private PostRepository postRepository;
+    
+    @Autowired
+    private UserRepository userRepository;
 
-    public void saveLikeDislikeForPost(int likeDislike, long postId) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("Post not found"));
+    public void saveLikeDislikeForPost(int likeDislike, long postId, long userId) {
+        Post post = postRepository.findById(postId).orElseThrow();
+        User user = userRepository.findById(userId).orElseThrow();
         Likes likes = Likes.builder()
                 .likeDislike(likeDislike)
                 .post(post)
+                .user(user)
                 .build();
         likesRepository.save(likes);
     }
@@ -43,6 +53,34 @@ public class LikesService {
     
     public void deleteByPost_Id(long postId) {
         likesRepository.deleteByPost_Id(postId);
+    }
+    
+    public boolean likeOrDislike(Long userId, Long postId, int likeDislike) {
+        // 지난 24시간 동안 해당 유저가 해당 게시물에 대해 액션을 취했는지 확인
+        if (likesRepository.existsByUserIdAndPostIdAndCreatedTimeGreaterThan(userId, postId, LocalDate.now().minusDays(1))) {
+            return false; // 이미 액션을 취했다면 false 반환
+        }
+        
+        User user = userRepository.findById(userId).orElseThrow();
+        Post post = postRepository.findById(postId).orElseThrow();
+        
+        // 액션(좋아요, 싫어요) 저장
+        Likes likes = Likes.builder()
+                .user(user)
+                .post(post)
+                .likeDislike(likeDislike)
+                .build();
+        likesRepository.save(likes);
+        return true;
+    }
+    
+ // userId와 postId를 입력받아서 Likes.id를 반환
+    public Long findLikeIdByUserIdAndPostId(Long userId, Long postId) {
+        try {
+            return likesRepository.findIdByUserIdAndPostId(userId, postId);
+        } catch (IncorrectResultSizeDataAccessException e) {
+            return null;
+        }
     }
     
     

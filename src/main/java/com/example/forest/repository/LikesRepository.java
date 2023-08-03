@@ -1,5 +1,7 @@
 package com.example.forest.repository;
 
+import java.time.LocalDate;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -26,5 +28,13 @@ public interface LikesRepository extends JpaRepository<Likes, Long> {
     
     // post.id로 Likes를 Delete.
     void deleteByPost_Id(long postId);
+    
+    // 지난 24시간 동안 해당 유저가 해당 게시물에 대해 액션을 취했는지 확인
+    boolean existsByUserIdAndPostIdAndCreatedTimeGreaterThan(Long userId, Long postId, LocalDate date);
+    
+    // userId와 postId를 입력받아서 Likes.id를 반환
+    @Query("SELECT l.id FROM Likes l WHERE l.user.id = :userId AND l.post.id = :postId")
+    Long findIdByUserIdAndPostId(Long userId, Long postId);
+
 
 }

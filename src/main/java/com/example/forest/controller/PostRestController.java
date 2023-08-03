@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.forest.dto.post.LikeRequest;
 import com.example.forest.dto.post.ModifyPasswordCheckDto;
 import com.example.forest.dto.post.PostLikesDto;
 import com.example.forest.model.Post;
@@ -64,9 +65,9 @@ public class PostRestController {
 	// 총 좋아요 개수
 	@PostMapping("/like")
     public long createLike(@RequestBody PostLikesDto dto) {
-    	log.info("createLike(postId={})", dto.getPostId());
+    	log.info("createLike(postId={}, userId={})", dto.getPostId(), dto.getUserId());
     	
-        likesService.saveLikeDislikeForPost(1, dto.getPostId());
+        likesService.saveLikeDislikeForPost(1, dto.getPostId(), dto.getUserId());
         
         return likesService.countLikesByPostId(dto.getPostId());
     }
@@ -74,11 +75,17 @@ public class PostRestController {
 	// 총 싫어요 개수
 	@PostMapping("/dislike")
     public long createDislike(@RequestBody PostLikesDto dto) {
-    	log.info("createDislike(postId={})", dto.getPostId());
+    	log.info("createDislike(postId={}, userId={})", dto.getPostId(), dto.getUserId());
     	
-    	likesService.saveLikeDislikeForPost(0, dto.getPostId());
+    	likesService.saveLikeDislikeForPost(0, dto.getPostId(), dto.getUserId());
         
         return likesService.countDislikesByPostId(dto.getPostId());
+    }
+	
+	@PostMapping("/likeLimit")
+    public ResponseEntity<?> likePost(@RequestBody LikeRequest request) {
+        boolean success = likesService.likeOrDislike(request.getUserId(), request.getPostId(), request.getLikeDislike());
+        return success ? ResponseEntity.ok().build() : ResponseEntity.badRequest().body("하루에 한 번만 가능합니다.");
     }
 	
     

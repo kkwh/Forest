@@ -112,10 +112,10 @@
                                     <p class="up_num font_red" id="recommend_view_up_2764692">0</p>
                                    
                                 </div> -->
-                                <button id="like-button" class="btn btn-outline-success" th:data-post-id="${post.id}">좋아요 <span id="like-count" th:text="${ likesCount }">0</span></button>
+                                <button id="like-button" class="btn btn-outline-success" th:data-post-id="${post.id}" th:data-user-id="${user.id}">좋아요 <span id="like-count" th:text="${ likesCount }">0</span></button>
                             </div>
                             <div class="inner">
-                                 <button id="dislike-button" class="btn btn-outline-success" th:data-post-id="${post.id}">싫어요 <span id="dislike-count" th:text="${ dislikesCount }">0</span></button>
+                                 <button id="dislike-button" class="btn btn-outline-success" th:data-post-id="${post.id}" th:data-user-id="${user.id}">싫어요 <span id="dislike-count" th:text="${ dislikesCount }">0</span></button>
                                 <!-- <div class="down_num_box">
                                     <p class="down_num" id="recommend_view_down_2764692">0</p>
                                 </div> -->
@@ -307,7 +307,7 @@
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="/js/reply/reply.js"></script>
         <script src="/js/post/likedislike.js"></script>
-        <script src="/js/post/modify.js"></script>
+        <!-- <script src="/js/post/modify.js"></script> -->
         
     </th:block>
     
