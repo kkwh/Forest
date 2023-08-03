@@ -41,6 +41,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		const boardId = e.target.getAttribute('data-id');
 		console.log(boardId);
 		
+		const result = confirm('게시판을 메인 랜드르 승급시키겠습니까?');
+		if(!result) {
+			return false;
+		}
+		
 		const url = `/api/v1/board/updateGrade/${boardId}`;
 		axios.put(url)
 			.then((response) => {
@@ -60,6 +65,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	const relegate = (e) => {
 		const boardId = e.target.getAttribute('data-id');
 		console.log(boardId);
+		
+		const result = confirm('게시판을 서브 랜드로 강등시키겠습니까?');
+		if(!result) {
+			return false;
+		}
 		
 		const url = `/api/v1/board/updateGrade/${boardId}`;
 		axios.put(url)
@@ -112,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
 								<td>
 									<img src="${board.file.uploadPath}" alt="Not found" width="100px" height="auto" />
 								</td>
-								<td>${board.category}</td>
+								<td>${board.categoryName}</td>
 								<td>${board.boardName}</td>
 								<td>${board.user.nickname}</td>
 								<td>${board.createdTime}</td>
@@ -135,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
 								<td>
 									<img src="${board.file.uploadPath}" alt="Not found" width="100px" height="auto" />
 								</td>
-								<td>${board.category}</td>
+								<td>${board.categoryName}</td>
 								<td>${board.boardName}</td>
 								<td>${board.user.nickname}</td>
 								<td>${board.createdTime}</td>
@@ -213,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
 								<td>
 									<img src="${board.file.uploadPath}" alt="Not found" width="100px" height="auto" />
 								</td>
-								<td>${board.category}</td>
+								<td>${board.categoryName}</td>
 								<td>${board.boardName}</td>
 								<td>${board.user.nickname}</td>
 								<td>${board.createdTime}</td>
@@ -236,7 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
 								<td>
 									<img src="${board.file.uploadPath}" alt="Not found" width="100px" height="auto" />
 								</td>
-								<td>${board.category}</td>
+								<td>${board.categoryName}</td>
 								<td>${board.boardName}</td>
 								<td>${board.user.nickname}</td>
 								<td>${board.createdTime}</td>
@@ -314,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
 								<td>
 									<img src="${board.file.uploadPath}" alt="Not found" width="100px" height="auto" />
 								</td>
-								<td>${board.category}</td>
+								<td>${board.categoryName}</td>
 								<td>${board.boardName}</td>
 								<td>${board.user.nickname}</td>
 								<td>${board.createdTime}</td>
@@ -337,7 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
 								<td>
 									<img src="${board.file.uploadPath}" alt="Not found" width="100px" height="auto" />
 								</td>
-								<td>${board.category}</td>
+								<td>${board.categoryName}</td>
 								<td>${board.boardName}</td>
 								<td>${board.user.nickname}</td>
 								<td>${board.createdTime}</td>

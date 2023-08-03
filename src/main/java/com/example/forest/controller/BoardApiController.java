@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,7 @@ import com.example.forest.dto.board.BoardCheckDto;
 import com.example.forest.dto.board.BoardListDto;
 import com.example.forest.dto.board.BoardRevokeDto;
 import com.example.forest.dto.board.BoardSearchDto;
-import com.example.forest.dto.board.UserBlockDto;
+import com.example.forest.dto.board.BoardUserDto;
 import com.example.forest.model.BlackList;
 import com.example.forest.model.BoardCategory;
 import com.example.forest.model.User;
@@ -98,6 +99,11 @@ public class BoardApiController {
 		return ResponseEntity.ok("Success");
 	}
 	
+	/**
+	 * 게시판의 등급을 승급(강등) 시킴
+	 * @param id
+	 * @return
+	 */
 	@PutMapping("/updateGrade/{id}")
 	public ResponseEntity<String> updateBoardGrade(@PathVariable long id) {
 		log.info("updateBoardGrade(id = {})", id);
@@ -107,9 +113,14 @@ public class BoardApiController {
 		return ResponseEntity.ok("Success");
 	}
 	
+	/**
+	 * 게시판 관리자가 특정 유저의 접근을 차단 시킴
+	 * @param dto
+	 * @return
+	 */
 	@PutMapping("/blockById")
 	@ResponseBody
-	public ResponseEntity<String> blockByUserId(@RequestBody UserBlockDto dto) {
+	public ResponseEntity<String> blockByUserId(@RequestBody BoardUserDto dto) {
 		log.info("blockUser(dto = {})", dto);
 		
 		boardService.addToList(dto);
@@ -117,9 +128,14 @@ public class BoardApiController {
 		return ResponseEntity.ok("Success");
 	}
 	
+	/**
+	 * 게시판 관리자가 특정 IP의 접근을 차단 시킴
+	 * @param dto
+	 * @return
+	 */
 	@PutMapping("/blockByIp")
 	@ResponseBody
-	public ResponseEntity<String> blockByIP(@RequestBody UserBlockDto dto) {
+	public ResponseEntity<String> blockByIP(@RequestBody BoardUserDto dto) {
 		log.info("blockUser(dto = {})", dto);
 		
 		boardService.addToList(dto);
@@ -127,9 +143,14 @@ public class BoardApiController {
 		return ResponseEntity.ok("Success");
 	}
 	
+	/**
+	 * 게시판 관리자가 특정 유저의 접근 제한을 해제함
+	 * @param dto
+	 * @return
+	 */
 	@PutMapping("/cancelBlock")
 	@ResponseBody
-	public ResponseEntity<String> cancelBlock(@RequestBody UserBlockDto dto) {
+	public ResponseEntity<String> cancelBlock(@RequestBody BoardUserDto dto) {
 		log.info("cancelBlock(dto = {})", dto);
 		
 		boardService.removeFromList(dto);
@@ -168,6 +189,11 @@ public class BoardApiController {
 //		return ResponseEntity.ok(boards);
 //	}
 	
+	/**
+	 * 정렬 조건에 따라 게시판을 검색
+	 * @param dto
+	 * @return
+	 */
 	@PostMapping("/filterBy")
 	@ResponseBody
 	public ResponseEntity<List<BoardListDto>> filterBy(@RequestBody BoardSearchDto dto) {
@@ -178,6 +204,12 @@ public class BoardApiController {
 		return ResponseEntity.ok(list);
 	}
 	
+	/**
+	 * 카테고리 별로 게시판을 검색
+	 * @param category
+	 * @param boardGrade
+	 * @return
+	 */
 	@GetMapping("/searchByCategory")
 	public ResponseEntity<List<BoardListDto>> searchByCategory(@RequestParam("category") BoardCategory category, @RequestParam("boardGrade") String boardGrade) {
 		log.info("searchByCategory(category = {})", category);
@@ -187,6 +219,12 @@ public class BoardApiController {
 		return ResponseEntity.ok(list);
 	}
 	
+	/**
+	 * 키워드를 사용하여 게시판을 검색
+	 * @param keyword
+	 * @param boardGrade
+	 * @return
+	 */
 	@GetMapping("/searchByKeyword")
 	@ResponseBody
 	public ResponseEntity<List<BoardListDto>> searchByKeyword(@RequestParam("keyword") String keyword, @RequestParam("boardGrade") String boardGrade) {
@@ -197,6 +235,11 @@ public class BoardApiController {
 		return ResponseEntity.ok(list);
 	}
 
+	/**
+	 * 해당 게시판에 등록되어 있는 블랙리스트를 불러옴
+	 * @param boardId
+	 * @return
+	 */
 	@PostMapping("/getBlackList/{boardId}")
 	public ResponseEntity<List<BlackListDto>> getBlackList(@PathVariable("boardId") long boardId) {
 		log.info("getBlackList(id = {})", boardId);
@@ -206,12 +249,38 @@ public class BoardApiController {
 		return ResponseEntity.ok(blackList);
 	}
 	
+	/**
+	 * 해당 게시판에서 블랙리스트에 등록되어 있지 않은 유저리스트를 불러옴
+	 * @param dto
+	 * @return
+	 */
 	@PostMapping("/getUserList")
 	@ResponseBody
-	public ResponseEntity<List<User>> getUserList(@RequestBody UserBlockDto dto) {
+	public ResponseEntity<List<User>> getUserList(@RequestBody BoardUserDto dto) {
+		log.info("getUserList()");
+		
 		List<User> users = boardService.getUserList(dto.getBoardId(), dto.getUserId());
 		
 		return ResponseEntity.ok(users);
+	}
+	
+	@PostMapping("/checkAccess")
+	@ResponseBody
+	public ResponseEntity<Integer> checkUserAccss(@RequestBody BoardUserDto dto) {
+		log.info("checkUserAccess()");
+		
+		int result = boardService.checkUserBoardAccess(dto);
+		
+		return ResponseEntity.ok(result);
+	}
+	
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<String> deleteBoard(@PathVariable("id") long id) {
+		log.info("deleteBoard(id = {})", id);
+		
+		boardService.deleteBoard(id);
+		
+		return ResponseEntity.ok("Success");
 	}
 
 }

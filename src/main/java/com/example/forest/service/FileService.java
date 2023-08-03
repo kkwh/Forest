@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class FileService {
 	
-	private static final String UPLOAD_PATH = "C:\\Users\\User\\git\\Forest\\src\\main\\resources\\static\\img\\board_profile";
+	private static final String UPLOAD_PATH = "C:\\Users\\User\\git\\Forest\\src\\main\\resources\\static\\img\\board_profile"; 
 	
 	private final ImageFileRepository fileRepository;
 	
@@ -73,7 +73,9 @@ public class FileService {
 	 * @param entity
 	 */
 	public void deleteImage(ImageFile entity) {
-		File uploadPath = new File(UPLOAD_PATH + "\\" + entity.getFileName());
+		File uploadPath = new File(UPLOAD_PATH, entity.getFileName());
+		
+		log.info("deleteFile = {}", uploadPath);
 		
 		fileRepository.delete(entity);
 		

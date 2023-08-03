@@ -5,52 +5,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 	
 	/**
-	 * 게시판을 메인으로 승급
-	 */
-	const upgrade = (e) => {
-		const boardId = e.target.getAttribute('data-id');
-		console.log(boardId);
-		
-		const url = `/api/v1/board/updateGrade/${boardId}`;
-		axios.put(url)
-			.then((response) => {
-				console.log(response);
-				
-				location.reload();
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	}
-	let upgradeBtns = document.querySelectorAll('button.upgradeBtn');
-	for(let btn of upgradeBtns) {
-		btn.addEventListener('click', upgrade);
-	}
-	
-	/**
-	 * 게시판을 서브로 강등
-	 */
-	const relegate = (e) => {
-		const boardId = e.target.getAttribute('data-id');
-		console.log(boardId);
-		
-		const url = `/api/v1/board/updateGrade/${boardId}`;
-		axios.put(url)
-			.then((response) => {
-				console.log(response);
-				
-				location.reload();
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	}
-	let relegateBtns = document.querySelectorAll('button.relegateBtn');
-	for(let btn of relegateBtns) {
-		btn.addEventListener('click', relegate);
-	}
-	
-	/**
 	 * 특정 조건에 따라 정렬
 	 */
 	const sortByType = () => {
@@ -94,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 							<td>${board.createdTime}</td>
 							<td>
 								<a href="/board/details/${board.id}" data-id="${board.id}" data-category="${board.category}" 
-									class="btn btn-outline-success modifyBtn">수정</a>							
+									class="btn btn-outline-success modifyBtn">수정</a>
 							</td>
 						</tr>
 					`;

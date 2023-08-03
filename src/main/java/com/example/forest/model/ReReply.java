@@ -1,6 +1,7 @@
 package com.example.forest.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -43,7 +44,7 @@ public class ReReply extends BaseTimeEntity {
 	private long userId;
 	
 	// 답글이 작성된 댓글
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Reply reply;
 
 }

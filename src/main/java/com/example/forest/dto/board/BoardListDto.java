@@ -20,6 +20,7 @@ public class BoardListDto {
 	private String boardName;
 	private String boardInfo;
 	private String boardGrade;
+	private String categoryName;
 	private int isApproved;
 	private User user;
 	private String createdTime;
@@ -32,6 +33,7 @@ public class BoardListDto {
 				.boardName(entity.getBoardName())
 				.boardInfo(entity.getBoardInfo())
 				.boardGrade(entity.getBoardGrade())
+				.categoryName(entity.getBoardCategory().getValue())
 				.isApproved(entity.getIsApproved())
 				.user(entity.getUser())
 				.createdTime(entity.getCreatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.KOREA)))
