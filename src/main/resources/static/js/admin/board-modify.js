@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				<div class="row">
 	    			<div class="col-9">${user.nickname}</div>
 	    			<div class="col-3">
-	    				<button type="button" class="btn btn-outline-dark blockCancelBtn" data-id="${user.boardId}" 
+	    				<button type="button" class="btn btn-outline-dark blockCancelBtn w-100" data-id="${user.boardId}" 
 	    					data-user-id="${user.userId}">해제</button>
 	    			</div>
 	    		</div>
@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		    				${user.nickname}
 		    			</div>
 		    			<div class="col-3 justify-content-end">
-		    				<button type="button" class="btn btn-outline-dark blockBtn" data-id="${user.id}">차단</button>
+		    				<button type="button" class="btn btn-outline-dark blockBtn w-100" data-id="${user.id}">차단</button>
 		    			</div>
 		    		</div>
 	    		</li>

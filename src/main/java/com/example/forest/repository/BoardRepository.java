@@ -237,6 +237,18 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	int updateBoardOwner(@Param("user") User user, @Param("boardId") long boardId);
 	
 	/**
+	 * 랜드의 소개 정보를 변경
+	 * @param boardInfo
+	 * @return
+	 */
+	@Transactional
+	@Modifying
+	@Query("update Board b "
+			+ " set b.boardInfo = :boardInfo "
+			+ " where b.id = :id")
+	int updateBoardInfo(@Param("boardInfo") String boardInfo, @Param("id") long id);
+	
+	/**
 	 * 특정 게시판에 작성된 모든 게시글을 불러옴
 	 * @param board
 	 * @return
