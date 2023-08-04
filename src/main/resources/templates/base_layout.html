@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8" />
+<title>spring4</title>
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+    crossorigin="anonymous" />
+
+<style>
+#nav1 {
+    margin-left: 50px
+}
+
+.main_nav {
+   margin-left: auto;
+   margin-right: auto;
+}
+#main_top_menu{
+    position:absolute;
+    top:20px;
+    right:10px;
+    color:black;
+    
+    
+}
+</style>
+</head>
+
+<body>
+    <div>
+        <nav class="main_nav">
+            <header
+                class="my-2 p-5 bg-success p-2 text-dark bg-opacity-25 text-center">
+                <div>
+                    <img src="photo/forest2차.png">
+                </div>
+                <div class="container w-50">
+                    <div id="main_top_menu">
+                        <a>메인랜드</a> |
+                        <a>서브랜드</a> |
+                        <a>이벤트</a> |
+                        <a>포레스트게임</a> |
+                        <a>로그인</a>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <input class="form-control" type="search"
+                            placeholder="Search" aria-label="Search">
+                        <button id="searchBtn"
+                            class="btn btn-outline-success flex-shrink-0"
+                            type="submit">검색</button>
+                    </div>
+                </div>
+            </header>
+        </nav>
+        <nav class="navbar navbar-expand-lg bg-body-success">
+            <div class="container text-center">
+                <!-- 카테고리 -->
+                <ul id="nav1" class="nav nav-pills">
+                    <li class="nav-item dropdown"><a
+                        class="nav-link dropdown-toggle"
+                        data-bs-toggle="dropdown" href="#" role="button"
+                        aria-expanded="false">메인랜드</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">게임랜드</a></li>
+                            <li><a class="dropdown-item" href="#">판다랜드</a></li>
+                            <li><a class="dropdown-item" href="#">Something
+                                    else here</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Separated
+                                    link</a></li>
+                        </ul></li>
+                    <li class="nav-item dropdown"><a
+                        class="nav-link dropdown-toggle"
+                        data-bs-toggle="dropdown" href="#" role="button"
+                        aria-expanded="false">서브랜드</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">아이티윌랜드</a></li>
+                            <li><a class="dropdown-item" href="#">강남랜드</a></li>
+                            <li><a class="dropdown-item" href="#">Something
+                                    else here</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Separated
+                                    link</a></li>
+                        </ul></li>
+                    <li class="nav-item dropdown"><a
+                        class="nav-link dropdown-toggle"
+                        data-bs-toggle="dropdown" href="#" role="button"
+                        aria-expanded="false">정원</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another
+                                    action</a></li>
+                            <li><a class="dropdown-item" href="#">Something
+                                    else here</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Separated
+                                    link</a></li>
+                        </ul></li>
+                    <li class="nav-item dropdown"><a
+                        class="nav-link dropdown-toggle"
+                        data-bs-toggle="dropdown" href="#" role="button"
+                        aria-expanded="false">이벤트</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another
+                                    action</a></li>
+                            <li><a class="dropdown-item" href="#">Something
+                                    else here</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Separated
+                                    link</a></li>
+                        </ul></li>
+                    <li class="nav-item dropdown"><a
+                        class="nav-link dropdown-toggle"
+                        data-bs-toggle="dropdown" href="#" role="button"
+                        aria-expanded="false">포레스트게임</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another
+                                    action</a></li>
+                            <li><a class="dropdown-item" href="#">Something
+                                    else here</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Separated
+                                    link</a></li>
+                        </ul></li>
+                    <li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- main컨텐트가 삽입될 위치 -->
+        <th:block layout:fragment="main"></th:block>
+         <div>
+             <footer class="my-2 p-5 bg-success p-2 text-dark bg-opacity-25 text-center">
+                <h1>푸터입니다</h1>
+            </footer>
+        </div>
+    </div>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+</body>
+</html>

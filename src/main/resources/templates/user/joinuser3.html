@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    
+    <style>
+        .joinbody{
+         display:flex;   
+         align-items:center;
+        }
+    </style>
     <div>
         <div class="card my-2">
             <div class="card-header text-center">
                 <h1>회원 가입 페이지</h1>
             </div>
+            <section class="joinbody">
             <div class="card-body">
                 <form method="post" th:action="@{ /user/signup }">
                     <div class="my-2">
@@ -30,6 +36,7 @@
                     </div>
                 </form>
             </div>
+            </section>
         </div>
     </div>
     
