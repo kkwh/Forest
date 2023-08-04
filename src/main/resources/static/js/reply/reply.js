@@ -173,8 +173,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             
                 <textarea id="replyText_${reply.id}" readonly>${reply.replyText}</textarea>
-                </div>
-                        <div class="card my-2">
+                
+                <div class="card my-2">
                         <div id="rereplies_${reply.id}"></div> <!-- 대댓글이 들어갈 공간 -->
                 </div>
                `; 
@@ -210,8 +210,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 
                     <textarea id="replyText_${reply.id}" readonly>${reply.replyText}</textarea>
-                    </div>
-                        <div class="card my-2">
+                    
+                    <div class="card my-2">
                         <div id="rereplies_${reply.id}"></div> <!-- 대댓글이 들어갈 공간 -->
                     </div>
                 `;
@@ -234,7 +234,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             
             let htmlStr2  = `
-                <div class="cmt_write_box clear">    
+            	<div id="rereply_create_${reply.id}">
+                	<div class="cmt_write_box clear">    
                         
 
                         <div class="fl">
@@ -263,9 +264,16 @@ document.addEventListener('DOMContentLoaded', () => {
                              </div>
                          </div>
                     </div>
+                </div>
+                <div id="rereply_list_${reply.id}">
+                </div>
             `;
             rereply_div.innerHTML=htmlStr2;
         }
+        
+        for(let reply of data.list) {
+			showReplies(reply.id);
+		}
         
         const btnReReplyCreates = document.querySelectorAll('button.btnReReplyCreate');
         for(let reBtn of btnReReplyCreates) {
@@ -326,11 +334,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const showReplies = async (replyId) => {
             // 대댓글 가져오기
             const reReplies = await getRepliesWithReplyId(replyId);
+            
+            console.log(reReplies);
         
             // 대댓글을 보여줄 공간 선택
-            const reReplyContainer = document.querySelector(`div#rereplies_${replyId}`);
-            reReplyContainer.innerHTML = ''; // 기존 내용 삭제
-        
+            //const reReplyContainer = document.querySelector(`div#rereplies_${replyId}`);
+            //reReplyContainer.innerHTML = ''; // 기존 내용 삭제
+            
+            const divTag = `rereply_list_${replyId}`;
+            const rereplyDiv = document.querySelector(`div#${divTag}`);
+            
             // 대댓글 리스트를 보여줄 HTML 생성
             let htmlStr = '';
             for (let reReply of reReplies) {
@@ -341,10 +354,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         <span>${reReply.replyText2}</span>
                     </div>
                 `;
-    }
+            }
+                
+            rereplyDiv.innerHTML = htmlStr;
+    
 
     // 생성된 HTML을 대댓글 보여줄 공간에 추가
-    reReplyContainer.innerHTML = htmlStr;
+    //reReplyContainer.innerHTML = htmlStr;
 };     
 
     
