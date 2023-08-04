@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
      layout:decorate="~{layout/base_layout}">
      
      <head>
+        <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
+        <!-- <link rel="stylesheet" th:href="@{/css/summernote/summernote-lite.css}"> -->
 		<link rel="stylesheet" th:href="@{/css/post/create.css}">
 		<link rel="stylesheet" th:href="@{/css/post/createMain.css}">
 		<link rel="stylesheet" th:href="@{/css/post/read.css}">
@@ -13,13 +17,13 @@
         <div class="container">
         <div class="my-2 card">
             <div class="card-header text-center">
-                <h1>뉴진스 랜드</h1>
+                <h1>[[${board.boardName}]] 랜드</h1>
             </div>
             
             <div class="page_head clear">
                 <div class="fl clear">
                     <h2>
-                        <a th:href="@{/post}">뉴진스 랜드
+                        <a th:href="@{ /board/ } + ${boardId}">[[${board.boardName}]] 랜드
                             <div class="pagehead_titicon mgall sp_img">
                                 <span class="blind">마이너</span>
                             </div>
@@ -39,13 +43,23 @@
                 	<div class="input_box input_infotxt d-none">
                         <input id="boardId" class="put_inquiry f_blank" th:value="${boardId}" type="text" name="boardId">
                     </div>
-                                                    
+                 
+                 <!-- 로그인 상태이면 -->
+                <th:block sec:authorize="isAuthenticated()">
+                	<input type="hidden" name="postNickname" id="postNickname" th:value="${ user.nickname }">
+                	<input type="hidden" name="postPassword" id="postPassword" th:value="${ user.password }">
+                </th:block>
+                
+                     
+                    <!-- 비로그인 상태이면 -->
+                 <th:block sec:authorize="isAnonymous()">        
                     <div class="input_box input_infotxt">
                         <input id="name" class="put_inquiry f_blank" type="text" name="postNickname" maxlength="15" placeholder="닉네임">
                     </div>
                     <div class="input_box input_infotxt">
                         <input id="password" class="put_inquiry f_blank" type="password" name="postPassword" maxlength="20" autocomplete="new-password" placeholder="비밀번호">
                     </div>
+                 </th:block>
                                 <!-- //닉네임, 비밀번호-->
                 
                                     
@@ -55,13 +69,17 @@
                     <strong class="tit">말머리</strong>
                     <ul class="subject_list clear">
                         <li class="일반" data-no="0" onclick="write_headtext(this, '일반')"><em class="sp_img"></em>일반</li>
+                    
+                      <th:block th:if="${ board.user.nickname } == ${#authentication.name}">
                         <li data-no="50" onclick="write_headtext(this, '공지')">공지</li>
+                      </th:block>
+                    
                         <li data-no="150" onclick="write_headtext(this, '뉴스')">뉴스</li>
                         <li data-no="180" onclick="write_headtext(this, 'SNS')">SNS</li>
                         <li data-no="190" onclick="write_headtext(this, '사진/움짤')">사진/움짤</li>
                         <li class="not" data-no="160" onclick="write_headtext(this, '이벤트')">이벤트</li>
                                              
-                        <!-- li class="sel"><em class="sp_img"></em>일이삼사오</li--><!-- 선택된 말머리 : 클래스 sel, 태그em 추가됨 -->
+                        <!-- 선택된 말머리 : 클래스 sel, 태그em 추가됨 -->
                         
                     </ul>
                 </div>
@@ -69,6 +87,8 @@
                 <div class="input_box input_write_tit">
                     <input id="subject" class="put_inquiry f_blank" type="text" name="postTitle" maxlength="40" placeholder="제목을 입력해 주세요.">
                 </div>
+                <input type="hidden" name="postIp" id="postIp" th:value="${ shortIp }">
+                <input type="hidden" name="userId" id="userId" th:value="${ userId }">
                 <!-- //글 제목 입력 / 노출 -->
             </fieldset>
             <div class="write_infobox">
@@ -89,10 +109,10 @@
     
                     <div class="my-2">
                         <label class="form-label" for="content">내용</label>
-                        <textarea class="form-control" id="content" name="postContent" required></textarea>
+                        <textarea class="form-control" id="summernote" name="postContent" required></textarea>
                     </div>               
                     <div>
-                        <a class="nav-link form-control btn btn-outline-success" th:href="@{/post}">취소</a>
+                        <a class="nav-link form-control btn btn-outline-success" th:href="@{ /board/ } + ${boardId}">취소</a>
                         <input class="form-control btn btn-outline-success" type="submit" value="나무심기"/>
               </div>
                         
@@ -104,6 +124,101 @@
      </main>
      
      <th:block layout:fragment="myscripts">
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+        <!-- <script src="/js/summernote/summernote-lite.js"></script>
+        <script src="/js/summernote/lang/summernote-ko-KR.js"></script> -->
         <script src="/js/post/create.js"></script>
+        <script>
+         // 메인화면 페이지 로드 함수
+            $(document).ready(function () {
+                $('#summernote').summernote({
+                    placeholder: '내용을 작성하세요',
+                    height: 400,
+                    maxHeight: 400
+                });
+                
+             // 서머노트에 text 쓰기
+                $('#summernote').summernote('insertText', '써머노트에 쓸 텍스트');
+
+
+                // 서머노트 쓰기 비활성화
+                $('#summernote').summernote('disable');
+
+                // 서머노트 쓰기 활성화
+                $('#summernote').summernote('enable');
+
+
+                // 서머노트 리셋
+                $('#summernote').summernote('reset');
+
+
+                // 마지막으로 한 행동 취소 ( 뒤로가기 )
+                $('#summernote').summernote('undo');
+                // 앞으로가기
+                $('#summernote').summernote('redo');
+                
+                $('.summernote').summernote({
+                    toolbar: [
+                          // [groupName, [list of button]]
+                          ['fontname', ['fontname']],
+                          ['fontsize', ['fontsize']],
+                          ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+                          ['color', ['forecolor','color']],
+                          ['table', ['table']],
+                          ['para', ['ul', 'ol', 'paragraph']],
+                          ['height', ['height']],
+                          ['insert',['picture','link','video']],
+                          ['view', ['fullscreen', 'help']]
+                        ],
+                      fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+                      fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
+                });
+                
+                $('#summernote').summernote({
+                    height: 300,                 // 에디터 높이
+                    minHeight: null,             // 최소 높이
+                    maxHeight: null,             // 최대 높이
+                    focus: true,                  // 에디터 로딩후 포커스를 맞출지 여부
+                    lang: "ko-KR",                  // 한글 설정
+                    placeholder: '최대 2048자까지 쓸 수 있습니다', //placeholder 설정
+                    callbacks: {    //여기 부분이 이미지를 첨부하는 부분
+                        onImageUpload : function(files) { 
+                            uploadSummernoteImageFile(files[0],this);
+                        },
+                        onPaste: function (e) {
+                            var clipboardData = e.originalEvent.clipboardData;
+                            if (clipboardData && clipboardData.items && clipboardData.items.length) {
+                                var item = clipboardData.items[0];
+                                if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
+                                    e.preventDefault();
+                                }
+                            }
+                        }
+                    }
+        });
+            
+            });
+            /**
+             * 이미지 파일 업로드
+             */
+             function uploadSummernoteImageFile(file, editor) {
+            	 console.log('upload lego');
+                 data = new FormData();
+                 data.append("file", file);
+                 $.ajax({
+                     data : data,
+                     type : "POST",
+                     url : "/uploadSummernoteImageFile",
+                     contentType : false,
+                     processData : false,
+                     success : function(data) {
+                         //항상 업로드된 파일의 url이 있어야 한다.
+                         $(editor).summernote('insertImage', data.url);
+                     }
+                 });
+             }
+        </script>
     </th:block>
 </html>

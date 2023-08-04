@@ -7,5 +7,6 @@ public class PostSearchDto {
 
     private String type;
     private String keyword;
+    private long boardId;
     
 }

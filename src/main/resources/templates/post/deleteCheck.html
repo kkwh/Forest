@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
     
 <head>
@@ -13,9 +14,11 @@
 <body>
    	<div class="cent">		
 		<article>
+        <!-- 비로그인 상태이면 -->
+        <th:block sec:authorize="isAnonymous()">
 		<div class="no_memberwrap">
 			<div class="no_member_cont">
-				<h3 class="blind">비회원 글삭제,수정 </h3>
+				<h3 class="blind">비회원 글삭제 </h3>
 				<div class="inner">
 				<b class="txt">비밀번호를 입력하세요.</b>
 				<input class="pw_inquiry" id="password" name="password" type="password" title="비밀번호 입력">
@@ -25,7 +28,25 @@
 					</div>
 				</div>
 			</div>
-		</div>	
+		</div>
+        </th:block>
+        
+        <!-- 로그인 상태이면 -->
+        <th:block sec:authorize="isAuthenticated()">
+        <div class="no_memberwrap">
+            <div class="no_member_cont">
+                <h3 class="blind">회원 글삭제 </h3>
+                <div class="inner">
+                <b class="txt">삭제된 게시물은 복구할 수 없습니다.</b>
+                <b class="txt">게시물을 삭제하시겠습니까?</b>
+                    <div class="btn_box">
+                        <button type="button" class="btn_grey small" id="cancel-button">취소</button>
+                        <button type="button" class="btn_blue small btn_ok" id="confirm-button2">확인</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </th:block>	
 	</article>
 	</div>
 
@@ -34,19 +55,21 @@
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script th:inline="javascript">
 		$(document).ready(function(){
-		  $('#confirm-button').click(function(){
+		  $('#confirm-button').click(function(){ // 비회원 삭제 확인 버튼 클릭
 		    var password = $('#password').val();
 		    axios.post('/api/post/check-password', {
 		      'password': password,
 		      'postId': /*[[${post.id}]]*/ 'postId' // postId 는 서버로부터 받아온 게시물 ID
+		   
 		    })
 		    .then(function(response) {
 		    	if(response.data) {
 		    		postId = /*[[${post.id}]]*/ 'postId'
+		    		boardId = /*[[${board.id}]]*/ 'boardId'
 		            axios.delete('/api/post/' + postId)
 		            .then(function(secondResponse) {
 		              console.log(response);
-		              window.location.href = '/post';
+		              window.location.href = '/board/' + boardId
 		            })
 		            .catch(function(secondError) {
 		              console.error(secondError);
@@ -61,10 +84,24 @@
 		  });
 		  
 		  
+		  $('#confirm-button2').click(function(){ // 회원 삭제 확인 버튼 클릭
+	            
+	                    postId = /*[[${post.id}]]*/ 'postId'
+	                    boardId = /*[[${board.id}]]*/ 'boardId'
+	                    axios.delete('/api/post/' + postId)
+	                    .then((response) => {
+                            console.log(response);
+                            window.location.href = '/board/' + boardId;
+                        })
+                        .catch((error) =>  console.log(error));                        	                      
+	          });
+		  
+		  
 		// 취소 버튼 클릭 이벤트 처리
 		  $('.btn_grey').click(function(){
 			 postId = /*[[${post.id}]]*/ 'postId'
-		     window.location.href = '/post/details?id=' + postId; 
+		     boardId = /*[[${board.id}]]*/ 'boardId'
+		     window.location.href = '/post/details?boardId=' + boardId+ '&id=' + postId;
 		  });
 		});
 	</script>

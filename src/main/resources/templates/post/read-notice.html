@@ -13,7 +13,7 @@
     <div class="container">
         <div class="my-2 card">
             <div class="card-header text-center">
-                <h1 th:text="|${board.boardName} 랜드 인기글|"></h1>
+                <h1 th:text="|${board.boardName} 랜드 공지|"></h1>
             </div>
             
             <div class="page_head clear">
@@ -204,7 +204,8 @@ $(document).ready(function(){
                     </thead>
                     <tbody>
 				        <tr th:each="post : ${posts}" class="ub-content ">
-				            <td th:text="${post.id}" ></td>
+                           
+				            <td th:text="${post.id}"></td>
 				            <td th:text="${post.postType}"></td>
 				            <td>
 				                <button th:text="${post.postTitle} + ' [' + ${ post.replyCount } + ']'" class="text-link view-post" th:data-post-id="${post.id}" th:data-board-id="${board.id}" data-href="@{/post/details?boardId={boardId} (boardId = ${board.id})&id={id} (id = ${post.id}) }"
@@ -221,6 +222,7 @@ $(document).ready(function(){
 				            <td th:text="${ #temporals.format(post.createdTime, 'yyyy-MM-dd HH:mm:ss') }"></td>
 				            <td class="post-views" th:text="${post.postViews}"></td>
 				            <td th:text="${ post.likesCount }"></td>
+                           
 				        </tr>
 				    </tbody>
                 </table>
