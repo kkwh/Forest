@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.forest.dto.reply.ReplyCreateDto;
 import com.example.forest.dto.reply.ReplyListDto;
+import com.example.forest.model.ReReply;
 import com.example.forest.model.Reply;
 import com.example.forest.service.IpService;
+import com.example.forest.service.ReReplyService;
 import com.example.forest.service.ReplyService;
 import com.example.forest.service.UserService;
 
@@ -34,10 +36,12 @@ public class ReplyRestController {
         private final ReplyService replyService;
         private final IpService ipService;
         private final UserService userService;
-            
+        private final ReReplyService reReplyService;
+        
+        // 게시글 별 댓글 조회
         // pathVariable이라고 부르는 부분은 중괄호로 표시
         @GetMapping("/all/{postId}")
-        public ResponseEntity<ReplyListDto> all(@PathVariable long postId, Principal principal) {
+        public ResponseEntity<ReplyListDto> all(@PathVariable Long postId, Principal principal) {
             log.info("all(postId={})", postId);
             
             long userId = 0;
@@ -45,21 +49,29 @@ public class ReplyRestController {
                 userId = userService.getUserId(principal.getName());
             }
  
+            long count = 0;
+            
             List<Reply> list = replyService.read(postId);
             for (Reply reply : list) {
                 String replyIp = ipService.getServerIp();
-                log.info("포스트 ID: {}, IP 주소: {}", postId, replyIp);
+                count += reReplyService.countByReply(reply);
+                log.info("포스트 ID: {}, IP 주소: {}, 개수: {}", postId, replyIp, count);
             }
             
             ReplyListDto dto = ReplyListDto.builder()
                     .userId(userId)
+                    .count(count)
                     .list(list)
                     .build();
+            
+          
             
             // 클라이언트로 댓글 리스트를 응답으로 보냄.
             return ResponseEntity.ok(dto);
         }
         
+        
+        // 댓글 생성(IP 포함)
         @PostMapping
          public ResponseEntity<Reply> create(@RequestBody ReplyCreateDto dto, HttpServletRequest request, Principal principal) {
              log.info("create(dto={})", dto);
@@ -90,7 +102,7 @@ public class ReplyRestController {
             
          }
         
-        // 회원 댓글 삭제
+        // 댓글 삭제
         @DeleteMapping("/{id}")
         public ResponseEntity<String> delete(@PathVariable long id, @RequestParam("password") String password, Principal principal) {
             log.info("delete(id={})", id);

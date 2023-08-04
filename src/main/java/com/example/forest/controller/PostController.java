@@ -15,10 +15,12 @@ import com.example.forest.dto.post.PostUpdateDto;
 import com.example.forest.dto.post.PostWithLikesCount;
 import com.example.forest.dto.post.PostWithLikesCount2;
 import com.example.forest.model.Post;
+import com.example.forest.model.ReReply;
 import com.example.forest.service.BoardService;
 import com.example.forest.service.LikesService;
 import com.example.forest.model.Reply;
 import com.example.forest.service.PostService;
+import com.example.forest.service.ReReplyService;
 import com.example.forest.service.ReplyService;
 
 import lombok.RequiredArgsConstructor;
@@ -34,7 +36,8 @@ public class PostController {
 	private final BoardService boardService;
     private final PostService postService;
     private final LikesService likesService;
-    private final ReplyService replyService; 
+    private final ReplyService replyService;
+    private final ReReplyService reReplyService; 
     
 //    @GetMapping
 //    public String post(Model model) {
@@ -102,7 +105,11 @@ public class PostController {
         // 채한별 추가 : 
         // REPLIES 테이브에서 해당 포스트에 달린 댓글 개수를 검색.
         long count = replyService.countByPost(post);
-        model.addAttribute("replyCount", count);
+        long countre2 = reReplyService.countByPost(post);
+       count += countre2;
+        model.addAttribute("replyTotal", count);
+       // model.addAttribute("reReplyCount", countre2);
+
     }
     
     @GetMapping("/modifyCheck")
