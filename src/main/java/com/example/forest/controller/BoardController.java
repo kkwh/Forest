@@ -18,6 +18,7 @@ import com.example.forest.dto.board.BoardCreateDto;
 import com.example.forest.dto.board.BoardDetailDto;
 import com.example.forest.dto.board.BoardListDto;
 import com.example.forest.dto.board.BoardModifyDto;
+import com.example.forest.dto.board.BoardRankListDto;
 import com.example.forest.dto.post.PostWithLikesCount;
 import com.example.forest.model.BoardCategory;
 import com.example.forest.model.User;
@@ -64,6 +65,10 @@ public class BoardController {
 		
 		model.addAttribute("boardMap", boardMap);
 		
+		BoardRankListDto rankDto = boardService.findPopularBoard("Main");
+		log.info("rankDto = {}", rankDto);
+		model.addAttribute("rankList", rankDto);
+		
 		return "board/main";
 	}
 	
@@ -90,6 +95,10 @@ public class BoardController {
 		}
 		
 		model.addAttribute("boardMap", boardMap);
+		
+		BoardRankListDto rankDto = boardService.findPopularBoard("Sub");
+		log.info("rankDto = {}", rankDto);
+		model.addAttribute("rankList", rankDto);
 		
 		return "board/sub";
 	}

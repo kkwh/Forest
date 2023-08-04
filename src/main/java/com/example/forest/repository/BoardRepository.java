@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.forest.dto.board.BoardRankDto;
 import com.example.forest.model.Board;
 import com.example.forest.model.BoardCategory;
 import com.example.forest.model.Post;
@@ -261,5 +262,12 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	@Query("select r from ReReply r "
 			+ " where r.reply = :reply")
 	List<ReReply> findAllReRepliesByReply(@Param("reply") Reply reply);
+	
+	@Query("SELECT new com.example.forest.dto.board.BoardRankDto"
+			+ " (p.board.id as id, p.board.boardName AS boardName, ROW_NUMBER() OVER (ORDER BY COUNT(p.id) DESC) AS boardRank, COUNT(p.id) AS postCount) "
+			+ " FROM Post p JOIN p.board b "
+		    + " WHERE b.boardGrade = :grade "
+		    + " GROUP BY p.board.id, p.board.boardName")
+	List<BoardRankDto> findTop10Boards(@Param("grade") String grade);
 
 }

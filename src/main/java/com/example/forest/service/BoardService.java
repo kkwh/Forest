@@ -11,6 +11,8 @@ import com.example.forest.dto.board.BoardCreateDto;
 import com.example.forest.dto.board.BoardDetailDto;
 import com.example.forest.dto.board.BoardListDto;
 import com.example.forest.dto.board.BoardModifyDto;
+import com.example.forest.dto.board.BoardRankDto;
+import com.example.forest.dto.board.BoardRankListDto;
 import com.example.forest.dto.board.BoardRevokeDto;
 import com.example.forest.dto.board.BoardSearchDto;
 import com.example.forest.dto.board.BoardUserDto;
@@ -19,7 +21,6 @@ import com.example.forest.model.Board;
 import com.example.forest.model.BoardCategory;
 import com.example.forest.model.ImageFile;
 import com.example.forest.model.Post;
-import com.example.forest.model.ReReply;
 import com.example.forest.model.Reply;
 import com.example.forest.model.Role;
 import com.example.forest.model.User;
@@ -443,6 +444,29 @@ public class BoardService {
 		
 		// 게시판 삭제
 		boardRepository.delete(entity);
+	}
+	
+	public BoardRankListDto findPopularBoard(String boardGrade) {
+		log.info("findPopularBoard(grade = {})", boardGrade);
+		
+		List<BoardRankDto> list = boardRepository.findTop10Boards(boardGrade);
+		List<BoardRankDto> list1 = new ArrayList<>();
+		List<BoardRankDto> list2 = new ArrayList<>();
+		int idx = 0;
+		while(idx < 5 && idx < list.size()) {
+			list1.add(list.get(idx));
+			idx++;
+		}
+		
+		while(idx >= 5 && idx < list.size()){
+			list2.add(list.get(idx));
+			idx++;
+		}
+		
+		return BoardRankListDto.builder()
+				.top5List(list1)
+				.top10List(list2)
+				.build();
 	}
 	
 }
