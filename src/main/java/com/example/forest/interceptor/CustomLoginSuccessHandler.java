@@ -11,6 +11,7 @@ import com.example.forest.model.Role;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -25,8 +26,10 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 	    
 	    log.info("id = {}, pw = {}", loginId, password);
 
+	    HttpSession session = request.getSession();
+	    session.setAttribute("loginId", loginId);
 	    
-	 // 사용자의 역할(Role) 확인
+	    // 사용자의 역할(Role) 확인
         String role = authentication.getAuthorities().stream()
                                      .map(GrantedAuthority::getAuthority)
                                      .findFirst()

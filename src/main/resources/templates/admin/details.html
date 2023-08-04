@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layout/base_layout}">
+    layout:decorate="~{layout/admin_base_layout}">
 
 <div layout:fragment="main" class="mt-5 p-3">
     
@@ -65,8 +65,7 @@
 
 						<div class="card-body">
 				  			<button id="modifyBtn" type="button" class="btn btn-outline-success w-100 my-1">수정</button>
-				  			<button id="deleteBtn" type="button" class="btn btn-outline-danger w-100 my-1">삭제</button>
-					    	<a href="/" id="cancelBtn" class="btn btn-outline-primary w-100 my-1">취소</a>
+					    	<a href="/" id="cancelBtn" class="btn btn-outline-danger w-100 my-1">취소</a>
 						</div>
 					</th:block>
 				</div>
@@ -113,7 +112,7 @@
 
 <th:block layout:fragment="myscripts">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="/js/board/board-modify.js"></script>
+    <script src="/js/admin/board-modify.js"></script>
 </th:block>
 
 </html>

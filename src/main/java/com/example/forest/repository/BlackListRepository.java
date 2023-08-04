@@ -3,8 +3,10 @@ package com.example.forest.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.forest.dto.board.BlackListDto;
 import com.example.forest.model.BlackList;
@@ -40,10 +42,25 @@ public interface BlackListRepository extends JpaRepository<BlackList, Long> {
 			+ " order by u.nickname")
 	List<User> findAllUserNotInList(@Param("boardId") long boardId, @Param("userId") long userId, @Param("role") Role role);
 	
+	/**
+	 * 해당 게시판에 특정 유저가 블랙 리스트에 등록 되어 있는지 확인
+	 * @param boardId
+	 * @param userId
+	 * @return
+	 */
 	@Query("select b "
 			+ " from BlackList b "
 			+ " where b.userId = :userId "
 			+ " and b.boardId = :boardId")
 	BlackList findByBoardIdAndUserId(@Param("boardId") long boardId, @Param("userId") long userId);
+	
+	/**
+	 * 특정 게시판의 블랙 리스트를 전부 삭제
+	 * @param boardId
+	 * @return
+	 */
+	@Transactional
+	@Modifying
+	void deleteByBoardId(@Param("boardId") long boardId);
 
 }

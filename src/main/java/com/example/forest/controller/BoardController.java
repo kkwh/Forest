@@ -19,13 +19,14 @@ import com.example.forest.dto.board.BoardDetailDto;
 import com.example.forest.dto.board.BoardListDto;
 import com.example.forest.dto.board.BoardModifyDto;
 import com.example.forest.dto.post.PostWithLikesCount;
-import com.example.forest.model.BlackList;
 import com.example.forest.model.BoardCategory;
 import com.example.forest.model.User;
 import com.example.forest.service.BoardService;
 import com.example.forest.service.PostService;
 import com.example.forest.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,8 +41,19 @@ public class BoardController {
 	private final BoardService boardService;
 	
 	@GetMapping("/mainLand")
-	public String getMainBoard(Model model) {
+	public String getMainBoard(Model model, HttpServletRequest request) {
 		Map<BoardCategory, List<BoardListDto>> boardMap = new HashMap<>();
+		
+		HttpSession session = request.getSession();
+		String loginId = (String) session.getAttribute("loginId");
+		log.info("loginId = {}", loginId);
+		
+		long userId = 0;
+		if(loginId != null) {
+			userId = userService.getUserId(loginId);
+		}
+		
+		model.addAttribute("userId", userId);
 		
 		BoardCategory[] categories = BoardCategory.values();
 		for(BoardCategory category : categories) {
@@ -56,8 +68,19 @@ public class BoardController {
 	}
 	
 	@GetMapping("/subLand")
-	public String getSubBoard(Model model) {
+	public String getSubBoard(Model model, HttpServletRequest request) {
 		Map<BoardCategory, List<BoardListDto>> boardMap = new HashMap<>();
+		
+		HttpSession session = request.getSession();
+		String loginId = (String) session.getAttribute("loginId");
+		log.info("loginId = {}", loginId);
+		
+		long userId = 0;
+		if(loginId != null) {
+			userId = userService.getUserId(loginId);
+		}
+		
+		model.addAttribute("userId", userId);
 		
 		BoardCategory[] categories = BoardCategory.values();
 		for(BoardCategory category : categories) {
@@ -66,7 +89,6 @@ public class BoardController {
 			boardMap.put(category, subList);
 		}
 		
-		model.addAttribute("categories", categories);
 		model.addAttribute("boardMap", boardMap);
 		
 		return "board/sub";
@@ -76,13 +98,13 @@ public class BoardController {
 	public String board(@PathVariable("id") long id, Model model) {
 		BoardDetailDto dto = boardService.findById(id);
 		model.addAttribute("board", dto);
-		
+
 		List<PostWithLikesCount> list = postService.findAllPostsWithLikesCount();
         log.info("post(list={})", list);
         
         model.addAttribute("posts", list);
 		
-		return "/board/read";
+		return "board/read";
 	}
 	
 	@GetMapping("/create")
@@ -152,7 +174,7 @@ public class BoardController {
 		
 		boardService.updateBoard(dto);
 		
-		return "redirect:/admin/board/list";
+		return "redirect:/board/list";
 	}
 
 }

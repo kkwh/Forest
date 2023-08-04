@@ -86,68 +86,79 @@ const deleteReply = (e) => {
         // div 안에 삽입할 HTML 코드 초기화.
         let htmlStr = '';
         for (let reply of data.list) {
-	        if(reply.userId == 0) {    
-	            htmlStr += `
-	            <div class="card my-2">
-	                <div>
-	                    <span class="d-none">${reply.id}</span>
-	                    <span class="fw-bold">${reply.replyNickname}</span>
-	                    <span class="fw-bold">(${reply.replyIp})</span>
-	                </div>
-	            
-	                <textarea id="replyText_${reply.id}">${reply.replyText}</textarea>
-	                <div class="my-2">
-	                    <label class="form-label" for="replyPassword">비밀번호</label>
-	                    <input class="form-control" id="password_${reply.id}"
-	                       type="text" name="replyPassword" placeholder="비밀번호를 입력하세요" required autofocus />
-	                </div>     
-	                <div>
-	                    <button class="btnDelete btn btn-outline-danger" type="button"
-	                        data-password="${reply.replyPassword}" data-user-id="${reply.userId}" data-id="${reply.id}">삭제</button>
-	                </div>
-	            `;
-	        } else {
-	            if(reply.userId == data.userId) {
-	                htmlStr += `
-	                <div class="card my-2">
-	                    <div>
-	                        <span class="d-none">${reply.id}</span>
-	                        <span class="fw-bold">${reply.replyNickname}</span>
-	                        <span class="fw-bold">(${reply.replyIp})</span>
-	                    </div>
-	                    <textarea id="replyText_${reply.id}">${reply.replyText}</textarea>
-	                        <input class="form-control" id="password_${reply.id}"
-	                            type="hidden" name="replyPassword" value="0" required autofocus />
-	                    <div>
-	                        <button class="btnDelete btn btn-outline-danger" type="button"
-	                            data-password="0" data-user-id="${reply.userId}" data-id="${reply.id}">삭제</button>
-	                    </div>
-	                `;
-	            }
-	             else {
-	                 htmlStr += `
-	                <div class="card my-2">
-	                    <div>
-	                        <span class="d-none">${reply.id}</span>
-	                        <span class="fw-bold">${reply.replyNickname}</span>
-	                        <span class="fw-bold">(${reply.replyIp})</span>
-	                    </div>
-	                
-	                    <textarea id="replyText_${reply.id}">${reply.replyText}</textarea>
-	                `;
-	             }
+        if(reply.userId == 0 & reply.replyPassword !== null) {    
+            htmlStr += `
+            <div class="card my-2">
+                <div>
+                    <span class="d-none">${reply.id}</span>
+                    <span class="fw-bold">${reply.replyNickname}</span>
+                    <span class="fw-bold">(${reply.replyIp})</span>
+                </div>
+            
+                <textarea id="replyText_${reply.id}">${reply.replyText}</textarea>
+                <div class="my-2">
+                    <label class="form-label" for="replyPassword">비밀번호</label>
+                    <input class="form-control" id="password_${reply.id}"
+                       type="text" name="replyPassword" placeholder="비밀번호를 입력하세요" required autofocus />
+                </div>     
+                <div>
+                    <button class="btnDelete btn btn-outline-danger" 
+                        data-password="${reply.replyPassword}" data-user-id="${reply.userId}" data-id="${reply.id}">삭제</button>
+                </div>
+            `;
+        } else if(reply.userId == 0 & reply.replyPassword === null) {    
+            htmlStr += `
+            <div class="card my-2">
+                <div>
+                    <span class="d-none">${reply.id}</span>
+                    <span class="fw-bold">${reply.replyNickname}</span>
+                    <span class="fw-bold">(${reply.replyIp})</span>
+                </div>
+            
+                <textarea id="replyText_${reply.id}">${reply.replyText}</textarea>
+               `; 
+            
+        
+        } else {
+            if(reply.userId == data.userId) {
+                htmlStr += `
+                <div class="card my-2">
+                    <div>
+                        <span class="d-none">${reply.id}</span>
+                        <span class="fw-bold">${reply.replyNickname}</span>
+                        <span class="fw-bold">(${reply.replyIp})</span>
+                    </div>
+                    <textarea id="replyText_${reply.id}">${reply.replyText}</textarea>
+                        <input class="form-control" id="password_${reply.id}"
+                            type="hidden" name="replyPassword" value="0" required autofocus />
+                    <div>
+                        <button class="btnDelete btn btn-outline-danger" 
+                            data-password="0" data-user-id="${reply.userId}" data-id="${reply.id}">삭제</button>
+                    </div>
+                `;
+            }
+             else {
+                 htmlStr += `
+                <div class="card my-2">
+                    <div>
+                        <span class="d-none">${reply.id}</span>
+                        <span class="fw-bold">${reply.replyNickname}</span>
+                        <span class="fw-bold">(${reply.replyIp})</span>
+                    </div>
+                
+                    <textarea id="replyText_${reply.id}">${reply.replyText}</textarea>
+
+                `;
              }
             
         }
 
         htmlStr += '</div>';
-        
-        // 작성된 HTML 문자열을 div 요소에 innerHTML로 설정.
-        replies.innerHTML = htmlStr;
     }           
 
         
-        
+        // 작성된 HTML 문자열을 div 요소에 innerHTML로 설정.
+        replies.innerHTML = htmlStr;
         
    // 순서 5-1!!!
    // 모든 댓글 삭제 버튼들에게 이벤트 리스너를 등록.
@@ -155,7 +166,8 @@ const deleteReply = (e) => {
         for (let btn of btnDeletes) {
             btn.addEventListener('click', deleteReply);
         }        
-
+        
+    };
     
     // 순서 2!!!!    
     // 포스트 번호에 달려있는 댓글 목록을 (Ajax 요청으로) 가져오는 함수:

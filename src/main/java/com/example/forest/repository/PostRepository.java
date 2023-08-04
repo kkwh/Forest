@@ -3,11 +3,14 @@ package com.example.forest.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.forest.dto.post.PostWithLikesCount;
 import com.example.forest.dto.post.PostWithLikesCount2;
+import com.example.forest.model.Board;
 import com.example.forest.model.Post;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
@@ -75,6 +78,14 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             + " ORDER BY p.id DESC")
     List<PostWithLikesCount2> findAllPostsWithLikesDifference();
 
+    /**
+     * 서원준
+     * 게시판 삭제시 작성된 모든 게시물 삭제
+     * @param board
+     */
+    @Transactional
+	@Modifying
+    void deleteByBoard(@Param("board") Board board);
 
     
 }

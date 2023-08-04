@@ -50,7 +50,7 @@ public class Reply extends BaseTimeEntity {
 	private long userId;
 	
 	// 댓글이 작성된 게시물
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Post post;
 
 }

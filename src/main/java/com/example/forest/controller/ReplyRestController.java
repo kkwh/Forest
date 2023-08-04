@@ -68,7 +68,9 @@ public class ReplyRestController {
              
              long userId = 0;
              
-             
+             if(principal != null) {
+            	 userId = userService.getUserId(principal.getName());
+             }
             
              dto.setUserId(userId);
              

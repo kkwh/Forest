@@ -3,6 +3,39 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
 	
+	/**
+	 * 게시판 관리자 권한 뺏기
+	 */
+	const revoke = (e) => {
+		const userId = e.target.getAttribute('data-user-id');
+		const boardId = e.target.getAttribute('data-board-id');
+		
+		console.log(`userId = ${userId}, boardId = ${boardId}`);
+		
+		const result = confirm('랜드의 관리자 권한을 뺏으시겠습니까?');
+		if(!result) {
+			return false;
+		}
+		
+		const url = '/api/v1/board/revoke';
+		const data = { userId, boardId };
+		
+		axios.put(url, data)
+			.then((response) => {
+				console.log(response);
+				
+				location.reload();
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+	
+	const revokeBtns = document.querySelectorAll('button.revokeBtn');
+	for(let btn of revokeBtns) {
+		btn.addEventListener('click', revoke);
+	}
+	
 	const modify = () => {
 		const form = document.querySelector('form#modify-form');
 		
@@ -257,29 +290,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	for(let btn of blockCancelBtns) {
 		btn.addEventListener('click', cancelBlock);
 	}
-	
-	const deleteBoard = () => {
-		const boardId = document.querySelector('input#boardId').value;
-		
-		const result = confirm('정말 삭제하시겠습니까?');
-		if(!result) {
-			return false;
-		}
-		
-		const url = `/api/v1/board/delete/${boardId}`;
-		axios.delete(url)
-			.then((response) => {
-				console.log(response);
-				
-				window.location.href='/board/list';
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	};
-	
-	const deleteBtn = document.querySelector('button#deleteBtn');
-	deleteBtn.addEventListener('click', deleteBoard);
 	
 });
 
