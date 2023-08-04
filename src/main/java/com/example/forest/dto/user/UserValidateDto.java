@@ -1,21 +1,11 @@
 package com.example.forest.dto.user;
 
-
-
-import com.example.forest.model.ImageFile;
-
 import lombok.Data;
 
 @Data
-public class UserSignUpDto {
-
-    private ImageFile imageId;
+public class UserValidateDto {
+    
     private String loginId;
-
     private String nickname;
-
-    private String password;
-
     private String email;
-
 }

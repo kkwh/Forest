@@ -1,31 +1,142 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
- xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
- xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<html>
-<head>
-<meta charset="UTF-8">
-    <title>Insert title here</title>
-</head>
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+   <head>
+       <meta charset="UTF-8">
+       <title>로그인 화면</title>
+<style>
+:root{
+
+ --body-background-color: #f5f6f7;
+ --font-color: #4e4e4e;
+ --border-gray-color : #dadada;
+ --naver-green-color: #04c75a;
+ --naver-green-border-color: #06b350;
+}
+.main-container {
+ width:100%;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ margin-top: 21px;
+}
+.main-container .main-wrap{
+ width:768px;
+}
+
+.main-container .main-wrap{
+ width: 96px;
+ height: 30px;
+ color: var(--font-color);
+ border: solid 1px var(--border-gray-color);
+}
+
+.main-container .main-wrap .logo-wrap{
+ padding-top:55px;
+}
+
+.main-container .main-wrap .logo-wrap img
+{
+ width: 231px;
+ height: 44px;
+}
+
+.main-container .main-wrap header{
+ display:flex;
+ justify-content:flex-end;
+}
+
+.main-container .main-wrap header .logo-wrap{
+ display:flex; 
+ flex-direction: column;
+ align-items: center;
+}
+.login-input-idpw-wrap{
+ padding-top: 60px;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+}
+
+.login-input-wrap{
+ width: 465px;
+ height :48px;
+ border: solid 1px var( --border-gray-color );
+ background: white;
+}
+.password-wrap{
+ margin-top: 13px;
+}
+.login-input-wrap input{
+ border: none;
+ width:430px;
+ margin-top: 10px;
+ font-size: 14px;
+ margin-left: 10px;
+ height:30px;
+}
+.login-button-wrap {
+ padding-top: 13px;
+}
+.login-button-wrap button{
+ width: 465px;
+ height :48px;
+ font-size: 18px;
+ background: var(--naver-green-color);
+ color: white;
+ border: solid 1px var(--naver-green-border-color);
+}
+
+.login-btn-wrap{
+    display:flex;
+
+}
+
+</style>
+   </head>
 <body>
- <h1>Login Page</h1>
- <form action="/user/login/process" method="post">
-  <input type="text" id="loginId" name="loginId" /> <input
-   type="password" id="password" name="password" />
-  <button type="submit" id="loginBtn">login</button>
- </form>
+    <div>
+        <div class="main-wrap">
+
+            <div class="logo-wrap">
+                <a href="/"> <img src="/img/forestlogo.png"
+                    alt="포레스트 로고" width="250px" height="auto">
+                </a>
+            </div>
+
+            <section class="login-input-idpw-wrap">
+                <form th:action="@{/user/login/process}" method="post"
+                    class="loginform">
+                    <div class="login-input-wrap">
+                        <input placeholder="Id" type="text"
+                            name="loginId" class="loginId"></input>
+                    </div>
+                    <div class="login-input-wrap password-wrap">
+                        <input placeholder="Password" type="password"
+                            name="password" class="password"></input>
+                    </div>
+                    <div class="login-button-wrap">
+                        <button type="submit" id="loginBtn">Sign
+                            in</button>
+                    </div>
+
+                    <div class="">
+                        <a href="/user/findid"><button class="findid" type="button">id찾기</button></a>
+                        <a href="/user/findpw"><button class="findpw" type="button">pw찾기</button></a>
+                        <a href="/user/signup"><button type="button">회원가입</button></a>
+                    </div>
+                </form>
+            </section>
+            <div th:if="${errorMessage}" style="color: red;">
+                <p th:text="${errorMessage}"></p>
+            </div>
+
+
+        </div>
+    </div>
+
 </body>
 </html>
 
-<!-- 
-1. 회원가입
-   - 회원가입 UI
-   - 로그인 아이디 중복 체크
-   - 닉네임 중복 체크
-   - 비밀번호 길이
-   - 프로필 사진
-2. 로그인 시
-   - 로그인 UI
-   - 아이디/비밀번호 찾기
-   - SuccessHandler 구현 (USER, ADMIN일 때 다르게 처리)
- -->
