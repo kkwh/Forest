@@ -101,30 +101,32 @@
     <div>
         <div class="main-wrap">
             <div class="logo-wrap">
-                <img src="/img/forestlogo.png"  alt="포레스트 로고"
-                                           width="250px" height="auto" >
+            <a href="/">
+                <img  src="/img/forestlogo.png"  alt="포레스트 로고"
+                                          width="250px" height="auto" >
+                                          </a> 
            </div>
         <section class="login-input-idpw-wrap">
-                <form >
-           <div class="login-input-wrap"> 
-            <input type="text" class="form-control" id="loginId" name="loginId"
-                            placeholder="사용자 아이디" oninput="checkLoginId();" required autofocus />
-           </div>
+                <form id="signup-form">
+                   <div class="login-input-wrap"> 
+                       <input type="text" class="form-control" id="loginId" name="loginId"
+                                       placeholder="사용자 아이디" oninput="checkLoginId();" required autofocus />
+                   </div>
                    <span id="duplicateMessage"></span>
-           <div class="login-input-wrap password-wrap"> 
+                   <div class="login-input-wrap password-wrap"> 
                         <input type="text" class="form-control" id="nickname" name="nickname"
                             placeholder="닉네임" oninput="checkLoginNickname();" required autofocus />   
                     </div>
                     <span id="duplicateMessageNickName"></span>
                     <div class="login-input-wrap password-wrap"> 
-                     <input type="text" class="form-control" name="email" id ="email"
-                            placeholder="이메일" oninput="checkLoginEmail();" required/>
+                         <input type="text" class="form-control" name="email" id ="email"
+                                placeholder="이메일" oninput="checkLoginEmail();" required/>
                     </div>
                     <span id="duplicateMessageEmail"></span>
                     <div>
-                       <button id="emailConfirmBtn">인증하기</button>
-                       <input id="emailConfirm"/>
-                       <button type="button">확인</button>
+                       <button id="btnSend">보내기</button>
+                       <input type="text" placeholder ="인증번호"/>
+                       <button type="button" id="btnConfirm">확인</button>
                        <span id="emailConfirmMsg" ></span>
                     </div>
                        
@@ -138,7 +140,7 @@
                    </div>
                    <span id="confirmMsg"></span>
              <div class="login-button-wrap">
-            <button type="button" id="btnSaveUser"  >가입 완료</button>
+            <button type="button" id="btnSaveUser" >가입 완료</button>
              </div>
                  </form>
        </section>

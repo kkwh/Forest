@@ -34,9 +34,9 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
         // 관리자인지 확인하여 페이지 리다이렉트
         if (role.equals("ROLE_USER")) {
-            response.sendRedirect("index"); // 일반 사용자 페이지로 리다이렉트
+            response.sendRedirect("/"); // 일반 사용자 페이지로 리다이렉트
         } else {
-            response.sendRedirect("main"); // 관리자 페이지로 리다이렉트
+            response.sendRedirect("/admin/main"); // 관리자 페이지로 리다이렉트
         }
 	    
 	}

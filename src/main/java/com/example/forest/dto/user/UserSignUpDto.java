@@ -1,6 +1,6 @@
 package com.example.forest.dto.user;
 
-import org.springframework.validation.annotation.Validated;
+
 
 import com.example.forest.model.ImageFile;
 

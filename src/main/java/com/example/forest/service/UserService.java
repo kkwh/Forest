@@ -63,7 +63,7 @@ public class UserService implements UserDetailsService {
 
     public int validateLoginId(String loginId) {
         User user = userRepository.selectUserByLoginId(loginId);
-        
+       // log.info("서비스도 왔어요");
         if(user == null) {
             return 1;
         }
@@ -73,10 +73,10 @@ public class UserService implements UserDetailsService {
     public int validateLoginNickname(String nickname) {
         User user = userRepository.selectUserByNickname(nickname);
         if(user == null) {
-            return 1;
+            return 1; //아이디 찾을 때 1 일때만 됨.
             
         }
-        return 0;
+        return 0; //회원가입 할 때 0이면 회원가입이 됨
     }
 
     public int validateLoginEmail(String email) {

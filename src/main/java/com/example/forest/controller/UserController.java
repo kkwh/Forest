@@ -24,12 +24,14 @@ public class UserController {
     private final UserService userService;
     
     
-    @GetMapping("/createuser")
-    public void createuser() {
+    @GetMapping("/signup")
+    public String createuser() {
         log.info("createuser() GET");
+        
+        return "/user/createuser";
     }
     
-    @PostMapping("/createuser")
+    @PostMapping("/signup")
     public String createuser(UserSignUpDto dto) {
         log.info("createuser(dto={})",dto);
         
@@ -46,5 +48,14 @@ public class UserController {
             model.addAttribute("errorMessage", "아이디 혹은 비밀번호를 확인해주세요"); // 에러 메시지를 모델에 추가
         }
         return "user/login";
+    }
+    
+    @GetMapping("/findpw")
+    public void findpw(){
+        log.info("비밀번호 찾기 페이지");
+    }
+    @GetMapping("/findid")
+    public void findid(){
+        log.info("아이디 찾기 페이지");
     }
 }

@@ -21,11 +21,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u where u.nickname = :nickname ")
     User selectUserByNickname(@Param("nickname") String nickname);
 
-    //유저 이메일 확인
+    //유저 이메일 중복확인 및 이메일 있나 확인
     @Query("select u from User u where u.email = :email")
-    User selectUserByEmail(String email);
+    User selectUserByEmail(@Param("email") String email);
     
-    //유저 이메일 확인 (나중에)
+    
     
 
     

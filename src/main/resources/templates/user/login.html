@@ -93,47 +93,50 @@
     display:flex;
 
 }
+
 </style>
    </head>
-   <body>
-       <div>
-     		<div class="main-wrap">
-        		
-        			<div class="logo-wrap">
-        				<img src="/img/forestlogo.png"  alt="포레스트 로고"
-                                           width="250px" height="auto" >
-        			</div>
-        		
-        		<section class="login-input-idpw-wrap">
-                <form th:action="@{/user/login/process}" method="post" class="loginform">
-        			<div class="login-input-wrap">	
-        				<input placeholder="Id" type="text" name="loginId" class="loginId"></input>
-        			</div>
-        			<div class="login-input-wrap password-wrap">	
-        				<input placeholder="Password" type="password"  name="password" class="password"></input>
-        			</div>
-        			<div class="login-button-wrap">
-        				<button type="submit" id="loginBtn">Sign in</button>
-        			</div>
-                    <div class="login-btn-wrap">
-                        <div class="">
-                           <button>id찾기</button>
-                           <button>pw찾기</button>
-                        </div>
-                        <div class="" style="text-align: right">
-                           <a href="/user/createuser"><button>회원가입</button></a> 
-                        </div>
-                    </div>
-                 </form>
-    		    </section>
-                <div th:if="${errorMessage}" style="color: red;">
-                    <p th:text="${errorMessage}"></p>
-                </div>
-                
+<body>
+    <div>
+        <div class="main-wrap">
 
- 		  </div>
-	  </div>
-   
-   </body>
+            <div class="logo-wrap">
+                <a href="/"> <img src="/img/forestlogo.png"
+                    alt="포레스트 로고" width="250px" height="auto">
+                </a>
+            </div>
+
+            <section class="login-input-idpw-wrap">
+                <form th:action="@{/user/login/process}" method="post"
+                    class="loginform">
+                    <div class="login-input-wrap">
+                        <input placeholder="Id" type="text"
+                            name="loginId" class="loginId"></input>
+                    </div>
+                    <div class="login-input-wrap password-wrap">
+                        <input placeholder="Password" type="password"
+                            name="password" class="password"></input>
+                    </div>
+                    <div class="login-button-wrap">
+                        <button type="submit" id="loginBtn">Sign
+                            in</button>
+                    </div>
+
+                    <div class="">
+                        <a href="/user/findid"><button class="findid" type="button">id찾기</button></a>
+                        <a href="/user/findpw"><button class="findpw" type="button">pw찾기</button></a>
+                        <a href="/user/signup"><button type="button">회원가입</button></a>
+                    </div>
+                </form>
+            </section>
+            <div th:if="${errorMessage}" style="color: red;">
+                <p th:text="${errorMessage}"></p>
+            </div>
+
+
+        </div>
+    </div>
+
+</body>
 </html>
 
