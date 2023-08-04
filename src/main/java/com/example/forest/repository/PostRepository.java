@@ -86,6 +86,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Transactional
 	@Modifying
     void deleteByBoard(@Param("board") Board board);
-
     
 }
