@@ -24,6 +24,36 @@ document.addEventListener('DOMContentLoaded', () => {
 	const openBtn = document.querySelector('button#openTabBtn');
 	openBtn.addEventListener('click', openFilter);
 	
+	const loadBoardPage = (e) => {
+		const userId = document.querySelector('input#userId').value;
+		const boardId = e.target.getAttribute('data-id');
+		
+		console.log(`boardId = ${boardId}`);
+		console.log(`userId = ${userId}`);
+		
+		const url = `/api/v1/board/checkAccess`;
+		const data = { userId, boardId };
+		axios.post(url, data)
+			.then((response) => {
+				console.log(response.data);
+				
+				if(response.data == 1) {
+					alert('게시판 관리자에 의해 접근이 거부되었습니다.');
+				} else {
+					const boardUrl = `/board/${boardId}`;
+					window.location.href = boardUrl;
+				}
+			})
+			.catch((error) => {
+				console.log(error);
+			})
+	};
+	
+	let loadBoardBtns = document.querySelectorAll('a.loadBoardBtn');
+	for(let btn of loadBoardBtns) {
+		btn.addEventListener('click', loadBoardPage);
+	}
+	
 	// 키워드로 검색
 	const readByKeyword = (data) => {
 		console.log(data);
@@ -36,14 +66,17 @@ document.addEventListener('DOMContentLoaded', () => {
 		for(let board of data) {
 			htmlStr += `
 				<div class="px-3">
-					<a href="/board/${board.id}" class="link-dark">
-						${board.boardName}
-					</a>
+					<a data-id="${board.id}" class="link-dark loadBoardBtn link-dark link-offset-2 link-underline link-underline-opacity-0">${board.boardName}</a>
 				</div>
 			`;
 		}
 		
 		landList.innerHTML = htmlStr;
+		
+		loadBoardBtns = document.querySelectorAll('a.loadBoardBtn');
+		for(let btn of loadBoardBtns) {
+			btn.addEventListener('click', loadBoardPage);
+		}
 	};
 	
 	const searchByKeyword = async () => {
@@ -60,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			readByKeyword(response.data);
 			
 			const resultMessage = document.querySelector('span#resultMessage');
-			resultMessage.innerText = `[${keyword}]의 검색 결과`;
+			resultMessage.innerHTML = `<b>[${keyword}]</b>의 검색 결과`;
 			
 		} catch(error) {
 			console.log(error);
@@ -83,14 +116,17 @@ document.addEventListener('DOMContentLoaded', () => {
 		for(let board of data) {
 			htmlStr += `
 				<div class="px-3">
-					<a href="/board/${board.id}" class="link-dark">
-						${board.boardName}
-					</a>
+					<a data-id="${board.id}" class="link-dark loadBoardBtn link-dark link-offset-2 link-underline link-underline-opacity-0">${board.boardName}</a>
 				</div>
 			`;
 		}
 		
 		landList.innerHTML = htmlStr;
+		
+		loadBoardBtns = document.querySelectorAll('a.loadBoardBtn');
+		for(let btn of loadBoardBtns) {
+			btn.addEventListener('click', loadBoardPage);
+		}
 	}
 	
 	const searchByCategory = async (e) => {
@@ -110,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			readByCategory(response.data);
 			
 			const resultMessage = document.querySelector('span#resultMessage');
-			resultMessage.innerText = `[${name}]의 검색 결과`;
+			resultMessage.innerHTML = `<b>[${name}]</b>의 검색 결과`;
 			
 		} catch(error) {
 			console.log(error);
@@ -121,6 +157,5 @@ document.addEventListener('DOMContentLoaded', () => {
 	for(let btn of categoryBtns) {
 		btn.addEventListener('click', searchByCategory);
 	}
-	
 	
 });

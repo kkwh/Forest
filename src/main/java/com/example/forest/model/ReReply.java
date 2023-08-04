@@ -52,7 +52,7 @@ public class ReReply extends BaseTimeEntity {
 	private long userId;
 	
 	// 답글이 작성된 댓글
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Reply reply;
 
     

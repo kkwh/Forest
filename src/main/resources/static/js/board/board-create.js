@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const createBoard = (e) => {
 		const boardName = document.querySelector('input#boardName').value;
 		const message = document.querySelector('span#message').innerHTML;
-		const boardInfo = document.querySelector('textarea#boardInfo').innerHTML;
+		const boardInfo = document.querySelector('textarea#boardInfo').value;
 		const imageFile = document.querySelector('input#imageFile');
 		
 		if(boardName == '') {

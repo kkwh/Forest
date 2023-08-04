@@ -60,15 +60,15 @@
 						<td>
 							<img th:src="${board.file.uploadPath}" alt="Not found" width="100px" height="auto" />
 						</td>
-						<td th:text="${board.category}"></td>
+						<td th:text="${board.categoryName}"></td>
 						<td>
-							<a th:href="@{'/board/details/' + ${board.id}}" th:text="${board.boardName}" class="link-dark"></a>
+							<a th:href="@{'/admin/board/details/' + ${board.id}}" th:text="${board.boardName}" class="link-dark"></a>
 						</td>
 						<td th:text="${board.user.nickname}"></td>
 						<td class="createdDate" th:text="${board.createdTime}"></td>
 						<td>
-							<button type="button" th:data-id="${board.id}" th:data-category="${board.category}" 
-								class="btn btn-outline-success modifyBtn">수정</button>
+							<a th:href="@{'/board/details/' + ${board.id}}" th:data-id="${board.id}" th:data-category="${board.category}" 
+								class="btn btn-outline-success modifyBtn">수정</a>
 						</td>
 					</tr>
 				</tbody>

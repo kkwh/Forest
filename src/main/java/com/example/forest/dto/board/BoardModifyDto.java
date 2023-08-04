@@ -10,6 +10,7 @@ import lombok.Data;
 public class BoardModifyDto {
 	
 	private long boardId;
+	private String boardInfo;
 	private MultipartFile imageFile;
 
 }
