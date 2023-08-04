@@ -230,15 +230,18 @@ document.addEventListener('DOMContentLoaded', () => {
         for(let reply of data.list) {
             const rereply_id = `rereplies_${reply.id}`;
             const rereply_div = document.querySelector(`div#${rereply_id}`);
+            
+
+            
             let htmlStr2  = `
                 <div class="cmt_write_box clear">    
+                        
 
                         <div class="fl">
                             <div class="user_info_input nomem_nick">
                                 <label class="blind" for="replyNickname2">닉네임</label>
                                 <input  id="replyNickname2_${reply.id}" type="text" name="replyNickname2_${reply.id}" 
                                 placeholder="닉네임을 입력하세요" />
-                                
                             </div>
                             <div class="user_info_input">
                                 <label class="blind" for="user_pw">비밀번호</label>
@@ -318,7 +321,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 return [];
             }
         };
+   
+           // !!!!!!!1 대댓글을 보여주는 함수
+        const showReplies = async (replyId) => {
+            // 대댓글 가져오기
+            const reReplies = await getRepliesWithReplyId(replyId);
         
+            // 대댓글을 보여줄 공간 선택
+            const reReplyContainer = document.querySelector(`div#rereplies_${replyId}`);
+            reReplyContainer.innerHTML = ''; // 기존 내용 삭제
+        
+            // 대댓글 리스트를 보여줄 HTML 생성
+            let htmlStr = '';
+            for (let reReply of reReplies) {
+                htmlStr += `
+                    <div>
+                        <span>고정값</span>
+                        <span>${reReply.replyNickname2}:</span>
+                        <span>${reReply.replyText2}</span>
+                    </div>
+                `;
+    }
+
+    // 생성된 HTML을 대댓글 보여줄 공간에 추가
+    reReplyContainer.innerHTML = htmlStr;
+};     
 
     
     // 순서 4!!!!!!!    

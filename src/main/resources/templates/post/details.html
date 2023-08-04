@@ -5,6 +5,7 @@
     layout:decorate="~{layout/base_layout}">
    
     <head>
+        <link rel="stylesheet" th:href="@{/css/reply/reply.css}">
 		<link rel="stylesheet" th:href="@{/css/post/create.css}">
 		<link rel="stylesheet" th:href="@{/css/post/read.css}">
 		<link rel="stylesheet" th:href="@{/css/post/detail.css}">
@@ -192,6 +193,7 @@
         <!-- 채한별: --> 
         <!-- 열매(댓글) 부분 -->
         <div class="view_comment my-2 card">
+            <h2 class="blind">댓글 영역</h2>
             <div class="comment_wrap show">
             <input type="hidden" id="userId" name="userId" th:value="${userId}" />
             <input type="hidden" id="postId" name="postId" th:value="${post.id}" />
