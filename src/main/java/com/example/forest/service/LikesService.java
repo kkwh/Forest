@@ -30,12 +30,27 @@ public class LikesService {
 
     public void saveLikeDislikeForPost(int likeDislike, long postId, long userId) {
         Post post = postRepository.findById(postId).orElseThrow();
+        log.info("post: {}", post);
+        
+        Likes likes = null;
+        if(userId != 0) {
         User user = userRepository.findById(userId).orElseThrow();
-        Likes likes = Likes.builder()
+        log.info("post: {}, user: {}", post, user);
+        
+            likes = Likes.builder()
                 .likeDislike(likeDislike)
                 .post(post)
                 .user(user)
                 .build();
+        }
+        else {
+            likes = Likes.builder()
+                    .likeDislike(likeDislike)
+                    .post(post)
+                    .build();
+        }
+        
+        
         likesRepository.save(likes);
     }
     
@@ -83,5 +98,10 @@ public class LikesService {
         }
     }
     
+    // 이미 Likes 테이블에 해당 데이터가 존재하는지 확인
+    public boolean isLikeDislikeExists(Long postId, Long userId) {
+        Long likeId = likesRepository.findIdByUserIdAndPostId(userId, postId);
+        return likeId != null;
+    }
     
 }

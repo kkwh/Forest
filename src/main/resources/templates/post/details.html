@@ -62,7 +62,7 @@
                             
                         <p></p>
                             <div>
-                                <div th:text="${post.postContent}">
+                                <div th:utext="${post.postContent}">
                                     
                                 </div>
                             </div>
@@ -112,10 +112,10 @@
                                     <p class="up_num font_red" id="recommend_view_up_2764692">0</p>
                                    
                                 </div> -->
-                                <button id="like-button" class="btn btn-outline-success" th:data-post-id="${post.id}" th:data-user-id="${user.id}">좋아요 <span id="like-count" th:text="${ likesCount }">0</span></button>
+                                <button id="like-button" class="btn btn-outline-success" th:data-post-id="${post.id}" th:data-user-id="${userId}">좋아요 <span id="like-count" th:text="${ likesCount }">0</span></button>
                             </div>
                             <div class="inner">
-                                 <button id="dislike-button" class="btn btn-outline-success" th:data-post-id="${post.id}" th:data-user-id="${user.id}">싫어요 <span id="dislike-count" th:text="${ dislikesCount }">0</span></button>
+                                 <button id="dislike-button" class="btn btn-outline-success" th:data-post-id="${post.id}" th:data-user-id="${userId}">싫어요 <span id="dislike-count" th:text="${ dislikesCount }">0</span></button>
                                 <!-- <div class="down_num_box">
                                     <p class="down_num" id="recommend_view_down_2764692">0</p>
                                 </div> -->

@@ -44,6 +44,7 @@ public class PostService {
         // DTO를 Entity로 변환:
         Post entity = dto.toEntity();
         log.info("entity={}", entity);
+        log.info("create(dto={})", dto);
         
         Board board = boardRepository.findById(dto.getBoardId()).orElseThrow();
         entity.setBoard(board);

@@ -3,6 +3,7 @@ package com.example.forest.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.forest.dto.post.LikeDislikeResponse;
 import com.example.forest.dto.post.LikeRequest;
 import com.example.forest.dto.post.ModifyPasswordCheckDto;
 import com.example.forest.dto.post.PostLikesDto;
@@ -82,11 +84,22 @@ public class PostRestController {
         return likesService.countDislikesByPostId(dto.getPostId());
     }
 	
+	// 좋아요, 싫어요 하루에 한 번
 	@PostMapping("/likeLimit")
     public ResponseEntity<?> likePost(@RequestBody LikeRequest request) {
         boolean success = likesService.likeOrDislike(request.getUserId(), request.getPostId(), request.getLikeDislike());
         return success ? ResponseEntity.ok().build() : ResponseEntity.badRequest().body("하루에 한 번만 가능합니다.");
     }
 	
+	// 해당 게시물에 계정이 좋아요, 싫어요 한 이력이 있는지 체크
+	@GetMapping("/checkLikes/{postId}/{userId}")
+	public ResponseEntity<LikeDislikeResponse> checkLikes(@PathVariable Long postId, @PathVariable Long userId) {
+	    log.info("(postId={}, userId={})", postId, userId);
+	    
+	    boolean exists = likesService.isLikeDislikeExists(postId, userId);
+	    log.info("exists", exists);
+	    
+	    return ResponseEntity.ok(new LikeDislikeResponse(exists));
+	}
     
 }

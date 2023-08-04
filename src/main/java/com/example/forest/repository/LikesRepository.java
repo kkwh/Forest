@@ -34,7 +34,7 @@ public interface LikesRepository extends JpaRepository<Likes, Long> {
     
     // userId와 postId를 입력받아서 Likes.id를 반환
     @Query("SELECT l.id FROM Likes l WHERE l.user.id = :userId AND l.post.id = :postId")
-    Long findIdByUserIdAndPostId(Long userId, Long postId);
+    Long findIdByUserIdAndPostId(@Param("userId") Long userId, @Param("postId") Long postId);
 
 
 }
