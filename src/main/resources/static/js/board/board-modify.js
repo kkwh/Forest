@@ -3,52 +3,26 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
 	
-	/**
-	 * 게시판 관리자 권한 뺏기
-	 */
-	const revoke = (e) => {
-		const userId = e.target.getAttribute('data-user-id');
-		const boardId = e.target.getAttribute('data-board-id');
+	const modify = () => {
+		const form = document.querySelector('form#modify-form');
 		
-		console.log(`userId = ${userId}, boardId = ${boardId}`);
+		const boardInfo = document.querySelector('textarea#boardInfo').value;
+		const imageInput = document.querySelector('input#imageFile');
 		
-		const result = confirm('랜드의 관리자 권한을 뺏으시겠습니까?');
+		const result = confirm('변경된 사항을 저장하시겠습니까?')
 		if(!result) {
 			return false;
 		}
 		
-		const url = '/api/v1/board/revoke';
-		const data = { userId, boardId };
-		
-		axios.put(url, data)
-			.then((response) => {
-				console.log(response);
-				
-				location.reload();
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	};
-	
-	const revokeBtns = document.querySelectorAll('button.revokeBtn');
-	for(let btn of revokeBtns) {
-		btn.addEventListener('click', revoke);
-	}
-	
-	const modify = () => {
-		const form = document.querySelector('form#modify-form');
-		
-		const imageInput = document.querySelector('input#imageFile');
-		
-		if(imageInput.files.length == 0) {
-			alert('변경된 사항이 없습니다.');
-		} else {
-			console.log('modify');
-			form.action='/board/modify';
-			form.method='post';
-			form.submit();
+		if(boardInfo == '') {
+			alert('랜드 소개를 입력해주세요.');
+			return false;
 		}
+		
+		console.log('modify');
+		form.action='/board/modify';
+		form.method='post';
+		form.submit();
 	};
 	
 	const modifyBtn = document.querySelector('button#modifyBtn');
@@ -124,6 +98,28 @@ document.addEventListener('DOMContentLoaded', () => {
 	const toggleBtn2 = document.querySelector('input#toggleBtn2');
 	toggleBtn2.addEventListener('click', toggleList);
 	
+	const toggleInfo = () => {
+		const toggle = document.querySelector('input#toggleBtn3');
+		const status = toggle.getAttribute('data-switch');
+		
+		const infoArea = document.querySelector('div#info-section');
+		
+		if(status == 'off') {
+			console.log('on');
+			
+			toggle.setAttribute('data-switch', 'on');
+			infoArea.style.display = 'block';
+		} else {
+			console.log('off');
+			
+			toggle.setAttribute('data-switch', 'off');
+			infoArea.style.display = 'none';
+		}
+	};
+	
+	const toggleBtn3 = document.querySelector('input#toggleBtn3');
+	toggleBtn3.addEventListener('click', toggleInfo);
+	
 	
 	const blockUser = (e) => {
 		console.log(e.target);
@@ -187,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				<div class="row">
 	    			<div class="col-9">${user.nickname}</div>
 	    			<div class="col-3">
-	    				<button type="button" class="btn btn-outline-dark blockCancelBtn" data-id="${user.boardId}" 
+	    				<button type="button" class="btn btn-outline-dark blockCancelBtn w-100" data-id="${user.boardId}" 
 	    					data-user-id="${user.userId}">해제</button>
 	    			</div>
 	    		</div>
@@ -222,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		    				${user.nickname}
 		    			</div>
 		    			<div class="col-3 justify-content-end">
-		    				<button type="button" class="btn btn-outline-dark blockBtn" data-id="${user.id}">차단</button>
+		    				<button type="button" class="btn btn-outline-dark blockBtn w-100" data-id="${user.id}">차단</button>
 		    			</div>
 		    		</div>
 	    		</li>
@@ -285,6 +281,29 @@ document.addEventListener('DOMContentLoaded', () => {
 	for(let btn of blockCancelBtns) {
 		btn.addEventListener('click', cancelBlock);
 	}
+	
+	const deleteBoard = () => {
+		const boardId = document.querySelector('input#boardId').value;
+		
+		const result = confirm('정말 삭제하시겠습니까?');
+		if(!result) {
+			return false;
+		}
+		
+		const url = `/api/v1/board/delete/${boardId}`;
+		axios.delete(url)
+			.then((response) => {
+				console.log(response);
+				
+				window.location.href='/board/list';
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+	
+	const deleteBtn = document.querySelector('button#deleteBtn');
+	deleteBtn.addEventListener('click', deleteBoard);
 	
 });
 

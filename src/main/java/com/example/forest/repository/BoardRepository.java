@@ -8,8 +8,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.forest.dto.board.BoardRankDto;
 import com.example.forest.model.Board;
 import com.example.forest.model.BoardCategory;
+import com.example.forest.model.Post;
+import com.example.forest.model.ReReply;
+import com.example.forest.model.Reply;
 import com.example.forest.model.User;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
@@ -74,7 +78,11 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	 * @param user
 	 * @return
 	 */
-	List<Board> findAllBoardsByUserOrderByIdDesc(User user);
+	@Query("select b from Board b "
+			+ " where b.user = :user "
+			+ " and b.isApproved = 1 "
+			+ " order by b.id desc")
+	List<Board> findAllBoardsByUserOrderByIdDesc(@Param("user") User user);
 	
 	/**
 	 * 게시판 목록을 생성일자 오름차순으로 불러옴
@@ -185,6 +193,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	@Query("select count(p.id) "
 			+ " from Post p, Board b "
 			+ " where b = p.board "
+			+ " and b.isApproved = 1 "
 			+ " and b.id = :boardId")
 	int countPostsByBoardId(@Param("boardId") long boardId);
 	
@@ -226,5 +235,51 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 			+ " set b.user = :user "
 			+ " where b.id = :boardId")
 	int updateBoardOwner(@Param("user") User user, @Param("boardId") long boardId);
+	
+	/**
+	 * 랜드의 소개 정보를 변경
+	 * @param boardInfo
+	 * @return
+	 */
+	@Transactional
+	@Modifying
+	@Query("update Board b "
+			+ " set b.boardInfo = :boardInfo "
+			+ " where b.id = :id")
+	int updateBoardInfo(@Param("boardInfo") String boardInfo, @Param("id") long id);
+	
+	/**
+	 * 특정 게시판에 작성된 모든 게시글을 불러옴
+	 * @param board
+	 * @return
+	 */
+	@Query("select p from Post p "
+			+ " where p.board = :board")
+	List<Post> findAllPostsByBoard(@Param("board") Board board);
+	
+	/**
+	 * 
+	 * @param post
+	 * @return
+	 */
+	@Query("select r from Reply r "
+			+ " where r.post = :post")
+	List<Reply> findAllRepliesByPost(@Param("post") Post post);
+	
+	/**
+	 * 
+	 * @param post
+	 * @return
+	 */
+	@Query("select r from ReReply r "
+			+ " where r.reply = :reply")
+	List<ReReply> findAllReRepliesByReply(@Param("reply") Reply reply);
+	
+	@Query("SELECT new com.example.forest.dto.board.BoardRankDto"
+			+ " (p.board.id as id, p.board.boardName AS boardName, ROW_NUMBER() OVER (ORDER BY COUNT(p.id) DESC) AS boardRank, COUNT(p.id) AS postCount) "
+			+ " FROM Post p JOIN p.board b "
+		    + " WHERE b.boardGrade = :grade "
+		    + " GROUP BY p.board.id, p.board.boardName")
+	List<BoardRankDto> findTop10Boards(@Param("grade") String grade);
 
 }

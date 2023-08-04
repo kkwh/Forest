@@ -16,12 +16,16 @@ import com.example.forest.dto.post.PostSearchDto;
 import com.example.forest.dto.post.PostUpdateDto;
 import com.example.forest.dto.post.PostWithLikesCount;
 import com.example.forest.dto.post.PostWithLikesCount2;
+
 import com.example.forest.model.Post;
 import com.example.forest.model.User;
+import com.example.forest.model.ReReply;
+
 import com.example.forest.service.BoardService;
 import com.example.forest.service.IpService;
 import com.example.forest.service.LikesService;
 import com.example.forest.service.PostService;
+import com.example.forest.service.ReReplyService;
 import com.example.forest.service.ReplyService;
 import com.example.forest.service.UserService;
 
@@ -41,6 +45,19 @@ public class PostController {
     private final ReplyService replyService; 
     private final UserService userService; 
     private final IpService ipService;
+    private final ReReplyService reReplyService; 
+    
+//    @GetMapping
+//    public String post(Model model) {
+//        log.info("post()");
+//        
+//        List<PostWithLikesCount> list = postService.findAllPostsWithLikesCount();
+//        log.info("post(list={})", list);
+//        
+//        model.addAttribute("posts", list);
+//        
+//        return "/post/read";
+//    }
     
     @GetMapping("/popular")
     public String popular(@RequestParam("id") long id, Model model) { // id - boardId
@@ -149,7 +166,11 @@ public class PostController {
         // 채한별 추가 : 
         // REPLIES 테이브에서 해당 포스트에 달린 댓글 개수를 검색.
         long count = replyService.countByPost(post);
-        model.addAttribute("replyCount", count);
+        long countre2 = reReplyService.countByPost(post);
+       count += countre2;
+        model.addAttribute("replyTotal", count);
+       // model.addAttribute("reReplyCount", countre2);
+
     }
     
     @GetMapping("/modifyCheck")

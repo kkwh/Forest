@@ -8,8 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.forest.dto.reply.ReplyCreateDto;
 import com.example.forest.model.Post;
+import com.example.forest.model.ReReply;
 import com.example.forest.model.Reply;
 import com.example.forest.repository.PostRepository;
+import com.example.forest.repository.ReReplyRepository;
 import com.example.forest.repository.ReplyRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,6 +25,8 @@ public class ReplyService {
 
     private final ReplyRepository replyRepository;
     private final PostRepository postRepository;
+    private final ReReplyRepository reReplyRepository;
+    private final ReReplyService reReplyService;
     
     
     // 비회원 댓글 삭제
@@ -48,6 +52,8 @@ public class ReplyService {
         }
     }
     
+    
+    // 댓글 목록 보기
     @Transactional(readOnly = true)
     public List<Reply> read(Long postId) {
         log.info("read(postId={})", postId);
@@ -60,6 +66,7 @@ public class ReplyService {
         return list;
     }
     
+    // 댓글 읽어오기
     @Transactional(readOnly = true)
     public List<Reply> read(Post post) {
         log.info("read(post={})", post);
@@ -69,6 +76,7 @@ public class ReplyService {
         return list;
     }
     
+    // 댓글 개수
     public Long countByPost(Post post) {
         log.info("countByPost(post={})", post);
         
@@ -81,6 +89,7 @@ public class ReplyService {
         return replyRepository.countByPostId(postId);
     }
 
+    // 댓글 생성
     public Reply create(ReplyCreateDto dto) {
         log.info("create(dto={})", dto);
 
@@ -103,6 +112,8 @@ public class ReplyService {
         
         return entity;
     }
+    
+
     
     
 }

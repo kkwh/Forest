@@ -1,0 +1,48 @@
+@charset "UTF-8";
+
+.view_comment {
+    position: relative;
+}
+
+.blind {
+    position: absolute;
+    overflow: hidden;
+    visibility: hidden;
+    margin: -1px;
+    width: 0px;
+    top: -9999px;
+    font-size: 0;
+}
+
+.comment_wrap {
+    overflow: hidden;
+    width: 100%;
+    margin-top: 15px;
+    font-family: -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",arial,굴림,Gulim,sans-serif;
+    font-size: 13px;
+    color: #333;
+}
+
+.comment_count {
+    height: 38px;
+    font-weight: bold;
+}
+
+.comment_count .num_box {
+    width: 50%;
+}
+
+.fl {
+    float: left;
+}
+
+.font_red {
+    color: #d31900;
+}
+
+.
+.array_latest .select_area {
+    font-weight: normal;
+    font-family: -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",arial,Dotum,돋움,sans-serif;
+}
+

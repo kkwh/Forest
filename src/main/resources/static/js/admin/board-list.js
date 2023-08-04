@@ -4,14 +4,9 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
 	
-	const modify = (e) => {
-		console.log(e.target);
-	}
-	let modifyBtns = document.querySelectorAll("button.modifyBtn");
-	for(let btn of modifyBtns) {
-		btn.addEventListener('click', modify);
-	}
-	
+	/**
+	 * 게시판을 메인으로 승급
+	 */
 	const upgrade = (e) => {
 		const boardId = e.target.getAttribute('data-id');
 		console.log(boardId);
@@ -32,6 +27,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		btn.addEventListener('click', upgrade);
 	}
 	
+	/**
+	 * 게시판을 서브로 강등
+	 */
 	const relegate = (e) => {
 		const boardId = e.target.getAttribute('data-id');
 		console.log(boardId);
@@ -52,6 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		btn.addEventListener('click', relegate);
 	}
 	
+	/**
+	 * 특정 조건에 따라 정렬
+	 */
 	const sortByType = () => {
 		const userId = document.querySelector('input#userId').value;
 		const keyword = document.querySelector('input#keyword').value;
@@ -85,14 +86,15 @@ document.addEventListener('DOMContentLoaded', () => {
 							<td>
 								<img src="${board.file.uploadPath}" alt="Not found" width="100px" height="auto" />
 							</td>
-							<td>${board.category}</td>
+							<td>${board.categoryName}</td>
 							<td>
 								<a href="/board/details/${board.id}" class="link-dark">${board.boardName}</a>
 							</td>
 							<td>${board.user.nickname}</td>
 							<td>${board.createdTime}</td>
 							<td>
-								<button type="button" data-id="${board.id}" data-category="${board.category}" class="btn btn-outline-success modifyBtn">수정</button>
+								<a href="/board/details/${board.id}" data-id="${board.id}" data-category="${board.category}" 
+									class="btn btn-outline-success modifyBtn">수정</a>							
 							</td>
 						</tr>
 					`;
@@ -124,6 +126,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	const typeBtn = document.querySelector('select#type');
 	typeBtn.addEventListener('change', sortByType);
 	
+	/**
+	 * 키워드로 검색
+	 */
 	const searchByKeyword = () => {
 		const userId = document.querySelector('input#userId').value;
 		const keyword = document.querySelector('input#keyword').value;
@@ -157,14 +162,15 @@ document.addEventListener('DOMContentLoaded', () => {
 							<td>
 								<img src="${board.file.uploadPath}" alt="Not found" width="100px" height="auto" />
 							</td>
-							<td>${board.category}</td>
+							<td>${board.categoryName}</td>
 							<td>
 								<a href="/board/details/${board.id}" class="link-dark">${board.boardName}</a>
 							</td>
 							<td>${board.user.nickname}</td>
 							<td>${board.createdTime}</td>
 							<td>
-								<button type="button" data-id="${board.id}" data-category="${board.category}" class="btn btn-outline-success modifyBtn">수정</button>
+								<a href="/board/details/${board.id}" data-id="${board.id}" data-category="${board.category}" 
+									class="btn btn-outline-success modifyBtn">수정</a>							
 							</td>
 						</tr>
 					`;
@@ -195,6 +201,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	const searchBtn = document.querySelector('button#searchBtn');
 	searchBtn.addEventListener('click', searchByKeyword);
 	
+	/**
+	 * 카테고리로 검색
+	 */
 	const selectCategory = (e) => {
 		const userId = document.querySelector('input#userId').value;
 		const keyword = document.querySelector('input#keyword').value;
@@ -227,14 +236,15 @@ document.addEventListener('DOMContentLoaded', () => {
 							<td>
 								<img src="${board.file.uploadPath}" alt="Not found" width="100px" height="auto" />
 							</td>
-							<td>${board.category}</td>
+							<td>${board.categoryName}</td>
 							<td>
 								<a href="/board/details/${board.id}" class="link-dark">${board.boardName}</a>
 							</td>
 							<td>${board.user.nickname}</td>
 							<td>${board.createdTime}</td>
 							<td>
-								<button type="button" data-id="${board.id}" data-category="${board.category}" class="btn btn-outline-success modifyBtn">수정</button>
+								<a href="/board/details/${board.id}" data-id="${board.id}" data-category="${board.category}" 
+									class="btn btn-outline-success modifyBtn">수정</a>							
 							</td>
 						</tr>
 					`;

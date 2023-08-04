@@ -5,6 +5,8 @@ import java.net.UnknownHostException;
 
 import org.springframework.stereotype.Service;
 
+// 채한별 : 댓글에서 쓸거임
+// 김우현 쓸거면 커피사라
 @Service
 public class IpService {
 

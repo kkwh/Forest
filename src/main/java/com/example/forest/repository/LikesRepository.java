@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.forest.model.Likes;
+import com.example.forest.model.Post;
 
 @Repository
 public interface LikesRepository extends JpaRepository<Likes, Long> {
@@ -36,5 +37,12 @@ public interface LikesRepository extends JpaRepository<Likes, Long> {
     @Query("SELECT l.id FROM Likes l WHERE l.user.id = :userId AND l.post.id = :postId")
     Long findIdByUserIdAndPostId(@Param("userId") Long userId, @Param("postId") Long postId);
 
-
+    /**
+     * 게시물 삭제시 좋아요 기록 삭제
+     * @param post
+     */
+    @Transactional
+	  @Modifying
+    void deleteByPost(@Param("post") Post post);
+  
 }

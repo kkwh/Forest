@@ -8,10 +8,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebMvcConfig implements WebMvcConfigurer {
 
     private String connectPath = "/images/**";
-    private String resourcePath = "file:///C:/Users/ITWILL/git/Forest/src/main/resources/static/img/board_profile/";
+    //private String resourcePath = "file:///C:/Users/ITWILL/git/Forest/src/main/resources/static/img/board_profile/";
+    private String resourcePath = "file:///C:/Users/User/git/Forest/src/main/resources/static/img/board_profile/"; 
 
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    public void addResourceHandlers(ResourceHandlerRegistry registry) { 
         registry.addResourceHandler(connectPath)
                 .addResourceLocations(resourcePath);
     }

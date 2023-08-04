@@ -11,18 +11,26 @@ import com.example.forest.dto.board.BoardCreateDto;
 import com.example.forest.dto.board.BoardDetailDto;
 import com.example.forest.dto.board.BoardListDto;
 import com.example.forest.dto.board.BoardModifyDto;
+import com.example.forest.dto.board.BoardRankDto;
+import com.example.forest.dto.board.BoardRankListDto;
 import com.example.forest.dto.board.BoardRevokeDto;
 import com.example.forest.dto.board.BoardSearchDto;
-import com.example.forest.dto.board.UserBlockDto;
+import com.example.forest.dto.board.BoardUserDto;
 import com.example.forest.model.BlackList;
 import com.example.forest.model.Board;
 import com.example.forest.model.BoardCategory;
 import com.example.forest.model.ImageFile;
+import com.example.forest.model.Post;
+import com.example.forest.model.Reply;
 import com.example.forest.model.Role;
 import com.example.forest.model.User;
 import com.example.forest.repository.BlackListRepository;
 import com.example.forest.repository.BoardRepository;
 import com.example.forest.repository.ImageFileRepository;
+import com.example.forest.repository.LikesRepository;
+import com.example.forest.repository.PostRepository;
+import com.example.forest.repository.ReReplyRepository;
+import com.example.forest.repository.ReplyRepository;
 import com.example.forest.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -36,7 +44,11 @@ public class BoardService {
 	private final FileService fileService;
 	private final ImageFileRepository fileRepository;
 	private final UserRepository userRepository;
+	private final PostRepository postRepository;
 	private final BoardRepository boardRepository;
+	private final ReplyRepository replyRepository;
+	private final ReReplyRepository reReplyRepository;
+	private final LikesRepository likesRepository;
 	private final BlackListRepository blackListRepository;
 	
 	/**
@@ -47,11 +59,13 @@ public class BoardService {
 	public int checkBoardNameExists(String boardName) {
 		Board entity = boardRepository.findByBoardName(boardName);
 		
-		if(entity == null) {
-			return 0;
-		}
+		return (entity == null) ? 0 : 1;
+	}
+	
+	public int checkUserBoardAccess(BoardUserDto dto) {
+		BlackList entity = blackListRepository.findByBoardIdAndUserId(dto.getBoardId(), dto.getUserId());
 		
-		return 1;
+		return (entity == null) ? 0 : 1;
 	}
 	
 	/**
@@ -282,17 +296,22 @@ public class BoardService {
 	}
 	
 	/**
-	 * 게시판의 배경사진이 변경될 경우 적용할 메서드
+	 * 게시판의 정보가 변경될 경우 적용할 메서드
 	 * @param dto
 	 */
 	public void updateBoard(BoardModifyDto dto) {
 		log.info("boardUpdate(dto = {})", dto);
 		
-		ImageFile entity = fileRepository.findByBoardId(dto.getBoardId());
+		boardRepository.updateBoardInfo(dto.getBoardInfo(), dto.getBoardId());
 		
-		fileService.deleteImage(entity);
-		
-		fileService.saveBoardProfileImage(dto.getImageFile(), dto.getBoardId());
+		// 랜드 배경 사진도 변경한 경우
+		if(dto.getImageFile().getSize() != 0) {
+			ImageFile entity = fileRepository.findByBoardId(dto.getBoardId());
+			
+			fileService.deleteImage(entity);
+			
+			fileService.saveBoardProfileImage(dto.getImageFile(), dto.getBoardId());
+		}
 	}
 	
 	/**
@@ -361,7 +380,7 @@ public class BoardService {
 		return blackListRepository.findAllUserNotInList(boardId, userId, Role.ADMIN);
 	}
 	
-	public void addToList(UserBlockDto dto) {		
+	public void addToList(BoardUserDto dto) {		
 		BlackList entity = null;
 		
 		if(dto.getIpAddr() != null) {
@@ -380,12 +399,83 @@ public class BoardService {
 		blackListRepository.save(entity);
 	}
 	
-	public void removeFromList(UserBlockDto dto) {
+	public void removeFromList(BoardUserDto dto) {
 		BlackList entity = blackListRepository.findByBoardIdAndUserId(dto.getBoardId(), dto.getUserId());
 		
 		log.info("entity = {}", entity);
 		
 		blackListRepository.delete(entity);
+	}
+	
+	/**
+	 * 게시판을 삭제하는 메서드
+	 * @param boardId
+	 */
+	public void deleteBoard(long boardId) {
+		log.info("deleteBoard(id = {})", boardId);
+		
+		Board entity = boardRepository.findById(boardId).orElseThrow();
+		
+		List<Post> posts = boardRepository.findAllPostsByBoard(entity);
+		
+		List<Reply> replies = new ArrayList<>();
+		for(Post p : posts) {
+			List<Reply> reps = boardRepository.findAllRepliesByPost(p);
+			for(Reply r : reps) {
+				replies.add(r);
+			}
+		}
+		
+		// 게시물에 작성된 대댓글 삭제
+		for(Reply reply : replies) {
+			reReplyRepository.deleteByReply(reply);
+		}
+		
+		// 게시물에 작성된 댓글 삭제
+		for(Post post : posts) {
+			replyRepository.deleteByPost(post);
+		}
+		
+		// 좋아요 기록 삭제
+		for(Post post : posts) {
+			likesRepository.deleteByPost(post);
+		}
+		
+		// 게시판에 작성된 게시물 삭제
+		postRepository.deleteByBoard(entity);
+		
+		// 게시판의 프로필 사진 삭제
+		ImageFile image = fileRepository.findByBoardId(boardId);
+		fileService.deleteImage(image);
+		
+		// 블랙리스트 내역 삭제
+		blackListRepository.deleteByBoardId(entity.getId());
+		
+		// 게시판 삭제
+		boardRepository.delete(entity);
+	}
+	
+	public BoardRankListDto findPopularBoard(String boardGrade) {
+		log.info("findPopularBoard(grade = {})", boardGrade);
+		
+		List<BoardRankDto> list = boardRepository.findTop10Boards(boardGrade);
+		List<BoardRankDto> list1 = new ArrayList<>();
+		List<BoardRankDto> list2 = new ArrayList<>();
+		int idx = 0;
+		while(idx < 5 && idx < list.size()) {
+			list1.add(list.get(idx));
+			idx++;
+		}
+		
+		while(idx >= 5 && idx < list.size()){
+			list2.add(list.get(idx));
+			idx++;
+		}
+		
+		return BoardRankListDto.builder()
+				.top5List(list1)
+				.top10List(list2)
+				.build();
 	}
 	
 }

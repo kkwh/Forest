@@ -5,6 +5,7 @@
     layout:decorate="~{layout/base_layout}">
    
     <head>
+        <link rel="stylesheet" th:href="@{/css/reply/reply.css}">
 		<link rel="stylesheet" th:href="@{/css/post/create.css}">
 		<link rel="stylesheet" th:href="@{/css/post/read.css}">
 		<link rel="stylesheet" th:href="@{/css/post/detail.css}">
@@ -219,71 +220,110 @@
         
         <!-- 채한별: --> 
         <!-- 열매(댓글) 부분 -->
-        <input type="hidden" id="userId" name="userId" th:value="${userId}" />
-        <input type="hidden" id="postId" name="postId" th:value="${post.id}" />
-        <div class="my-2 card">
-            <div class= "card-header">
-                <span>나무 열매</span>
-                <span id="replyCount" th:text="|${replyCount} 개|">열매 개수</span>
-                <button class="btn btn-outline-dark" id="btnToggleReply">보이기</button>
-            </div>
-            
-            <!--로그인사용자와 댓글 작성자가 같으면 -->
-            <div class="d-none" id="authName" th:text="${ #authentication.name }"></div>
+        <div class="view_comment my-2 card">
+            <h2 class="blind">댓글 영역</h2>
+            <div class="comment_wrap show">
+            <input type="hidden" id="userId" name="userId" th:value="${userId}" />
+            <input type="hidden" id="postId" name="postId" th:value="${post.id}" />
+               <div class="d-none" id="authName" th:text="${ #authentication.name }"></div>
   
-            <div class="card-body collapse" id="replyToggleDiv">
-                <div class="my-2 row">
-                
+        
+                <div class= "comment_count">
+                    <div class="fl num_box">
+                    나무 열매
+                        <em class="font_red">
+                      <span  id="replyTotal" th:text="|${replyTotal}|"> 개수</span>
+                        </em>
+                        개 
+                        <div class="select_box array_latest">
+                            <select name="selCommentSort">
+                                    <option value="D">등록순</option>
+                                    <option value="N">최신순</option>
+                                    <option value="R">댓글수</option>
+                            </select>
+                       </div>
+                      </div>
+                   </div>
+            
+
+
                 
                 <!-- 로그인 상태이면 -->
                 <th:block sec:authorize="isAuthenticated()">
-                <div class="my-2">
-                    <label class="form-label" for="replyNickname" th:value="${ #authentication.name }"
-                    id="replyNickname" th:text="${ #authentication.name }" ></label>
-                    <input class="form-control" type="hidden" id="replyNickname" name="replyNickname" th:value="${ #authentication.name }"required readonly />
-                </div>
-                <div class="my-2">
-                    <label class="form-label" for="replyPassword" th:value="0" id="replyPassword"></label>
-                    <input class="form-control" type="hidden" id="replyPassword" name="replyPassword" th:value="0" required autofocus />
-                </div>                            
-                <div class="col-10">
-                    <textarea class="form-control" id="replyText" 
-                        placeholder="열매를 달아주세요"></textarea>
-                </div>
-                <div>
-                    <button class="form-control btn btn-outline-success" id="btnReplyCreate">열매 달기</button>
+                <div class="cmt_write_box clear">
+                    <div class="fl">
+                        <div class="user_info_input nomem_nick">
+                            <label class="reply-nickname" for="replyNickname" th:value="${ #authentication.name }"
+                            id="replyNickname" th:text="${ #authentication.name }" ></label>
+                            <input type="hidden" id="replyNickname" name="replyNickname" th:value="${ #authentication.name }"required readonly />
+                        </div>
+                        <div class="user_info_input">
+                            <label class="reply-password" for="user_pw" th:value="0" id="replyPassword"></label>
+                            <input type="hidden" id="replyPassword" name="replyPassword" th:value="0" required autofocus />
+                        </div>                            
+                    <div class="cmt_txt_cont">
+                        <div class="cmt_write">
+                            <textarea id="replyText"  placeholder="열매를 달아주세요"></textarea>
+                         </div>
+                    </div>
+                     <div class="cmt_cont_bottm clear">
+                         <div class="dccon_guidebox">
+                                <button type="button" class="btn_white small tx_dccon" ><em class="sp_img icon_dccon"></em>포레스트콘</button>
+                            <button type="button" class="btn_dccon_guide">
+                            <span class="blind"></span><em class="sp_img icon_guide_open"></em>
+                            </button>
+                              <button type="button" class="btn_blue btn_svc small repley_add" id="btnReplyCreate">열매 달기</button>
+                              <a href="#container" class="contgo">본문 보기</a>
+                         </div>
+                      </div>
+                    </div>
                 </div>
                 </th:block>
                 
                 <!-- 비로그인 상태이면 -->
-                <th:block sec:authorize="isAnonymous()">    
-                <div class="my-2">
-                    <label class="form-label" for="replyNickname">닉네임</label>
-                    <input class="form-control" id="replyNickname"
-                       type="text" name="replyNickname" placeholder="닉네임을 입력하세요" required autofocus />
-                    
+                <th:block sec:authorize="isAnonymous()">
+                <div class="cmt_write_box clear">    
+                    <div class="fl">
+                        <div class="user_info_input nomem_nick">
+                            <label class="blind" for="replyNickname">닉네임</label>
+                            <input  id="replyNickname" type="text" name="replyNickname" 
+                            placeholder="닉네임을 입력하세요" />
+                            
+                        </div>
+                        <div class="user_info_input">
+                            <label class="blind" for="user_pw">비밀번호</label>
+                            <input class="reply-password-input" id="replyPassword"
+                               type="text" name="replyPassword" placeholder="비밀번호를 입력하세요" required autofocus />
+                        </div>      
+                    </div>          
+                    <div class="cmt_txt_cont">
+                        <div class="cmt_write">
+                            <textarea id="replyText"  placeholder="열매를 달아주세요"></textarea>
+                         </div>
+                    </div>
+                     <div class="cmt_cont_bottm clear">
+                         <div class="dccon_guidebox">
+                            <button type="button" class="btn_white small tx_dccon" ><em class="sp_img icon_dccon"></em>포레스트콘</button>
+                            <button type="button" class="btn_dccon_guide">
+                            <span class="blind"></span><em class="sp_img icon_guide_open"></em>
+                            </button>
+                              <button type="button" class="btn_blue btn_svc small repley_add" id="btnReplyCreate">열매 달기</button>
+                              <a href="#container" class="contgo">나무 보기</a>
+                         </div>
+                     </div>
                 </div>
-                <div class="my-2">
-                    <label class="form-label" for="replyPassword">비밀번호</label>
-                    <input class="form-control" id="replyPassword"
-                       type="text" name="replyPassword" placeholder="비밀번호를 입력하세요" required autofocus />
-                </div>                
-                <div class="col-10">
-                    <textarea class="form-control" id="replyText" 
-                        placeholder="열매를 달아주세요"></textarea>
-                </div>
-                <div>
-                    <button class="form-control btn btn-outline-success" id="btnReplyCreate">열매 달기</button>
-                </div>
-                </th:block>                
-           </div>
-                
-                <!-- 댓글 목록을 보여줄 영역 -->
-                <div class="my-2 row" id="replies"></div>
-                
-                
-            </div>
+                </th:block>       
+           </div>     
         </div>
+           
+                <!-- 댓글 목록을 보여줄 영역 -->
+                <button class="btn_cmt_open" id="btnToggleReply">열매 보기</button>
+                    <div class="reply-toggle-header reply-card-body collapse" id="replyToggleDiv">
+                        <div class="reply-toggle my-2 row">
+                            <div class="reply-show-list my-2 row" id="replies">
+                            </div>
+                        </div>
+                    </div>
         
         <!-- 로그인 여부를 스크립트에 전달 -->
         <th:block th:if="${ #authentication.principal != null }">
