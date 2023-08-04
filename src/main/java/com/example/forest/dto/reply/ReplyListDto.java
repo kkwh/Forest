@@ -17,5 +17,6 @@ public class ReplyListDto {
     
     private Long userId;
     private List<Reply> list;
+    private Long count;
 
 }

@@ -373,3 +373,13 @@ button {
     align-items: center; /* 수직 정렬 */
     flex-direction: column; /* 수직 방향으로 정렬 */
 }
+
+
+
+/* 댓글  */
+
+.view_comment {
+    font-family: -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",arial,굴림,Gulim,sans-serif;
+    font-size: 13px;
+    color: #333;
+}
