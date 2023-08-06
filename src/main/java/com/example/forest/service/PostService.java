@@ -2,6 +2,8 @@ package com.example.forest.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -89,22 +91,22 @@ public class PostService {
     }
     
     @Transactional(readOnly = true)
-    public List<PostWithLikesCount> search(PostSearchDto dto) {
+    public Page<PostWithLikesCount> search(PostSearchDto dto, Pageable pageable) {
         log.info("search(dto={})", dto);
         
-        List<PostWithLikesCount> list = null;
+        Page<PostWithLikesCount> list = null;
         switch (dto.getType()) {
         case "t":
-            list = postRepository.findByPostTitleContainsIgnoreCaseOrderByIdDesc(dto.getKeyword());
+            list = postRepository.findByPostTitleContainsIgnoreCaseOrderByIdDesc(dto.getKeyword(), pageable);
             break;
         case "c": 
-            list = postRepository.findByPostContentContainsIgnoreCaseOrderByIdDesc(dto.getKeyword()); 
+            list = postRepository.findByPostContentContainsIgnoreCaseOrderByIdDesc(dto.getKeyword(), pageable); 
             break; 
         case "tc": 
-            list = postRepository.findByTitleContainsIgnoreCaseOrContentContainsIgnoreCaseOrderByIdDesc(dto.getKeyword(), dto.getKeyword()); 
+            list = postRepository.findByTitleContainsIgnoreCaseOrContentContainsIgnoreCaseOrderByIdDesc(dto.getKeyword(), dto.getKeyword(), pageable); 
             break; 
         case "a": 
-            list = postRepository.findByPostNicknameContainsIgnoreCaseOrderByIdDesc(dto.getKeyword()); 
+            list = postRepository.findByPostNicknameContainsIgnoreCaseOrderByIdDesc(dto.getKeyword(), pageable); 
             break;
             
         }
@@ -125,19 +127,19 @@ public class PostService {
     
     // POST + 좋아요 수
     @Transactional(readOnly = true)
-    public List<PostWithLikesCount> findAllPostsWithLikesCount(Long boardId) {              
-        return postRepository.findAllPostsWithLikesCount(boardId);
+    public Page<PostWithLikesCount> findAllPostsWithLikesCount(Long boardId, Pageable pageable) {              
+        return postRepository.findAllPostsWithLikesCount(boardId, pageable);
     }
     
     // 인기글 조회 (좋아요와 싫어요의 차이가 5 이상인 게시물)
-    public List<PostWithLikesCount2> findPostsByLikesDifference(Long boardId) {
-        return postRepository.findAllPostsWithLikesDifference(boardId);
+    public Page<PostWithLikesCount2> findPostsByLikesDifference(Long boardId, Pageable pageable) {
+        return postRepository.findAllPostsWithLikesDifference(boardId, pageable);
     }
     
     // 공지글(NOTICE) 조회
     @Transactional(readOnly = true)
-    public List<PostWithLikesCount> findAllPostsWithLikesCountWhenNotice(Long boardId) {              
-        return postRepository.findAllPostsWithLikesCountWhenNotice(boardId);
+    public Page<PostWithLikesCount> findAllPostsWithLikesCountWhenNotice(Long boardId, Pageable pageable) {              
+        return postRepository.findAllPostsWithLikesCountWhenNotice(boardId, pageable);
     }
     
     public Long findBoardIdByPostId(Long postId) {
