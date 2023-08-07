@@ -178,6 +178,7 @@ public class PostController {
         if(userId != 0) {
             User user = userService.findUserById(userId);
             model.addAttribute("user", user);
+            log.info("user: {}", user);
         }
         
         // 채한별 추가 : 

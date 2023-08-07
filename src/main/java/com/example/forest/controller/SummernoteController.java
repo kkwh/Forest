@@ -7,12 +7,11 @@ import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.nimbusds.jose.shaded.gson.JsonObject;
+import com.google.gson.JsonObject;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,23 +21,20 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class SummernoteController {
     
-    @RequestMapping("/uploadSummernoteImageFile")
+    @PostMapping(value="/uploadSummernoteImageFile", produces = "application/json")
     public JsonObject uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile) {
-        log.info("Starting Image Uploading");
         
         JsonObject jsonObject = new JsonObject();
         
-        String fileRoot = "C:\\Users\\ITWILL\\git\\Forest\\src\\main\\resources\\static\\img\\post_image"; //저장될 외부 파일 경로
+        String fileRoot = "file:///C:/Users/ITWILL/git/Forest/src/main/resources/static/img/post_profile/";; //저장될 외부 파일 경로
         String originalFileName = multipartFile.getOriginalFilename();  //오리지날 파일명
         String extension = originalFileName.substring(originalFileName.lastIndexOf("."));   //파일 확장자
+        
+        log.info("fileRoot = {}", fileRoot);
                 
         String savedFileName = UUID.randomUUID() + extension;   //저장될 파일 명
         
         File targetFile = new File(fileRoot + savedFileName);   
-        
-        log.info("extension = {}", extension);
-        log.info("savedFileName = {}", savedFileName);       
-        log.info("targetFile = {}", targetFile);       
         
         try {
             InputStream fileStream = multipartFile.getInputStream();
