@@ -3,6 +3,9 @@ package com.example.forest.controller;
 import java.security.Principal;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,29 +63,43 @@ public class PostController {
 //    }
     
     @GetMapping("/popular")
-    public String popular(@RequestParam("id") long id, Model model) { // id - boardId
+    public String popular(@RequestParam("id") long id, Model model, @PageableDefault(page = 0, size = 3) Pageable pageable) { // id - boardId
         log.info("popular(id={})", id);
         BoardDetailDto dto = boardService.findById(id);
         model.addAttribute("board", dto);
         
-        List<PostWithLikesCount2> list = postService.findPostsByLikesDifference(id);
+        Page<PostWithLikesCount2> list = postService.findPostsByLikesDifference(id, pageable);
         log.info("popular(list={})", list);
         
+        int nowPage = list.getPageable().getPageNumber() + 1;
+		int startPage = Math.max(nowPage - 4, 1);
+		int endPage = Math.min(nowPage + 5, list.getTotalPages());
+        
         model.addAttribute("posts", list);
+        model.addAttribute("nowPage", nowPage);
+	    model.addAttribute("startPage", startPage);
+	    model.addAttribute("endPage", endPage);
         
         return "/post/read-popular";
     }
     
     @GetMapping("/notice")
-    public String notice(@RequestParam("id") long id, Model model) { // id - boardId
+    public String notice(@RequestParam("id") long id, Model model, @PageableDefault(page = 0, size = 3) Pageable pageable) { // id - boardId
         log.info("notice(id={})", id);
         BoardDetailDto dto = boardService.findById(id);
         model.addAttribute("board", dto);
         
-        List<PostWithLikesCount> list = postService.findAllPostsWithLikesCountWhenNotice(id);
+        Page<PostWithLikesCount> list = postService.findAllPostsWithLikesCountWhenNotice(id, pageable);
         log.info("notice(list={})", list);
         
+        int nowPage = list.getPageable().getPageNumber() + 1;
+		int startPage = Math.max(nowPage - 4, 1);
+		int endPage = Math.min(nowPage + 5, list.getTotalPages());
+        
         model.addAttribute("posts", list);
+        model.addAttribute("nowPage", nowPage);
+	    model.addAttribute("startPage", startPage);
+	    model.addAttribute("endPage", endPage);
         
         return "/post/read-notice";
     }
@@ -143,13 +160,13 @@ public class PostController {
         long likesCount = likesService.countLikesByPostId(id);
         long dislikesCount = likesService.countDislikesByPostId(id);
         long viewCount = postService.increaseViewCount(id) - 1;
-//        long replyCount = replyService.countByPostId(id);
+        long replyCount = replyService.countByPostId(id);
                
         model.addAttribute("post", post);
         model.addAttribute("likesCount", likesCount);
         model.addAttribute("dislikesCount", dislikesCount);
         model.addAttribute("viewCount", viewCount);
-//        model.addAttribute("replyCount", replyCount);
+        model.addAttribute("replyCount", replyCount);
         
         long userId = 0;
         if(principal != null) {
@@ -167,7 +184,7 @@ public class PostController {
         // REPLIES 테이브에서 해당 포스트에 달린 댓글 개수를 검색.
         long count = replyService.countByPost(post);
         long countre2 = reReplyService.countByPost(post);
-       count += countre2;
+        count += countre2;
         model.addAttribute("replyTotal", count);
        // model.addAttribute("reReplyCount", countre2);
 
@@ -235,14 +252,21 @@ public class PostController {
     }
     
     @GetMapping("/search")
-    public String search(PostSearchDto dto, Model model) {
+    public String search(PostSearchDto dto, Model model, @PageableDefault(page = 0, size = 100) Pageable pageable) {
         log.info("search(dto={})", dto);
         
         // postService의 검색 기능 호출:
-        List<PostWithLikesCount> list = postService.search(dto);
+        Page<PostWithLikesCount> list = postService.search(dto, pageable);
+        
+        int nowPage = list.getPageable().getPageNumber() + 1;
+		int startPage = Math.max(nowPage - 4, 1);
+		int endPage = Math.min(nowPage + 5, list.getTotalPages());
         
         // 검색 결과를 Model에 저장해서 뷰로 전달:
         model.addAttribute("posts", list);
+        model.addAttribute("nowPage", nowPage);
+	    model.addAttribute("startPage", startPage);
+	    model.addAttribute("endPage", endPage);
         log.info("search(list={})", list);
         
         BoardDetailDto dto2 = boardService.findById(dto.getBoardId());
@@ -252,14 +276,21 @@ public class PostController {
     }
     
     @GetMapping("/search2")
-    public String search2(PostSearchDto dto, Model model) {
+    public String search2(PostSearchDto dto, Model model, @PageableDefault(page = 0, size = 100) Pageable pageable) {
         log.info("search2(dto={})", dto);
         
         // postService의 검색 기능 호출:
-        List<PostWithLikesCount> list = postService.search(dto);
+        Page<PostWithLikesCount> list = postService.search(dto, pageable);
+        
+        int nowPage = list.getPageable().getPageNumber() + 1;
+		int startPage = Math.max(nowPage - 4, 1);
+		int endPage = Math.min(nowPage + 5, list.getTotalPages());
         
         // 검색 결과를 Model에 저장해서 뷰로 전달:
         model.addAttribute("posts", list);
+        model.addAttribute("nowPage", nowPage);
+	    model.addAttribute("startPage", startPage);
+	    model.addAttribute("endPage", endPage);
         log.info("search2(list={})", list);
         
         BoardDetailDto dto2 = boardService.findById(dto.getBoardId());
