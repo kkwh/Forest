@@ -19,13 +19,16 @@ document.addEventListener('DOMContentLoaded', () => {
     btnToggleReply.addEventListener('click', (e) => {
        bsCollapse.toggle(); 
        //console.log(e.target);
-       if (e.target.innerText === '한번더') {
-           e.target.innerText = '라스트'
+       if (e.target.innerText === '열매 안보기') {
+           e.target.innerText = '열매 보기'
            
            // 댓글 목록 불러오기:
            getRepliesWithPostId();
+       } else if(e.target.innerText ==='열매 보기') {
+           e.target.innerText = '열매 안보기';
+          getRepliesWithPostId();
        } else {
-           e.target.innerText = '한번더';
+           e.target.innerText = '열매 보기';
        }
         
     });
@@ -310,6 +313,8 @@ document.addEventListener('DOMContentLoaded', () => {
                          </div>
                     </div>
                 </div>
+                
+                <!--대댓글 리스트  -->
                 <div id="rereply_list_${reply.id}">
                 </div>
             `;
