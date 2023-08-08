@@ -9,7 +9,7 @@
 
 	<div id="list" class="p-3">
 		<div id="filter-list" class="row">
-			<div class="col-2">
+			<div class="col-3">
 				<select class="form-select" id="type">
 				  <option value="recent">최신순</option>
 				  <option value="past">과거순</option>
@@ -17,13 +17,13 @@
 				  <option value="name_desc">이름 내림차순</option>	  
 				</select>
 			</div>
-			<div class="col-3">
+			<div class="col-2">
 				<div class="dropdown">
-				  	<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+				  	<button class="btn btn-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 				    	Category Filters
 				  	</button>
-				  	<ul class="dropdown-menu">
-					    <li th:each="category : ${categories}">
+				  	<ul class="dropdown-menu w-100">
+					    <li th:each="category : ${categories}" class="p-1 w-100">
 						    <input class="form-check-input checkBtn" type="checkbox" th:value="${category.value}" 
 						    	th:id="${category}" checked>
 					  		<label class="form-check-label" th:for="${category.value}" th:text="${category.value}"></label>
@@ -32,7 +32,7 @@
 				</div>
 			</div>
 			<div class="col-6">
-				<input type="text" class="form-control" id="keyword" />
+				<input type="text" class="form-control" id="keyword" name="keyword" placeholder="랜드명을 입력해주세요." />
 			</div>
 			<div class="col-1">
 				<button id="searchBtn" type="button" class="form-control btn btn-outline-dark">Search</button>
