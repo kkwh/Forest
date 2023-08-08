@@ -40,9 +40,9 @@ public class ReReplyService {
      // 댓글 ID와 비밀번호로 댓글 조회
         ReReply reReply = reReplyRepository.findByIdAndReReplyPassword(id, replyPassword2);
         
-        if (reReply != null) {
+        if (reReply.getUserId() == 0) {
             // 비밀번호가 일치하면 댓글 삭제
-            reReplyRepository.delete(reReply);
+            reReplyRepository.deleteById(id);;
         } else {
             // 비밀번호가 일치하지 않으면 예외 처리
             throw new IllegalArgumentException("댓글을 삭제할 수 없습니다. 비밀번호가 일치하지 않습니다.");
