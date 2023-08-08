@@ -4,7 +4,8 @@ import lombok.Data;
 
 @Data
 public class PostLikesDto {
-
+    
+    private Long userId;
     private Long postId;
     
     

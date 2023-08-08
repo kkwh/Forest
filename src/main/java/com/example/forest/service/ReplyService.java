@@ -82,6 +82,12 @@ public class ReplyService {
         
         return replyRepository.countByPost(post);
     }
+    
+    public Long countByPostId(Long postId) {
+        log.info("countByPostId(postId={})", postId);
+        
+        return replyRepository.countByPostId(postId);
+    }
 
     // 댓글 생성
     public Reply create(ReplyCreateDto dto) {

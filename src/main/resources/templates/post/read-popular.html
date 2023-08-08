@@ -13,13 +13,13 @@
     <div class="container">
         <div class="my-2 card">
             <div class="card-header text-center">
-                <h1>뉴진스랜드</h1>
+                <h1 th:text="|${board.boardName} 랜드 인기글|"></h1>
             </div>
             
             <div class="page_head clear">
 				<div class="fl clear">
       				<h2>
-      					<a th:href="@{/post}">뉴진스 랜드
+      					<a th:href="@{ /board/ } + ${board.id}">[[${board.boardName}]] 랜드
 	      					<div class="pagehead_titicon mgall sp_img">
 	      						<span class="blind">마이너</span>
 	      					</div>
@@ -40,16 +40,14 @@
 	  <h3 class="blind">마이너 갤러리 소개</h3>
 	  <div class="img_contbox clear">
 		<div class="bgcover">
-			<a th:href="@{ /post }" class="mintro_imgbox in_img ">
-				
-					<img th:src="@{https://image.fmkorea.com/files/attach/new3/20230130/4366334379/3123099352/5448454351/52c72a46192085f1a2ab4bc8bba667bb.jpg}" alt="Description" class="cover"/>
-				
+			<a th:href="@{ /board/ } + ${board.id}" class="mintro_imgbox in_img ">
+			     <img th:src="${board.file.uploadPath}" alt="Description" class="cover"/>
 			</a>
 			
 		</div>
 		<div class="mintro_txtbox ">
 		  <p class="mintro_txt">
-			21세기 최고 걸그룹 뉴진스 랜드 입니다.
+			[[${board.boardInfo}]]
 		  </p>
 		</div>
 	  </div>
@@ -57,7 +55,7 @@
 		<div class="info_cont">
 		  <strong class="tit">매니저</strong>
 		  <p class="cont">
-						<span class="mng_nick">민지민지(minmin57)</span>
+						<span class="mng_nick" style="color: orange;">[[${board.user.nickname}]] ([[${board.user.loginId}]])</span>
 						
 		  </p>
 		</div>
@@ -76,7 +74,7 @@
 		</div>
 		<div class="info_cont">
 		  <strong class="tit">개설일</strong>
-		  <p class="cont">2016-01-13</p>
+		  <p class="cont">[[${board.createdTime}]]</p>
 		</div>
 	  </div>	  	  	  
 	</div>
@@ -209,11 +207,17 @@ $(document).ready(function(){
 				            <td th:text="${post.id}" ></td>
 				            <td th:text="${post.postType}"></td>
 				            <td>
-				                <button th:text="${post.postTitle}" class="text-link view-post" th:data-post-id="${post.id}" data-href="@{/post/details?id={id} (id = ${post.id}) }"
+				                <button th:text="${post.postTitle} + ' [' + ${ post.replyCount } + ']'" class="text-link view-post" th:data-post-id="${post.id}" th:data-board-id="${board.id}" data-href="@{/post/details?boardId={boardId} (boardId = ${board.id})&id={id} (id = ${post.id}) }"
 				                		style="background: none; border: none; cursor: pointer; text-decoration: none; color: black;" 
 				                		onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'"></button>
 				            </td>
-				            <td th:text="${post.postNickname}"></td>
+				            <th:block th:if="${ board.user.nickname } != ${post.postNickname}"> 
+                                <td th:text="${post.postNickname} + '(' + ${ post.postIp } + ')'"></td>
+                            </th:block>
+                                
+                            <th:block th:if="${ board.user.nickname } == ${post.postNickname}"> 
+                                <td style="color: orange;" th:text="${post.postNickname}"></td>
+                            </th:block>
 				            <td th:text="${ #temporals.format(post.createdTime, 'yyyy-MM-dd HH:mm:ss') }"></td>
 				            <td class="post-views" th:text="${post.postViews}"></td>
 				            <td th:text="${ post.likesCount }"></td>
@@ -223,7 +227,7 @@ $(document).ready(function(){
             </div>
             
             <div class="card-footer">
-                <form method="get" th:action="@{/post/search}">
+                <form method="get" th:action="@{/post/search2}">
                     <div class="row">
                         <div class="col-3">
                             <select class="form-control" name="type">
@@ -240,14 +244,15 @@ $(document).ready(function(){
                             <input class="form-control btn btn-outline-dark" type="submit" value="검색" />
                         </div>
                     </div>
+                    <input type="hidden" name="boardId" id="boardId" th:value="${ board.id }">
                 </form>
             </div>
             
-            <a class="nav-link form-control btn btn-outline-success" th:href="@{/post}">랜드 전체 순위</a>
-            <a class="nav-link form-control btn btn-outline-success" th:href="@{/post}">전체글</a>
-            <a class="nav-link form-control btn btn-outline-success" th:href="@{/post/popular}">인기글</a>
-            <a class="nav-link form-control btn btn-outline-success" th:href="@{/post}">공지</a>
-            <a class="nav-link form-control btn btn-outline-success" th:href="@{/post/create}">나무심기</a>
+            <a class="nav-link form-control btn btn-outline-success" th:href="@{ /board/ } + ${board.id}">랜드 전체 순위</a>
+            <a class="nav-link form-control btn btn-outline-success" th:href="@{ /board/ } + ${board.id}">전체글</a>
+            <a class="nav-link form-control btn btn-outline-success" th:href="@{/post/popular?id={id} (id = ${board.id})}">인기글</a>
+            <a class="nav-link form-control btn btn-outline-success" th:href="@{/post/notice?id={id} (id = ${board.id})}">공지</a>
+            <a class="nav-link form-control btn btn-outline-success" th:href="@{/post/create?id={id} (id = ${board.id})}">나무심기</a>
  
         </div>
         </div>
@@ -259,6 +264,7 @@ $(document).ready(function(){
 			$(document).ready(function(){
 			  $('.view-post').click(function(){
 			    var postId = $(this).data('post-id');
+			    var boardId = $(this).data('board-id');
 			    var postLink = $(this).data('href');
 			    var postViewsElement = $(this).closest('tr').find('.post-views');
 			
@@ -270,7 +276,7 @@ $(document).ready(function(){
 			      },
 			      success: function(viewCount) {
 			        postViewsElement.text(viewCount); // 해당 게시글의 조회수 업데이트
-			        window.location.href = '/post/details?id=' + postId;  // 게시글 상세 페이지로 이동
+			        window.location.href = '/post/details?boardId=' + boardId+ '&id=' + postId;  // 게시글 상세 페이지로 이동
 			      }
 			    });
 			  });

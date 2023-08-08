@@ -107,11 +107,12 @@ public class BoardController {
 	public String board(@PathVariable("id") long id, Model model) {
 		BoardDetailDto dto = boardService.findById(id);
 		model.addAttribute("board", dto);
+		
+		List<PostWithLikesCount> list = postService.findAllPostsWithLikesCount(id);
+    
+    log.info("post(list={})", list);
 
-		List<PostWithLikesCount> list = postService.findAllPostsWithLikesCount();
-        log.info("post(list={})", list);
-        
-        model.addAttribute("posts", list);
+    model.addAttribute("posts", list);
 		
 		return "board/read";
 	}

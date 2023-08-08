@@ -42,6 +42,7 @@
 		    .then(function(response) {
 		      if(response.data) {
 		        postId = /*[[${post.id}]]*/ 'postId'
+		        boardId = /*[[${board.id}]]*/ 'boardId'
 		    	window.location.href = '/post/modify?id=' + postId; // 비밀번호가 일치하면 이동할 링크를 설정
 		    	
 		      } else {
@@ -57,7 +58,8 @@
 		// 취소 버튼 클릭 이벤트 처리
 		  $('.btn_grey').click(function(){
 			 postId = /*[[${post.id}]]*/ 'postId'
-		     window.location.href = '/post/details?id=' + postId; 
+			 boardId = /*[[${board.id}]]*/ 'boardId'
+			 window.location.href = '/post/details?boardId=' + boardId+ '&id=' + postId; 
 		  });
 		});
 	</script>

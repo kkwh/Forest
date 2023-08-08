@@ -28,8 +28,19 @@
 				  		<ul class="list-group list-group-flush">
 					  		<li class="list-group-item">
 							    <div class="form-check form-switch my-1">
+						  			<input class="form-check-input" type="checkbox" role="switch" id="toggleBtn3" data-switch="off" />
+								  	<label class="form-check-label" for="toggleBtn3">랜드 소개 변경</label>
+								</div>
+						    </li>
+						</ul>
+						<div class="card-body" id="info-section" style="display: none;">
+						    <textarea id="boardInfo" name="boardInfo" class="w-100" th:text="${board.boardInfo}" rows=4></textarea>
+						</div>
+				  		<ul class="list-group list-group-flush">
+					  		<li class="list-group-item">
+							    <div class="form-check form-switch my-1">
 						  			<input class="form-check-input" type="checkbox" role="switch" id="toggleBtn" data-switch="off" />
-								  	<label class="form-check-label" for="toggleBtn">랜드 배경사진 변경하기</label>
+								  	<label class="form-check-label" for="toggleBtn">랜드 배경사진 변경</label>
 								</div>
 						    </li>
 						</ul>
@@ -48,14 +59,15 @@
 							<h5 id="blocklist-message">차단 리스트 ([[${blackList.size}]])</h5>
 							
 							<button id="addBtn" type="button" class="btn btn-outline-dark my-2" data-bs-toggle="modal" data-bs-target="#exampleModal">추가</button>
-							<div id="blockUsers" class="overflow-y-scroll">
+							
+							<div id="blockUsers" class="overflow-auto p-2" style="margin: 0 auto; max-height: 220px;">
 								<th:block th:each="user : ${blackList}">
-									<div class="row">
+									<div class="px-3 row">
 						    			<div class="col-9">
 						    				[[${user.nickname}]]
 						    			</div>
 						    			<div class="col-3">
-						    				<button type="button" class="btn btn-outline-dark blockCancelBtn" th:data-id="${user.boardId}" 
+						    				<button type="button" class="btn btn-outline-dark blockCancelBtn w-100" th:data-id="${user.boardId}" 
 						    					th:data-user-id="${user.userId}">해제</button>
 						    			</div>
 						    		</div>
@@ -94,7 +106,7 @@
 			    				[[${user.nickname}]]
 			    			</div>
 			    			<div class="col-3">
-			    				<button type="button" class="btn btn-outline-dark blockBtn" th:data-id="${user.id}">차단</button>
+			    				<button type="button" class="btn btn-outline-dark blockBtn w-100" th:data-id="${user.id}">차단</button>
 			    			</div>
 			    		</div>
 		    		</li>

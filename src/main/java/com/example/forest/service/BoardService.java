@@ -296,17 +296,22 @@ public class BoardService {
 	}
 	
 	/**
-	 * 게시판의 배경사진이 변경될 경우 적용할 메서드
+	 * 게시판의 정보가 변경될 경우 적용할 메서드
 	 * @param dto
 	 */
 	public void updateBoard(BoardModifyDto dto) {
 		log.info("boardUpdate(dto = {})", dto);
 		
-		ImageFile entity = fileRepository.findByBoardId(dto.getBoardId());
+		boardRepository.updateBoardInfo(dto.getBoardInfo(), dto.getBoardId());
 		
-		fileService.deleteImage(entity);
-		
-		fileService.saveBoardProfileImage(dto.getImageFile(), dto.getBoardId());
+		// 랜드 배경 사진도 변경한 경우
+		if(dto.getImageFile().getSize() != 0) {
+			ImageFile entity = fileRepository.findByBoardId(dto.getBoardId());
+			
+			fileService.deleteImage(entity);
+			
+			fileService.saveBoardProfileImage(dto.getImageFile(), dto.getBoardId());
+		}
 	}
 	
 	/**
@@ -402,6 +407,10 @@ public class BoardService {
 		blackListRepository.delete(entity);
 	}
 	
+	/**
+	 * 게시판을 삭제하는 메서드
+	 * @param boardId
+	 */
 	public void deleteBoard(long boardId) {
 		log.info("deleteBoard(id = {})", boardId);
 		
