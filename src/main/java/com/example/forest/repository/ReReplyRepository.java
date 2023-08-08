@@ -1,6 +1,7 @@
 package com.example.forest.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -41,4 +42,12 @@ public interface ReReplyRepository extends JpaRepository<ReReply, Long> {
     @Modifying
     void deleteByReply(@Param("reply") Reply reply);
 
+    // 대댓글 ID와 비밀번호로 댓글 조회 메서드 추가
+    @Query("select r "
+            + " from ReReply r "
+            + " where r.id = :id "
+            + " and r.replyPassword2 = :replyPassword")
+    ReReply findByIdAndReReplyPassword(@Param("id") Long id, @Param("replyPassword") String replyPassword);
+    
+    
 }

@@ -2,6 +2,8 @@
  * 댓글 영역 보이기/숨기기 토글
  * 댓글 검색, 등록, 수정, 삭제
  */
+
+
 document.addEventListener('DOMContentLoaded', () => {
     // 순서 1-1!!!
     
@@ -74,6 +76,49 @@ document.addEventListener('DOMContentLoaded', () => {
         ;
 };
 
+
+    // !!!!!!  대댓글 삭제 버튼들의 클릭을 처리하는 이벤트 리스너 콜백:
+    const deleteReply2 = (e) => {
+        
+        console.log('대댓글 삭제');
+        const result = confirm('정말 삭제할까요?');
+        if (!result) {
+        return;
+        }
+
+        const id = e.target.getAttribute('data-id2');
+        const userId = e.target.getAttribute('data-user-id2');
+   
+        const idTag2 = `password_${id}`;
+        const inputPassword2 = document.querySelector(`input#${idTag2}`).value;
+        const reqUrl = `/api/reReply/${id}?userId=${userId}&password=${inputPassword2}`;
+   
+        const realPassword2 = e.target.getAttribute('data-password2');
+        
+     
+        // 비밀번호가 입력되지않거나 틀린 경우 삭제를 하지 않음
+        if (inputPassword2 === '') {
+           console.log('오류');
+            alert('비밀번호를 입력하세요.');
+            return;
+        }
+
+        if (realPassword2 !== inputPassword2) {
+            alert('비밀번호가 일치하지 않습니다.');
+            getRepliesWithPostId();
+            return;
+        }
+    
+
+    axios
+        .delete(reqUrl)
+        .then((response) => {
+            console.log(response);
+            getRepliesWithPostId();
+        })
+        .catch((error) =>  console.log(error))
+        ;
+};
 
 
         const createReReply = (e) => {
@@ -234,8 +279,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             
             let htmlStr2  = `
-            	<div id="rereply_create_${reply.id}">
-                	<div class="cmt_write_box clear">    
+                <div id="rereply_create_${reply.id}">
+                    <div class="cmt_write_box clear">    
                         
 
                         <div class="fl">
@@ -272,8 +317,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         for(let reply of data.list) {
-			showReplies(reply.id);
-		}
+            showReplies(reply.id);
+        }
+        
         
         const btnReReplyCreates = document.querySelectorAll('button.btnReReplyCreate');
         for(let reBtn of btnReReplyCreates) {
@@ -289,8 +335,12 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('make make');
             btn.addEventListener('click', deleteReply);
         }    
+      
+
     
     };
+    
+    
     
     
         
@@ -344,24 +394,36 @@ document.addEventListener('DOMContentLoaded', () => {
             const divTag = `rereply_list_${replyId}`;
             const rereplyDiv = document.querySelector(`div#${divTag}`);
             
+            
             // 대댓글 리스트를 보여줄 HTML 생성
             let htmlStr = '';
             for (let reReply of reReplies) {
                 htmlStr += `
                     <div>
-                        <span>고정값</span>
+                        <span>커커밋</span>
                         <span>${reReply.replyNickname2}:</span>
-                        <span>${reReply.replyText2}</span>
+                        <span>${reReply.replyIp2}</span>
+                        <textarea id="replyText2_${reReply.id}" readonly>${reReply.replyText2}</textarea>
+                    </div>
+                    <div class="my-2">
+                        <input id="password_${reReply.id}"
+                        type="text" name="replyPassword2" placeholder="비밀번호를 입력하세요"/>
+                    </div>     
+                    <div>
+                        <button class="btnDelete2" data-password2="${reReply.replyPassword2}" data-user-id2="${reReply.userId}" data-id2="${reReply.id}">썩은 열매열매 제거</button>
                     </div>
                 `;
             }
-                
-            rereplyDiv.innerHTML = htmlStr;
-    
-
-    // 생성된 HTML을 대댓글 보여줄 공간에 추가
-    //reReplyContainer.innerHTML = htmlStr;
-};     
+                rereplyDiv.innerHTML = htmlStr;
+            
+                   // !!!!대댓글 삭제버튼
+       const btnDeletes2 = rereplyDiv.querySelectorAll('button.btnDelete2');
+       for(let btn of btnDeletes2) {
+           console.log('lets 2 delete');
+           btn.addEventListener('click', deleteReply2);
+       }
+            
+    };     
 
     
     // 순서 4!!!!!!!    

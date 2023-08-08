@@ -1,6 +1,7 @@
 package com.example.forest.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,30 @@ public class ReReplyService {
     private final ReReplyRepository reReplyRepository;
     private final ReplyRepository replyRepository;
 
+    
+    // 회원 대댓글 삭제
+    public void delete2(Long id) {
+        log.info("delete2(id= {})", id);
+        
+        reReplyRepository.deleteById(id);
+    }
+    
+    // 비회원 대댓글 삭제
+    public void delete2(Long id, String replyPassword2) {
+        log.info("delete2(id= {}, replyPassword={})", id, replyPassword2);
+        
+     // 댓글 ID와 비밀번호로 댓글 조회
+        ReReply reReply = reReplyRepository.findByIdAndReReplyPassword(id, replyPassword2);
+        
+        if (reReply != null) {
+            // 비밀번호가 일치하면 댓글 삭제
+            reReplyRepository.delete(reReply);
+        } else {
+            // 비밀번호가 일치하지 않으면 예외 처리
+            throw new IllegalArgumentException("댓글을 삭제할 수 없습니다. 비밀번호가 일치하지 않습니다.");
+        }
+    }
+    
     @Transactional(readOnly = true)
     public List<ReReply> read(Long replyId) {
         log.info("read(reply={})", replyId);
