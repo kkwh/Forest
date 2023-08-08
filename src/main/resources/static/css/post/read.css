@@ -316,19 +316,7 @@ h2 {
     background-repeat: no-repeat;
     background-position: 0 0;
     background-size: 156px 104px;
-}
-
-.mintro_imgbox {
-    position: relative;
-    display: block;
-    float: left;
-    width: 156px;
-    height: 104px;
-    background-color: #fff;
-    background-image: url(https://nstatic.dcinside.com/dc/w/images/minorbg.png);
-    background-repeat: no-repeat;
-    background-position: 0 0;
-    background-size: 156px 104px;
+    margin-left: 10px;
 }
 
 element.style {
@@ -438,7 +426,7 @@ p {
     display: block;
     float: left;
     width: 73px;
-    line-height: 20px;
+    line-height: 45px;
 }
 
 
@@ -543,4 +531,19 @@ button {
     vertical-align: middle;
     cursor: pointer;
     
+}
+
+.custom-pagination .page-link {
+        font-size: 12px; /* 폰트 크기 설정 */
+        color: black !important; /* 글자색 검정색으로 설정 */
+        background: none; /* 배경색 없애기 */
+        border: none; /* 테두리 선 없애기 */
+}
+    
+.custom-pagination .active .page-link {
+        color: red !important; /* 클릭된 페이지 글자색 빨간색으로 설정 */
+}
+
+.invisible {
+  color: transparent;
 }

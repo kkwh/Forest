@@ -197,7 +197,7 @@
                 
              <!-- 로그인 상태이면 -->
              <th:block sec:authorize="isAuthenticated()">
-                <div th:if="${#authentication.name} == ${post.postNickname}">
+                <div th:if="${user.nickname} == ${post.postNickname}">
                     <a class="btn btn-outline-success" th:href="@{ /post/deleteCheck?id={id} (id = ${post.id}) }">벌목하기</a>
                     <a class="btn btn-outline-success" th:href="@{ /post/modify?id={id} (id = ${post.id}) }">가지치기</a>
                     <a class="btn btn-outline-success" th:href="@{ /post/create?id={id} (id = ${boardId}) }">나무심기</a>
@@ -205,7 +205,7 @@
                     <a class="btn btn-outline-success" th:href="@{/post/popular?id={id} (id = ${boardId})}">인기글</a>
                     <a class="btn btn-outline-success" th:href="@{/post/notice?id={id} (id = ${boardId})}">공지</a>
                 </div>
-                <div th:unless="${#authentication.name} == ${post.postNickname}">
+                <div th:unless="${user.nickname} == ${post.postNickname}">
                     <a class="btn btn-outline-success" th:href="@{ /post/create?id={id} (id = ${boardId}) }">나무심기</a>
                     <a class="btn btn-outline-success" th:href="@{ /board/ } + ${boardId}">전체글</a>
                     <a class="btn btn-outline-success" th:href="@{/post/popular?id={id} (id = ${boardId})}">인기글</a>

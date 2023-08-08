@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const modify = () => {
 		const form = document.querySelector('form#modify-form');
 		
+		const boardInfo = document.querySelector('textarea#boardInfo').value;
 		const imageInput = document.querySelector('input#imageFile');
 		
 		const result = confirm('변경된 사항을 저장하시겠습니까?')
@@ -46,14 +47,15 @@ document.addEventListener('DOMContentLoaded', () => {
 			return false;
 		}
 		
-		if(imageInput.files.length == 0) {
-			alert('변경된 사항이 없습니다.');
-		} else {
-			console.log('modify');
-			form.action='/board/modify';
-			form.method='post';
-			form.submit();
+		if(boardInfo == '') {
+			alert('랜드 소개를 입력해주세요.');
+			return false;
 		}
+		
+		console.log('modify');
+		form.action='/admin/board/modify';
+		form.method='post';
+		form.submit();
 	};
 	
 	const modifyBtn = document.querySelector('button#modifyBtn');
@@ -129,6 +131,27 @@ document.addEventListener('DOMContentLoaded', () => {
 	const toggleBtn2 = document.querySelector('input#toggleBtn2');
 	toggleBtn2.addEventListener('click', toggleList);
 	
+	const toggleInfo = () => {
+		const toggle = document.querySelector('input#toggleBtn3');
+		const status = toggle.getAttribute('data-switch');
+		
+		const infoArea = document.querySelector('div#info-section');
+		
+		if(status == 'off') {
+			console.log('on');
+			
+			toggle.setAttribute('data-switch', 'on');
+			infoArea.style.display = 'block';
+		} else {
+			console.log('off');
+			
+			toggle.setAttribute('data-switch', 'off');
+			infoArea.style.display = 'none';
+		}
+	};
+	
+	const toggleBtn3 = document.querySelector('input#toggleBtn3');
+	toggleBtn3.addEventListener('click', toggleInfo);
 	
 	const blockUser = (e) => {
 		console.log(e.target);
@@ -290,6 +313,29 @@ document.addEventListener('DOMContentLoaded', () => {
 	for(let btn of blockCancelBtns) {
 		btn.addEventListener('click', cancelBlock);
 	}
+	
+	const deleteBoard = () => {
+		const boardId = document.querySelector('input#boardId').value;
+		
+		const result = confirm('정말 삭제하시겠습니까?');
+		if(!result) {
+			return false;
+		}
+		
+		const url = `/api/v1/board/delete/${boardId}`;
+		axios.delete(url)
+			.then((response) => {
+				console.log(response);
+				
+				window.location.href='/admin/board/list';
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+	
+	const deleteBtn = document.querySelector('button#deleteBtn');
+	deleteBtn.addEventListener('click', deleteBoard);
 	
 });
 

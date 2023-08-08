@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -103,16 +106,23 @@ public class BoardController {
 		return "board/sub";
 	}
 	
-	@GetMapping("/{id}")
-	public String board(@PathVariable("id") long id, Model model) {
+	@GetMapping("/{id}") // 해당 랜드의 home
+	public String board(@PathVariable("id") long id, Model model, @PageableDefault(page = 0, size = 3) Pageable pageable) {
 		BoardDetailDto dto = boardService.findById(id);
 		model.addAttribute("board", dto);
 		
-		List<PostWithLikesCount> list = postService.findAllPostsWithLikesCount(id);
-    
-    log.info("post(list={})", list);
-
-    model.addAttribute("posts", list);
+		Page<PostWithLikesCount> list = postService.findAllPostsWithLikesCount(id, pageable);
+        
+		int nowPage = list.getPageable().getPageNumber() + 1;
+		int startPage = Math.max(nowPage - 4, 1);
+		int endPage = Math.min(nowPage + 5, list.getTotalPages());
+		
+	    log.info("post(list={})", list);
+	
+	    model.addAttribute("posts", list);
+	    model.addAttribute("nowPage", nowPage);
+	    model.addAttribute("startPage", startPage);
+	    model.addAttribute("endPage", endPage);
 		
 		return "board/read";
 	}
