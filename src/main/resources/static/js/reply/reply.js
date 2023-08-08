@@ -19,13 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
     btnToggleReply.addEventListener('click', (e) => {
        bsCollapse.toggle(); 
        //console.log(e.target);
-       if (e.target.innerText === '한번더') {
+       if (e.target.innerText === '열매 보기') {
            e.target.innerText = '라스트'
            
            // 댓글 목록 불러오기:
            getRepliesWithPostId();
        } else {
-           e.target.innerText = '한번더';
+           e.target.innerText = '열매 보기';
        }
         
     });

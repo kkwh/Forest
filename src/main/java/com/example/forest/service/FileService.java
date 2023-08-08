@@ -20,7 +20,7 @@ public class FileService {
 	
 	//private static final String UPLOAD_PATH = "/Users/apple/git/Forest/src/main/resources/static/img/board_profile";
 	//private static final String UPLOAD_PATH = "C:\\Users\\ITWILL\\git\\Forest\\src\\main\\resources\\static\\img\\board_profile";
-    private static final String UPLOAD_PATH = "/Users/apple/git/Forest/src/main/resources/static/img/board_profile";
+    private static final String UPLOAD_PATH = "C:\\Users\\User\\git\\Forest\\src\\main\\resources\\static\\img\\board_profile";
 	
 	private final ImageFileRepository fileRepository;
 	

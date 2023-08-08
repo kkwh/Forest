@@ -60,9 +60,9 @@
 							
 							<button id="addBtn" type="button" class="btn btn-outline-dark my-2" data-bs-toggle="modal" data-bs-target="#exampleModal">추가</button>
 							
-							<div id="blockUsers" class="overflow-auto p-2" style="margin: 0 auto; max-height: 220px;">
+							<div id="blockUsers" class="overflow-y-scroll p-2" style="max-height: 200px;">
 								<th:block th:each="user : ${blackList}">
-									<div class="px-3 row">
+									<div class="px-3 row mb-1">
 						    			<div class="col-9">
 						    				[[${user.nickname}]]
 						    			</div>

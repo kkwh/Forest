@@ -63,6 +63,8 @@ public class ReplyService {
         
         // 2. 찾은 Post에 달려 있는 댓글 목록을 검색.
         List<Reply> list = replyRepository.findByPostOrderByIdDesc(post);
+        log.info("list = {}", list);
+        
         return list;
     }
     

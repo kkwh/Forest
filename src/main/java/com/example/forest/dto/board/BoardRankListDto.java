@@ -15,5 +15,8 @@ public class BoardRankListDto {
 	
 	private List<BoardRankDto> top5List;
 	private List<BoardRankDto> top10List;
+	
+	private List<BoardListDto> list1;
+	private List<BoardListDto> list2;
 
 }

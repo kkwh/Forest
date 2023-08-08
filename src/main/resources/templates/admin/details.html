@@ -59,7 +59,7 @@
 							<h5 id="blocklist-message">차단 리스트 ([[${blackList.size}]])</h5>
 							
 							<button id="addBtn" type="button" class="btn btn-outline-dark my-2" data-bs-toggle="modal" data-bs-target="#exampleModal">추가</button>
-							<div id="blockUsers" class="overflow-y-scroll">
+							<div id="blockUsers" class="overflow-y-scroll p-2" style="max-height: 200px;">
 								<th:block th:each="user : ${blackList}">
 									<div class="row">
 						    			<div class="col-9">
