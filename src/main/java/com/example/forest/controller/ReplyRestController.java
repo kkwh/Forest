@@ -2,6 +2,7 @@ package com.example.forest.controller;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.forest.dto.reply.ReplyCreateDto;
 import com.example.forest.dto.reply.ReplyListDto;
 import com.example.forest.model.Reply;
+import com.example.forest.model.ReplyCategory;
 import com.example.forest.service.IpService;
 import com.example.forest.service.ReReplyService;
 import com.example.forest.service.ReplyService;
@@ -116,6 +118,36 @@ public class ReplyRestController {
             return ResponseEntity.ok("댓글 삭제 성공");
         
             
+        }
+        
+        // 댓글 조회(최신순,등록순)
+        @GetMapping("/sortBy")
+        public ResponseEntity<ReplyListDto> sortByType(@RequestParam("postId") long postId, @RequestParam("type") String type, Principal principal) {
+            log.info("sortByType(id = {}, type = {})", postId, type);
+            
+            long userId = 0;
+            if(principal != null) {
+                userId = userService.getUserId(principal.getName());
+            }
+            
+            long count = 0;
+            
+            List<Reply> list = replyService.readSortedReplies(postId, type);
+            for (Reply reply : list) {
+                String replyIp = ipService.getServerIp();
+                count += reReplyService.countByReply(reply);
+                log.info("포스트 ID: {}, IP 주소: {}, 개수: {}", postId, replyIp, count);
+            }
+            
+            ReplyListDto dto = ReplyListDto.builder()
+                    .userId(userId)
+                    .count(count)
+                    .list(list)
+                    .build();
+            
+            log.info("dto = {}", dto);
+            
+            return ResponseEntity.ok(dto);
         }
         
 

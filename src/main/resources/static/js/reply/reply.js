@@ -470,7 +470,28 @@ document.addEventListener('DOMContentLoaded', () => {
        
        
     });
+    
+    // 서원준 
+    const sortReplies = () => {
+        const postId = document.querySelector('input#postId').value;
+        const type = document.querySelector('select#sortType').value;
+        console.log(type);
+        
+        const url = `/api/reply/sortBy?postId=${postId}&type=${type}`;
+        axios.get(url)
+            .then((response) => {
+                console.log(response.data);
+                
+                makeReplyElements(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
+    const typeBtn = document.querySelector('select#sortType');
+    typeBtn.addEventListener('change', sortReplies);
+    
    
    
 });
