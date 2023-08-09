@@ -159,6 +159,7 @@ public class BoardController {
 		
 		List<BoardListDto> boards = boardService.findAllByUser(principal.getName());
 		model.addAttribute("boards", boards);
+		log.info("boards = {}", boards);
 		
 		long userId = userService.getUserId(principal.getName());
 		log.info("userId = {}", userId);

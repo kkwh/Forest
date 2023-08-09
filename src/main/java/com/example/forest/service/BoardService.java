@@ -1,5 +1,6 @@
 package com.example.forest.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -298,6 +299,7 @@ public class BoardService {
 	/**
 	 * 게시판의 정보가 변경될 경우 적용할 메서드
 	 * @param dto
+	 * @throws IOException 
 	 */
 	public void updateBoard(BoardModifyDto dto) {
 		log.info("boardUpdate(dto = {})", dto);
@@ -455,26 +457,48 @@ public class BoardService {
 		boardRepository.delete(entity);
 	}
 	
+	/**
+	 * 인기 랜드를 리스트로 불러오는 메서드
+	 * @param boardGrade
+	 * @return
+	 */
 	public BoardRankListDto findPopularBoard(String boardGrade) {
 		log.info("findPopularBoard(grade = {})", boardGrade);
 		
 		List<BoardRankDto> list = boardRepository.findTop10Boards(boardGrade);
-		List<BoardRankDto> list1 = new ArrayList<>();
-		List<BoardRankDto> list2 = new ArrayList<>();
+		List<BoardRankDto> rank1 = new ArrayList<>();
+		List<BoardRankDto> rank2 = new ArrayList<>();
 		int idx = 0;
 		while(idx < 5 && idx < list.size()) {
-			list1.add(list.get(idx));
+			rank1.add(list.get(idx));
 			idx++;
 		}
 		
-		while(idx >= 5 && idx < list.size()){
-			list2.add(list.get(idx));
+		while(idx >= 5 && idx < list.size()) {
+			rank2.add(list.get(idx));
+			idx++;
+		}
+		
+		List<Board> boards = boardRepository.findAllByBoardGradeOrderByCreatedTimeDesc(boardGrade);
+		List<BoardListDto> date1 = new ArrayList<>();
+		List<BoardListDto> date2 = new ArrayList<>();
+		
+		idx = 0;
+		while(idx < 5 && idx < boards.size()) {
+			date1.add(BoardListDto.fromEntity(boards.get(idx)));
+			idx++;
+		}
+		
+		while(idx >= 5 && idx < boards.size() && idx < 10) {
+			date2.add(BoardListDto.fromEntity(boards.get(idx)));
 			idx++;
 		}
 		
 		return BoardRankListDto.builder()
-				.top5List(list1)
-				.top10List(list2)
+				.top5List(rank1)
+				.top10List(rank2)
+				.list1(date1)
+				.list2(date2)
 				.build();
 	}
 	

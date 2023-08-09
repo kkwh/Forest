@@ -6,7 +6,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -54,6 +53,5 @@ public class ReReply extends BaseTimeEntity {
 	// 답글이 작성된 댓글
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Reply reply;
-
     
 }

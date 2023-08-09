@@ -54,6 +54,5 @@ public class Reply extends BaseTimeEntity {
 	// 댓글이 작성된 게시물
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Post post;
-	
 
 }
