@@ -1,5 +1,27 @@
-package com.example.forest.controller;
+//package com.example.forest.controller;
+//
+//import java.io.File;
+//import java.io.IOException;
+//import java.io.InputStream;
+//import java.util.UUID;
+//
+//import org.apache.commons.io.FileUtils;
+//import org.springframework.web.bind.annotation.PostMapping;
+//import org.springframework.web.bind.annotation.RequestParam;
+//import org.springframework.web.bind.annotation.RestController;
+//import org.springframework.web.multipart.MultipartFile;
+//
+//import com.google.gson.JsonObject;
+//
+//import lombok.RequiredArgsConstructor;
+//import lombok.extern.slf4j.Slf4j;
 
+
+//@Slf4j
+//@RequiredArgsConstructor
+//@RestController
+//public class SummernoteController {
+//    
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +50,8 @@ public class SummernoteController {
 //    public JsonObject uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile) {
 //        
 //        JsonObject jsonObject = new JsonObject();
+//        
+//        String fileRoot = "file:///C:/Users/ITWILL/git/Forest/src/main/resources/static/img/post_profile/";; //저장될 외부 파일 경로
 
 //        String fileRoot = "file:///C:/Users/ITWILL/git/Forest/src/main/resources/static/img/post_profile/"; //저장될 외부 파일 경로
 
@@ -57,6 +81,7 @@ public class SummernoteController {
 //        
 //        return jsonObject;
 //    }
+
 
 }
 

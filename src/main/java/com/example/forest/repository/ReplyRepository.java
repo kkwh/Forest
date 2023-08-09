@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,8 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
         
     // Post로 검색하기:
     List<Reply> findByPostOrderByIdDesc(Post post);
+    List<Reply> findByPostOrderByIdAsc(Post post); 
+
     
     // Post에 달린 댓글 개수:
     Long countByPost(Post post);
@@ -26,7 +29,7 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
     Long countByPostId(Long postId);
     
     // 댓글 ID와 비밀번호로 댓글 조회 메서드 추가
-    Optional<Reply> findByIdAndReplyPassword(Long id, String replyPassword);
+    Reply findByIdAndReplyPassword(Long id, String replyPassword);
     
     /**
      * 서원준
@@ -37,4 +40,5 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
 	@Modifying
     void deleteByPost(@Param("post") Post post);
     
+
 }

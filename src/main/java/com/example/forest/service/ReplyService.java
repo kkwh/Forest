@@ -24,15 +24,26 @@ import lombok.extern.slf4j.Slf4j;
 public class ReplyService {
 
     private final ReplyRepository replyRepository;
-    private final PostRepository postRepository;
     private final ReReplyRepository reReplyRepository;
-    private final ReReplyService reReplyService;
+    private final PostRepository postRepository;
     
     
-    // 비회원 댓글 삭제
+    public List<Reply> findByPostOrderByIdDesc(Post post) {
+        return replyRepository.findByPostOrderByIdDesc(post);
+    }
+    
+    public List<Reply> findByPostOrderByIdAsc(Post post) {
+        return replyRepository.findByPostOrderByIdAsc(post);
+    }
+    
+    
+    // 회원 댓글 삭제
     public void delete(Long id) {
         log.info("delete(id= {})", id);
         
+        Reply reply = replyRepository.findById(id).orElseThrow();
+       
+        reReplyRepository.deleteByReply(reply);
         replyRepository.deleteById(id);
     }
     
@@ -41,33 +52,34 @@ public class ReplyService {
         log.info("delete(id= {}, replyPassword={})", id, replyPassword);
         
      // 댓글 ID와 비밀번호로 댓글 조회
-        Optional<Reply> optionalReply = replyRepository.findByIdAndReplyPassword(id, replyPassword);
+        Reply reply = replyRepository.findByIdAndReplyPassword(id, replyPassword);
         
-        if (optionalReply.isPresent()) {
+        if (reply.getUserId() == 0) {
             // 비밀번호가 일치하면 댓글 삭제
-            replyRepository.delete(optionalReply.get());
+            Reply reply2 = replyRepository.findById(id).orElseThrow();
+            
+            reReplyRepository.deleteByReply(reply2);
+            replyRepository.deleteById(id);
         } else {
             // 비밀번호가 일치하지 않으면 예외 처리
             throw new IllegalArgumentException("댓글을 삭제할 수 없습니다. 비밀번호가 일치하지 않습니다.");
         }
     }
     
-    
-    // 댓글 목록 보기
-    @Transactional(readOnly = true)
-    public List<Reply> read(Long postId) {
-        log.info("read(postId={})", postId);
         
-        // 1. postId로 Post를 검색.
-        Post post = postRepository.findById(postId).orElseThrow();
-        
-        // 2. 찾은 Post에 달려 있는 댓글 목록을 검색.
-        List<Reply> list = replyRepository.findByPostOrderByIdDesc(post);
-        log.info("list = {}", list);
-        
-        return list;
-    }
-    
+        // 댓글 목록 보기
+        @Transactional(readOnly = true)
+        public List<Reply> read(Long postId) {
+            log.info("read(postId={})", postId);
+            
+            // 1. postId로 Post를 검색.
+            Post post = postRepository.findById(postId).orElseThrow();
+            
+            // 2. 찾은 Post에 달려 있는 댓글 목록을 검색.
+            List<Reply> list = replyRepository.findByPostOrderByIdDesc(post);
+            return list;
+        }
+
     // 댓글 읽어오기
     @Transactional(readOnly = true)
     public List<Reply> read(Post post) {
@@ -84,6 +96,9 @@ public class ReplyService {
         
         return replyRepository.countByPost(post);
     }
+    
+    
+    
     
     public Long countByPostId(Long postId) {
         log.info("countByPostId(postId={})", postId);
@@ -116,6 +131,25 @@ public class ReplyService {
     }
     
 
+//    
+//    // 댓글 목록을 정렬하여 가져오기
+//    @Transactional(readOnly = true)
+//    public List<Reply> readSortedReplies(Long postId, String sortValue) {
+//        log.info("readSortedReplies(postId={}, sortValue={})", postId, sortValue);
+//
+//        Post post = postRepository.findById(postId).orElseThrow();
+//        List<Reply> replies;
+//
+//        if ("D".equals(sortValue)) { // 등록순
+//            replies = replyRepository.findByPostOrderByIdAsc(post);
+//        } else if ("N".equals(sortValue)) { // 최신순
+//            replies = replyRepository.findByPostOrderByIdDesc(post);
+//        } else {
+//            replies = replyRepository.findByPostOrderByIdDesc(post);
+//        }
+//
+//        return replies;
+//    }
     
     
 }

@@ -14,16 +14,6 @@
   text-decoration: none; 
 }
 
-.select_box array_latest {
-    margin-top: 1px;
-    margin-left: 1px;
-}
-
-/* 텍스트 위 여백 */
-.fl {
-   margin-top: 1px; 
-}
-
 /* 버튼 사이에 구분선 추가 */
 .btn_cmt_open::after,
 .contgo::after {
@@ -96,7 +86,6 @@
 
 /* 댓글 작성 버튼 스타일 */
 .btn_blue.btn_svc {
-  font-size: 12px;
   background-color: #4fbd4d;
   color: #ffffff;
   border: none;
@@ -137,11 +126,11 @@
 }
 
 .reply-details span {
-  margin-right: 1px;
+  margin-right: 10px;
 }
 
 .reply-details textarea {
-  width: 80%;
+  width: 100%;
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;

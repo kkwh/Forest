@@ -197,7 +197,7 @@
                 
              <!-- 로그인 상태이면 -->
              <th:block sec:authorize="isAuthenticated()">
-                <div th:if="${user.nickname} == ${post.postNickname}">
+                <div th:if="${#authentication.name} == ${post.postNickname}">
                     <a class="btn btn-outline-success" th:href="@{ /post/deleteCheck?id={id} (id = ${post.id}) }">벌목하기</a>
                     <a class="btn btn-outline-success" th:href="@{ /post/modify?id={id} (id = ${post.id}) }">가지치기</a>
                     <a class="btn btn-outline-success" th:href="@{ /post/create?id={id} (id = ${boardId}) }">나무심기</a>
@@ -205,7 +205,7 @@
                     <a class="btn btn-outline-success" th:href="@{/post/popular?id={id} (id = ${boardId})}">인기글</a>
                     <a class="btn btn-outline-success" th:href="@{/post/notice?id={id} (id = ${boardId})}">공지</a>
                 </div>
-                <div th:unless="${user.nickname} == ${post.postNickname}">
+                <div th:unless="${#authentication.name} == ${post.postNickname}">
                     <a class="btn btn-outline-success" th:href="@{ /post/create?id={id} (id = ${boardId}) }">나무심기</a>
                     <a class="btn btn-outline-success" th:href="@{ /board/ } + ${boardId}">전체글</a>
                     <a class="btn btn-outline-success" th:href="@{/post/popular?id={id} (id = ${boardId})}">인기글</a>
@@ -216,17 +216,18 @@
                 
             </div>
         </div>
+
+
         
         <!-- 채한별: --> 
         <!-- 열매(댓글) 부분 -->
-        <div class="view_comment my-2 card">
+       <div class="view_comment my-2 card">
             <h2 class="blind">댓글 영역</h2>
             <div class="comment_wrap show">
             <input type="hidden" id="userId" name="userId" th:value="${userId}" />
             <input type="hidden" id="postId" name="postId" th:value="${post.id}" />
                <div class="d-none" id="authName" th:text="${ #authentication.name }"></div>
-  
-        
+                
                 <div class= "comment_count">
                     <div class="fl num_box">
                     나무 열매
@@ -235,12 +236,24 @@
                         </em>
                         개 
                         <div class="select_box array_latest">
-                            <select name="selCommentSort">
+                            <select name="selCommentSort"  id="selCommentSort">
                                     <option value="D">등록순</option>
                                     <option value="N">최신순</option>
-                                    <option value="R">댓글수</option>
                             </select>
-                       </div>
+                            <div class="select_area">
+                                <span class="comment_sort_txt"></span>
+                                <span class="blind">정렬 기준선택</span>
+                                <em class="sp_img icon_option_more"></em>
+                            </div>
+                            <ul class="option_box" style="left:-1px;top:19px;display:none">
+                                <li class="comment_sort" data-sort="D">등록순</li>
+                                <li class="comment_sort" data-sort="N">최신순</li>
+                            </ul>
+                         </div>
+                         <button type="button" class="btn_setreply" style="display: none">
+                            <span class="blind">답글 펼침 설정</span>
+                            <em class="sp_img icon_setreply"></em>
+                         </button>
                       </div>
                    </div>
             
@@ -259,7 +272,8 @@
                         <div class="user_info_input">
                             <label class="reply-password" for="user_pw" th:value="0" id="replyPassword"></label>
                             <input type="hidden" id="replyPassword" name="replyPassword" th:value="0" required autofocus />
-                        </div>                            
+                        </div>
+                    </div>                              
                     <div class="cmt_txt_cont">
                         <div class="cmt_write">
                             <textarea id="replyText"  placeholder="열매를 달아주세요"></textarea>
@@ -267,12 +281,7 @@
                     </div>
                      <div class="cmt_cont_bottm clear">
                          <div class="dccon_guidebox">
-                                <button type="button" class="btn_white small tx_dccon" ><em class="sp_img icon_dccon"></em>포레스트콘</button>
-                            <button type="button" class="btn_dccon_guide">
-                            <span class="blind"></span><em class="sp_img icon_guide_open"></em>
-                            </button>
                               <button type="button" class="btn_blue btn_svc small repley_add" id="btnReplyCreate">열매 달기</button>
-                              <a href="#container" class="contgo">본문 보기</a>
                          </div>
                       </div>
                     </div>
@@ -300,29 +309,32 @@
                             <textarea id="replyText"  placeholder="열매를 달아주세요"></textarea>
                          </div>
                     </div>
+                    
+                    
                      <div class="cmt_cont_bottm clear">
                          <div class="dccon_guidebox">
-                            <button type="button" class="btn_white small tx_dccon" ><em class="sp_img icon_dccon"></em>포레스트콘</button>
-                            <button type="button" class="btn_dccon_guide">
-                            <span class="blind"></span><em class="sp_img icon_guide_open"></em>
-                            </button>
                               <button type="button" class="btn_blue btn_svc small repley_add" id="btnReplyCreate">열매 달기</button>
-                              <a href="#container" class="contgo">나무 보기</a>
                          </div>
                      </div>
                 </div>
                 </th:block>       
            </div>     
-        </div>
+        
            
                 <!-- 댓글 목록을 보여줄 영역 -->
-                <button class="btn_cmt_open" id="btnToggleReply" type="button">열매 보기</button>
+                <button class="btn_cmt_open" id="btnToggleReply" data-status="열매 보기">
+                    <span>열매 보기</span>
+                    <em class="sp_img icon_cmt_more"></em>
+                </button>
+                <a href="#container" class="contgo">나무 보기</a>
                     <div class="reply-toggle-header reply-card-body collapse" id="replyToggleDiv">
                         <div class="reply-toggle my-2 row">
                             <div class="reply-show-list my-2 row" id="replies">
                             </div>
                         </div>
                     </div>
+        </div>
+        
         
         <!-- 로그인 여부를 스크립트에 전달 -->
         <th:block th:if="${ #authentication.principal != null }">
@@ -338,7 +350,6 @@
         
         <!--  //열매(댓글) 부분 -->
         
-        </div>
 
     </main>
     
@@ -347,6 +358,8 @@
         <script src="/js/reply/reply.js"></script>
         <script src="/js/post/likedislike.js"></script>
         <!-- <script src="/js/post/modify.js"></script> -->
+        
+        
         
     </th:block>
     

@@ -85,7 +85,8 @@ public class ReplyRestController {
             
              dto.setUserId(userId);
              
-             String ipAddr = ipService.getServerIp();
+             String ipAddrfor = ipService.getServerIp();
+             String ipAddr = ipAddrfor.substring(0, ipAddrfor.lastIndexOf(".", ipAddrfor.lastIndexOf(".")-1));
              request.setAttribute("ipAddr", ipAddr);
              log.info("ip = {}", ipAddr);
             

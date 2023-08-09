@@ -5,6 +5,7 @@
 
 
 document.addEventListener('DOMContentLoaded', () => {
+    
     // 순서 1-1!!!
     
         // 로그인한 사용자 이름 -> 댓글 등록, 수정, 삭제할 때 사용하기 위해서.
@@ -19,11 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
     btnToggleReply.addEventListener('click', (e) => {
        bsCollapse.toggle(); 
        //console.log(e.target);
-       if (e.target.innerText === '열매 보기') {
-           e.target.innerText = '라스트'
-           
+       if (e.target.innerText === '열매 안보기') {
+           e.target.innerText = '열매 보기'
            // 댓글 목록 불러오기:
            getRepliesWithPostId();
+       } else if(e.target.innerText ==='열매 보기') {
+           e.target.innerText = '열매 안보기';
+          getRepliesWithPostId();
        } else {
            e.target.innerText = '열매 보기';
        }
@@ -200,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <input id="password_${reply.id}"
                        type="text" name="replyPassword" placeholder="비밀번호를 입력하세요"/>
                 </div>     
-                <div>
+                <div class= "reply-action">
                     <button class="btnDelete" data-password="${reply.replyPassword}" data-user-id="${reply.userId}" data-id="${reply.id}">썩은 열매 제거</button>
                 </div>
                 <div class="card my-2">
@@ -237,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <textarea id="replyText_${reply.id}" readonly>${reply.replyText}</textarea>
                         <input class="form-control" id="password_${reply.id}"
                             type="hidden" name="replyPassword" value="0"/>
-                    <div>
+                    <div class= "reply-action">
                         <button class="btnDelete" data-password="${reply.replyPassword}" data-user-id="${reply.userId}" data-id="${reply.id}">썩은 열매 제거</button>
                     </div>
                         <div class="card my-2">
@@ -310,6 +313,8 @@ document.addEventListener('DOMContentLoaded', () => {
                          </div>
                     </div>
                 </div>
+                
+                <!--대댓글 리스트  -->
                 <div id="rereply_list_${reply.id}">
                 </div>
             `;
@@ -339,12 +344,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     
     };
-    
-    
-    
-    
-        
-        
     
     
     // 순서 2!!!!    
@@ -399,24 +398,25 @@ document.addEventListener('DOMContentLoaded', () => {
             let htmlStr = '';
             for (let reReply of reReplies) {
                 htmlStr += `
-                    <div>
-                        <span>커커밋</span>
-                        <span>${reReply.replyNickname2}:</span>
-                        <span>${reReply.replyIp2}</span>
-                        <textarea id="replyText2_${reReply.id}" readonly>${reReply.replyText2}</textarea>
-                    </div>
-                    <div class="my-2">
-                        <input id="password_${reReply.id}"
-                        type="text" name="replyPassword2" placeholder="비밀번호를 입력하세요"/>
-                    </div>     
-                    <div>
-                        <button class="btnDelete2" data-password2="${reReply.replyPassword2}" data-user-id2="${reReply.userId}" data-id2="${reReply.id}">썩은 열매열매 제거</button>
+                    <div class="reply-container">
+                        <div class="reply-details">
+                            <span>${reReply.replyNickname2}</span>
+                            <span>(${reReply.replyIp2})</span>
+                            <textarea id="replyText2_${reReply.id}" readonly>${reReply.replyText2}</textarea>
+                        </div>
+                        <div class="reply-input">
+                            <input id="password_${reReply.id}" type="text" name="replyPassword2" placeholder="비밀번호를 입력하세요" />
+                        </div>
+                        <div class="reply-action">
+                            <button class="btnDelete2" data-password2="${reReply.replyPassword2}" data-user-id2="${reReply.userId}" data-id2="${reReply.id}">썩은 열매열매 제거</button>
+                        </div>
                     </div>
                 `;
             }
                 rereplyDiv.innerHTML = htmlStr;
             
-                   // !!!!대댓글 삭제버튼
+       
+       // !!!!대댓글 삭제버튼
        const btnDeletes2 = rereplyDiv.querySelectorAll('button.btnDelete2');
        for(let btn of btnDeletes2) {
            console.log('lets 2 delete');
@@ -471,11 +471,6 @@ document.addEventListener('DOMContentLoaded', () => {
        
     });
 
- 
-    
-    
-    
-    
-    
-    
+   
+   
 });
