@@ -285,6 +285,8 @@ $(document).ready(function(){
             <a class="nav-link form-control btn btn-outline-success" th:href="@{/post/popular?id={id} (id = ${board.id})}">인기글</a>
             <a class="nav-link form-control btn btn-outline-success" th:href="@{/post/notice?id={id} (id = ${board.id})}">공지</a>
             <a class="nav-link form-control btn btn-outline-success" th:href="@{/post/create?id={id} (id = ${board.id})}">나무심기</a>
+            
+            <button id="normal" class="btn btn-outline-success" th:data-board-id="${board.id}">일반 <span th:text="일반"></span></button>
  
         </div>
         </div>

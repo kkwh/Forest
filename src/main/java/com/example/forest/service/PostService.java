@@ -97,16 +97,16 @@ public class PostService {
         Page<PostWithLikesCount> list = null;
         switch (dto.getType()) {
         case "t":
-            list = postRepository.findByPostTitleContainsIgnoreCaseOrderByIdDesc(dto.getKeyword(), pageable);
+            list = postRepository.findByPostTitleContainsIgnoreCaseOrderByIdDesc(dto.getKeyword(), dto.getBoardId(), pageable);
             break;
         case "c": 
-            list = postRepository.findByPostContentContainsIgnoreCaseOrderByIdDesc(dto.getKeyword(), pageable); 
+            list = postRepository.findByPostContentContainsIgnoreCaseOrderByIdDesc(dto.getKeyword(), dto.getBoardId(), pageable); 
             break; 
         case "tc": 
-            list = postRepository.findByTitleContainsIgnoreCaseOrContentContainsIgnoreCaseOrderByIdDesc(dto.getKeyword(), dto.getKeyword(), pageable); 
+            list = postRepository.findByTitleContainsIgnoreCaseOrContentContainsIgnoreCaseOrderByIdDesc(dto.getKeyword(), dto.getKeyword(), dto.getBoardId(), pageable); 
             break; 
         case "a": 
-            list = postRepository.findByPostNicknameContainsIgnoreCaseOrderByIdDesc(dto.getKeyword(), pageable); 
+            list = postRepository.findByPostNicknameContainsIgnoreCaseOrderByIdDesc(dto.getKeyword(), dto.getBoardId(), pageable); 
             break;
             
         }
@@ -140,6 +140,12 @@ public class PostService {
     @Transactional(readOnly = true)
     public Page<PostWithLikesCount> findAllPostsWithLikesCountWhenNotice(Long boardId, Pageable pageable) {              
         return postRepository.findAllPostsWithLikesCountWhenNotice(boardId, pageable);
+    }
+    
+    // 일반글 조회
+    @Transactional(readOnly = true)
+    public Page<PostWithLikesCount> findAllPostsWithLikesCountWhenNormal(Long boardId, Pageable pageable) {              
+        return postRepository.findAllPostsWithLikesCountWhenNormal(boardId, pageable);
     }
     
     public Long findBoardIdByPostId(Long postId) {
