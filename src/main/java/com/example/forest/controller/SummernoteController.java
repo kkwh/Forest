@@ -11,22 +11,29 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.nimbusds.jose.shaded.gson.JsonObject;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
+@RequiredArgsConstructor
+@RestController
+public class SummernoteController {
 //@Slf4j
 //@RequiredArgsConstructor
 //@RestController
-//public class SummernoteController {
-//    
+//public class SummernoteController { 
 //    @PostMapping(value="/uploadSummernoteImageFile", produces = "application/json")
 //    public JsonObject uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile) {
 //        
 //        JsonObject jsonObject = new JsonObject();
-//        
+
+//        String fileRoot = "file:///C:/Users/ITWILL/git/Forest/src/main/resources/static/img/post_profile/"; //저장될 외부 파일 경로
+
 //        //String fileRoot = "file:///C:/Users/ITWILL/git/Forest/src/main/resources/static/img/post_profile/"; //저장될 외부 파일 경로
 //        String fileRoot = "file:///C:/Users/User/git/Forest/src/main/resources/static/img/post_profile/"; 
+
 //        String originalFileName = multipartFile.getOriginalFilename();  //오리지날 파일명
 //        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));   //파일 확장자
 //        
@@ -50,5 +57,6 @@ import lombok.extern.slf4j.Slf4j;
 //        
 //        return jsonObject;
 //    }
-//    
-//}
+
+}
+
