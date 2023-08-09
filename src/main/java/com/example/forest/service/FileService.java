@@ -1,6 +1,5 @@
 package com.example.forest.service;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -16,7 +15,6 @@ import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -29,53 +27,6 @@ public class FileService {
 	private static final String UPLOAD_PATH = "https://storage.googleapis.com/itwill-forest-bucket/";
 	
 	private final ImageFileRepository fileRepository;
-	
-	/**
-	 * 게시판 프로필 이미지를 지정된 폴더와 DB에 저장하는 메서드
-	 * @param imageFile
-	 * @param boardId
-	 * @throws IOException 
-	 */
-//	public void saveBoardProfileImage(MultipartFile imageFile, long boardId) {
-//		File file = new File(UPLOAD_PATH);
-//		
-//		log.info("file = {}", file);
-//		
-//		if(!file.exists()) {
-//			file.mkdirs();
-//		}
-//		
-//		String originalName = imageFile.getOriginalFilename();
-//		String ext = imageFile.getContentType();
-//		String uuid = UUID.randomUUID().toString();
-//		String fileName = uuid + "_" + originalName;
-//		String uploadPath = "/images/" + fileName;
-//		
-//		log.info("path = {}", uploadPath);
-//		
-//		File uploadFile = new File(file, fileName);
-//		
-//		log.info("uploadFile = {}", uploadFile);
-//		
-//		try {
-//			imageFile.transferTo(uploadFile);
-//			
-//			ImageFileCreateDto dto = ImageFileCreateDto.builder()
-//					.originalName(originalName)
-//					.ext(ext)
-//					.uuid(uuid)
-//					.uploadPath(uploadPath)
-//					.fileName(fileName)
-//					.boardId(boardId)
-//					.build();
-//			
-//			fileRepository.save(dto.toEntity(dto));
-//			
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		
-//	}
 	
 	/**
 	 * 게시판의 프로필 사진을 삭제하는 메서드

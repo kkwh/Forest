@@ -1,6 +1,5 @@
 package com.example.forest.controller;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -111,7 +110,7 @@ public class AdminBoardController {
 	}
 	
 	@PostMapping("/modify")
-	public String modify(BoardModifyDto dto) throws IOException {
+	public String modify(BoardModifyDto dto) {
 		log.info("modify(dto = {})", dto);
 		
 		boardService.updateBoard(dto);
