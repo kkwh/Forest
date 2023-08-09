@@ -216,17 +216,18 @@
                 
             </div>
         </div>
+
+
         
         <!-- 채한별: --> 
         <!-- 열매(댓글) 부분 -->
-        <div class="view_comment my-2 card">
+       <div class="view_comment my-2 card">
             <h2 class="blind">댓글 영역</h2>
             <div class="comment_wrap show">
             <input type="hidden" id="userId" name="userId" th:value="${userId}" />
             <input type="hidden" id="postId" name="postId" th:value="${post.id}" />
                <div class="d-none" id="authName" th:text="${ #authentication.name }"></div>
-  
-        
+                
                 <div class= "comment_count">
                     <div class="fl num_box">
                     나무 열매
@@ -235,10 +236,9 @@
                         </em>
                         개 
                         <div class="select_box array_latest">
-                            <select name="selCommentSort">
+                            <select name="selCommentSort"  id="selCommentSort">
                                     <option value="D">등록순</option>
                                     <option value="N">최신순</option>
-                                    <option value="R">댓글수</option>
                             </select>
                             <div class="select_area">
                                 <span class="comment_sort_txt"></span>
@@ -248,7 +248,6 @@
                             <ul class="option_box" style="left:-1px;top:19px;display:none">
                                 <li class="comment_sort" data-sort="D">등록순</li>
                                 <li class="comment_sort" data-sort="N">최신순</li>
-                                <li class="comment_sort" data-sort="R">답글순</li>
                             </ul>
                          </div>
                          <button type="button" class="btn_setreply" style="display: none">

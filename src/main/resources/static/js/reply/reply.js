@@ -5,6 +5,7 @@
 
 
 document.addEventListener('DOMContentLoaded', () => {
+    
     // 순서 1-1!!!
     
         // 로그인한 사용자 이름 -> 댓글 등록, 수정, 삭제할 때 사용하기 위해서.
@@ -346,12 +347,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     
-    
-    
-        
-        
-    
-    
     // 순서 2!!!!    
     // 포스트 번호에 달려있는 댓글 목록을 (Ajax 요청으로) 가져오는 함수:
     const getRepliesWithPostId = async () => {
@@ -421,7 +416,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
                 rereplyDiv.innerHTML = htmlStr;
             
-                   // !!!!대댓글 삭제버튼
+       
+       // !!!!대댓글 삭제버튼
        const btnDeletes2 = rereplyDiv.querySelectorAll('button.btnDelete2');
        for(let btn of btnDeletes2) {
            console.log('lets 2 delete');
@@ -476,5 +472,6 @@ document.addEventListener('DOMContentLoaded', () => {
        
     });
 
+   
    
 });

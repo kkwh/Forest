@@ -22,8 +22,10 @@ import com.example.forest.dto.post.PostWithLikesCount2;
 
 import com.example.forest.model.Post;
 import com.example.forest.model.User;
+import com.example.forest.repository.ReReplyRepository;
+import com.example.forest.repository.ReplyRepository;
 import com.example.forest.model.ReReply;
-
+import com.example.forest.model.Reply;
 import com.example.forest.service.BoardService;
 import com.example.forest.service.IpService;
 import com.example.forest.service.LikesService;
@@ -49,6 +51,7 @@ public class PostController {
     private final UserService userService; 
     private final IpService ipService;
     private final ReReplyService reReplyService; 
+    private final ReReplyRepository replyRepository;
     
 //    @GetMapping
 //    public String post(Model model) {
@@ -188,7 +191,8 @@ public class PostController {
         count += countre2;
         model.addAttribute("replyTotal", count);
        // model.addAttribute("reReplyCount", countre2);
-
+   
+        
     }
     
     @GetMapping("/modifyCheck")
