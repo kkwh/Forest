@@ -596,14 +596,14 @@ a {
 
 .list_array_option {
     display: flex;
-    justify-content: space-between; /* 왼쪽 박스와 오른쪽 박스 사이의 공간을 만듭니다. */
+    justify-content: space-between; /* 왼쪽 박스와 오른쪽 박스 사이의 공간을 만듬 */
 }
 
 .array_tab .nav-link {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 1px; /* 버튼 사이의 간격을 조절합니다. */
+    margin-right: 1px; /* 버튼 사이의 간격을 조절 */
 }
 
 .array_tab .nav-link:last-child {
@@ -611,5 +611,5 @@ a {
 }
 
 .array_tab .nav-link:hover {
-    color: #ffffff !important; /* 글자색을 흰색으로 설정, !important는 기존 스타일을 오버라이드하기 위해 사용됩니다. */
+    color: #ffffff !important; /* 글자색을 흰색으로 설정, !important는 기존 스타일을 오버라이드하기 위해 사용 */
 }

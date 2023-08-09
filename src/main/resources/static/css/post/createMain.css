@@ -233,3 +233,104 @@ p {
     margin-inline-start: 0px;
     margin-inline-end: 0px;
 }
+
+.btn_box.write {
+    margin-top: 0px;
+    position: relative;
+}
+
+.fr {
+    float: right;
+}
+
+.btn_box.write .btn_grey:first-child, .btn_box.write .btn_blue:first-child {
+    margin-left: 0;
+}
+
+.btn_grey {
+    background: #666;
+    border-color: #444;
+    text-shadow: 0px -1px #474747;
+    color: #fff;
+}
+
+.btn_grey, .btn_blue {
+    width: 85px;
+    height: 40px;
+    padding-right: 2px;
+    line-height: 36px;
+    margin-left: 3px;
+    border-width: 1px 1px 3px 1px;
+    border-style: solid;
+    border-radius: 2px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.btn_box.write .btn_blue {
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+.btn_blue {
+    background: #188038;
+    border-color: #188038;
+    text-shadow: 0px -1px #188038;
+    color: #fff;
+}
+
+.btn_box {
+    display: flex; /* Flexbox를 활성화하여 가로로 정렬 */
+}
+
+.btn_box .nav-link,
+.btn_box input[type="submit"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px; /* 버튼 사이의 간격을 조절 */
+}
+
+.btn_box input[type="submit"]:last-child {
+    margin-right: 0; /* 마지막 버튼의 오른쪽 여백 제거 */
+}
+
+.btn_box .nav-link:hover,
+.btn_box input[type="submit"]:hover {
+    color: #ffffff !important; /* 호버 시 글자색을 흰색으로 설정 */
+}
+
+.btn_box .nav-link,
+.btn_box input[type="submit"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px; /* 버튼 사이의 간격을 조절 */
+    border: none; /* 테두리 제거 */
+    border-radius: 0; /* 둥근 각 제거 */
+}
+
+.btn_box input[type="submit"]:last-child {
+    margin-right: 0; /* 마지막 버튼의 오른쪽 여백 제거 */
+}
+
+.btn_box .nav-link:hover,
+.btn_box input[type="submit"]:hover {
+    color: #ffffff !important; /* 호버 시 글자색을 흰색으로 설정 */
+}
+
+.btn_box .nav-link,
+.btn_box input[type="submit"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px; /* 버튼 사이의 간격을 조절 */
+    border: 1px solid #ccc; 
+    border-radius: 2px; /* 둥근 각 제거 */
+}
+
+.btn {
+    font-weight: bold;
+    color: #333;
+}
+
