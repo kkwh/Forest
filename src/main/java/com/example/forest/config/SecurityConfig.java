@@ -20,6 +20,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.example.forest.interceptor.CustomAccessDeniedHandler;
 import com.example.forest.interceptor.CustomLoginSuccessHandler;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 
 @EnableMethodSecurity
 @Configuration
@@ -93,6 +95,11 @@ public class SecurityConfig {
         http.logout((logout) -> logout.logoutSuccessUrl("/"));
         
         return http.build();
+    }
+	
+	@Bean
+    public Storage storage() {
+        return StorageOptions.getDefaultInstance().getService();
     }
 	
 }

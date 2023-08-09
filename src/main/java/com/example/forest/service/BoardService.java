@@ -1,5 +1,6 @@
 package com.example.forest.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -298,6 +299,7 @@ public class BoardService {
 	/**
 	 * 게시판의 정보가 변경될 경우 적용할 메서드
 	 * @param dto
+	 * @throws IOException 
 	 */
 	public void updateBoard(BoardModifyDto dto) {
 		log.info("boardUpdate(dto = {})", dto);

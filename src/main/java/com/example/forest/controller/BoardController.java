@@ -1,5 +1,6 @@
 package com.example.forest.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -159,6 +160,7 @@ public class BoardController {
 		
 		List<BoardListDto> boards = boardService.findAllByUser(principal.getName());
 		model.addAttribute("boards", boards);
+		log.info("boards = {}", boards);
 		
 		long userId = userService.getUserId(principal.getName());
 		log.info("userId = {}", userId);
