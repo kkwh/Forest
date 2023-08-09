@@ -86,5 +86,24 @@ public class UserService implements UserDetailsService {
        }
         return 0;
     }
+
+    public String findLoginIdByEmail(String email) {
+        User user = userRepository.findLoginIdByEmail(email);
+        if(user == null) {
+            return "";
+        }
+        
+        return user.getLoginId();
+    }
+
+    public int findPw(String email, String loginId) {
+        User user = userRepository.findPwByIdEmail(email,loginId);
+        
+        if(user == null) {
+            return 1; // 1이면 없음
+        }
+        return 0; //0이면 있음.
+    }
+
  
 }

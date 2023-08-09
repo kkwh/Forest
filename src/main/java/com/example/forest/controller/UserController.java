@@ -2,6 +2,7 @@ package com.example.forest.controller;
 
 import java.util.Map;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,12 +51,15 @@ public class UserController {
         return "user/login";
     }
     
-    @GetMapping("/findpw")
+    @GetMapping("/finduserinfo")
     public void findpw(){
-        log.info("비밀번호 찾기 페이지");
+        log.info("아이디,비밀번호 찾기 페이지");
     }
-    @GetMapping("/findid")
-    public void findid(){
-        log.info("아이디 찾기 페이지");
+   
+    @PreAuthorize("hasRole('USER')") 
+    @GetMapping("/myinfopage")
+    public void myinfopage() {
+        log.info("내정보 보기 페이지 도착.");
     }
+    
 }
