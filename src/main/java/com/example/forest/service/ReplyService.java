@@ -79,7 +79,7 @@ public class ReplyService {
             List<Reply> list = replyRepository.findByPostOrderByIdDesc(post);
             return list;
         }
-        
+
     // 댓글 읽어오기
     @Transactional(readOnly = true)
     public List<Reply> read(Post post) {

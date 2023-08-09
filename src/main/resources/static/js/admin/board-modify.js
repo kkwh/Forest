@@ -162,6 +162,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		const url = '/api/v1/board/blockById';
 		const data = { userId, boardId };
 		
+		const result = confirm('정말 해당 유저를 차단하시겠습니까?');
+		if(!result) {
+			return false;
+		}
+		
 		axios.put(url, data)
 			.then((response) => {
 				console.log(response);
@@ -272,6 +277,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		const url = '/api/v1/board/cancelBlock';
 		const data = { boardId, userId };
 		
+		const result = confirm('정말 차단을 해제하시겠습니까?');
+		if(!result) {
+			return false;
+		}
+		
 		axios.put(url, data)
 			.then((response) => {
 				console.log(response);
@@ -317,7 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const deleteBoard = () => {
 		const boardId = document.querySelector('input#boardId').value;
 		
-		const result = confirm('정말 삭제하시겠습니까?');
+		const result = confirm('정말 랜드를 삭제하시겠습니까?');
 		if(!result) {
 			return false;
 		}

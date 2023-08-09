@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
        //console.log(e.target);
        if (e.target.innerText === '열매 안보기') {
            e.target.innerText = '열매 보기'
-           
            // 댓글 목록 불러오기:
            getRepliesWithPostId();
        } else if(e.target.innerText ==='열매 보기') {

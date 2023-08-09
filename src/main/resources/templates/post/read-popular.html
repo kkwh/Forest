@@ -59,19 +59,7 @@
 						
 		  </p>
 		</div>
-		<div class="info_cont">
-		  <strong class="tit">부매니저</strong>
-		  <p class="cont">
-			
-		    			<span class="mng_nick">하니(<span title="masounmount">hani123</span>)
-						<span class="mng_nick">다니엘(<span title="prim09">dani2353</span>)
-						<span class="mng_nick">해린(<span title="pable9449">haha987</span>)
-						<span class="mng_nick">혜인(<span title="ekdls1129">hye7777</span>)
-						<span class="mng_nick">하입보이(<span title="imiimi1111">toggy123</span>)
-						
-						
-		  </span></span></span></span></span></p>
-		</div>
+		
 		<div class="info_cont">
 		  <strong class="tit">개설일</strong>
 		  <p class="cont">[[${board.createdTime}]]</p>
@@ -105,6 +93,19 @@
 	  //흥한갤 전체 순위 레이어 팝업
 	</div> -->
 </div>
+
+
+            <!-- 전체글, 인기글, 공지글 등 버튼 -->
+            <div class="list_array_option clear">
+                <div class="array_tab left_box">
+                    <a class="nav-link form-control btn btn-outline-success" th:href="@{ /board/ } + ${board.id}">전체글</a>
+                    <a class="nav-link form-control btn btn-outline-success on" th:href="@{/post/popular?id={id} (id = ${board.id})}">인기글</a>
+                    <a class="nav-link form-control btn btn-outline-success" th:href="@{/post/notice?id={id} (id = ${board.id})}">공지</a>
+                    <a class="nav-link form-control btn btn-outline-success" th:href="@{/post/create?id={id} (id = ${board.id})}">나무심기</a>                      
+                </div>
+             </div>
+            <!-- 전체글, 인기글, 공지글 등 버튼 -->
+
 
 <div id="hot_rank_thumb" style="border-width:0px; border-style:none; width:0px; height:14px; position:absolute; left:0px; top:0px; z-index:4001; display:none;">
   <img src="" data-noimg="https://wstatic.dcinside.com/thum/noimg.gif" width="120" height="80" border="0">

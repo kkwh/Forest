@@ -275,11 +275,18 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 			+ " where r.reply = :reply")
 	List<ReReply> findAllReRepliesByReply(@Param("reply") Reply reply);
 	
+	/**
+	 * 게시글 수를 기준으로 상위 10개 랜드를 불러옴
+	 * @param grade
+	 * @return
+	 */
 	@Query("SELECT new com.example.forest.dto.board.BoardRankDto"
 			+ " (p.board.id as id, p.board.boardName AS boardName, ROW_NUMBER() OVER (ORDER BY COUNT(p.id) DESC) AS boardRank, COUNT(p.id) AS postCount) "
 			+ " FROM Post p JOIN p.board b "
 		    + " WHERE b.boardGrade = :grade "
 		    + " GROUP BY p.board.id, p.board.boardName")
 	List<BoardRankDto> findTop10Boards(@Param("grade") String grade);
+	
+	List<Board> findAllByBoardGradeOrderByCreatedTimeDesc(@Param("boardGrade") String boardGrade);
 
 }

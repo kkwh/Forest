@@ -547,3 +547,69 @@ button {
 .invisible {
   color: transparent;
 }
+
+.list_array_option {
+    display: table;
+    width: 840px;
+    height: 32px;
+    margin: 15px 0 5px;
+}
+
+.array_tab a.on {
+    border: 1px solid #188038;
+    background: #188038;
+    color: #fff;
+    text-shadow: 0px -1px #188038;
+}
+
+.array_tab a:first-child {
+    margin-left: 0;
+}
+
+.array_tab a {
+    width: 82px;
+    height: 32px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    margin-left: 2px;
+    background: #fff;
+    padding-bottom: 2px;
+}
+
+a {
+    vertical-align: middle;
+}
+
+.list_array_option .array_tab {
+    display: flex;
+}
+
+.list_array_option .array_tab .nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1px;
+}
+
+.list_array_option {
+    display: flex;
+    justify-content: space-between; /* 왼쪽 박스와 오른쪽 박스 사이의 공간을 만듬 */
+}
+
+.array_tab .nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1px; /* 버튼 사이의 간격을 조절 */
+}
+
+.array_tab .nav-link:last-child {
+    margin-right: 0; /* 마지막 버튼의 오른쪽 여백 제거 */
+}
+
+.array_tab .nav-link:hover {
+    color: #ffffff !important; /* 글자색을 흰색으로 설정, !important는 기존 스타일을 오버라이드하기 위해 사용 */
+}
