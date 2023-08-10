@@ -176,3 +176,109 @@
   background-color: #4fbd4d;
 }
  
+ 
+ 
+ 
+ 
+ .cmt_info {
+    padding: 9px 3px 7px 3px;
+}
+
+.cmt_info {
+    position: relative;
+    padding: 9px 12px 7px;
+    border-top: 1px solid #eee;
+}
+
+.cmt_nickbox {
+    float: left;
+    width: 132px;
+    margin-right: 33px;
+    margin-top: 3px;
+    line-height: 13px;
+}
+
+.gall_writer {
+    position: relative;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.nicknameReply {
+    font-size: 12px;
+    color: #777;
+    vertical-align: top;
+}
+
+.nicknameReply > em {
+    display: inline-block;
+    max-width: 84px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    vertical-align: top;
+}
+
+.nicknameReply .ip {
+    display: inline-block;
+    vertical-align: 1px;
+}
+
+.ip {
+    font-family: tahoma,sans-serif;
+    font-size: 11px;
+    color: #999;
+}
+
+.cmt_txtbox {
+    float: left;
+}
+
+.cmt_info p {
+    line-height: 20px;
+}
+
+.usertxt {
+    float: left;
+    line-height: 20px;
+    cursor: pointer;
+    word-break: break-all;
+    overflow: hidden;
+    width: 820px;
+    cursor: pointer;
+}
+
+.fr {
+    float: right;
+}
+
+.cmt_mdf_del {
+    top: 3px;
+    float: right;
+    position: relative;
+    margin-left: 6px;
+    z-index: 1;
+}
+
+.cmt_mdf_del button {
+    color: #999;
+}
+
+.btn_cmt_delete {
+    background: url(https://nstatic.dcinside.com/dc/w/images/sp/sp_img.png);
+    background-position: -268px -200px;
+    font-size: 0;
+    line-height: 0;
+    width: 13px;
+    height: 13px;
+    vertical-align: center;
+}
+
+.cmt_write_box {
+    border-bottom: 2px solid #3b4890;
+    padding: 12px 12px 12px;
+    background: #fafafa;
+    border-top: 2px solid #3b4890;
+}
+
+

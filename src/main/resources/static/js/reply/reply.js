@@ -178,9 +178,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 순서 3!!!!!!!!!!!
     const makeReplyElements = (data) => {
         // 댓글 개수를 배열(data)의 원소 개수로 업데이트.
+       
         // 댓글 목록을 삽입할 div 요소를 찾음.
         const replies = document.querySelector('div#replies');
-        console.log(' 오냐?');
         
         // div 안에 작성된 기존 내용은 삭제.
         replies.innerHtml = '';
@@ -191,36 +191,56 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let reply of data.list) {
         if(reply.userId == 0 & reply.replyPassword !== null) {    
             htmlStr += `
-            <div class="card my-2">
-                <div>
-                    <span class="d-none" id=reID>${reply.id}</span>
-                    <span class="fw-bold">${reply.replyNickname}</span>
-                    <span class="fw-bold">(${reply.replyIp})</span>
-                </div>
             
-                <textarea id="replyText_${reply.id}" readonly>${reply.replyText}</textarea>
-                <div class="my-2">
-                    <input id="password_${reply.id}"
-                       type="text" name="replyPassword" placeholder="비밀번호를 입력하세요"/>
-                </div>     
-                <div class= "reply-action">
-                    <button class="btnDelete" data-password="${reply.replyPassword}" data-user-id="${reply.userId}" data-id="${reply.id}">썩은 열매 제거</button>
-                </div>
-                <div class="card my-2">
+            <div class="card my-2">
+                <div class="cmt_info clear">
+                    <div class="cmt_nickbox">
+                        <span class="gall_writer ub-writer">
+                            <span class="nicknameReply">
+                                <span class="d-none" id=reID>${reply.id}</span>
+                                <em title>${reply.replyNickname}</em>
+                                <span class="ip fw-bold">(${reply.replyIp})</span>
+                            </span>
+                        </span>
+                    </div>
+                
+                    <div class="clear cmt_txtbox btn_reply_write_all">
+                        <p class="usertxt ub-word" id="replyText_${reply.id}">${reply.replyText}</p>
+                    </div>
                     
+                    <div class="fr clear">
+                        <div class= "cmt_mdf_del">
+                            <button type="button" class="btn_cmt_delete" data-password="${reply.replyPassword}" data-user-id="${reply.userId}" data-id="${reply.id}">썩은 열매 제거</button>
+                        </div>
+                        <input id="password_${reply.id}"
+                            type="text" name="replyPassword" placeholder="비밀번호를 입력하세요"/>
+                    </div>
+                    
+                </div>
+                
+                <div class="card my-2">
                     <div id="rereplies_${reply.id}"></div> <!-- 대댓글이 들어갈 공간 -->
                 </div>
             `;
         } else if(reply.userId == 0 & reply.replyPassword === null) {    
             htmlStr += `
             <div class="card my-2">
-                <div>
-                    <span class="d-none">${reply.id}</span>
-                    <span class="fw-bold">${reply.replyNickname}</span>
-                    <span class="fw-bold">(${reply.replyIp})</span>
-                </div>
+                <div class="cmt_info clear">
+                    <div class="cmt_nickbox">
+                        <span class="gall_writer ub-writer">
+                            <span class="nicknameReply">
+                                <span class="d-none">${reply.id}</span>
+                                <em title>${reply.replyNickname}</em>
+                                <span class="ip fw-bold">(${reply.replyIp})</span>
+                            </span>
+                        </span>
+                    </div>
             
-                <textarea id="replyText_${reply.id}" readonly>${reply.replyText}</textarea>
+                    <div class="clear cmt_txtbox btn_reply_write_all">
+                        <p class="usertxt ub-word" id="replyText_${reply.id}">${reply.replyText}</p>
+                    </div>
+                    
+                </div>
                 
                 <div class="card my-2">
                         <div id="rereplies_${reply.id}"></div> <!-- 대댓글이 들어갈 공간 -->
@@ -230,38 +250,63 @@ document.addEventListener('DOMContentLoaded', () => {
         
         } else {
             if(reply.userId == data.userId) {
-                htmlStr += `
-                <div class="card my-2">
-                    <div>
-                        <span class="d-none">${reply.id}</span>
-                        <span class="fw-bold">${reply.replyNickname}</span>
-                        <span class="fw-bold">(${reply.replyIp})</span>
+            htmlStr += `
+ 
+            <div class="card my-2">
+                <div class="cmt_info clear">
+                    <div class="cmt_nickbox">
+                        <span class="gall_writer ub-writer">
+                            <span class="nicknameReply">                   
+                                <span class="d-none">${reply.id}</span>
+                                <em title>${reply.replyNickname}</em>
+                                <span class="ip fw-bold">(${reply.replyIp})</span>
+                            </span>
+                        </span>  
                     </div>
-                    <textarea id="replyText_${reply.id}" readonly>${reply.replyText}</textarea>
-                        <input class="form-control" id="password_${reply.id}"
+                    
+                    <div class="clear cmt_txtbox btn_reply_write_all">
+                        <p class="usertxt ub-word" id="replyText_${reply.id}">${reply.replyText}</p>
+                    </div>                                        
+   
+                    <div class="fr clear">
+                        <div class= "cmt_mdf_del">
+                            <button type="button" class="btn_cmt_delete" data-password="${reply.replyPassword}" data-user-id="${reply.userId}" data-id="${reply.id}">썩은 열매 제거</button>
+                        </div>
+                        <input id="password_${reply.id}"
                             type="hidden" name="replyPassword" value="0"/>
-                    <div class= "reply-action">
-                        <button class="btnDelete" data-password="${reply.replyPassword}" data-user-id="${reply.userId}" data-id="${reply.id}">썩은 열매 제거</button>
-                    </div>
-                        <div class="card my-2">
-                        <div id="rereplies_${reply.id}"></div> <!-- 대댓글이 들어갈 공간 -->
-                    </div>
+                    </div>                    
+   
+                </div>
+                    
+                <div class="card my-2">
+                    <div id="rereplies_${reply.id}"></div> <!-- 대댓글이 들어갈 공간 -->
+                </div>
                 `;
             }
-             else {
-                 htmlStr += `
-                <div class="card my-2">
-                    <div>
-                        <span class="d-none">${reply.id}</span>
-                        <span class="fw-bold">${reply.replyNickname}</span>
-                        <span class="fw-bold">(${reply.replyIp})</span>
+            else {
+            htmlStr += `
+            
+            <div class="card my-2">
+                <div class="cmt_info clear">
+                    <div class="cmt_nickbox">
+                        <span class="gall_writer ub-writer">
+                            <span class="nicknameReply">
+                                <span class="d-none">${reply.id}</span>
+                                <em title>${reply.replyNickname}</em>
+                                <span class="ip fw-bold">(${reply.replyIp})</span>
+                            </span>
+                        </span>
                     </div>
-                
-                    <textarea id="replyText_${reply.id}" readonly>${reply.replyText}</textarea>
+            
+                    <div class="clear cmt_txtbox btn_reply_write_all">
+                        <p class="usertxt ub-word" id="replyText_${reply.id}">${reply.replyText}</p>
+                    </div>
                     
-                    <div class="card my-2">
+                </div>
+                
+                <div class="card my-2">
                         <div id="rereplies_${reply.id}"></div> <!-- 대댓글이 들어갈 공간 -->
-                    </div>
+                </div>
                 `;
              }
         }
@@ -335,7 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // 순서 5-1!!!
         // 모든 댓글 삭제 버튼들에게 이벤트 리스너를 등록.
-        const btnDeletes = document.querySelectorAll('button.btnDelete');
+        const btnDeletes = document.querySelectorAll('button.btn_cmt_delete');
         for (let btn of btnDeletes) {
             console.log('make make');
             btn.addEventListener('click', deleteReply);
@@ -461,9 +506,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 댓글 목록 새로고침
                 getRepliesWithPostId();
                 // 댓글 입력한 내용을 지움.
+                
+               if (userId == 0) {
                 document.querySelector('input#replyNickname').value = '';
                 document.querySelector('input#replyPassword').value = '';
                 document.querySelector('textarea#replyText').value = '';
+                } else {
+                document.querySelector('textarea#replyText').value = '';   
+                }
+                
                 
            })  // 성공 응답(response)일 때 실행할 콜백 등록
            .catch((error) => console.log(error)); // 실패(error)일 때 실행할 콜백 등록
@@ -471,7 +522,7 @@ document.addEventListener('DOMContentLoaded', () => {
        
     });
     
-    // 서원준 
+    // 댓글 등록순 / 최신순 조회 
     const sortReplies = () => {
         const postId = document.querySelector('input#postId').value;
         const type = document.querySelector('select#sortType').value;
