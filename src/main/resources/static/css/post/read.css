@@ -376,7 +376,7 @@ p {
     overflow-y: auto;
     position: relative;
     float: left;
-    width: 42%;
+    width: 20%;
     height: 104px;
     margin-top: -1px;
     margin-left: 4px;
@@ -624,6 +624,7 @@ a {
     border: 1px solid #188038;
     background: #fff;
     width: 300px;
+    margin-right: 50px;
 }
 
 .user_info {
@@ -651,5 +652,23 @@ a {
 
 .login_box2 {
     /* 두 번째 박스에 적용할 스타일을 여기에 작성하세요 */
-    margin-right: 20px; /* 왼쪽 여백을 설정하여 첫 번째 박스와 간격을 만듬 */
+    margin-right: 50px; /* 왼쪽 여백을 설정하여 첫 번째 박스와 간격을 만듬 */
   }
+  
+ .ranking_container {
+    display: flex; /* 자식 요소들을 가로로 배열하기 위해 flexbox 사용 */
+    justify-content: space-between; /* 자식 요소들 사이에 공간을 균등하게 분배 */
+    margin-left: -40px; /* 왼쪽으로 20px 이동 */
+}
+
+.minor_ranking_box {
+    width: 48%; /* 박스의 너비를 각각 48%로 설정하여 박스 사이에 간격을 생성 */
+}
+
+.popular_land,
+.login_container {
+    flex: 1; /* 인기 랜드와 로그인 컨테이너의 너비를 동일하게 */
+    margin-right: 20px; /* 오른쪽 마진 추가 */
+}
+
+

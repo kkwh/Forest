@@ -45,7 +45,7 @@
 	  <div class="img_contbox clear">
 		<div class="bgcover">
 			<a th:href="@{ /board/ } + ${board.id}" class="mintro_imgbox in_img ">
-				<img th:src="${board.file.uploadPath}" alt="Description" class="cover"/>	
+				<img alt="Description" class="cover"/>	
 			</a>
 			
 		</div>    
@@ -70,35 +70,42 @@
 		</div>
 	  </div>
       
-      <div class="minor_ranking_box">
-           <div id="login_box" class="login_box login_box2">
-              <div class="user_info newarea">
-                    <strong>인기 랜드</strong> 
-              </div>
-          </div>
-        </div>
       
-      <!-- 비로그인 상태 -->
-       <th:block sec:authorize="isAnonymous()">
-         <div class="minor_ranking_box">
-           <div id="login_box" class="login_box">
-              <div class="user_info newarea">
-                    <strong onclick="location='/user/login'">로그인 해주세요.</strong> 
-              </div>
-          </div>
-        </div>
-       </th:block>
-       
-       <!-- 로그인 상태 -->
-       <th:block sec:authorize="isAuthenticated()">
-         <div class="minor_ranking_box">
-           <div id="login_box" class="login_box">
-              <div class="user_info newarea">
-                    <strong th:text="${ user.nickname } + '님 환영합니다.'"></strong> 
-              </div>
-          </div>
-        </div>
-       </th:block>   
+     <div class="ranking_container">
+	  <div class="popular_land">
+	      <div class="minor_ranking_box">
+	           <div id="login_box" class="login_box login_box2">
+	              <div class="user_info newarea">
+	                    <strong>인기 랜드</strong> 
+	              </div>
+	          </div>
+	      </div>
+	  </div>
+	
+	  <div class="login_container">
+	      <!-- 비로그인 상태 -->
+	       <th:block sec:authorize="isAnonymous()">
+	         <div class="minor_ranking_box">
+	           <div id="login_box" class="login_box">
+	              <div class="user_info newarea">
+	                    <strong onclick="location='/user/login'">로그인 해주세요.</strong> 
+	              </div>
+	          </div>
+	        </div>
+	       </th:block>
+	       
+	       <!-- 로그인 상태 -->
+	       <th:block sec:authorize="isAuthenticated()">
+	         <div class="minor_ranking_box">
+	           <div id="login_box" class="login_box">
+	              <div class="user_info newarea">
+	                    <strong th:text="${ user.nickname } + '님 환영합니다.'"></strong> 
+	              </div>
+	          </div>
+	        </div>
+	       </th:block>
+	  </div>
+	</div>   
         	  	  	  
 	</div>
 </div>
