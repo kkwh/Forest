@@ -51,6 +51,7 @@
 						<th scope="col">랜드이름</th>
 						<th scope="col">관리자</th>
 						<th scope="col">생성일자</th>
+						<th scope="col">승격/강등</th>
 						<th scope="col">권한뺏기</th>
 					</tr>
 				</thead>
@@ -71,10 +72,13 @@
 								class="btn btn-outline-success upgradeBtn">승격</button>
 							<button th:if="${board.boardGrade} eq 'Main'" type="button" th:data-id="${board.id}" 
 								class="btn btn-outline-danger relegateBtn">강등</button>
+						</td>
+						<td>
 							<th:block th:if="${#authentication.principal.username} != ${board.user.loginId}">
 								<button type="button" th:data-user-id="${board.user.id}" 
 									th:data-board-id="${board.id}" class="btn btn-outline-danger revokeBtn">권한 뺏기</button>
 							</th:block>
+							<button type="button" th:data-board-id="${board.id}" class="btn btn-outline-primary deleteBtn">삭제</button>
 						</td>
 					</tr>
 				</tbody>

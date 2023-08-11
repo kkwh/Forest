@@ -474,7 +474,7 @@ public class BoardService {
 			idx++;
 		}
 		
-		while(idx >= 5 && idx < list.size()) {
+		while(idx >= 5 && idx < list.size() && idx < 10) {
 			rank2.add(list.get(idx));
 			idx++;
 		}
