@@ -48,13 +48,6 @@ public class DonationRestController {
     
     
     
-    @GetMapping("/donation")
-    public String donation(Model model) {
-        log.info("donation");
-        
-        
-       return "/donation/donation";
-        
-    }
+    
     
 }
