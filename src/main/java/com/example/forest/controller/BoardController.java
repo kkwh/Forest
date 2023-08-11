@@ -202,7 +202,10 @@ public class BoardController {
 		List<BlackListDto> blackList = boardService.getBlackList(id);
 		model.addAttribute("blackList", blackList);
 		
-		long userId = userService.getUserId(principal.getName());
+		long userId = 0;
+		if(principal != null) {
+			userId = userService.getUserId(principal.getName());
+		}
 		
 		List<User> users = boardService.getUserList(id, userId);
 		model.addAttribute("userList", users);

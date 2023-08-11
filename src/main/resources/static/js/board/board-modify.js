@@ -315,6 +315,27 @@ document.addEventListener('DOMContentLoaded', () => {
 	const deleteBtn = document.querySelector('button#deleteBtn');
 	deleteBtn.addEventListener('click', deleteBoard);
 	
+	const searchByKeyword = async () => {
+		const userId = document.querySelector('input#boardOwnerId').value;
+		const boardId = document.querySelector('input#boardId').value;
+		const keyword = document.querySelector('input#keyword').value;
+		
+		const url = `/api/v1/board/searchUser?id=${boardId}&userId=${userId}&keyword=${keyword}`;
+		const response = await axios.get(url);
+		
+		loadUserList(response);
+	};
+	
+	const keywordSearch = document.querySelector('button#searchBtn');
+	keywordSearch.addEventListener('click', searchByKeyword);
+	
+	const clearBtn = document.querySelector('button#clearBtn');
+	clearBtn.addEventListener('click', () => {
+		document.querySelector('input#keyword').value='';
+		
+		searchByKeyword();
+	});
+	
 });
 
 
