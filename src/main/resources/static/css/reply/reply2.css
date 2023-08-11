@@ -86,13 +86,30 @@
   margin-bottom: 2px;
 }
 
-.cmt_write textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  resize: vertical;
+.cmt_write {
+    position: relative;
 }
+
+.cmt_textarea_label {
+    left: 0;
+    top: 0;
+    font-size: 12px;
+    color: #999;
+    padding: 13px;
+}
+
+.cmt_txt_cont textarea {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #cecdce;
+    background: #fff;
+    font-family: -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",arial,굴림,Gulim,sans-serif;
+    font-size: 13px;
+    color: #333;
+    border-radius: 5px;
+    resize: vertical;   
+}
+
 
 /* 댓글 작성 버튼 스타일 */
 .btn_blue.btn_svc {
@@ -281,4 +298,6 @@
     border-top: 2px solid #3b4890;
 }
 
-
+.dccon_guidebox {
+    text-align: right;
+}

@@ -46,7 +46,7 @@
 
 .btn_cmt_open:hover,
 .contgo:hover {
-  color: #0056b3; /* 마우스 호버 시 텍스트 색깔 변경 */
+  color: #057827;/* 마우스 호버 시 텍스트 색깔 변경 */
   background-color: transparent;
 }
 
@@ -86,13 +86,27 @@
   margin-bottom: 2px;
 }
 
-.cmt_write textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  resize: vertical;
+
+.cmt_textarea_label {
+    left: 0;
+    top: 0;
+    font-size: 12px;
+    color: #999;
+    padding: 13px;
 }
+
+.cmt_txt_cont textarea {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #cecdce;
+    background: #fff;
+    font-family: -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",arial,굴림,Gulim,sans-serif;
+    font-size: 13px;
+    color: #333;
+    border-radius: 5px;
+    resize: vertical;   
+}
+
 
 /* 댓글 작성 버튼 스타일 */
 .btn_blue.btn_svc {
@@ -123,6 +137,14 @@
 .reply-container {
   background-color: #f5f5f5;
   border: 1px solid #e0e0e0;
+  padding: 10px;
+  border-radius: 5px;
+  margin-left: 80px;
+  margin-top: 10px;
+}
+
+.reply-container2 {
+  background-color: #f5f5f5;
   padding: 10px;
   border-radius: 5px;
   margin-left: 80px;
@@ -250,6 +272,7 @@
 
 .fr {
     float: right;
+    width: 180px;
 }
 
 .cmt_mdf_del {
@@ -274,11 +297,85 @@
     vertical-align: center;
 }
 
-.cmt_write_box {
-    border-bottom: 2px solid #3b4890;
-    padding: 12px 12px 12px;
-    background: #fafafa;
-    border-top: 2px solid #3b4890;
+.btn_cmt_delete {
+    background: url(https://nstatic.dcinside.com/dc/w/images/sp/sp_img.png);
+    background-position: -268px -200px;
+    font-size: 0;
+    line-height: 0;
+    width: 13px;
+    height: 13px;
+    vertical-align: center;
 }
 
+.btn_cmt_delete2 {
+    background: url(https://nstatic.dcinside.com/dc/w/images/sp/sp_img.png);
+    background-position: -268px -200px;
+    font-size: 0;
+    line-height: 0;
+    margin-bottom: 7px;
+    width: 13px;
+    height: 13px;
+    vertical-align: center;
+}
 
+.cmt_write_box {
+    border-bottom: 2px solid #28d473;
+    padding: 12px 12px 12px;
+    background: #fafafa;
+    border-top: 2px solid #28d473;
+}
+
+.dccon_guidebox {
+    text-align: right;
+}
+
+.dccon_guidebox .btn_white {
+    font-weight: normal;
+    margin-left: 0;
+}
+
+.btn_white.smalsl {
+    width: 178px;
+    height: 31px;
+    line-height: 29px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 2px;
+    font-size: 12px;
+    margin-right: 2px;
+}
+
+.btn_white.smalsl {
+    width: 178px;
+    height: 31px;
+    line-height: 29px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 2px;
+    font-size: 12px;
+    margin-right: 2px;
+}
+
+button.small {
+    overflow: hidden;
+}
+
+.btn_white {
+    background: #fff;
+    border-color: #bd0f0f;
+    color: #bd0f0f;
+}
+
+.icon_dccon {
+    display: inline-block;
+    width: 24px;
+    height: 19px;
+    margin: 0 5px 0 2px;
+    background-position: -229px 0;
+    vertical-align: -5px;
+}
+
+.sp_img {
+    background-image: url(https://nstatic.dcinside.com/dc/w/images/sp/sp_img.png);
+    background-repeat: no-repeat;
+}

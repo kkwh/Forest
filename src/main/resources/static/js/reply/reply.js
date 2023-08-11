@@ -181,7 +181,6 @@ document.addEventListener('DOMContentLoaded', () => {
        
         // 댓글 목록을 삽입할 div 요소를 찾음.
         const replies = document.querySelector('div#replies');
-        
         // div 안에 작성된 기존 내용은 삭제.
         replies.innerHtml = '';
         
@@ -209,6 +208,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     
                     <div class="fr clear">
+                        <div>${reply.createdTime}
+                        </div>
                         <div class= "cmt_mdf_del">
                             <button type="button" class="btn_cmt_delete" data-password="${reply.replyPassword}" data-user-id="${reply.userId}" data-id="${reply.id}">썩은 열매 제거</button>
                         </div>
@@ -340,19 +341,19 @@ document.addEventListener('DOMContentLoaded', () => {
                             <div class="user_info_input">
                                 <label class="blind" for="user_pw">비밀번호</label>
                                 <input class="reply-password-input" id="replyPassword2_${reply.id}"
-                                   type="text" name="replyPassword2_${reply.id}" placeholder="비밀번호를 입력하세요" required autofocus />
+                                   type="password" name="replyPassword2_${reply.id}" placeholder="비밀번호를 입력하세요" required autofocus />
                             </div>      
                         </div>          
                         <div class="cmt_txt_cont">
                             <div class="cmt_write">
-                                <textarea id="replyText2_${reply.id}"  placeholder="열매를 달아주세요"></textarea>
+                                <textarea id="replyText2_${reply.id}"  placeholder="타인의 권리를 침해하거나 명예를 훼손하는 댓글은 운영원칙 및 관련 법률에 제재를 받을 수 있습니다."></textarea>
                              </div>
                         </div>
                          <div class="cmt_cont_bottm clear">
                              <div class="dccon_guidebox">
                                   <button type="button" data-reply-id="${reply.id}" 
-                                        class="btn_blue btn_svc small repley_add btnReReplyCreate">
-                                        열매에 열매를 달자!!!
+                                        class="btn_white small2 tx_dccon repley_add btnReReplyCreate">
+                                        <em class="sp_img icon_dccon"></em>열매에열매달기
                                    </button>
                              </div>
                          </div>
@@ -443,17 +444,32 @@ document.addEventListener('DOMContentLoaded', () => {
             let htmlStr = '';
             for (let reReply of reReplies) {
                 htmlStr += `
-                    <div class="reply-container">
+                    <div class="reply-container2 card my-2">
                         <div class="reply-details">
-                            <span>${reReply.replyNickname2}</span>
-                            <span>(${reReply.replyIp2})</span>
-                            <textarea id="replyText2_${reReply.id}" readonly>${reReply.replyText2}</textarea>
-                        </div>
-                        <div class="reply-input">
-                            <input id="password_${reReply.id}" type="text" name="replyPassword2" placeholder="비밀번호를 입력하세요" />
-                        </div>
-                        <div class="reply-action">
-                            <button class="btnDelete2" data-password2="${reReply.replyPassword2}" data-user-id2="${reReply.userId}" data-id2="${reReply.id}">썩은 열매열매 제거</button>
+                            <div class="cmt_info clear">
+                                <div class="cmt_nickbox">
+                                  
+                                       
+                                            <span>${reReply.replyNickname2}</span>
+                                            <span>(${reReply.replyIp2})</span>
+                                      
+                                   
+                                </div>  
+                            </div>
+                           <p class="usertxt ub-word" id="replyText2_${reReply.id}">${reReply.replyText2}</p>
+                           
+                        
+                        
+                        
+                            <div class="fr clear">
+                                <div>${reReply.createdTime}
+                                </div>
+                                <div class="cmt_mdf_del">
+                                    <button type="button" class="btn_cmt_delete2" data-password2="${reReply.replyPassword2}" data-user-id2="${reReply.userId}" data-id2="${reReply.id}">썩은 열매열매 제거</button>
+                                </div>
+                                <input id="password_${reReply.id}" 
+                                    type="password" name="replyPassword2" placeholder="비밀번호를 입력하세요" />
+                            </div>
                         </div>
                     </div>
                 `;
@@ -542,7 +558,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const typeBtn = document.querySelector('select#sortType');
     typeBtn.addEventListener('change', sortReplies);
-    
+
    
    
 });
