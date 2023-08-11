@@ -287,6 +287,10 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 		    + " GROUP BY p.board.id, p.board.boardName")
 	List<BoardRankDto> findTop10Boards(@Param("grade") String grade);
 	
+	@Query("select b from Board b "
+			+ " where b.boardGrade = :boardGrade "
+			+ " and b.isApproved = 1 "
+			+ " order by b.id desc")
 	List<Board> findAllByBoardGradeOrderByCreatedTimeDesc(@Param("boardGrade") String boardGrade);
 
 }
