@@ -285,7 +285,7 @@ h2 {
 .minor_intro_box {
     float: left;
     width: 975px;
-    padding: 24px 14px 2px 15px;
+    padding: 24px 300px 2px 15px;
     color: #333;
 }
 
@@ -376,7 +376,7 @@ p {
     overflow-y: auto;
     position: relative;
     float: left;
-    width: 20%;
+    width: 30%;
     height: 104px;
     margin-top: -1px;
     margin-left: 4px;
@@ -658,7 +658,7 @@ a {
  .ranking_container {
     display: flex; /* 자식 요소들을 가로로 배열하기 위해 flexbox 사용 */
     justify-content: space-between; /* 자식 요소들 사이에 공간을 균등하게 분배 */
-    margin-left: -40px; /* 왼쪽으로 20px 이동 */
+    margin-left: 40px; 
 }
 
 .minor_ranking_box {
