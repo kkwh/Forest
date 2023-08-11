@@ -107,15 +107,25 @@ public class BoardController {
 	}
 	
 	@GetMapping("/{id}") // 해당 랜드의 home
-	public String board(@PathVariable("id") long id, Model model, @PageableDefault(page = 0, size = 3) Pageable pageable) {
+	public String board(@PathVariable("id") long id, Model model, Principal principal, @PageableDefault(page = 0, size = 3) Pageable pageable) {
 		BoardDetailDto dto = boardService.findById(id);
 		model.addAttribute("board", dto);
 		
 		Page<PostWithLikesCount> list = postService.findAllPostsWithLikesCount(id, pageable);
         
-		int nowPage = list.getPageable().getPageNumber() + 1;
-		int startPage = Math.max(nowPage - 4, 1);
-		int endPage = Math.min(nowPage + 5, list.getTotalPages());
+		int nowPage = 0;
+		int startPage = 0;
+		int endPage = 0;
+		
+		if (list.getTotalPages() == 0) {
+		    nowPage = 0; // 페이지가 비어 있으면 현재 페이지를 0으로 설정
+		    startPage = 0;
+		    endPage = 0;
+		} else {
+		    nowPage = list.getPageable().getPageNumber() + 1;
+		    startPage = Math.max(nowPage - 4, 1);
+		    endPage = Math.min(nowPage + 5, list.getTotalPages());
+		}
 		
 	    log.info("post(list={})", list);
 	
@@ -123,6 +133,19 @@ public class BoardController {
 	    model.addAttribute("nowPage", nowPage);
 	    model.addAttribute("startPage", startPage);
 	    model.addAttribute("endPage", endPage);
+	    
+	    long userId = 0;
+        if(principal != null) {
+            userId = userService.getUserId(principal.getName());
+        }
+        log.info("userId: {}", userId);
+        model.addAttribute("userId", userId);
+        
+        if(userId != 0) {
+            User user = userService.findUserById(userId);
+            model.addAttribute("user", user);
+            log.info("user: {}", user);
+        }
 		
 		return "board/read";
 	}

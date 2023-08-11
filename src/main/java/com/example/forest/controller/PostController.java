@@ -74,9 +74,19 @@ public class PostController {
         Page<PostWithLikesCount2> list = postService.findPostsByLikesDifference(id, pageable);
         log.info("popular(list={})", list);
         
-        int nowPage = list.getPageable().getPageNumber() + 1;
-		int startPage = Math.max(nowPage - 4, 1);
-		int endPage = Math.min(nowPage + 5, list.getTotalPages());
+        int nowPage = 0;
+        int startPage = 0;
+        int endPage = 0;
+        
+        if (list.getTotalPages() == 0) {
+            nowPage = 0; // 페이지가 비어 있으면 현재 페이지를 0으로 설정
+            startPage = 0;
+            endPage = 0;
+        } else {
+            nowPage = list.getPageable().getPageNumber() + 1;
+            startPage = Math.max(nowPage - 4, 1);
+            endPage = Math.min(nowPage + 5, list.getTotalPages());
+        }
         
         model.addAttribute("posts", list);
         model.addAttribute("nowPage", nowPage);
@@ -95,9 +105,19 @@ public class PostController {
         Page<PostWithLikesCount> list = postService.findAllPostsWithLikesCountWhenNotice(id, pageable);
         log.info("notice(list={})", list);
         
-        int nowPage = list.getPageable().getPageNumber() + 1;
-		int startPage = Math.max(nowPage - 4, 1);
-		int endPage = Math.min(nowPage + 5, list.getTotalPages());
+        int nowPage = 0;
+        int startPage = 0;
+        int endPage = 0;
+        
+        if (list.getTotalPages() == 0) {
+            nowPage = 0; // 페이지가 비어 있으면 현재 페이지를 0으로 설정
+            startPage = 0;
+            endPage = 0;
+        } else {
+            nowPage = list.getPageable().getPageNumber() + 1;
+            startPage = Math.max(nowPage - 4, 1);
+            endPage = Math.min(nowPage + 5, list.getTotalPages());
+        }
         
         model.addAttribute("posts", list);
         model.addAttribute("nowPage", nowPage);

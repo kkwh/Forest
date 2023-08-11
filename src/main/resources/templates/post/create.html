@@ -69,7 +69,7 @@
                     <ul class="subject_list clear">
                         <li class="일반" data-no="0" onclick="write_headtext(this, '일반')"><em class="sp_img"></em>일반</li>
                     
-                      <th:block th:if="${ board.user.nickname } == ${#authentication.name}">
+                      <th:block th:if="${ board.user.loginId } == ${#authentication.name}">
                         <li data-no="50" onclick="write_headtext(this, '공지')">공지</li>
                       </th:block>
                     

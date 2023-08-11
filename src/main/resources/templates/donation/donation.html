@@ -3,15 +3,18 @@
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorate="~{layout/base_layout}">
     
+
     <main layout:fragment="main"class="mt-5 p-4">
+
     
         <div>
             <div>
-                <h2>후원</h2>
+                <h2>후원하기</h2>
             </div>  
         </div>
          <div class="card-body bg-white mt-0 shadow">
                 <p style="font-weight: bold">카카오페이 현재 사용가능</p>
+
                 <label class="box-radio-input"><input type="radio" name="cp_item" value="100"><span>100원</span></label>
                 <label class="box-radio-input"><input type="radio" name="cp_item" value="500"><span>500원</span></label>
                 <label class="box-radio-input"><input type="radio" name="cp_item" value="5000"><span>5,000원</span></label>
@@ -24,15 +27,109 @@
                 <label class="box-radio-input"><input type="radio" name="cp_item" value="40000"><span>40,000원</span></label>
                 <label class="box-radio-input"><input type="radio" name="cp_item" value="50000"><span>50,000원</span></label>
                 <p  style="color: #ac2925; margin-top: 30px">카카오페이의 최소 충전금액은 100원이며 <br/>최대 충전금액은 50,000원 입니다.</p>
-                <button type="button" class="btn btn-lg btn-block  btn-custom" id="charge_kakao">충 전 하 기</button>
+
+                <input type="text" id="name" placeholder="기부자 이름을 입력해주세요." />
+                <button type="button" onclick="requestPay()" class="btn btn-lg btn-block  btn-custom" id="charge_kakao">충 전 하 기</button>
         </div>
-     </main>    
+        
+        
+        <div id="donator-list" class="card-body bg-white mt-3 shadow">
+        
+        	<h2>후원자 목록</h2>
+	        <table class="table">
+			  <thead>
+			    <tr>
+			      <th scope="col">#</th>
+			      <th scope="col">Name</th>
+			      <th scope="col">Amount</th>
+			      <th scope="col">Date</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <th:block th:each="donation : ${list}">
+	        		<tr>
+	        			<th scope="row" th:text="${donation.id}"></th>
+				      	<td th:text="${donation.donator}"></td>
+				      	<td th:text="|${donation.amount}원|"></td>
+				      	<td th:text="${#temporals.format(donation.createdTime, 'YYYY-MM-dd HH:mm')}"></td>
+	        		</tr>
+	        	</th:block>
+			  </tbody>
+			</table>
+		</div>
+  </main>
             
           
 
 <th:block layout:fragment="myscripts">  
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script src="/js/donation/donation.js"></script>
     <script src=https://code.jquery.com/jquery-3.6.0.min.js></script>
+    <script>
+	    
+    
+	    function requestPay() {
+	    	var IMP = window.IMP; 
+		    IMP.init("imp01013060");
+	    	
+	    	const amount = $('input:radio[name=cp_item]:checked').val();
+	    	console.log(amount);
+	    	
+	    	const name = $('input#name').val();
+	    	
+	      IMP.request_pay({
+	        pg: "kakaopay.TC0ONETIME",
+	        merchant_uid: "merchant_" + new Date().getTime(),
+	        name: "노르웨이 회전 의자",
+	        amount: amount, 
+	        buyer_email: "gildong@gmail.com",
+	        buyer_name: name,
+	        buyer_tel: "010-4242-4242",
+	        buyer_addr: "서울특별시 강남구 신사동",
+	        buyer_postcode: "01181"
+	      }, function (rsp) { // callback
+	        console.log(rsp);
+	        let params = {
+				"impUid": rsp.imp_uid,
+				"merchantUid": rsp.merchant_uid,
+				"amount": rsp.paid_amount,
+				"donator": rsp.buyer_name
+			};
+	        
+	        if(rsp.success) {
+	        	$.ajax({
+					  method: 'POST',
+					  url: '/donation/verify/' + rsp.imp_uid,
+				  }).done(function(data) {
+					  if(rsp.paid_amount === data.response.amount) {
+						 alert(`결제 성공 ${rsp.paid_amount}원`);
+						 
+						 console.log(data);
+						 
+						 $.ajax({
+							 method: 'POST',
+							 url: '/donation/save',
+							 contentType: 'application/json',
+							 data: JSON.stringify(params),
+							 success: function(rsp) {
+								 console.log(rsp);
+								 
+								 location.reload();
+							 }, error: function(error) {
+								 console.log(error);
+							 }
+						 });
+						 
+		             } else {
+						 alert('결제에 실패하였습니다. 에러 내용: ' + rsp.error_msg);
+					 }
+				  });
+				} else {
+					alert('결제에 실패하였습니다. 에러 내용: ' + rsp.error_msg);
+				}
+		    });
+	    }
+  </script>
 </th:block>
     
 </html>

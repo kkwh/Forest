@@ -285,7 +285,7 @@ h2 {
 .minor_intro_box {
     float: left;
     width: 975px;
-    padding: 24px 14px 2px 15px;
+    padding: 24px 300px 2px 15px;
     color: #333;
 }
 
@@ -302,7 +302,7 @@ h2 {
 
 .img_contbox {
     float: left;
-    width: 56%;
+    width: 30%;
 }
 
 .mintro_imgbox {
@@ -376,7 +376,7 @@ p {
     overflow-y: auto;
     position: relative;
     float: left;
-    width: 42%;
+    width: 30%;
     height: 104px;
     margin-top: -1px;
     margin-left: 4px;
@@ -439,7 +439,7 @@ p {
     position: relative;
     float: right;
     width: 152px;
-    height: 153px;
+    height: 30px;
     background: #f3f3f3;
     border-left: 1px solid #d5d5d5;
     text-align: center;
@@ -613,3 +613,62 @@ a {
 .array_tab .nav-link:hover {
     color: #ffffff !important; /* 글자색을 흰색으로 설정, !important는 기존 스타일을 오버라이드하기 위해 사용 */
 }
+
+.ad-container {
+    text-align: center;
+}
+
+.login_box {
+    position: relative;
+    margin-bottom: 15px;
+    border: 1px solid #188038;
+    background: #fff;
+    width: 300px;
+    margin-right: 50px;
+}
+
+.user_info {
+    padding: 0 18px;
+    height: 43px;
+    line-height: 44px;
+    font-size: 14px;
+    color: #188038;
+}
+
+.newarea.user_info strong {
+    max-width: 153px;
+    padding-right: 0;
+}
+
+.user_info strong {
+    display: inline-block;
+    max-width: 235px;
+    padding-right: 2px;
+    vertical-align: top;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.login_box2 {
+    /* 두 번째 박스에 적용할 스타일을 여기에 작성하세요 */
+    margin-right: 50px; /* 왼쪽 여백을 설정하여 첫 번째 박스와 간격을 만듬 */
+  }
+  
+ .ranking_container {
+    display: flex; /* 자식 요소들을 가로로 배열하기 위해 flexbox 사용 */
+    justify-content: space-between; /* 자식 요소들 사이에 공간을 균등하게 분배 */
+    margin-left: 40px; 
+}
+
+.minor_ranking_box {
+    width: 48%; /* 박스의 너비를 각각 48%로 설정하여 박스 사이에 간격을 생성 */
+}
+
+.popular_land,
+.login_container {
+    flex: 1; /* 인기 랜드와 로그인 컨테이너의 너비를 동일하게 */
+    margin-right: 20px; /* 오른쪽 마진 추가 */
+}
+
+
