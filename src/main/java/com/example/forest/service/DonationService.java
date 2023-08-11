@@ -1,9 +1,12 @@
 package com.example.forest.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.forest.dto.donation.DonationDto;
+import com.example.forest.dto.donation.DonationCreateDto;
+import com.example.forest.dto.donation.DonationListDto;
 import com.example.forest.model.Donation;
 import com.example.forest.repository.DonationRepository;
 import com.siot.IamportRestClient.response.IamportResponse;
@@ -19,29 +22,33 @@ public class DonationService {
     
     private final DonationRepository donationRepository;
     
-    @Transactional
-    public int verifyDonation(IamportResponse<Donation> irsp, int amount) {
-        Donation donation = Donation.builder()
-                .donator(irsp.getResponse().getDonator())
-                .build();
-        
-        
-      return donationRepository.insertDonation(donation);
+    public void saveDonation(DonationCreateDto dto) {
+    	log.info("saveDonation(dto = {})", dto);
+    	
+    	Donation entity = dto.toEntity();
+    	
+    	donationRepository.save(entity);
     }
     
-    public int insertDonationData(DonationDto dto) {
-        log.info("insertDonationData={}", dto);
-        
-        return donationRepository.insertDonation(dto.toEntity());
+    public List<DonationListDto> getDonatorList() {
+    	log.info("getDonatorList()");
+    	
+    	return donationRepository.getAllByAmountDesc();
     }
     
-    public DonationDto findAllDonationsOrderByAscId() {
-        Donation donation = donationRepository.findAllDonationsOrderByAscId();
-        
-        log.info("donation = {}", donation);
-        
-        return DonationDto.fromEntity(donation);
-    }
+//    public int insertDonationData(DonationDto dto) {
+//        log.info("insertDonationData={}", dto);
+//        
+//        return donationRepository.insertDonation(dto.toEntity());
+//    }
+//    
+//    public DonationDto findAllDonationsOrderByAscId() {
+//        Donation donation = donationRepository.findAllDonationsOrderByAscId();
+//        
+//        log.info("donation = {}", donation);
+//        
+//        return DonationDto.fromEntity(donation);
+//    }
     
 
 }

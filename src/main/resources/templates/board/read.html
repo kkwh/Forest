@@ -45,7 +45,7 @@
 	  <div class="img_contbox clear">
 		<div class="bgcover">
 			<a th:href="@{ /board/ } + ${board.id}" class="mintro_imgbox in_img ">
-				<img alt="Description" class="cover"/>	
+				<img th:src="${board.file.uploadPath}" alt="Description" class="cover"/>	
 			</a>
 			
 		</div>    
