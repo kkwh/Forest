@@ -26,6 +26,7 @@ import com.example.forest.model.BlackList;
 import com.example.forest.model.BoardCategory;
 import com.example.forest.model.User;
 import com.example.forest.service.BoardService;
+import com.example.forest.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardApiController {
 	
 	private final BoardService boardService;
+	private final UserService userService;
 	
 	/**
 	 * 사용자가 게시판을 등록할 때 게시판 이름의 중복 여부를 체크
@@ -91,10 +93,10 @@ public class BoardApiController {
 	@PutMapping("/revoke")
 	@ResponseBody
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<String> revoke(@RequestBody BoardRevokeDto dto, Principal principal) {
+	public ResponseEntity<String> revoke(@RequestBody BoardRevokeDto dto) {
 		log.info("revoke(dto = {})", dto);
 		
-		boardService.revokeAuthority(dto, principal.getName());
+		boardService.revokeAuthority(dto);
 		
 		return ResponseEntity.ok("Success");
 	}
@@ -158,6 +160,11 @@ public class BoardApiController {
 		return ResponseEntity.ok("Success");
 	}
 	
+	/**
+	 * 승인되지 않은 게시판 목록을 불러옴
+	 * @param dto
+	 * @return
+	 */
 	@PostMapping("/searchUnapproved")
 	@ResponseBody
 	public ResponseEntity<List<BoardListDto>> searchUnapproved(@RequestBody BoardSearchDto dto) {
@@ -168,6 +175,11 @@ public class BoardApiController {
 		return ResponseEntity.ok(boards);
 	}
 	
+	/**
+	 * 승인된 게시판 목록을 불러옴
+	 * @param dto
+	 * @return
+	 */
 	@PostMapping("/searchApproved")
 	@ResponseBody
 	public ResponseEntity<List<BoardListDto>> searchApproved(@RequestBody BoardSearchDto dto) {
@@ -264,6 +276,11 @@ public class BoardApiController {
 		return ResponseEntity.ok(users);
 	}
 	
+	/**
+	 * 해당 회원이 특정 게시판에 접근할 권한이 있는지 확인
+	 * @param dto
+	 * @return
+	 */
 	@PostMapping("/checkAccess")
 	@ResponseBody
 	public ResponseEntity<Integer> checkUserAccss(@RequestBody BoardUserDto dto) {
@@ -274,6 +291,11 @@ public class BoardApiController {
 		return ResponseEntity.ok(result);
 	}
 	
+	/**
+	 * 게시판을 삭제
+	 * @param id
+	 * @return
+	 */
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<String> deleteBoard(@PathVariable("id") long id) {
 		log.info("deleteBoard(id = {})", id);
@@ -281,6 +303,29 @@ public class BoardApiController {
 		boardService.deleteBoard(id);
 		
 		return ResponseEntity.ok("Success");
+	}
+	
+	@GetMapping("/searchUser")
+	public ResponseEntity<List<User>> searchUserByKeyword(@RequestParam("id") long id, @RequestParam("userId") long userId,
+			@RequestParam("keyword") String keyword) {
+		log.info("searchUserByKeyword(id = {}, keyword = {})", id, keyword);
+		
+		List<User> list = boardService.getUserList(id, userId, keyword);
+		
+		return ResponseEntity.ok(list);
+	}
+	
+	/**
+	 * 게시판 권한 부여 페이지에서 유저 리스트를 불러옴
+	 * @return
+	 */
+	@GetMapping("/getUserList")
+	public ResponseEntity<List<User>> getUserList(@RequestParam(name = "keyword", defaultValue = "") String keyword) {
+		log.info("getUserList(keyword = {})", keyword);
+		
+		List<User> users = userService.getUserList(keyword);
+		
+		return ResponseEntity.ok(users);
 	}
 
 }

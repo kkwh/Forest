@@ -5,21 +5,22 @@
 document.addEventListener('DOMContentLoaded', () => {
 	
 	/**
-	 * 게시판 관리자 권한 뺏기
+	 * 게시판 관리자 권한을 다른 유저에게 부여하는 메서드
 	 */
 	const revoke = (e) => {
-		const userId = e.target.getAttribute('data-user-id');
-		const boardId = e.target.getAttribute('data-board-id');
+		const userId = e.target.getAttribute('data-board-user-id'); // 현재 게시판 관리자 아이디
+		const userToId = e.target.getAttribute('data-user-id'); // 권한을 부여할 유저 아이디
+		const boardId = e.target.getAttribute('data-board-id'); // 게시판 아이디
 		
 		console.log(`userId = ${userId}, boardId = ${boardId}`);
 		
-		const result = confirm('랜드의 관리자 권한을 뺏으시겠습니까?');
+		const result = confirm(`랜드의 관리자 권한을 유저 ${userToId}에게 넘기시겠습니까?`);
 		if(!result) {
 			return false;
 		}
 		
 		const url = '/api/v1/board/revoke';
-		const data = { userId, boardId };
+		const data = { userId, boardId, userToId };
 		
 		axios.put(url, data)
 			.then((response) => {
@@ -32,9 +33,79 @@ document.addEventListener('DOMContentLoaded', () => {
 			});
 	};
 	
+	const openModal = async (e) => {
+		console.log(e.target);
+		const boardId = e.target.getAttribute('data-board-id');
+		const userId = e.target.getAttribute('data-user-id');
+		
+		const modal = document.querySelector('div#userListModal');
+		
+		modal.style.display = "block";
+		modal.addEventListener('click', (e) => {
+			if(e.target === modal) {
+				modal.style.display = 'none';
+			}
+		});
+		
+		const modalCloseBtns = document.querySelectorAll('button.btn-close');
+		for(let btn of modalCloseBtns) {
+			btn.addEventListener('click', () => {
+				modal.style.display = 'none';
+			});
+		}
+		
+		
+		
+		let htmlStr = '';
+		
+		const response = await axios.get('/api/v1/board/getUserList');
+		console.log(response.data);
+		
+		for(let user of response.data) {
+			if(user.id == userId) {
+				htmlStr += `
+					<li class="list-group-item">
+			    		<div class="row">
+			    			<div class="col-9">
+			    				${user.nickname}
+			    			</div>
+			    			<div class="col-3">
+			    				<button type="button" class="btn btn-dark w-100" data-board-id="${boardId}" 
+			    					data-user-id="${user.id}" data-board-user-id="${userId}">관리자</button>
+			    			</div>
+			    		</div>
+		    		</li>
+				`;
+			} else {
+				htmlStr += `
+					<li class="list-group-item">
+			    		<div class="row">
+			    			<div class="col-9">
+			    				${user.nickname}
+			    			</div>
+			    			<div class="col-3">
+			    				<button type="button" class="btn btn-outline-success grantBtn w-100" data-board-id="${boardId}" 
+			    					data-user-id="${user.id}" data-board-user-id="${userId}">권한 부여</button>
+			    			</div>
+			    		</div>
+		    		</li>
+				`;
+			}
+
+		}
+		
+		document.querySelector('ul#user-list').innerHTML = htmlStr;
+		
+		const grantBtns = document.querySelectorAll('button.grantBtn');
+		for(let btn of grantBtns) {
+			btn.addEventListener('click', revoke);
+		}
+	};
+	
+	
 	let revokeBtns = document.querySelectorAll('button.revokeBtn');
 	for(let btn of revokeBtns) {
-		btn.addEventListener('click', revoke);
+		btn.addEventListener('click', openModal);
 	}
 	
 	/**
@@ -246,5 +317,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	for(let btn of deleteBtns) {
 		btn.addEventListener('click', deleteBoard);
 	}
+	
+	
+	
+	
 	
 });

@@ -1,10 +1,13 @@
 package com.example.forest.service;
 
+import java.util.List;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.forest.dto.user.UserSignUpDto;
 import com.example.forest.model.User;
@@ -106,6 +109,20 @@ public class UserService implements UserDetailsService {
             return 1; // 1이면 없음
         }
         return 0; //0이면 있음.
+    }
+    
+    @Transactional(readOnly = true)
+    public List<User> getUserList(String keyword) {
+    	log.info("getUserList()");
+    	
+    	return userRepository.findAllOrderByNicknameDesc(keyword);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<User> getUserListByKeyword(String keyword) {
+    	log.info("getUserListByKeyword(keyword = {})", keyword);
+    	
+    	return userRepository.findAllByKeyword(keyword);
     }
 
  
