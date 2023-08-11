@@ -1,5 +1,8 @@
 package com.example.forest.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +18,7 @@ import com.example.forest.dto.post.LikeDislikeResponse;
 import com.example.forest.dto.post.LikeRequest;
 import com.example.forest.dto.post.ModifyPasswordCheckDto;
 import com.example.forest.dto.post.PostLikesDto;
+import com.example.forest.dto.post.PostWithLikesCount;
 import com.example.forest.model.Post;
 import com.example.forest.service.LikesService;
 import com.example.forest.service.PostService;
@@ -101,5 +105,18 @@ public class PostRestController {
 	    
 	    return ResponseEntity.ok(new LikeDislikeResponse(exists));
 	}
+	
+	// 카테고리 별 분류 - 일반
+	@GetMapping("/category/{boardId}")
+    public ResponseEntity<String> category(@PathVariable Long boardId, @PageableDefault(page = 0, size = 3) Pageable pageable) {
+        log.info("(boardId={})", boardId);
+        
+        Page<PostWithLikesCount> list = postService.findAllPostsWithLikesCountWhenNormal(boardId, pageable);
+        log.info("list = {}", list);
+        
+        
+        
+        return ResponseEntity.ok("성공");
+    }
     
 }
