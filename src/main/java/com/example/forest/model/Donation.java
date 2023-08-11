@@ -20,11 +20,18 @@ import lombok.ToString;
 @Entity
 @Table(name = "DONATION")
 @SequenceGenerator(name = "DONATION_SEQ_GEN", sequenceName = "DONATION_SEQ", allocationSize = 1)
-public class Donation {
+public class Donation extends BaseTimeEntity {
 	
 	@Id
 	@GeneratedValue(generator = "DONATION_SEQ_GEN", strategy = GenerationType.SEQUENCE)
 	private long id;
+	
+	// 후원 금액
+	private int amount;
+	
+	private String impUid;
+	
+	private String merchantUid;
 	
 	// 후원자 이름
 	private String donator;
