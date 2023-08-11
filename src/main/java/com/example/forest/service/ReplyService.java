@@ -1,5 +1,6 @@
 package com.example.forest.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,15 +28,7 @@ public class ReplyService {
     private final ReReplyRepository reReplyRepository;
     private final PostRepository postRepository;
     
-    
-    public List<Reply> findByPostOrderByIdDesc(Post post) {
-        return replyRepository.findByPostOrderByIdDesc(post);
-    }
-    
-    public List<Reply> findByPostOrderByIdAsc(Post post) {
-        return replyRepository.findByPostOrderByIdAsc(post);
-    }
-    
+   
     
     // 회원 댓글 삭제
     public void delete(Long id) {
@@ -132,24 +125,25 @@ public class ReplyService {
     
 
 //    
-//    // 댓글 목록을 정렬하여 가져오기
-//    @Transactional(readOnly = true)
-//    public List<Reply> readSortedReplies(Long postId, String sortValue) {
-//        log.info("readSortedReplies(postId={}, sortValue={})", postId, sortValue);
-//
-//        Post post = postRepository.findById(postId).orElseThrow();
-//        List<Reply> replies;
-//
-//        if ("D".equals(sortValue)) { // 등록순
-//            replies = replyRepository.findByPostOrderByIdAsc(post);
-//        } else if ("N".equals(sortValue)) { // 최신순
-//            replies = replyRepository.findByPostOrderByIdDesc(post);
-//        } else {
-//            replies = replyRepository.findByPostOrderByIdDesc(post);
-//        }
-//
-//        return replies;
-//    }
+    // 댓글 목록을 정렬하여 가져오기
+    @Transactional(readOnly = true)
+    public List<Reply> readSortedReplies(Long postId, String sortValue) {
+        log.info("readSortedReplies(postId={}, sortValue={})", postId, sortValue);
+
+        Post post = postRepository.findById(postId).orElseThrow();
+        List<Reply> replies = new ArrayList<>();
+        
+        switch(sortValue) {
+        case "D":
+            replies = replyRepository.findByPostOrderByIdAsc(post);
+            break;
+        case "N":
+            replies = replyRepository.findByPostOrderByIdDesc(post);
+            break;
+        }
+
+        return replies;
+    }
     
     
 }

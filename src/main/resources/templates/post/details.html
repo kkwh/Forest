@@ -232,28 +232,17 @@
                     <div class="fl num_box">
                     나무 열매
                         <em class="font_red">
-                      <span  id="replyTotal" th:text="|${replyTotal}|"> 개수</span>
+                      <span  id="replyTotal" th:text="${replyTotal}"> 개수</span>
                         </em>
                         개 
                         <div class="select_box array_latest">
-                            <select name="selCommentSort"  id="selCommentSort">
+                            <select name="selCommentSort"  id="sortType">
                                     <option value="D">등록순</option>
                                     <option value="N">최신순</option>
                             </select>
-                            <div class="select_area">
-                                <span class="comment_sort_txt"></span>
-                                <span class="blind">정렬 기준선택</span>
-                                <em class="sp_img icon_option_more"></em>
-                            </div>
-                            <ul class="option_box" style="left:-1px;top:19px;display:none">
-                                <li class="comment_sort" data-sort="D">등록순</li>
-                                <li class="comment_sort" data-sort="N">최신순</li>
-                            </ul>
+                            
                          </div>
-                         <button type="button" class="btn_setreply" style="display: none">
-                            <span class="blind">답글 펼침 설정</span>
-                            <em class="sp_img icon_setreply"></em>
-                         </button>
+                         
                       </div>
                    </div>
             
