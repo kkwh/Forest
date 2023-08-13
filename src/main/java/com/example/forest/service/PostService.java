@@ -148,6 +148,12 @@ public class PostService {
         return postRepository.findAllPostsWithLikesCountWhenNormal(boardId, pageable);
     }
     
+    // 게시글 말머리 별 필터 조회
+    @Transactional(readOnly = true)
+    public Page<PostWithLikesCount> findAllPostsWithLikesCountByType(Long boardId, String postType, Pageable pageable) {
+        return postRepository.findAllPostsWithLikesCountByType(boardId, postType, pageable);
+    }
+    
     public Long findBoardIdByPostId(Long postId) {
         return postRepository.findBoardIdByPostId(postId);
     }
