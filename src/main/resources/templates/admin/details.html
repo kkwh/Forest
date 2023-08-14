@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layout/admin_base_layout}">
+    layout:decorate="~{layout/base_layout}">
 
 <div layout:fragment="main" class="mt-5 p-3">
     
@@ -17,7 +17,9 @@
 					<input type="hidden" th:value="${board.id}" id="boardId" name="boardId" />
 					<input type="hidden" th:value="${board.user.id}" id="boardOwnerId" name="boardOwnerId" />
 				  	<div class="card-body">
-				    	<h5 class="card-title" th:text="${board.boardName}"></h5>
+				    	<h5 class="card-title">
+				    		<a th:href="@{'/board/' + ${board.id}}" th:text="${board.boardName}" class="link-dark"></a>
+				    	</h5>
 				    	<p class="card-text" th:text="|카테고리: ${board.category.value}|"></p>
 				    	<p class="card-text" th:text="|관리자: ${board.user.nickname}|"></p>
 				    	<p class="card-text" th:text="|생성일자: ${board.createdTime}|"></p>

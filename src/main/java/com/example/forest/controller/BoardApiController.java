@@ -1,6 +1,5 @@
 package com.example.forest.controller;
 
-import java.security.Principal;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,6 @@ import com.example.forest.dto.board.BoardListDto;
 import com.example.forest.dto.board.BoardRevokeDto;
 import com.example.forest.dto.board.BoardSearchDto;
 import com.example.forest.dto.board.BoardUserDto;
-import com.example.forest.model.BlackList;
 import com.example.forest.model.BoardCategory;
 import com.example.forest.model.User;
 import com.example.forest.service.BoardService;
