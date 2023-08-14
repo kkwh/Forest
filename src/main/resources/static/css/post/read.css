@@ -629,8 +629,8 @@ a {
 
 .user_info {
     padding: 0 18px;
-    height: 43px;
-    line-height: 44px;
+    height: auto; /* 높이 자동 */
+    line-height: 40px; /* 줄 높이 설정 */
     font-size: 14px;
     color: #188038;
 }

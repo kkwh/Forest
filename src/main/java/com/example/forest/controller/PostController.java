@@ -1,7 +1,9 @@
 package com.example.forest.controller;
 
 import java.security.Principal;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,13 +21,9 @@ import com.example.forest.dto.post.PostSearchDto;
 import com.example.forest.dto.post.PostUpdateDto;
 import com.example.forest.dto.post.PostWithLikesCount;
 import com.example.forest.dto.post.PostWithLikesCount2;
-
 import com.example.forest.model.Post;
 import com.example.forest.model.User;
 import com.example.forest.repository.ReReplyRepository;
-import com.example.forest.repository.ReplyRepository;
-import com.example.forest.model.ReReply;
-import com.example.forest.model.Reply;
 import com.example.forest.service.BoardService;
 import com.example.forest.service.IpService;
 import com.example.forest.service.LikesService;
@@ -34,6 +32,7 @@ import com.example.forest.service.ReReplyService;
 import com.example.forest.service.ReplyService;
 import com.example.forest.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -66,7 +65,7 @@ public class PostController {
 //    }
     
     @GetMapping("/popular")
-    public String popular(@RequestParam("id") long id, Model model, @PageableDefault(page = 0, size = 3) Pageable pageable) { // id - boardId
+    public String popular(@RequestParam("id") long id, Model model, Principal principal, @PageableDefault(page = 0, size = 3) Pageable pageable, HttpServletRequest request) { // id - boardId
         log.info("popular(id={})", id);
         BoardDetailDto dto = boardService.findById(id);
         model.addAttribute("board", dto);
@@ -92,12 +91,43 @@ public class PostController {
         model.addAttribute("nowPage", nowPage);
 	    model.addAttribute("startPage", startPage);
 	    model.addAttribute("endPage", endPage);
+	    
+	    long userId = 0;
+        if(principal != null) {
+            userId = userService.getUserId(principal.getName());
+        }
+        log.info("userId: {}", userId);
+        model.addAttribute("userId", userId);
+        
+        if(userId != 0) {
+            User user = userService.findUserById(userId);
+            model.addAttribute("user", user);
+            log.info("user: {}", user);
+        }
+	    
+	    // 최근 방문 랜드
+        LinkedList<Long> recentLands = (LinkedList<Long>) request.getSession().getAttribute("recentLands");
+        if (recentLands == null) {
+            recentLands = new LinkedList<>();
+        }
+        
+        recentLands.remove((Long) id);
+        recentLands.addFirst(id);
+        
+        while (recentLands.size() > 10) {
+            recentLands.removeLast();
+        }
+
+        request.getSession().setAttribute("recentLands", recentLands);
+        
+        List<BoardDetailDto> recentLandBoards = recentLands.stream().map(boardService::findById).collect(Collectors.toList());
+        model.addAttribute("recentLands", recentLandBoards);
         
         return "/post/read-popular";
     }
     
     @GetMapping("/notice")
-    public String notice(@RequestParam("id") long id, Model model, @PageableDefault(page = 0, size = 3) Pageable pageable) { // id - boardId
+    public String notice(@RequestParam("id") long id, Model model, Principal principal, @PageableDefault(page = 0, size = 3) Pageable pageable, HttpServletRequest request) { // id - boardId
         log.info("notice(id={})", id);
         BoardDetailDto dto = boardService.findById(id);
         model.addAttribute("board", dto);
@@ -123,6 +153,37 @@ public class PostController {
         model.addAttribute("nowPage", nowPage);
 	    model.addAttribute("startPage", startPage);
 	    model.addAttribute("endPage", endPage);
+	    
+	    long userId = 0;
+        if(principal != null) {
+            userId = userService.getUserId(principal.getName());
+        }
+        log.info("userId: {}", userId);
+        model.addAttribute("userId", userId);
+        
+        if(userId != 0) {
+            User user = userService.findUserById(userId);
+            model.addAttribute("user", user);
+            log.info("user: {}", user);
+        }
+	    
+	    // 최근 방문 랜드
+        LinkedList<Long> recentLands = (LinkedList<Long>) request.getSession().getAttribute("recentLands");
+        if (recentLands == null) {
+            recentLands = new LinkedList<>();
+        }
+        
+        recentLands.remove((Long) id);
+        recentLands.addFirst(id);
+        
+        while (recentLands.size() > 10) {
+            recentLands.removeLast();
+        }
+
+        request.getSession().setAttribute("recentLands", recentLands);
+        
+        List<BoardDetailDto> recentLandBoards = recentLands.stream().map(boardService::findById).collect(Collectors.toList());
+        model.addAttribute("recentLands", recentLandBoards);
         
         return "/post/read-notice";
     }
@@ -330,6 +391,7 @@ public class PostController {
     public String posts(@RequestParam("id") long boardId,
                         @RequestParam(value = "postType", required = false) String postType,
                         Model model,
+                        Principal principal,
                         @PageableDefault(page = 0, size = 3) Pageable pageable) {
         log.info("posts(id={})", boardId);
         BoardDetailDto dto = boardService.findById(boardId);
@@ -362,6 +424,18 @@ public class PostController {
         model.addAttribute("nowPage", nowPage);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
+        
+        long userId = 0;
+        if(principal != null) {
+            userId = userService.getUserId(principal.getName());
+        }
+        log.info("userId: {}", userId);
+        model.addAttribute("userId", userId);
+        
+        if(userId != 0) {
+            User user = userService.findUserById(userId);
+            model.addAttribute("user", user);
+        }
         
         return "/board/read";
     }
