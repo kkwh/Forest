@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			return false;
 		}
 		if(message == '이미 사용중인 이름입니다.') {
-			alert('이미 사용중인 이릅입니다.');
+			alert('이미 사용중인 이름입니다.');
 			return false;
 		}
 		if(boardInfo.length == 0) {

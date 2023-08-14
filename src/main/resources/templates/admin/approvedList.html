@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/admin_base_layout}">
+	layout:decorate="~{layout/base_layout}">
 
 <div layout:fragment="main" class="mt-5 p-3">
 
@@ -76,7 +76,7 @@
 						</td>
 						<td>
 							<button type="button" th:data-user-id="${board.user.id}"  
-								th:data-board-id="${board.id}" class="btn btn-outline-danger revokeBtn">권한 뺏기</button>
+								th:data-board-id="${board.id}" class="btn btn-outline-danger revokeBtn">권한 넘기기</button>
 							
 						</td>
 						<td>

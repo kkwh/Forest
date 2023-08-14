@@ -66,6 +66,10 @@ public class UserService implements UserDetailsService {
 	public User findUserById(Long id) {
         return userRepository.findById(id).orElseThrow();
     }
+	
+	public User findUserByLoginId(String loginId) {
+        return userRepository.findByLoginId(loginId);
+    }
 
     public int validateLoginId(String loginId) {
         User user = userRepository.selectUserByLoginId(loginId);
