@@ -325,6 +325,47 @@ public class PostController {
         return "/post/read-popular";
     }
     
+    // 게시글 말머리 별 필터 조회
+    @GetMapping("/posts")
+    public String posts(@RequestParam("id") long boardId,
+                        @RequestParam(value = "postType", required = false) String postType,
+                        Model model,
+                        @PageableDefault(page = 0, size = 3) Pageable pageable) {
+        log.info("posts(id={})", boardId);
+        BoardDetailDto dto = boardService.findById(boardId);
+        model.addAttribute("board", dto);
+        
+        Page<PostWithLikesCount> list;
+        if (postType == null || postType.trim().isEmpty()) {
+            list = postService.findAllPostsWithLikesCount(boardId, pageable);
+        } else {
+            list = postService.findAllPostsWithLikesCountByType(boardId, postType, pageable);
+        }
+
+        log.info("posts(list={})", list);
+        
+        int nowPage = 0;
+        int startPage = 0;
+        int endPage = 0;
+        
+        if (list.getTotalPages() == 0) {
+            nowPage = 0;
+            startPage = 0;
+            endPage = 0;
+        } else {
+            nowPage = list.getPageable().getPageNumber() + 1;
+            startPage = Math.max(nowPage - 4, 1);
+            endPage = Math.min(nowPage + 5, list.getTotalPages());
+        }
+        
+        model.addAttribute("posts", list);
+        model.addAttribute("nowPage", nowPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        
+        return "/board/read";
+    }
+    
 
 }
 

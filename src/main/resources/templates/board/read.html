@@ -15,8 +15,17 @@
 
         <div class="my-2 card">
             <div class="card-header text-center">
-                <h1 th:text="|${board.boardName} 랜드 전체글|"></h1>
+                <div class="recent-lands">
+				    <h3 style="color: #188038;">최근 방문한 랜드</h3>
+				    <div class="land-names">
+				        <div th:each="land : ${recentLands}" class="land-name">
+				            <a th:href="@{ /board/ } + ${land.id}" th:text="${land.boardName}"></a>
+				        </div>
+				    </div>
+				</div>
             </div>
+            
+         
             
             <div class="page_head clear">
 				<div class="fl clear">
@@ -116,7 +125,14 @@
                     <a class="nav-link form-control btn btn-outline-success on" th:href="@{ /board/ } + ${board.id}">전체글</a>
                     <a class="nav-link form-control btn btn-outline-success" th:href="@{/post/popular?id={id} (id = ${board.id})}">인기글</a>
                     <a class="nav-link form-control btn btn-outline-success" th:href="@{/post/notice?id={id} (id = ${board.id})}">공지</a>
-                    <a class="nav-link form-control btn btn-outline-success" th:href="@{/post/create?id={id} (id = ${board.id})}">나무심기</a>                      
+                    <a class="nav-link form-control btn btn-outline-success" th:href="@{/post/create?id={id} (id = ${board.id})}">나무심기</a>
+                    
+                    <!-- 카테고리 별 말머리 구분 버튼들 -->
+                    <a class="custom-link" style="margin-top: 6px; text-decoration: none; font-size: 12px; border: none; background: none; padding: 0;" th:href="@{/post/posts(id=${board.id}, postType='일반')}">일반</a>
+				    <a class="custom-link" style="margin-top: 6px; text-decoration: none; font-size: 12px; border: none; background: none; padding: 0;" th:href="@{/post/posts(id=${board.id}, postType='뉴스')}">뉴스</a>
+				    <a class="custom-link" style="margin-top: 6px; text-decoration: none; font-size: 12px; border: none; background: none; padding: 0;" th:href="@{/post/posts(id=${board.id}, postType='SNS')}">SNS</a>
+				    <a class="custom-link" style="margin-top: 6px; text-decoration: none; font-size: 12px; border: none; background: none; padding: 0;" th:href="@{/post/posts(id=${board.id}, postType='사진/움짤')}">사진/움짤</a>
+				    <a class="custom-link" style="margin-top: 6px; text-decoration: none; font-size: 12px; border: none; background: none; padding: 0;" th:href="@{/post/posts(id=${board.id}, postType='이벤트')}">이벤트</a>                   
                 </div>
              </div>
             <!-- 전체글, 인기글, 공지글 등 버튼 -->
@@ -321,6 +337,7 @@ $(document).ready(function(){
     </main>
     
     <th:block layout:fragment="myscripts">
+    	<script src="/js/post/read.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 			<script>
 			$(document).ready(function(){

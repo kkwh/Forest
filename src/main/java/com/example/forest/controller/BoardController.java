@@ -2,8 +2,10 @@ package com.example.forest.controller;
 
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -107,7 +109,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/{id}") // 해당 랜드의 home
-	public String board(@PathVariable("id") long id, Model model, Principal principal, @PageableDefault(page = 0, size = 3) Pageable pageable) {
+	public String board(@PathVariable("id") long id, Model model, Principal principal, @PageableDefault(page = 0, size = 3) Pageable pageable, HttpServletRequest request) {
 		BoardDetailDto dto = boardService.findById(id);
 		model.addAttribute("board", dto);
 		
@@ -146,6 +148,24 @@ public class BoardController {
             model.addAttribute("user", user);
             log.info("user: {}", user);
         }
+        
+        // 최근 방문 랜드
+        LinkedList<Long> recentLands = (LinkedList<Long>) request.getSession().getAttribute("recentLands");
+        if (recentLands == null) {
+            recentLands = new LinkedList<>();
+        }
+        
+        recentLands.remove((Long) id);
+        recentLands.addFirst(id);
+        
+        while (recentLands.size() > 10) {
+            recentLands.removeLast();
+        }
+
+        request.getSession().setAttribute("recentLands", recentLands);
+        
+        List<BoardDetailDto> recentLandBoards = recentLands.stream().map(boardService::findById).collect(Collectors.toList());
+        model.addAttribute("recentLands", recentLandBoards);
 		
 		return "board/read";
 	}
