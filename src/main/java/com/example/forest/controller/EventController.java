@@ -2,6 +2,10 @@ package com.example.forest.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,12 +31,25 @@ public class EventController {
     private final EventService eventService;
     
     @GetMapping
-    public String read(Model model) {
+    public String read(Model model, 
+            @PageableDefault(page = 0, size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("read()");
         
-        List<Event> list = eventService.read();
+        Page<Event> list = eventService.read(pageable);
+        
+        int nowPage = list.getPageable().getPageNumber() + 1; // 현재페이지
+        int maxPage = list.getTotalPages();
+
+        int visiblePageCount = 5; // 한 번에 표시될 페이지 번호의 갯수
+        int halfVisiblePageCount = visiblePageCount / 2;
+
+        int startPage = Math.max(nowPage - halfVisiblePageCount, 1);
+        int endPage = Math.min(startPage + visiblePageCount - 1, maxPage);
         
         model.addAttribute("event", list);
+        model.addAttribute("nowPage", nowPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
         
         return "/event/read";
     }
@@ -83,13 +100,23 @@ public class EventController {
     }
     
     @GetMapping("/search")
-    public String search(EventSearchDto dto, Model model) {
+    public String search(EventSearchDto dto, Model model, @PageableDefault(page=0, size=5, sort="id",
+            direction=Sort.Direction.DESC) Pageable pageable) {
         log.info("search(dto={})", dto);
         
         // postService의 검색 기능 호출:
-        List<Event> list = eventService.search(dto);
+        Page<Event> list = eventService.search(dto, pageable);
+        
+        int nowPage = list.getPageable().getPageNumber() + 1; // 현재페이지 
+        int maxPage = list.getTotalPages();
+        
+        int visiblePageCount = 5; // 한 번에 표시될 페이지 번호의 갯수 
+        int halfVisiblePageCount = visiblePageCount / 2;
+        int startPage = Math.max(nowPage - halfVisiblePageCount, 1); 
+        int endPage = Math.min(startPage + visiblePageCount - 1, maxPage);
         
         model.addAttribute("event", list);
+        model.addAttribute("startPage", startPage); model.addAttribute("endPage", endPage);
         
         return "/event/read";
     }

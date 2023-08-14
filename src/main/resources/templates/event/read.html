@@ -32,6 +32,36 @@
                 </tbody>
             </table>
         </div>
+        <!-- 페이징 -->   
+        <nav class="my-custom-pagination" aria-label="...">
+            <ul class="pagination justify-content-center pagination-sm">
+                <!-- 이전 페이지 -->
+                <li th:if="${startPage > 1}" class="page-item">
+                    <a th:href="@{/event(page=${startPage - 2})}" class="page-link" aria-label="Previous">
+                        <span aria-hidden="true">&laquo; Prev</span>
+                    </a>
+                </li>
+                <!-- 페이지 번호들 -->
+                <li th:each="page : ${#numbers.sequence(startPage, endPage)}" class="page-item">
+                    <a th:if="${page == nowPage}" class="page-link active" th:text="${page}" style="white: black; background-color: #b53409;"></a>
+                    <a th:if="${page != nowPage}" th:href="@{/event(page=${page - 1})}" class="page-link" th:text="${page}" style="background-color: #7bed55; color: navy;"></a>
+                </li>
+                <!-- 다음 페이지 -->
+                <li th:if="${endPage < event.totalPages}" class="page-item">
+                    <a th:href="@{/event(page=${endPage})}" class="page-link" aria-label="Next">
+                        <span aria-hidden="true">Next &raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <style>
+            /* 페이지 윤곽선 색상 변경 */
+            .page-item .page-link {
+                border-color: #b53409 !important;
+            }
+        </style>
+        <!-- 페이징 끝 -->
+            
         <div th:if="${#authentication.name == 'admin'}">
             <div class="list_array_option clear">
                     <div class="array_tab left_box">          

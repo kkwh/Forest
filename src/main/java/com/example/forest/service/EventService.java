@@ -2,6 +2,8 @@ package com.example.forest.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,14 +25,26 @@ public class EventService {
     private final EventRepository eventRepository;
     
     // DB EVENT 테이블에서 전체 검색한 결과를 리턴: 
+    // Event 목록 불러오기
     @Transactional(readOnly = true)
-    public List<Event> read() {
+    public Page<Event> read(Pageable pageable){
         log.info("read()");
         
-        return eventRepository.findByOrderByIdDesc();
+        return eventRepository.findAll(pageable);
     }
-
- // DB EVENT 테이블에 엔터티를 삽입(insert):
+    
+    // Event 상세보기
+    @Transactional(readOnly = true)
+    public Event read(Long id) {
+        log.info("read(id={})", id);
+        
+        return eventRepository.findById(id).orElseThrow();
+    }
+    
+    
+    
+    // DB EVENT 테이블에 엔터티를 삽입(insert):
+    // Event 게시글 생성
     public Event create(EventCreateDto dto) {
         log.info("created(dto={})", dto);
         
@@ -46,13 +60,7 @@ public class EventService {
         
     }
     
-    @Transactional(readOnly = true)
-    public Event read(Long id) {
-        log.info("read(id={})", id);
-        
-        return eventRepository.findById(id).orElseThrow();
-    }
-    
+    // Event 게시글 삭제
     public void delete(Long id) {
         log.info("delete(id={})", id);
         
@@ -60,6 +68,7 @@ public class EventService {
         
     }
     
+    // Event 게시글 수정
     @Transactional
     public void update(EventUpdateDto dto) {
         log.info("update=(dto={})", dto);
@@ -73,22 +82,22 @@ public class EventService {
     }
     
     @Transactional(readOnly = true)
-    public List<Event> search(EventSearchDto dto) {
+    public Page<Event> search(EventSearchDto dto, Pageable pageable) {
         log.info("search(dto={})", dto);
         
-        List<Event> list = null;
+        Page<Event> list = null;
         switch (dto.getType()) {
         case "t":
-            list = eventRepository.findByTitleContainsIgnoreCaseOrderByIdDesc(dto.getKeyword());
+            list = eventRepository.findByTitleContainsIgnoreCaseOrderByIdDesc(dto.getKeyword(), pageable);
             break;
         case "c":
-            list = eventRepository.findByContentContainsIgnoreCaseOrderByIdDesc(dto.getKeyword());
+            list = eventRepository.findByContentContainsIgnoreCaseOrderByIdDesc(dto.getKeyword(), pageable);
             break;
         case "tc":
-            list = eventRepository.searchByKeyword(dto.getKeyword());
+            list = eventRepository.searchByKeyword(dto.getKeyword(), pageable);
             break;
         case "a":
-            list = eventRepository.findByAuthorContainsIgnoreCaseOrderByIdDesc(dto.getKeyword());
+            list = eventRepository.findByAuthorContainsIgnoreCaseOrderByIdDesc(dto.getKeyword(), pageable);
             break;
         }
         
