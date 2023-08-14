@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.forest.dto.chat.ChatMessageDto;
-import com.example.forest.model.ChatMessage;
-import com.example.forest.model.ChatRoom;
+import com.example.forest.dto.chat.ChatRoomDto;
 import com.example.forest.service.ChatService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +24,11 @@ public class ChatRoomApiController {
 	
 	private final ChatService chatService;
 	
+	/**
+	 * 특정 채팅방의 메시지들을 넘겨줌
+	 * @param roomId
+	 * @return
+	 */
 	@GetMapping("/messages/{roomId}")
 	public ResponseEntity<List<ChatMessageDto>> getMessages(@PathVariable("roomId") long roomId) {
 		log.info("getMessages(id = {})", roomId);
@@ -34,11 +38,16 @@ public class ChatRoomApiController {
 		return ResponseEntity.ok(list);
 	}
 	
+	/**
+	 * 검색된 채팅방 목록을 전달함
+	 * @param keyword
+	 * @return
+	 */
 	@GetMapping("/getList")
-	public ResponseEntity<List<ChatRoom>> getRoomsByKeyword(@RequestParam String keyword) {
+	public ResponseEntity<List<ChatRoomDto>> getRoomsByKeyword(@RequestParam String keyword) {
 		log.info("getRoomsByKeyword(keyword = {})", keyword);
 		
-		List<ChatRoom> list = chatService.findAllRoomsByKeyword(keyword);
+		List<ChatRoomDto> list = chatService.findAllRoomsByKeyword(keyword);
 		
 		return ResponseEntity.ok(list);
 	}

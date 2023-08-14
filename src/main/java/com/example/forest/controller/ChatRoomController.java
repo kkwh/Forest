@@ -30,24 +30,27 @@ public class ChatRoomController {
 	private final UserService userService;
 	private final ChatService chatService;
 	
+	/**
+	 * 오픈 채팅 목록을 불러옴
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/list")
 	public String getList(Model model) {
 		log.info("getList()");
 		
-		List<ChatRoom> list = chatService.findAllRooms();
+		List<ChatRoomDto> list = chatService.findAllRooms();
 		model.addAttribute("rooms", list);
 		
 		return "chat/list";
 	}
 	
-	@GetMapping("/room/create")
-	@PreAuthorize("isAuthenticated()")
-	public String createRoom() {
-		log.info("createRoom()");
-		
-		return "chat/create";
-	}
-	
+	/**
+	 * 새로운 오픈 채팅방을 개설함
+	 * @param name
+	 * @param principal
+	 * @return
+	 */
 	@PostMapping("/room/create")
 	public String create(@RequestParam("name") String name, Principal principal) {
 		log.info("create(name = {})", name);
@@ -62,6 +65,13 @@ public class ChatRoomController {
 		return "redirect:/chat/list";
 	}
 	
+	/**
+	 * 특정 오픈 채팅방을 불러옴
+	 * @param id
+	 * @param principal
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/room/{id}")
 	@PreAuthorize("isAuthenticated()")
 	public String room(@PathVariable("id") long id, Principal principal, Model model) {

@@ -39,7 +39,7 @@ public class StompChatController {
     }
     
     @MessageMapping("/sub/chat/room/{roomId}")
-    @SendTo("/topic/chat/room/{roomId}")
+    @SendTo("/pub/chat/room/{roomId}")
     public List<ChatMessage> handleMessages(List<ChatMessage> messages) {	
         return messages;
     }

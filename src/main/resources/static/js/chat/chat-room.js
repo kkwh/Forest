@@ -41,13 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
 		let htmlStr = '';
 		
 		for(let room of data) {
-			const formattedTime = formatDateTime(room.createdTime);
+			const formattedTime = formatDateTime(room.modifiedTime);
 			
 			htmlStr += `
 				<tr>
 					<th scope="row">${room.id}</th>
 					<td><a href="/chat/room/${room.id}">${room.name}</a></td>
-					<td>Otto</td>
+					<td>${room.creator.nickname}</td>
 					<td>${formattedTime}</td>
 				</tr>
 			`;
