@@ -43,8 +43,8 @@
                 </li>
                 <!-- 페이지 번호들 -->
                 <li th:each="page : ${#numbers.sequence(startPage, endPage)}" class="page-item">
-                    <a th:if="${page == nowPage}" class="page-link active" th:text="${page}" style="white: black; background-color: #b53409;"></a>
-                    <a th:if="${page != nowPage}" th:href="@{/event(page=${page - 1})}" class="page-link" th:text="${page}" style="background-color: #7bed55; color: navy;"></a>
+                    <a th:if="${page == nowPage}" class="page-link active" th:text="${page}" style= "color: white; background-color: #b53409;"></a>
+                    <a th:if="${page != nowPage}" th:href="@{/event(page=${page - 1})}" class="page-link" th:text="${page}" style="color: red;"></a>
                 </li>
                 <!-- 다음 페이지 -->
                 <li th:if="${endPage < event.totalPages}" class="page-item">
