@@ -33,7 +33,7 @@ public class Event extends BaseTimeEntity {
     @Column(nullable = false) // Not Null 제약조건
     private String title;
     
-    @Column(nullable = false)
+    @Column
     private String content;
     
     @Column
