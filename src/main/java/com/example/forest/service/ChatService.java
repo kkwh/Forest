@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.forest.dto.chat.ChatMessageCreateDto;
 import com.example.forest.dto.chat.ChatMessageDto;
+import com.example.forest.dto.chat.ChatRoomDto;
 import com.example.forest.model.ChatMessage;
 import com.example.forest.model.ChatRoom;
 import com.example.forest.model.User;
@@ -29,20 +30,25 @@ public class ChatService {
 	 * 모든 채팅방을 리스트로 불러오는 메서드
 	 * @return
 	 */
-	public List<ChatRoom> findAllRooms() {
+	public List<ChatRoomDto> findAllRooms() {
 		log.info("findAllRooms()");
 		
 		return roomRepository.findAllRooms();
 	}
 	
-	public List<ChatRoom> findAllRoomsByKeyword(String keyword) {
+	/**
+	 * 검색된 키워드가 포함된 채팅방을 불러오는 메서드
+	 * @param keyword
+	 * @return
+	 */
+	public List<ChatRoomDto> findAllRoomsByKeyword(String keyword) {
 		log.info("findAllRooms()");
 		
 		return roomRepository.findAllRoomsByKeyword(keyword);
 	}
 	
 	/**
-	 * 채팅방을 불러오는 메서드
+	 * 특정 채팅방을 불러오는 메서드
 	 * @param id
 	 * @return
 	 */
