@@ -123,6 +123,11 @@ public class PostController {
         List<BoardDetailDto> recentLandBoards = recentLands.stream().map(boardService::findById).collect(Collectors.toList());
         model.addAttribute("recentLands", recentLandBoards);
         
+        // 인기 순위 표시
+        long rank = postService.findRankByLandId(dto.getId(), "Sub");
+        log.info("rank: {}", rank);
+        model.addAttribute("rank", rank);
+        
         return "/post/read-popular";
     }
     
@@ -184,6 +189,11 @@ public class PostController {
         
         List<BoardDetailDto> recentLandBoards = recentLands.stream().map(boardService::findById).collect(Collectors.toList());
         model.addAttribute("recentLands", recentLandBoards);
+        
+        // 인기 순위 표시
+        long rank = postService.findRankByLandId(dto.getId(), "Sub");
+        log.info("rank: {}", rank);
+        model.addAttribute("rank", rank);
         
         return "/post/read-notice";
     }
@@ -436,6 +446,11 @@ public class PostController {
             User user = userService.findUserById(userId);
             model.addAttribute("user", user);
         }
+        
+        // 인기 순위 표시
+        long rank = postService.findRankByLandId(dto.getId(), "Sub");
+        log.info("rank: {}", rank);
+        model.addAttribute("rank", rank);
         
         return "/board/read";
     }

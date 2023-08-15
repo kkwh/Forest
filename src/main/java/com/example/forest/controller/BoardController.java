@@ -166,7 +166,12 @@ public class BoardController {
         
         List<BoardDetailDto> recentLandBoards = recentLands.stream().map(boardService::findById).collect(Collectors.toList());
         model.addAttribute("recentLands", recentLandBoards);
-		
+        
+        // 인기 순위 표시
+        long rank = postService.findRankByLandId(dto.getId(), "Sub");
+        log.info("rank: {}", rank);
+        model.addAttribute("rank", rank);
+
 		return "board/read";
 	}
 	

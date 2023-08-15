@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.forest.dto.board.BoardRankDto;
 import com.example.forest.dto.post.PostCreateDto;
 import com.example.forest.dto.post.PostSearchDto;
 import com.example.forest.dto.post.PostUpdateDto;
@@ -32,14 +33,21 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     
-    // DB POSTS 테이블에서 전체 검색한 결과를 리턴:
+    /**
+	 * 랜드에 게시되어 있는 글들을 최신순(내림차순)으로 보여주는 메서드 
+	 * @return 
+	 */
     @Transactional(readOnly = true)
     public List<Post> read() {
               
         return postRepository.findByOrderByIdDesc();
     }
     
-    // DB POSTS 테이블에 엔터티를 삽입(insert):
+    /**
+	 * DB POSTS 테이블에 엔터티를 insert. 게시글을 작성하는 메서드
+	 * @param dto
+	 * @return
+	 */
     public Post create(PostCreateDto dto) {
         log.info("create(dto={})", dto);
         
@@ -64,6 +72,11 @@ public class PostService {
         return entity;
     }
     
+    /**
+	 * 해당 id의 게시글을 상세 조회하는 메서드
+	 * @param id
+	 * @return
+	 */
     @Transactional(readOnly = true)
     public Post read(Long id) {
         log.info("read(id={})", id);
@@ -71,7 +84,10 @@ public class PostService {
         return postRepository.findById(id).orElseThrow();
     }
     
-    // DB POSTS 테이블에 엔터티 업데이트:    
+    /**
+	 * 게시글을 수정(업데이트)하는 메서드
+	 * @param dto
+	 */
     @Transactional // (readOnly = true )
     public void update(PostUpdateDto dto) {
         log.info("update(dto={})", dto);
@@ -82,7 +98,10 @@ public class PostService {
 
     }
     
-    // DB POSTS 삭제 기능
+    /**
+	 * 게시글을 삭제하는 메서드
+	 * @param id
+	 */
     public void delete(Long id) {
         log.info("delete(id={})", id);
         
@@ -90,6 +109,12 @@ public class PostService {
         
     }
     
+    /**
+	 * 넘겨받은 검색타입과 키워드로 게시글을 검색하는 메서드 
+	 * @param dto 
+	 * @param pageable
+	 * @return
+	 */
     @Transactional(readOnly = true)
     public Page<PostWithLikesCount> search(PostSearchDto dto, Pageable pageable) {
         log.info("search(dto={})", dto);
@@ -114,7 +139,11 @@ public class PostService {
         return list;
     }
     
-    // 조회수
+    /**
+	 * 게시글 조회수의 증가를 반영하여 보여주는 메서드
+	 * @param postId
+	 * @return
+	 */
     public int increaseViewCount(Long postId) {
     	log.info("increaseViewCount(postId={})", postId);
     	
@@ -125,33 +154,69 @@ public class PostService {
         return post.getPostViews();
     }
     
-    // POST + 좋아요 수
+    /**
+	 * 게시판에서 전체 게시글들을 보여주는 메서드 (POST + 좋아요 수)
+	 * @param boardId
+	 * @param pageable
+	 * @return
+	 */
     @Transactional(readOnly = true)
     public Page<PostWithLikesCount> findAllPostsWithLikesCount(Long boardId, Pageable pageable) {              
         return postRepository.findAllPostsWithLikesCount(boardId, pageable);
     }
     
-    // 인기글 조회 (좋아요와 싫어요의 차이가 5 이상인 게시물)
+    /**
+	 * 게시판에서 인기 게시글들을 보여주는 메서드 (좋아요와 싫어요의 차이가 5 이상인 게시물)
+	 * @param boardId
+	 * @param pageable
+	 * @return
+	 */
     public Page<PostWithLikesCount2> findPostsByLikesDifference(Long boardId, Pageable pageable) {
         return postRepository.findAllPostsWithLikesDifference(boardId, pageable);
     }
     
-    // 공지글(NOTICE) 조회
+    /**
+	 * 게시판에서 공지 게시글들을 보여주는 메서드
+	 * @param boardId
+	 * @param pageable
+	 * @return
+	 */
     @Transactional(readOnly = true)
     public Page<PostWithLikesCount> findAllPostsWithLikesCountWhenNotice(Long boardId, Pageable pageable) {              
         return postRepository.findAllPostsWithLikesCountWhenNotice(boardId, pageable);
     }
     
-    // 일반글 조회
+    /**
+	 * 게시판에서 말머리가 일반인 게시글을 보여주는 메서드
+	 * @param boardId
+	 * @param pageable
+	 * @return
+	 */
     @Transactional(readOnly = true)
     public Page<PostWithLikesCount> findAllPostsWithLikesCountWhenNormal(Long boardId, Pageable pageable) {              
         return postRepository.findAllPostsWithLikesCountWhenNormal(boardId, pageable);
     }
     
-    // 게시글 말머리 별 필터 조회
+    /**
+	 * 게시판에서 말머리 키워드를 넘겨받아서 해당 키워드의 게시글들을 보여주는 메서드
+	 * @param boardId
+	 * @param postType
+	 * @param pageable
+	 * @return
+	 */
     @Transactional(readOnly = true)
     public Page<PostWithLikesCount> findAllPostsWithLikesCountByType(Long boardId, String postType, Pageable pageable) {
         return postRepository.findAllPostsWithLikesCountByType(boardId, postType, pageable);
+    }
+    
+    public Long findRankByLandId(Long landId, String grade) {
+        List<BoardRankDto> ranks = boardRepository.findTop10Boards(grade);
+        for (BoardRankDto rank : ranks) {
+            if (rank.getId().equals(landId) && rank.getBoardRank() <= 10) {
+                return rank.getBoardRank();
+            }
+        }
+        return -1L; // 랭킹이 10위 밖이거나 해당 랜드가 없는 경우
     }
     
     public Long findBoardIdByPostId(Long postId) {
