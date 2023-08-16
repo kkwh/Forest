@@ -167,10 +167,10 @@ public class BoardController {
         List<BoardDetailDto> recentLandBoards = recentLands.stream().map(boardService::findById).collect(Collectors.toList());
         model.addAttribute("recentLands", recentLandBoards);
         
-     // 인기 순위 표시
+        // 인기 순위 표시
         String grade = "Sub"; // 기본값으로 서브랜드 설정
+        log.info("boardGrade: {}", dto.getBoardGrade());
         if ("Main".equalsIgnoreCase(dto.getBoardGrade())) {
-            log.info("boardGrade: {}", dto.getBoardGrade());
             grade = "Main"; // 사용자가 메인랜드를 선택한 경우
         }
         

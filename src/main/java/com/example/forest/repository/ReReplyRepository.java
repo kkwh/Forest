@@ -48,6 +48,7 @@ public interface ReReplyRepository extends JpaRepository<ReReply, Long> {
             + " where r.id = :id "
             + " and r.replyPassword2 = :replyPassword")
     ReReply findByIdAndReReplyPassword(@Param("id") Long id, @Param("replyPassword") String replyPassword);
+
     
     
 }

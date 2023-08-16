@@ -1,5 +1,6 @@
 package com.example.forest.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -15,9 +16,12 @@ import com.example.forest.dto.post.PostWithLikesCount;
 import com.example.forest.dto.post.PostWithLikesCount2;
 import com.example.forest.model.Board;
 import com.example.forest.model.Post;
+import com.example.forest.model.Reply;
 import com.example.forest.model.User;
 import com.example.forest.repository.BoardRepository;
 import com.example.forest.repository.PostRepository;
+import com.example.forest.repository.ReReplyRepository;
+import com.example.forest.repository.ReplyRepository;
 import com.example.forest.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -32,6 +36,8 @@ public class PostService {
 	private final BoardRepository boardRepository;
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final ReplyRepository replyRepository;
+    private final ReReplyRepository reReplyRepository;
     
     /**
 	 * 랜드에 게시되어 있는 글들을 최신순(내림차순)으로 보여주는 메서드 
@@ -102,10 +108,29 @@ public class PostService {
 	 * 게시글을 삭제하는 메서드
 	 * @param id
 	 */
-    public void delete(Long id) {
-        log.info("delete(id={})", id);
+    public void delete(Long postId, Long userId ) {
+        log.info("delete(postId={}, userId={})", postId, userId);
         
-        postRepository.deleteById(id);
+        Post post = postRepository.findById(postId).orElseThrow();
+        log.info("post = {}", post);
+        
+        List<Reply> replies = new ArrayList<>();
+        
+        List<Reply> reps = boardRepository.findAllRepliesByPost(post);
+        for(Reply r : reps) {
+            replies.add(r);
+        }
+        
+        
+        // 게시물에 작성된 대댓글 삭제
+        for(Reply reply : replies) {
+            reReplyRepository.deleteByReply(reply);
+        }
+        
+        // 게시물에 작성된 댓글 삭제
+        replyRepository.deleteByPost(post);
+                       
+        postRepository.deleteById(postId);
         
     }
     

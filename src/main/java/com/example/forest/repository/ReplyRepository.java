@@ -62,6 +62,7 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
             + " and r.userId = :userId "
             + " order by r.id desc") 
     List<UserReplyDto> findAllRepliesByUserId(@Param("userId") long userId);
+    
    
  
 

@@ -85,9 +85,17 @@
 	      <div class="minor_ranking_box">
 	           <div id="login_box" class="login_box login_box2">
 	              <div class="user_info newarea">
-	                    <strong>인기 랜드 순위</strong>
+                    <th:block th:if="${board.boardGrade} eq 'Main'">
+	                    <strong>인기 메인 랜드 순위</strong>
 	                    <div th:if="${rank} >= 0" style="font-weight: bold; font-size: 24px;" th:text="${rank} + '위'"></div>
           				<div th:if="${rank} == -1" style="font-weight: bold; font-size: 24px;">순위 밖</div>
+                    </th:block>
+                    
+                    <th:block th:if="${board.boardGrade} eq 'Sub'">
+                        <strong>인기 서브 랜드 순위</strong>
+                        <div th:if="${rank} >= 0" style="font-weight: bold; font-size: 24px;" th:text="${rank} + '위'"></div>
+                        <div th:if="${rank} == -1" style="font-weight: bold; font-size: 24px;">순위 밖</div>
+                    </th:block>
 	              </div>
 	          </div>
 	      </div>
