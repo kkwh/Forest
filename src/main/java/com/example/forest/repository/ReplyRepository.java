@@ -9,8 +9,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.forest.dto.user.UserReplyDto;
 import com.example.forest.model.Post;
 import com.example.forest.model.Reply;
+import com.example.forest.model.User;
 
 public interface ReplyRepository extends JpaRepository<Reply, Long> {
 
@@ -39,6 +41,28 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
     @Transactional
 	@Modifying
     void deleteByPost(@Param("post") Post post);
+
+    /**
+    SELECT r.id AS id,reply_text, p.id AS id, board_id
+    FROM replies r 
+    JOIN posts p ON r.post_id = p.id
+    where r.user_id = 23;
+    **/
+    /**
+    @Transactional
+    @Query(" select r.id As id, reply.text, p.id As id, board.id from Reply r Join Post p ON r.post.id = p.id "
+            + " where r.user.id = :userId ")
+    List<Reply> findAllByUserIdOrderByIdDesc(@Param("userId") long userId);
+    **/
     
+    @Query("select new com.example.forest.dto.user.UserReplyDto(r.id as id, r.replyText, p.id as postId, b.id as boardId, r.createdTime) "
+            + " from Reply r, Post p, Board b "
+            + " where r.post = p "
+            + " and p.board = b "
+            + " and r.userId = :userId "
+            + " order by r.id desc") 
+    List<UserReplyDto> findAllRepliesByUserId(@Param("userId") long userId);
+   
+ 
 
 }

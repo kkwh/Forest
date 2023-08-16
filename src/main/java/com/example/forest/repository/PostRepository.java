@@ -14,6 +14,7 @@ import com.example.forest.dto.post.PostWithLikesCount;
 import com.example.forest.dto.post.PostWithLikesCount2;
 import com.example.forest.model.Board;
 import com.example.forest.model.Post;
+import com.example.forest.model.User;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
@@ -205,5 +206,15 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Transactional
 	@Modifying
     void deleteByBoard(@Param("board") Board board);
+
+    /**
+     * 김선아
+     * gallog 게시물 리스트
+     */
+    @Transactional
+    @Query("select p from Post p "
+            + " where p.user = :user "
+            + " order by p.id desc")
+    List<Post> findAllPostByUserOrderByIdDesc(@Param("user") User user);
     
 }

@@ -52,6 +52,9 @@
 								<li sec:authorize="isAuthenticated()"><a href="/board/list">내 게시판 목록</a></li>
 								<li sec:authorize="isAuthenticated()"><a href="/user/logout">로그아웃</a></li>
                                                                 <li sec:authorize="isAuthenticated()"><a href="/user/myinfopage"><span th:text="${#authentication.principal.nickname}"></span>></a></li>
+                                                                <li sec:authorize="isAuthenticated()">
+                                                                    <span><a th:href="@{'/user/gallogmain?loginId=' + ${#authentication.principal.username}}">My Gallog></a></span>
+                                                                </li>
 							</ul>  
 
    

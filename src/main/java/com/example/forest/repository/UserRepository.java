@@ -1,6 +1,6 @@
 package com.example.forest.repository;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -9,9 +9,11 @@ import org.springframework.data.repository.query.Param;
 import com.example.forest.model.Post;
 import com.example.forest.model.User;
 
+
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    //로그인할떄 찾기
+    List<Post> findByOrderByIdDesc();
+    //로그인할떄 찾기 
     User findByLoginId(@Param("loginId") String loginId);
 
     //유저 아이디 create
@@ -39,12 +41,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     
     
     
-    
+  
 
-    
-
-   
-
+ 
 
    
     

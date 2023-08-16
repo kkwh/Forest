@@ -6,12 +6,13 @@
 
 <div layout:fragment="main" class="mt-5 p-3">
 
-    <div class="card" style="width: 18rem; margin: 0 auto;">
+    <div class="card" style="width: 30rem; margin: 0 auto;">
         <img src="/img/user_img/레투다.png" class="card-img-top" alt="...">
         <div class="card-body">
             <h5 class="card-title">내 정보</h5>
             <p class="card-text"></p>
         </div>
+
         <ul class="list-group list-group-flush">
             <li class="list-group-item"
                 sec:authorize="isAuthenticated()"><p>
@@ -28,14 +29,19 @@
                     닉네임 : <span
                         th:text="${#authentication.principal.nickname}"></span>
                 </p></li>
+
         </ul>
+
         <div class="card-body">
-            <a href="#" class="card-link">Card link</a> <a href="#"
-                class="card-link">Another link</a>
+            <a href="/user/updateinfo" class="card-link">내 정보 수정</a>
+            <a href="#" class="card-link">탈퇴하기</a>
         </div>
     </div>
 
-</div><!-- 레이아웃 끝입니다. 넘어가지 마세요. -->
+
+
+</div>
+<!-- 레이아웃 끝입니다. 넘어가지 마세요. -->
 
 <th:block layout:fragment="myscripts">
     <script

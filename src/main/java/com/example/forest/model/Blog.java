@@ -37,4 +37,6 @@ public class Blog extends BaseTimeEntity {
 	// 본인 작성 댓글 공개 여부
 	private boolean replyPrivate;
 
+    
+
 }
