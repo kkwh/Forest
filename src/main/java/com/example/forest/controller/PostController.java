@@ -124,7 +124,13 @@ public class PostController {
         model.addAttribute("recentLands", recentLandBoards);
         
         // 인기 순위 표시
-        long rank = postService.findRankByLandId(dto.getId(), "Sub");
+        String grade = "Sub"; // 기본값으로 서브랜드 설정
+        if ("Main".equalsIgnoreCase(dto.getBoardGrade())) {
+            log.info("boardGrade: {}", dto.getBoardGrade());
+            grade = "Main"; // 사용자가 메인랜드를 선택한 경우
+        }
+        
+        long rank = postService.findRankByLandId(dto.getId(), grade);
         log.info("rank: {}", rank);
         model.addAttribute("rank", rank);
         
@@ -191,7 +197,13 @@ public class PostController {
         model.addAttribute("recentLands", recentLandBoards);
         
         // 인기 순위 표시
-        long rank = postService.findRankByLandId(dto.getId(), "Sub");
+        String grade = "Sub"; // 기본값으로 서브랜드 설정
+        if ("Main".equalsIgnoreCase(dto.getBoardGrade())) {
+            log.info("boardGrade: {}", dto.getBoardGrade());
+            grade = "Main"; // 사용자가 메인랜드를 선택한 경우
+        }
+        
+        long rank = postService.findRankByLandId(dto.getId(), grade);
         log.info("rank: {}", rank);
         model.addAttribute("rank", rank);
         
@@ -448,7 +460,13 @@ public class PostController {
         }
         
         // 인기 순위 표시
-        long rank = postService.findRankByLandId(dto.getId(), "Sub");
+        String grade = "Sub"; // 기본값으로 서브랜드 설정
+        if ("Main".equalsIgnoreCase(dto.getBoardGrade())) {
+            log.info("boardGrade: {}", dto.getBoardGrade());
+            grade = "Main"; // 사용자가 메인랜드를 선택한 경우
+        }
+        
+        long rank = postService.findRankByLandId(dto.getId(), grade);
         log.info("rank: {}", rank);
         model.addAttribute("rank", rank);
         
