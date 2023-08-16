@@ -11,9 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.forest.model.Post;
 import com.example.forest.model.User;
 
+
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    //로그인할떄 찾기
+    List<Post> findByOrderByIdDesc();
+    //로그인할떄 찾기 
     User findByLoginId(@Param("loginId") String loginId);
 
     //유저 아이디 create
@@ -43,18 +45,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     		+ " where lower(u.nickname) LIKE lower('%' || :keyword || '%') "
     		+ " order by u.nickname")
     List<User> findAllOrderByNicknameDesc(@Param("keyword") String keyword);
-    
+
     @Transactional
     @Query("select u from User u "
     		+ " where lower(u.nickname) LIKE lower('%' || :keyword || '%')") 
     List<User> findAllByKeyword(@Param("keyword") String keyword);
-    
-
-    
-
-   
-
-
    
     
 }

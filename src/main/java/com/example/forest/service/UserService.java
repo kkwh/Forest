@@ -9,8 +9,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.forest.dto.gallog.GallogBoardListDto;
+import com.example.forest.dto.user.UserFindPasswordDto;
+import com.example.forest.dto.user.UserInfoUpdateDto;
+import com.example.forest.dto.user.UserReplyDto;
 import com.example.forest.dto.user.UserSignUpDto;
+import com.example.forest.model.Board;
+import com.example.forest.model.Post;
+import com.example.forest.model.Reply;
 import com.example.forest.model.User;
+import com.example.forest.repository.BoardRepository;
+import com.example.forest.repository.PostRepository;
+import com.example.forest.repository.ReplyRepository;
 import com.example.forest.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -24,6 +34,10 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     
     private final PasswordEncoder passwordEncoder;
+    
+    private final BoardRepository boardRepository;
+    private final ReplyRepository replyRepository;
+    private final PostRepository postRepository;
     
     public Long registerUser(UserSignUpDto dto) { //유저 회원가입
         log.info("registerUser(dto={})", dto);
@@ -129,5 +143,59 @@ public class UserService implements UserDetailsService {
     	return userRepository.findAllByKeyword(keyword);
     }
 
- 
+    @Transactional
+    public void update(UserInfoUpdateDto dto) {
+        log.info("update(dto={})", dto);
+        log.info("update서비스왔어요.");
+        
+        User entity = userRepository.findById(dto.getId()).orElseThrow();
+        
+        /* userRepository.updateNickname(dto.getNickname(), dto.getId()); */
+        
+//        User entity = userRepository.findById(dto.getId()).orElseThrow();
+        //entity.setNickname(dto.getNickname());
+       
+        entity.update(dto);
+        log.info("entity: {}", entity);
+        userRepository.saveAndFlush(entity);
+        log.info("유저 닉네임 업데이트 완료");
+    }
+
+    public void updatepw(UserFindPasswordDto dto) {
+        log.info("updatepw(dto={})",dto);
+        log.info("updatepw서비스 왔어요.");
+        
+        User entity = userRepository.findById(dto.getId()).orElseThrow();
+        
+        entity.updatepw(dto);
+        log.info("entity: {}", entity);
+        userRepository.saveAndFlush(entity);
+        log.info("유저 비밀번호 1234로 바꾸기 완료");
+        
+    }
+
+    @Transactional(readOnly = true)
+    public List<Board> findAllByUser(String name) {
+        
+        User entity = userRepository.findByLoginId(name);
+        List<Board> boards = boardRepository.findAllBoardsByUserOrderByIdDesc(entity);
+        
+        return boards;
+        
+       
+        
+    }
+    public List<Post> findAllByUserPost(Long uId) {
+        User entity = userRepository.findById(uId).orElseThrow();
+        List<Post> posts = postRepository.findAllPostByUserOrderByIdDesc(entity);
+        return posts;
+    }
+
+    public List<UserReplyDto> findAllByUserReply(long uId) {
+     //   User entity = userRepository.findById(uId).orElseThrow();
+        List<UserReplyDto> replies = replyRepository.findAllRepliesByUserId(uId);
+        return replies;
+    }
+
+   
 }
