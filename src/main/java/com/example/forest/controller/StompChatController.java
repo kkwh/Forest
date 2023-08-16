@@ -8,6 +8,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import com.example.forest.dto.chat.ChatMessageCreateDto;
+import com.example.forest.dto.chat.ChatMessageDto;
 import com.example.forest.model.ChatMessage;
 import com.example.forest.service.ChatService;
 
@@ -26,8 +27,11 @@ public class StompChatController {
 	@MessageMapping(value = "/chat/enter")
     public void enter(ChatMessageCreateDto message){
 		log.info("enter()");
+		
+		List<ChatMessageDto> list = chatService.getMessages(message.getRoomId());
+		
         message.setMessage(message.getLoginId() + "님이 채팅방에 참여하였습니다.");
-        template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+        template.convertAndSend("/sub/chat/room/" + message.getRoomId(), list);
     }
 
     @MessageMapping(value = "/chat/message")
@@ -35,13 +39,10 @@ public class StompChatController {
     	log.info("message(message = {})", message);
     	
     	chatService.create(message);
-        template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
-    }
-    
-    @MessageMapping("/sub/chat/room/{roomId}")
-    @SendTo("/pub/chat/room/{roomId}")
-    public List<ChatMessage> handleMessages(List<ChatMessage> messages) {	
-        return messages;
+    	
+		List<ChatMessageDto> list = chatService.getMessages(message.getRoomId());
+    	
+        template.convertAndSend("/sub/chat/room/" + message.getRoomId(), list);
     }
 
 }

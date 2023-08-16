@@ -16,7 +16,9 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("STOMP Connection");
 
         stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
-            loadChatMessages();
+			var content = JSON.parse(chat.body);
+			
+            loadChatMessages(content);
         });
 
         stomp.send('/pub/chat/enter', {}, JSON.stringify({roomId: roomId, loginId: loginId}));
@@ -56,14 +58,16 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
     
     // 채팅 메세지를 불러오기 위한 메서드
-    const loadChatMessages = async () => {
+    const loadChatMessages = (data) => {
+		/*
 		const url = `/api/v1/chat/messages/${roomId}`;
 		
 		const response = await axios.get(url);
 		console.log(response.data);
+		*/
 		
 		let htmlStr = '';
-		for(let chat of response.data) {	
+		for(let chat of data) {	
 			if(chat.sender.loginId == loginId) {
 				htmlStr += `
 					<div class="d-flex align-items-center alert alert-warning border border-dark">
@@ -109,5 +113,3 @@ document.addEventListener("DOMContentLoaded", function () {
     loadChatMessages();
     
 });
-
-
