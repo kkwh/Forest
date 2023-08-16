@@ -629,8 +629,8 @@ a {
 
 .user_info {
     padding: 0 18px;
-    height: 43px;
-    line-height: 44px;
+    height: auto; /* 높이 자동 */
+    line-height: 40px; /* 줄 높이 설정 */
     font-size: 14px;
     color: #188038;
 }
@@ -671,4 +671,55 @@ a {
     margin-right: 20px; /* 오른쪽 마진 추가 */
 }
 
+/* 최근 방문한 랜드 */
+.recent-lands {
+    display: flex;
+    align-items: center;
+    margin: 20px;
+}
+
+.recent-lands h3 {
+    flex: 0 0 auto; /* 최좌측의 글씨 너비를 자동으로 설정 */
+    margin-right: 10px; /* 글씨와 랜드 이름 사이의 간격 조정 */
+    margin-bottom: 0px; /* 글씨와 랜드 이름 사이의 간격 조정 */
+    font-size: 14px; /* 글씨 크기 설정 */
+}
+
+.land-names {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    justify-content: flex-start; /* 좌측에 뜨게 배치 */
+}
+
+.land-name {
+    flex: 0 0 auto; /* 랜드 이름이 동일한 공간을 차지하지 않도록 변경 */
+    text-align: left;
+    padding: 5px;
+    margin-right: 10px; /* 랜드 이름 사이의 간격 조정 */
+    font-size: 12px; /* 랜드 이름 글씨 크기 조정 */
+}
+
+.land-name a {
+    text-decoration: none;
+    color: #333;
+}
+
+/* 카테고리 별 말머리 스타일 코드 */
+.custom-link {
+    text-decoration: none;
+    font-size: 12px;
+    color: inherit; /* 기본 텍스트 색상과 동일하게 설정 */
+    border: none; /* 테두리 제거 */
+    background: none; /* 배경색 제거 */
+    padding: 0; /* 패딩 제거 */
+}
+
+.custom-link:hover {
+    text-decoration: underline; /* 마우스 오버 시 밑줄 표시 */
+}
+
+.active-link {
+    font-weight: bold; /* 선택된 링크를 볼드체로 표시 */
+}
 

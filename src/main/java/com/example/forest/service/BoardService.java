@@ -348,10 +348,10 @@ public class BoardService {
 	 * @param dto
 	 * @param loginId
 	 */
-	public void revokeAuthority(BoardRevokeDto dto, String loginId) {
+	public void revokeAuthority(BoardRevokeDto dto) {
 		log.info("revokeAuthority(dto = {})", dto);
 		
-		User entity = userRepository.findByLoginId(loginId);
+		User entity = userRepository.findById(dto.getUserToId()).orElseThrow();
 		log.info("entity = {}", entity);
 		
 		boardRepository.updateBoardOwner(entity, dto.getBoardId());
@@ -382,6 +382,17 @@ public class BoardService {
 		return blackListRepository.findAllUserNotInList(boardId, userId, Role.ADMIN);
 	}
 	
+	@Transactional(readOnly = true)
+	public List<User> getUserList(long boardId, long userId, String keyword) {
+		log.info("getUserList(boardId = {}, userId = {}, keyword = {})", boardId, userId, keyword);
+		
+		return blackListRepository.findAllUserNotInList(boardId, userId, Role.ADMIN, keyword);
+	}
+	
+	/**
+	 * 유저를 블랙리스트에 추가하는 메서드
+	 * @param dto
+	 */
 	public void addToList(BoardUserDto dto) {		
 		BlackList entity = null;
 		
@@ -401,6 +412,10 @@ public class BoardService {
 		blackListRepository.save(entity);
 	}
 	
+	/**
+	 * 유저를 블랙 리스트에서 제외하는 메서드
+	 * @param dto
+	 */
 	public void removeFromList(BoardUserDto dto) {
 		BlackList entity = blackListRepository.findByBoardIdAndUserId(dto.getBoardId(), dto.getUserId());
 		

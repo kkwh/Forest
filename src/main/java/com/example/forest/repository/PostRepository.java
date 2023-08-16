@@ -192,6 +192,19 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Page<PostWithLikesCount> findAllPostsWithLikesCountWhenEvent(@Param("boardId") Long boardId, Pageable pageable);
     
     
+    // 게시글 말머리 별 필터 조회
+    @Query("SELECT new com.example.forest.dto.post.PostWithLikesCount(p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, p.postIp, "
+            + " (SELECT COUNT(l.id) FROM Likes l where l.post = p and l.likeDislike = 1) as likesCount, "
+            + " (SELECT COUNT(r.id) FROM Reply r where r.post = p) as replyCount) "
+            + " FROM Post p LEFT JOIN Likes l "
+            + " ON p = l.post "
+            + " WHERE p.board.id = :boardId " // 해당 board.id
+            + " AND p.postType = :postType "
+            + " GROUP BY p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, p.postIp "
+            + " ORDER BY p.id desc")
+    Page<PostWithLikesCount> findAllPostsWithLikesCountByType(@Param("boardId") Long boardId, @Param("postType") String postType, Pageable pageable);
+    
+    
     
     // postId로 board.id를 구하기 위함
     @Query("SELECT p.board.id FROM Post p WHERE p.id = :postId")

@@ -26,6 +26,13 @@ public interface BlackListRepository extends JpaRepository<BlackList, Long> {
 			+ " and b.boardId = :boardId")
 	List<BlackListDto> findAllByBoardId(@Param("boardId") long boardId);
 	
+//	@Query("select new com.example.forest.dto.board.BlackListDto(b.id, b.boardId, b.userId, b.ipAddress, u.nickname as nickname) "
+//			+ " from BlackList b, User u "
+//			+ " where b.userId = u.id "
+//			+ " and b.boardId = :boardId "
+//			+ " and lower(u.nickname) LIKE lower('%' || :keyword || '%')")
+//	List<BlackListDto> findAllByBoardId(@Param("boardId") long boardId, @Param("keyword") String keyword);
+	
 	/**
 	 * 블랙 리스트에 포함되어 있지 않은 사용자 리스트를 불러옴
 	 * 관리자와 게시판 사용자 본인은 제외됨
@@ -41,6 +48,16 @@ public interface BlackListRepository extends JpaRepository<BlackList, Long> {
 			+ " and u.id != :userId"
 			+ " order by u.nickname")
 	List<User> findAllUserNotInList(@Param("boardId") long boardId, @Param("userId") long userId, @Param("role") Role role);
+	
+	@Query("select u "
+			+ " from User u "
+			+ " where u.id not in (select b.userId from BlackList b where b.boardId = :boardId) "
+			+ " and u.role != :role "
+			+ " and u.id != :userId "
+			+ " and lower(u.nickname) LIKE lower('%' || :keyword || '%')"
+			+ " order by u.nickname")
+	List<User> findAllUserNotInList(@Param("boardId") long boardId, @Param("userId") long userId, 
+			@Param("role") Role role, @Param("keyword") String keyword);
 	
 	/**
 	 * 해당 게시판에 특정 유저가 블랙 리스트에 등록 되어 있는지 확인

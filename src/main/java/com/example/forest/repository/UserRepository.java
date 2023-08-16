@@ -1,10 +1,12 @@
 package com.example.forest.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.forest.model.Post;
 import com.example.forest.model.User;
@@ -38,13 +40,16 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u where u.email = :email and u.loginId= :loginId")
     User findPwByIdEmail(@Param("email") String email,@Param("loginId")  String loginId);
 
-    
-    
-    
-  
+    @Transactional
+    @Query("select u from User u "
+    		+ " where lower(u.nickname) LIKE lower('%' || :keyword || '%') "
+    		+ " order by u.nickname")
+    List<User> findAllOrderByNicknameDesc(@Param("keyword") String keyword);
 
- 
-
+    @Transactional
+    @Query("select u from User u "
+    		+ " where lower(u.nickname) LIKE lower('%' || :keyword || '%')") 
+    List<User> findAllByKeyword(@Param("keyword") String keyword);
    
     
 }

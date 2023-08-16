@@ -80,6 +80,10 @@ public class UserService implements UserDetailsService {
 	public User findUserById(Long id) {
         return userRepository.findById(id).orElseThrow();
     }
+	
+	public User findUserByLoginId(String loginId) {
+        return userRepository.findByLoginId(loginId);
+    }
 
     public int validateLoginId(String loginId) {
         User user = userRepository.selectUserByLoginId(loginId);
@@ -123,6 +127,20 @@ public class UserService implements UserDetailsService {
             return 1; // 1이면 없음
         }
         return 0; //0이면 있음.
+    }
+    
+    @Transactional(readOnly = true)
+    public List<User> getUserList(String keyword) {
+    	log.info("getUserList()");
+    	
+    	return userRepository.findAllOrderByNicknameDesc(keyword);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<User> getUserListByKeyword(String keyword) {
+    	log.info("getUserListByKeyword(keyword = {})", keyword);
+    	
+    	return userRepository.findAllByKeyword(keyword);
     }
 
     @Transactional
