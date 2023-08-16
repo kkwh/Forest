@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"    
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/base_layout}">
+    
+    
+    <main layout:fragment="main" class="mt-5 p-3">
+        <div class="my-2 card">
+            <div class="card-header text-center">
+                <h1>이벤트 상세보기</h1>
+            </div>
+        </div>
+        <div class="card-body">
+            <form>
+                <div>
+                    <label class="form-label" for="id">번호</label>
+                    <input class="form-control" id="id" th:value="${event.id}" readonly />
+                </div>
+                <div>
+                    <label class="form-label" for="title">제목</label>
+                    <input class="form-control" id="title" th:value="${event.title}" readonly />
+                </div>
+                <div>
+                    <label class="form-label" for="content">내용</label>
+                    <div class="form-control" id="content" th:utext="${event.content}" readonly></div>
+                </div>
+                <div>
+                    <label class="form-label" for="createdTime">등록일</label>
+                    <input class="form-control" id="createdTime" th:value="${ #temporals.format(event.createdTime, 'yyyy-MM-dd HH:mm:ss') }" readonly />
+                </div>
+            </form>
+            <div th:if="${#authentication.name == 'admin' or #authentication.name == event.author}">            
+                <div>
+                    <a class="btn btn-outline-primary"
+                        th:href="@{/event/modify?id={id} (id = ${event.id}) }">수정하기</a>
+                </div>
+            </div>
+        
+        </div>
+    </main>
+    
+</html>

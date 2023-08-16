@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"    
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/base_layout}">
+
+<head>
+   <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+   <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">       
+</head>
+
+<main layout:fragment="main" class="mt-5 p-3">
+    <div class="my-2 card">
+        <div class="card-header text-center">
+            <h1>이벤트 작성 페이지</h1>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <div class="my-2">
+                   <label class="form-label" for="title">제목</label> 
+                    <input class="form-control" id="title"
+                        type="text" name="title" required autofocus/>
+                </div>
+                <div class="my-2">
+                   <label class="form-label" for="content">내용</label> 
+                   <textarea class="form-control" id="summernote" name="content" required></textarea>
+                </div>
+                <div class="my-2">
+                   <label class="form-label" for="author" th:value="${ #authentication.name }"
+                   id="author" th:text="${ #authentication.name }"></label> 
+                    <input id="author" type="hidden" name="author" th:value="${ #authentication.name }" required readonly/>
+                </div>
+                <div class="my-2">
+                   <input class="form-control btn btn-outline-secondary" type="submit" value="작성 완료"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+<th:block layout:fragment="myscripts">
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+        <script src="/js/post/create.js"></script>
+        <script>
+         // 메인화면 페이지 로드 함수
+            $(document).ready(function () {
+                $('#summernote').summernote({
+                    placeholder: '내용을 작성하세요',
+                    height: 400,
+                    maxHeight: 400
+                });
+                
+             // 서머노트에 text 쓰기
+                $('#summernote').summernote('insertText', '써머노트에 쓸 텍스트');
+
+
+                // 서머노트 쓰기 비활성화
+                $('#summernote').summernote('disable');
+
+                // 서머노트 쓰기 활성화
+                $('#summernote').summernote('enable');
+
+
+                // 서머노트 리셋
+                $('#summernote').summernote('reset');
+
+
+                // 마지막으로 한 행동 취소 ( 뒤로가기 )
+                $('#summernote').summernote('undo');
+                // 앞으로가기
+                $('#summernote').summernote('redo');
+                
+                $('.summernote').summernote({
+                    toolbar: [
+                          // [groupName, [list of button]]
+                          ['fontname', ['fontname']],
+                          ['fontsize', ['fontsize']],
+                          ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+                          ['color', ['forecolor','color']],
+                          ['table', ['table']],
+                          ['para', ['ul', 'ol', 'paragraph']],
+                          ['height', ['height']],
+                          ['insert',['picture','link','video']],
+                          ['view', ['fullscreen', 'help']]
+                        ],
+                      fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+                      fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
+                });
+            });
+        </script>
+
+
+</html>
