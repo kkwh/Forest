@@ -723,3 +723,29 @@ a {
     font-weight: bold; /* 선택된 링크를 볼드체로 표시 */
 }
 
+/* 아코디언 창 초기 상태 */
+.author {
+  position: relative;
+  cursor: pointer;
+}
+
+.author-accordion {
+  position: absolute;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  width: 100px;
+  left: 65px;
+}
+
+.author-accordion a {
+  color: black;
+  padding: 8px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.author-accordion a:hover {
+  background-color: #f1f1f1;
+}
+
+

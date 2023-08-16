@@ -256,9 +256,14 @@
 				            <td th:text="${post.postNickname} + '(' + ${ post.postIp } + ')'"></td>
                         </th:block>
                             
-                        <th:block th:if="${ board.user.nickname } == ${post.postNickname}"> 
-                            <td style="color: orange;" th:text="${post.postNickname}"></td>
-                        </th:block>
+                        <th:block th:if="${ board.user.nickname } == ${post.postNickname}">
+						    <td style="color: orange;" class="author">
+						        <span th:text="${post.postNickname}"></span>
+						        <div class="author-accordion" style="display:none;">
+						            <a href="https://www.example.com/garden">정원 가기</a>
+						        </div>
+						    </td>
+						</th:block>
 				            <td th:text="${ #temporals.format(post.createdTime, 'yyyy-MM-dd HH:mm:ss') }"></td>
 				            <td class="post-views" th:text="${post.postViews}"></td>
 				            <td th:text="${ post.likesCount }"></td>
