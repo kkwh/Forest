@@ -22,7 +22,7 @@
                 </div>
                 <div>
                     <label class="form-label" for="content">내용</label>
-                    <textarea class="form-control" id="content" th:text="${event.content}" readonly></textarea>
+                    <div class="form-control" id="content" th:utext="${event.content}" readonly></div>
                 </div>
                 <div>
                     <label class="form-label" for="createdTime">등록일</label>
