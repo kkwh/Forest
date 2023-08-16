@@ -1,8 +1,11 @@
 package com.example.forest.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,6 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.forest.dto.user.UserFindEmailDto;
+import com.example.forest.dto.user.UserFindPasswordDto;
+import com.example.forest.dto.user.UserInfoUpdateDto;
+import com.example.forest.dto.user.UserSignUpDto;
 import com.example.forest.dto.user.UserValidateDto;
 import com.example.forest.service.EmailService;
 import com.example.forest.service.UserService;
@@ -81,7 +87,7 @@ public class ValidationRestController {
 
     }
     
-    
+   
    
     //비밀번호 찾을 때 , 유저 DB에 아이디와 이메일이 둘 다 동일한 사람이 있는지 확인. 
     @PostMapping("/findPw")
@@ -93,17 +99,6 @@ public class ValidationRestController {
         return ResponseEntity.ok(result);
     }
     
-    
-    //비밀번호 찾을 때 이메일로 인증받기. 
-    @GetMapping("/findPwByEmail")
-    public ResponseEntity<String> findPwByEmail(@RequestParam("email") String email) throws Exception {
-
-        String findPwByEmail = emailService.sendSimpleMessage(email);
-
-        log.info("findPwByEmail = {}", findPwByEmail);
-
-        return ResponseEntity.ok(findPwByEmail);
-    }
     //임시 비밀번호로 바꾸기 (수정하기 기능)
     
     

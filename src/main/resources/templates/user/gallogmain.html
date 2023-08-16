@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+<meta charset="UTF-8">
+<title>gallog</title>
+</head>
+<body>
+       <h1>갤로그입니다.</h1>
+       <hr/>
+        <div>
+                <table>
+                <thead>
+                <tr>
+                    <th>내 랜드</th>
+                    
+                </tr>
+                </thead>
+                    <thead>
+                            <tr>
+                                <th>아이디</th>
+                                <th>카테고리</th>
+                                <th>랜드이름</th>
+                                <th>생성일자</th>
+                            </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="board : ${boards}">
+                                <td th:text="${board.id}" class="boardId"></td>
+                                <td th:text="${board.boardCategory}"></td>
+                                <td>
+                                    <a th:href="@{'/board/details/' + ${board.id}}" th:text="${board.boardName}" class="link-dark"></a>
+                                </td>
+                                <td class="createdDate" th:text="${board.createdTime}"></td>
+                        </tr>
+                    </tbody>  
+                </table>
+        </div>
+        <hr/>
+        <div>
+                <table>
+                        <thead>
+                                <tr>
+                                        <th>내 댓들</th>
+                                </tr>
+                        </thead>
+                        <thead>
+                                <tr>
+                                        <th>아이디</th>
+                                        <th>댓글</th>
+                                        <th>시간</th>
+                                </tr>
+                        </thead>
+             
+        
+
+                        
+                        <tbody>
+                                <tr th:each="reply : ${replies}">
+                                         <td th:text="${reply.id}" class="replyId"></td>
+                                    <!--http://localhost:8090/post/details?boardId=4&id=21    우현
+                                    http://localhost:8090/post/details?boardId=21&id=1    내꺼  --> 
+                                 <td><a th:href="@{'/post/details?boardId=' + ${reply.boardId} + '&id=' + ${reply.postId}}" th:text="${reply.replyText}" class="link-dark"></a></td>
+                                 <td th:text="${reply.createdTime}"></td>
+                                </tr>
+                        </tbody>
+                </table>
+        </div>
+        <hr/>
+        <div>
+                <table>
+                        <thead>
+                                <tr>
+                                        <th>내 포스트</th>
+                                </tr>
+                        </thead>
+                        <thead>
+                                <tr>
+                                        <th>아이디</th>
+                                        <th>랜드이름</th>
+                                        <th>포스트 제목</th>                                        
+                                        <th>시간</th>
+                                </tr>
+                        </thead>
+                        <tbody>
+                                <tr th:each="post : ${posts}">
+                                         <td th:text="${post.id}" class="postId"></td>
+                                         <td><a th:href="@{'/post/details?boardId=' + ${post.board.id} + '&id=' + ${post.id}}" th:text="${post.board.boardName}" class="link-dark"></a></td>
+                                         <td th:text="${post.postTitle}"></td>
+                                         <td class="createdDate" th:text="${post.createdTime}"></td>
+                                </tr>
+                        </tbody>
+                </table>
+        </div>
+</body>
+</html>

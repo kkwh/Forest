@@ -9,6 +9,7 @@ import lombok.Data;
 @Data
 public class UserSignUpDto {
 
+    private long id;
     private ImageFile imageId;
     private String loginId;
 

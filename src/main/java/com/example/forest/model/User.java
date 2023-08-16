@@ -7,6 +7,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.example.forest.dto.user.UserFindPasswordDto;
+import com.example.forest.dto.user.UserInfoUpdateDto;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,6 +23,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @AllArgsConstructor
@@ -98,5 +102,20 @@ public class User extends BaseTimeEntity implements UserDetails {
 	public String getUsername() {
 		return this.loginId;
 	}
+    public User update(UserInfoUpdateDto dto) {
+        this.id = dto.getId();
+        this.nickname = dto.getNickname();
+        
+        return this;
+      
+        
+    }
+    public void updatepw(UserFindPasswordDto dto) {
+       this.id = dto.getId(); 
+    }
+
+    
+    
+ 
 
 }
