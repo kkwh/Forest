@@ -103,5 +103,16 @@ public class EventService {
         
         return list;
     }
+    
+    // 이벤트 게시글 조회수를 보여주는 메서드
+//   public int viewEventCount(Long id) {
+//       log.info("viewEventCount(id={})", id);
+//       
+//       Event event = eventRepository.findById(id).orElseThrow();
+//       
+//       event.setEventViews(event.getEventViews()+1);
+//       eventRepository.save(event);
+//       return event.getEventViews();
+//   }
 
 }

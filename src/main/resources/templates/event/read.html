@@ -2,31 +2,53 @@
 <html xmlns:th="http://www.thymeleaf.org"    
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorate="~{layout/base_layout}">
+    
+    <head>
+        <link rel="stylesheet" th:href="@{/css/event/read.css}">
+    </head>
 
 <main layout:fragment="main" class="mt-5 p-3">
+  <div class="container">  
     <div class="my-2 card">
-        <div class="card-header text-center">
-            <h1>이벤트 목록 페이지</h1>
+        
+        <div class="page_head clear">
+            <div class = "fl clear">
+                <h2>
+                    <a href="/event"> 포레스트 이벤트</a>
+                </h2>
+            </div>
         </div>
-        <div class="card-body">
-            <table class="table table-hover">
+        
+        
+        <div class="gall_listwrap list">
+            <table class="table gall_list">
+                <colgroup>
+                        <col style="width:7%">
+                        <col>
+                        <col style="width:18%">
+                </colgroup>
+                
                 <thead>
                     <tr>
                         <th>번호</th>
                         <th>제목</th>
-                       <!-- <th>작성자</th> -->
+                        <!-- <th>내용</th> -->
                         <th>등록일</th>
                     </tr>
                 </thead>
+                
                 <tbody>
-                    <tr th:each="event : ${event}">
+                    <tr class="ub-content"  th:each="event : ${event}">
                         <td th:text="${event.id}"></td>
                         <td> 
-                            <a th:href="@{/event/details?id={id} (id = ${event.id}) }"  
-                                th:text="${event.title}">
-                            </a>
+                            <form th:action="@{/event/details}" th:method="get">
+                                <input type="hidden" name="id" th:value="${event.id}" />
+                                <button class="text-link view-post" type="submit">
+                                    <span th:text="${event.title}"></span>
+                                </button>
+                            </form>
                         </td>
-                        <!-- <td th:text="${event.author}"></td> -->
+                        <!--<td  th:utext= "${event.content}" style="width: 300px"></td>-->
                         <td th:text="${ #temporals.format(event.modifiedTime, 'yyyy-MM-dd:mm:ss') }"></td>
                     </tr>
                 </tbody>
@@ -92,6 +114,7 @@
         </div>
         
     </div>
+  </div>  
 </main>
 
  
