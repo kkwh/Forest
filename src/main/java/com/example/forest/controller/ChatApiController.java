@@ -3,6 +3,7 @@ package com.example.forest.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/chat")
-public class ChatRoomApiController {
+public class ChatApiController {
 	
 	private final ChatService chatService;
 	
@@ -50,6 +51,15 @@ public class ChatRoomApiController {
 		List<ChatRoomDto> list = chatService.findAllRoomsByKeyword(keyword);
 		
 		return ResponseEntity.ok(list);
+	}
+	
+	@DeleteMapping("/deleteMessage/{id}")
+	public ResponseEntity<String> deleteMessage(@PathVariable("id") long id) {
+		log.info("deleteMessage(id = {})", id);
+		
+		chatService.delete(id);
+		
+		return ResponseEntity.ok("Success");
 	}
 
 }

@@ -11,13 +11,13 @@ import com.example.forest.model.ChatRoom;
 
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
 	
-	@Query("select new com.example.forest.dto.chat.ChatRoomDto(cr.id, cr.name, u as creator, cr.modifiedTime) "
+	@Query("select new com.example.forest.dto.chat.ChatRoomDto(cr.id, cr.name, u as creator, to_char(cr.modifiedTime, 'yyyy-MM-dd hh:mi')) "
 			+ " from ChatRoom cr, User u "
 			+ " where cr.creatorId = u.id "
 			+ " order by cr.modifiedTime desc")
 	List<ChatRoomDto> findAllRooms();
 	
-	@Query("select new com.example.forest.dto.chat.ChatRoomDto(cr.id, cr.name, u as creator, cr.modifiedTime) "
+	@Query("select new com.example.forest.dto.chat.ChatRoomDto(cr.id, cr.name, u as creator, to_char(cr.modifiedTime, 'yyyy-MM-dd hh:mi')) "
 			+ " from ChatRoom cr, User u "
 			+ " where cr.creatorId = u.id "
 			+ " and lower(cr.name) LIKE lower('%' || :keyword || '%') "
