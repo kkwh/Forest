@@ -32,23 +32,16 @@ document.addEventListener('DOMContentLoaded', () => {
 		createChatList(response.data);
 	};
 	
-	function formatDateTime(dateTimeString) {
-	    const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
-	    return new Date(dateTimeString).toLocaleDateString('ko-KR', options);
-	}
-	
 	const createChatList = (data) => {
 		let htmlStr = '';
 		
 		for(let room of data) {
-			const formattedTime = formatDateTime(room.modifiedTime);
-			
 			htmlStr += `
 				<tr>
 					<th scope="row">${room.id}</th>
 					<td><a href="/chat/room/${room.id}">${room.name}</a></td>
 					<td>${room.creator.nickname}</td>
-					<td>${formattedTime}</td>
+					<td>${room.modifiedTime}</td>
 				</tr>
 			`;
 		}

@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/chat")
-public class ChatRoomController {
+public class ChatController {
 	
 	private final UserService userService;
 	private final ChatService chatService;

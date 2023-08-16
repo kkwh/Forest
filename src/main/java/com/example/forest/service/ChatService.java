@@ -108,4 +108,14 @@ public class ChatService {
 		return messageRepository.getAllByRoomId(roomId);
 	}
 
+	/**
+	 * 작성된 메세지를 삭제하는 메서드
+	 * @param id
+	 */
+	public void delete(long id) {
+		log.info("delete(id = {})", id);
+		
+		messageRepository.deleteById(id);
+	}
+
 }

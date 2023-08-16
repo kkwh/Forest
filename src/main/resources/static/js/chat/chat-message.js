@@ -34,11 +34,26 @@ document.addEventListener("DOMContentLoaded", function () {
     const sendBtn = document.querySelector('button#btnSend');
     sendBtn.addEventListener('click', sendMessage);
     
-    // 날짜 데이터 formatting
-    const formatDateTime = (dateTimeString) => {
-	    const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
-	    return new Date(dateTimeString).toLocaleDateString('ko-KR', options);
-	}
+    const deleteMessage = (e) => {
+		const id = e.target.getAttribute('data-id');
+		
+		const result = confirm('작성된 메세지를 삭제할까요?');
+		if(!result) {
+			return false;
+		}
+		
+		const url = `/api/v1/chat/deleteMessage/${id}`;
+		
+		axios.delete(url)
+			.then((response) => {
+				console.log(response.data);
+				
+				loadChatMessages();
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
     
     // 채팅 메세지를 불러오기 위한 메서드
     const loadChatMessages = async () => {
@@ -48,9 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		console.log(response.data);
 		
 		let htmlStr = '';
-		for(let chat of response.data) {
-			const formattedTime = formatDateTime(chat.createdTime);
-			
+		for(let chat of response.data) {	
 			if(chat.sender.loginId == loginId) {
 				htmlStr += `
 					<div class="d-flex align-items-center alert alert-warning border border-dark">
@@ -60,7 +73,8 @@ document.addEventListener("DOMContentLoaded", function () {
 					  <div class="flex-grow-1 ms-3">
 					  	<div><h5>${chat.sender.nickname}</h5></div>
 					  	<div class="chat-content" style="word-break: break-word;"><p>${chat.content}</p></div>
-					  	<div><p>${formattedTime}</p></div>					    
+					  	<div><p>${chat.createdTime}</p></div>
+					  	<div><a class="link-dark deleteBtn" data-id="${chat.id}" type="button">삭제</a></div>			    
 					  </div>
 					</div>
 				`;
@@ -73,11 +87,16 @@ document.addEventListener("DOMContentLoaded", function () {
 					  <div class="flex-grow-1 ms-3">
 					  	<div><h5>${chat.sender.nickname}</h5></div>
 					  	<div class="chat-content" style="word-break: break-word;"><p>${chat.content}</p></div>
-					  	<div><p>${formattedTime}</p></div>					    
+					  	<div><p>${chat.createdTime}</p></div>					    
 					  </div>
 					</div>
 				`;
 			}
+		}
+		
+		const deleteBtns = document.querySelectorAll('a.deleteBtn');
+		for(let btn of deleteBtns) {
+			btn.addEventListener('click', deleteMessage);
 		}
 		
 		// 채팅 내역을 불러올 때 가장 최근 메세지가 보이도록 함
@@ -88,4 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	// 채팅 메세지를 불러옴
     loadChatMessages();
+    
 });
+
+

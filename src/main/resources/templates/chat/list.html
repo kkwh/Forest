@@ -27,7 +27,7 @@
 						<th scope="col">#</th>
 						<th scope="col">이름</th>
 						<th scope="col">생성자</th>
-						<th scope="col">최근수정일자</th>
+						<th scope="col">최근활동시간</th>
 					</tr>
 				</thead>
 				<tbody id="chatroom-list">
@@ -37,7 +37,7 @@
 							<td><a th:href="@{'/chat/room/' + ${room.id}}"
 								th:text="${room.name}"></a></td>
 							<td th:text="${room.creator.nickname}"></td>
-							<td th:text="${#temporals.format(room.modifiedTime, 'yyyy-MM-dd HH:mm')}"></td>
+							<td th:text="${room.modifiedTime}"></td>
 						</tr>
 					</th:block>
 				</tbody>
