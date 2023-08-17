@@ -15,9 +15,12 @@ import com.example.forest.dto.post.PostWithLikesCount;
 import com.example.forest.dto.post.PostWithLikesCount2;
 import com.example.forest.model.Board;
 import com.example.forest.model.Post;
+import com.example.forest.model.Reply;
 import com.example.forest.model.User;
 import com.example.forest.repository.BoardRepository;
 import com.example.forest.repository.PostRepository;
+import com.example.forest.repository.ReReplyRepository;
+import com.example.forest.repository.ReplyRepository;
 import com.example.forest.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -104,7 +107,7 @@ public class PostService {
 	 */
     public void delete(Long id) {
         log.info("delete(id={})", id);
-        
+
         postRepository.deleteById(id);
         
     }

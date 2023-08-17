@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"    
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/base_layout}">
+    
+<head>
+   <link rel="stylesheet" th:href="@{/css/event/details.css}">
+</head>    
+    
+    <main layout:fragment="main" class="mt-5 p-3">
+      <div class="container">  
+        <div class="my-2 card">
+            <div class="card-header text-center">
+                <h2><span th:text="${event.title}"></span></h2>
+            </div>
+            <div class="page_head clear">
+                <div class = "fl clear">
+                    <h2>
+                        <a href="/event"> 포레스트 이벤트</a>
+                    </h2>
+                </div>
+            </div>
+        
+        
+        
+        <div class="card-body">
+                <div class="view_content_wrap">
+                    <header>
+                        <div class="gallview_head clear ub-content">
+                            <div class="gall_writer ub-writer" data-nick="ㅇㅇ" data-uid="" data-ip="183.100" data-loc="view">
+                                <div class="fl">
+                                    <span class="nickname" title="ㅇㅇ">등록일</span>                                       
+                                    <span class="gall_date"  id="createdTime"  th:text="'(' + ${ #temporals.format(event.createdTime, 'yyyy-MM-dd HH:mm:ss') } + ')'"></span>
+                                    <span class="gall_count"> 조회 62</span>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+                    
+                    <div class="gallview_contents">
+                        <div class="inner clear">
+                            <label class="form-label" for="content"></label>
+                            <div class="write_div" id="content" th:utext="${event.content}"  style="max-width: 100%; height: auto;"></div>
+                        </div>
+                    </div>
+                    
+                    
+                        <div th:if="${#authentication.name == 'admin' or #authentication.name == event.author}">            
+                            <div>
+                                <a class="btn btn-outline-success" 
+                                    th:href="@{/event/modify?id={id} (id = ${event.id}) }">수정하기</a>
+                            </div>
+                        </div>  
+                </div>
+        </div>
+       </div>
+      </div>  
+    </main>
+    
+</html>

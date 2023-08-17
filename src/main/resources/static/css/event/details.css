@@ -1,0 +1,121 @@
+@charset "UTF-8";
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-header h2 {
+    font-family: 'Nanum Gothic', sans-serif;
+    
+}
+
+.page_head {
+    height: 37px;
+    margin-bottom: 3px;
+    padding-top: 4px;
+    margin-left: 10px;
+    margin-top: 4px;
+}
+
+.fl {
+    float: left;
+}
+
+.page_head h2 {
+    font-size: 24px;
+    font-family: 'Nanum Gothic', sans-serif;
+    letter-spacing: -1px;
+    margin: 2px 8px 0 3px;
+    max-width: 416px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    color: #188038;
+    float: left;
+}
+
+h2 {
+    display: block;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+
+.page_head h2 a {
+    color: #188038;
+    text-decoration: none;
+}
+
+.view_content_wrap {
+    font-family: -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",arial,굴림,Gulim,sans-serif;
+    font-size: 13px;
+    color: #333;
+}
+
+.view_content_wrap {
+    font-family: -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",arial,굴림,Gulim,sans-serif;
+    font-size: 13px;
+    color: #333;
+}
+
+.gallview_head {
+    margin: 16px 0 29px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.gallview_head .gall_writer {
+    padding: 0 2px;
+}
+
+.gall_writer {
+    position: relative;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.fl {
+    float: left;
+}
+
+.btn {
+    margin-top: 400px;
+    float: right;
+}
+
+.gallview_contents {
+    line-height: 22px;
+}
+
+.gallview_contents > .inner {
+    margin-bottom: 50px;
+}
+
+.inner {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    float: left;
+    max-width: 900px;
+    word-break: break-all;
+    line-height: 1.5;
+    position: relative !important;
+    overflow: hidden;
+}
+
+.writing_view_box img {
+    max-width: 100%;
+    vertical-align: top;
+}
+
+img {
+    overflow-clip-margin: content-box;
+    overflow: clip;
+}
