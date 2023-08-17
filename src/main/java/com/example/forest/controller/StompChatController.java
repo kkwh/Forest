@@ -2,9 +2,12 @@ package com.example.forest.controller;
 
 import java.util.List;
 
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.example.forest.dto.chat.ChatMessageCreateDto;
 import com.example.forest.dto.chat.ChatMessageDto;
@@ -16,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @Controller
+@CrossOrigin(origins = "http://localhost:8090")
 public class StompChatController {
 	
 	private final ChatService chatService;
@@ -32,15 +36,17 @@ public class StompChatController {
         template.convertAndSend("/sub/chat/room/" + message.getRoomId(), list);
     }
 
-    @MessageMapping(value = "/chat/message")
-    public void message(ChatMessageCreateDto message){
+    @MessageMapping("/chat/message/{roomId}")
+    @SendTo("/sub/chat/room/{roomId}")
+    public List<ChatMessageDto> message(@DestinationVariable("roomId") Long roomId, ChatMessageCreateDto message){
     	log.info("message(message = {})", message);
     	
     	chatService.create(message);
     	
-		List<ChatMessageDto> list = chatService.getMessages(message.getRoomId());
-    	
-        template.convertAndSend("/sub/chat/room/" + message.getRoomId(), list);
+		List<ChatMessageDto> list = chatService.getMessages(roomId);
+
+		return list;
+//        template.convertAndSend("/sub/chat/room/" + message.getRoomId(), list);
     }
 
 }

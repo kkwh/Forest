@@ -8,9 +8,7 @@
 	<div class="container">
         <div id="chatting-room" class="border border-dark rounded-2 w-50" style="margin: 0 auto;">
             <div class="p-2">
-	            <div>
-	            	<h1 th:text="${room.name}"></h1>
-	            </div>
+
 	            <div id="messages" class=" overflow-auto" style="height: 700px;">
 	            </div>
 	            <div class="input-group mt-1">
@@ -26,7 +24,7 @@
 	        </div>
         </div>
         
-        <input type="hidden" id="roomId" th:value="${room.id}" />
+        <input type="hidden" id="roomId" th:value="${roomId}" />
         <input type="hidden" id="loginId" th:value="${#authentication.principal.username}"/>
         
         
@@ -43,7 +41,7 @@
 		  var roomId = $('#roomId').val();
           var loginId = $('#loginId').val();
 
-          var sockJs = new SockJS("/stomp/chat");
+          var sockJs = new SockJS("/stomp-chat");
           //1. SockJS를 내부에 들고있는 stomp를 내어줌
           var stomp = Stomp.over(sockJs);
 
@@ -102,7 +100,7 @@
               var msg = document.getElementById("msg");
 
               console.log(loginId + ":" + msg.value);
-              stomp.send('/pub/chat/message', {}, JSON.stringify({roomId: roomId, message: msg.value, loginId: loginId}));
+              stomp.send('/pub/chat/message/' + roomId, {}, JSON.stringify({roomId: roomId, message: msg.value, loginId: loginId}));
               msg.value = '';
           });
             
