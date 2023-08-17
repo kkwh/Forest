@@ -3,13 +3,11 @@ package com.example.forest.controller;
 import java.util.List;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import com.example.forest.dto.chat.ChatMessageCreateDto;
 import com.example.forest.dto.chat.ChatMessageDto;
-import com.example.forest.model.ChatMessage;
 import com.example.forest.service.ChatService;
 
 import lombok.RequiredArgsConstructor;

@@ -10,8 +10,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.example.forest.interceptor.CustomAccessDeniedHandler;
-import com.example.forest.interceptor.CustomLoginSuccessHandler;
+import com.example.forest.handler.CustomAccessDeniedHandler;
+import com.example.forest.handler.CustomLoginSuccessHandler;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 

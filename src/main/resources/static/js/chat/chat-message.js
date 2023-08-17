@@ -1,7 +1,6 @@
 /**
  * chat-message.js
  */
-document.addEventListener("DOMContentLoaded", function () {
     const roomId = document.querySelector('input#roomId').value;;
     const loginId = document.querySelector('input#loginId').value;
 
@@ -108,8 +107,3 @@ document.addEventListener("DOMContentLoaded", function () {
 		messageArea.innerHTML = htmlStr;
 		messageArea.scrollTop = messageArea.scrollHeight;
 	};
-
-	// 채팅 메세지를 불러옴
-    loadChatMessages();
-    
-});
