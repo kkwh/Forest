@@ -735,6 +735,7 @@ a {
   border: 1px solid #ccc;
   width: 100px;
   left: 65px;
+  z-index: 1000; /* z-index 설정 */
 }
 
 .author-accordion a {
@@ -747,5 +748,7 @@ a {
 .author-accordion a:hover {
   background-color: #f1f1f1;
 }
+
+
 
 

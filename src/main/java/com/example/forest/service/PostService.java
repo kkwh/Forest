@@ -120,8 +120,7 @@ public class PostService {
         for(Reply r : reps) {
             replies.add(r);
         }
-        
-        
+               
         // 게시물에 작성된 대댓글 삭제
         for(Reply reply : replies) {
             reReplyRepository.deleteByReply(reply);
@@ -234,6 +233,13 @@ public class PostService {
         return postRepository.findAllPostsWithLikesCountByType(boardId, postType, pageable);
     }
     
+    /**
+     * 메인, 서브 랜드 별 인기 랜드 순위 1~10위 또는
+     * 순위 밖이라는 텍스트를 보여주는 메서드
+     * @param landId
+     * @param grade
+     * @return
+     */
     public Long findRankByLandId(Long landId, String grade) {
         List<BoardRankDto> ranks = boardRepository.findTop10Boards(grade);
         for (BoardRankDto rank : ranks) {
@@ -244,6 +250,11 @@ public class PostService {
         return -1L; // 랭킹이 10위 밖이거나 해당 랜드가 없는 경우
     }
     
+    /**
+     * postId로 board.id를 구하기 위한 메서드
+     * @param postId
+     * @return
+     */
     public Long findBoardIdByPostId(Long postId) {
         return postRepository.findBoardIdByPostId(postId);
     }

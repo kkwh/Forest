@@ -23,7 +23,6 @@ import com.example.forest.dto.post.PostWithLikesCount;
 import com.example.forest.dto.post.PostWithLikesCount2;
 import com.example.forest.model.Post;
 import com.example.forest.model.User;
-import com.example.forest.repository.ReReplyRepository;
 import com.example.forest.service.BoardService;
 import com.example.forest.service.IpService;
 import com.example.forest.service.LikesService;
@@ -50,7 +49,6 @@ public class PostController {
     private final UserService userService; 
     private final IpService ipService;
     private final ReReplyService reReplyService; 
-    private final ReReplyRepository replyRepository;
     
 //    @GetMapping
 //    public String post(Model model) {
