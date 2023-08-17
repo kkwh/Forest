@@ -14,12 +14,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
+@Setter
 @ToString
 @Entity  // JPA 엔터티 클래스 - 데이터 베이스 테이블과 매핑되는 클래스.
 @Table (name="EVENT") // 엔터티 클래스 이름이 데이터베이스 테이블 이름과 다른경우, 테이블을 이름을 명시.
@@ -38,6 +40,8 @@ public class Event extends BaseTimeEntity {
     
     @Column
     private String author;
+    
+
     
     public Event update(EventUpdateDto dto) {
         this.title = dto.getTitle();

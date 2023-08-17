@@ -75,8 +75,10 @@ public class EventController {
         log.info("read=(id={})", id);
         
         Event event = eventService.read(id);
-        
         model.addAttribute("event", event);
+        
+//        long viewCount = eventService.viewEventCount(id) -1;
+//        model.addAttribute("viewEventCount", viewCount);
     }
     
     @PreAuthorize("hasRole('ADMIN')")
