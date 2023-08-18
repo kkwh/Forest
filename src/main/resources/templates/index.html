@@ -39,191 +39,215 @@
                             <h3>인기 랜드</h3>
                             <span>실시간으로 업데이트됩니다</span>
                         </div>
-                    </div> 
-                    <!-- main_blog_nav -->
-                    <nav class="blog_nav">
-                        <ul>
-                            <a style="margin-top: 2px;"href="/board/mainLand">메인 랜드</a>
-                            <th:block th:each="board: ${rankListMain.top5List}">
+                    </div>
+                  </div> 
+                  
+                    <!-- blog_media_wrap -->
+                    <div class="blog_media_wrap">
+                        <div class="news_header">
+                            <h2>메인 랜드
+                                <a style="margin-top: 2px;"href="/board/mainLand"></a>
+                            </h2>
+                            <ul>
+                              <th:block th:each="board: ${rankListMain.top5List}">
                                 <li>
+                                    <img th:src="${board.file.uploadPath}" style="width: 320px; height:180px;">
                                     <div class="blog_media_info">
-                                        <b>[[${board.boardRank}]].</b> <a th:href="@{ /board/ } + ${board.id}" th:data-id="${board.id}"  th:text="${board.boardName}"
-                                            class="link-dark link-offset-2 link-underline link-underline-opacity-0 loadBoardBtn"></a>
+                                        <h4>[[${board.boardRank}]].
+                                            <a th:href="@{ /board/ } + ${board.id}" th:data-id="${board.id}"  th:text="${board.boardName}"
+                                                class="link-dark link-offset-2 link-underline link-underline-opacity-0 loadBoardBtn">
+                                            </a>
+                                        </h4>
+                                        <span th:text="${board.category.value}"></span>     
                                     </div>
                                 </li>
-                            </th:block>
+                              </th:block>
                             </ul>
-                            
+                        </div>
+                    </div>
+                    <div class="blog_media_wrap">
+                        <div class="news_header">
+                            <h2>서브 랜드
+                                <a style="margin-top: 2px;" href="/board/subLand"></a>
+                            </h2>
                             <ul>
-                            <a style="margin-top: 2px;" href="/board/subLand">서브 랜드</a>
-                            <th:block th:each="board: ${rankListSub.top5List}">
+                              <th:block th:each="board: ${rankListSub.top5List}">
                                 <li>
+                                    <img th:src="${board.file.uploadPath}" style="width: 320px; height:180px;">
                                     <div class="blog_media_info">
-                                        <b>[[${board.boardRank}]].</b> <a th:href="@{ /board/ } + ${board.id}" th:data-id="${board.id}"  th:text="${board.boardName}"
-                                            class="link-dark link-offset-2 link-underline link-underline-opacity-0 loadBoardBtn"></a>
+                                        <h4>[[${board.boardRank}]].
+                                            <a th:href="@{ /board/ } + ${board.id}" th:data-id="${board.id}"  th:text="${board.boardName}"
+                                                class="link-dark link-offset-2 link-underline link-underline-opacity-0 loadBoardBtn">
+                                            </a>
+                                        </h4>
+                                        <span th:text="${board.category.value}"></span>     
+                                    </div>
+                                </li>
+                              </th:block>
+                            </ul>
+                        </div>
+                    </div>
+                
+                    <!-- main_blog_list -->
+                    <div class="blog_media_wrap">
+                        <div class="news_header">
+                            <h2>최근 개설 랜드 ></h2>
+                        </div>
+                        <ul>
+                            <th:block th:each="board: ${rankListSub.list1}">
+                                <li>
+                                    <img th:src="${board.file.uploadPath}" style="width: 320px; height:180px;">
+                                     <div class="blog_media_info">
+                                        <h4>
+                                            <a th:href="@{ /board/ } + ${board.id}" th:data-id="${board.id}"  th:text="${board.boardName} +' 랜드'"
+                                                class="link-dark link-offset-2 link-underline link-underline-opacity-0 loadBoardBtn">
+                                            </a>
+                                       </h4>
+                                       <span th:text="${board.categoryName}"></span>    
                                     </div>
                                 </li>
                             </th:block>
                         </ul>
-                    </nav>
-                </div>
-                
-                <!-- main_blog_list -->
-                <div class="blog_media_wrap">
-                    <div class="news_header">
-                        <h2>최근 개설 랜드 ></h2>
                     </div>
-                    <ul>
-                        <th:block th:each="board: ${rankListSub.list1}">
-                            <li>
-                                <img th:src="${board.file.uploadPath}" style="width: 320px; height:180px;">
-                                 <div class="blog_media_info">
-                                    <h4>
-                                        <a th:href="@{ /board/ } + ${board.id}" th:data-id="${board.id}"  th:text="${board.boardName} +' 랜드'"
-                                            class="link-dark link-offset-2 link-underline link-underline-opacity-0 loadBoardBtn">
-                                        </a>
-                                   </h4>
-                                   <span th:text="${board.categoryName}"></span>    
-                                </div>
-                                
+                
+                    <!-- main_news -->
+                    <div id="news_wrap">
+                        <div class="news_header">
+                            <h2>포레스트 뉴스></h2>
+                        </div>
+                        <ul class="news_lists">
+                            <li class="news_list">
+                                <a href="http://www.khan.co.kr">
+                                <img src="/img/main/logo_1.png">
+                                </a>
                             </li>
-                        </th:block>
-                    </ul>
-                </div>
-                
-
-                
-                
-                
-                <!-- main_news -->
-                <div id="news_wrap">
-                    <div class="news_header">
-                        <h2>포레스트 뉴스></h2>
+                            <li class="news_list">
+                                <a href="http://www.hani.co.kr">
+                                <img src="/img/main/logo_2.png">
+                                </a>
+                            </li>
+                            <li class="news_list">
+                                <a href="http://www.joongang.co.kr">
+                                <img src="/img/main/logo_3.png">
+                                </a>
+                            </li>
+                            <li class="news_list">
+                                <a href="http://www.www.chosun.com">
+                                <img src="/img/main/logo_4.png">
+                                </a>
+                            </li>
+                            <li class="news_list">
+                                <a href="http://www.donga.com">
+                                <img src="/img/main/logo_5.jpeg">
+                                </a>
+                            </li>
+                            <li class="news_list">
+                                <a href="http://www.seoul.co.kr">
+                                <img src="/img/main/logo_6.png">
+                                </a>
+                            </li>
+                            <li class="news_list">
+                                <a href="http://www.khan.co.kr">
+                                <img src="/img/main/logo_7.png">
+                                </a>
+                            </li>
+                            <li class="news_list">
+                                <a href="http://www.hani.co.kr">
+                                <img src="/img/main/logo_8.jpeg">
+                                </a>
+                            </li>
+                            <li class="news_list">
+                                <a href="http://www.joongang.co.kr">
+                                <img src="/img/main/logo_9.png">
+                                </a>
+                            </li>
+                            <li class="news_list">
+                                <a href="http://www.www.chosun.com">
+                                <img src="/img/main/logo_10.png">
+                                </a>
+                            </li>
+                            <li class="news_list">
+                                <a href="http://www.donga.com">
+                                <img src="/img/main/logo_11.png">
+                                </a>
+                            </li>
+                            <li class="news_list">
+                                <a href="http://www.seoul.co.kr">
+                                <img src="/img/main/logo_12.png">
+                                </a>
+                            </li>
+                            <li class="news_list">
+                                <a href="http://www.khan.co.kr">
+                                <img src="/img/main/logo_13.png">
+                                </a>
+                            </li>
+                            <li class="news_list">
+                                <a href="http://www.hani.co.kr">
+                                <img src="/img/main/logo_14.png">
+                                </a>
+                            </li>
+                            <li class="news_list">
+                                <a href="http://www.joongang.co.kr">
+                                <img src="/img/main/logo_18.gif">
+                                </a>
+                            </li>
+                            <li class="news_list">
+                                <a href="http://www.www.chosun.com">
+                                <img src="/img/main/logo_15.png">
+                                </a>
+                            </li>
+                            <li class="news_list">
+                                <a href="http://www.donga.com">
+                                <img src="/img/main/logo_16.gif">
+                                </a>
+                            </li>
+                            <li class="news_list">
+                                <a href="http://www.seoul.co.kr">
+                                <img src="/img/main/logo_17.gif">
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                    <ul class="news_lists">
-                        <li class="news_list">
-                            <a href="http://www.khan.co.kr">
-                            <img src="/img/main/logo_1.png">
-                            </a>
-                        </li>
-                        <li class="news_list">
-                            <a href="http://www.hani.co.kr">
-                            <img src="/img/main/logo_2.png">
-                            </a>
-                        </li>
-                        <li class="news_list">
-                            <a href="http://www.joongang.co.kr">
-                            <img src="/img/main/logo_3.png">
-                            </a>
-                        </li>
-                        <li class="news_list">
-                            <a href="http://www.www.chosun.com">
-                            <img src="/img/main/logo_4.png">
-                            </a>
-                        </li>
-                        <li class="news_list">
-                            <a href="http://www.donga.com">
-                            <img src="/img/main/logo_5.jpeg">
-                            </a>
-                        </li>
-                        <li class="news_list">
-                            <a href="http://www.seoul.co.kr">
-                            <img src="/img/main/logo_6.png">
-                            </a>
-                        </li>
-                        <li class="news_list">
-                            <a href="http://www.khan.co.kr">
-                            <img src="/img/main/logo_7.png">
-                            </a>
-                        </li>
-                        <li class="news_list">
-                            <a href="http://www.hani.co.kr">
-                            <img src="/img/main/logo_8.jpeg">
-                            </a>
-                        </li>
-                        <li class="news_list">
-                            <a href="http://www.joongang.co.kr">
-                            <img src="/img/main/logo_9.png">
-                            </a>
-                        </li>
-                        <li class="news_list">
-                            <a href="http://www.www.chosun.com">
-                            <img src="/img/main/logo_10.png">
-                            </a>
-                        </li>
-                        <li class="news_list">
-                            <a href="http://www.donga.com">
-                            <img src="/img/main/logo_11.png">
-                            </a>
-                        </li>
-                        <li class="news_list">
-                            <a href="http://www.seoul.co.kr">
-                            <img src="/img/main/logo_12.png">
-                            </a>
-                        </li>
-                        <li class="news_list">
-                            <a href="http://www.khan.co.kr">
-                            <img src="/img/main/logo_13.png">
-                            </a>
-                        </li>
-                        <li class="news_list">
-                            <a href="http://www.hani.co.kr">
-                            <img src="/img/main/logo_14.png">
-                            </a>
-                        </li>
-                        <li class="news_list">
-                            <a href="http://www.joongang.co.kr">
-                            <img src="/img/main/logo_18.gif">
-                            </a>
-                        </li>
-                        <li class="news_list">
-                            <a href="http://www.www.chosun.com">
-                            <img src="/img/main/logo_15.png">
-                            </a>
-                        </li>
-                        <li class="news_list">
-                            <a href="http://www.donga.com">
-                            <img src="/img/main/logo_16.gif">
-                            </a>
-                        </li>
-                        <li class="news_list">
-                            <a href="http://www.seoul.co.kr">
-                            <img src="/img/main/logo_17.gif">
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                
-                </div>
+            </div>
+            
             
              <!-- main_right -->
             <div id="main_right">
                 <!-- 비로그인 상태이면 -->
                 <th:block sec:authorize="isAnonymous()">
                 <!-- account -->
-                <div id="account">
-                    <p>포레스트를 더 안전하고 편안하게 이용하세요.</p>
-                    <a href="/user/login">포레스트 로그인</a>
-                    <div class="account_sub">
-                        <span><a href="user/signup" style="padding: 0">회원가입</a></span>
+                    <div id="account">
+                        <p>포레스트를 더 안전하고 편안하게 이용하세요.</p>
+                        <a href="/user/login">포레스트 로그인</a>
+                        <div class="account_sub">
+                            <span>
+                                <a href="user/signup" style="padding: 0">회원가입</a>
+                            </span>
+                        </div>
                     </div>
-                </div>
                 </th:block>
                 
                 <!-- 로그인 상태이면 -->
                 <th:block sec:authorize="isAuthenticated()">
                 <!-- account -->
-                 <div id="account">
-                    <p>포레스트를 더 안전하고 편안하게 이용하세요.</p>
-                    <a href="/user/logout">포레스트 로그아웃</a>
-                    <div class="account_sub">
-                        <span><a th:href="@{'/user/gallogmain?loginId=' + ${#authentication.principal.username}}" style="padding: 0">나의 가든</a></span>
+                    <div id="account">
+                        <p>포레스트를 더 안전하고 편안하게 이용하세요.</p>
+                        <a href="/user/logout">포레스트 로그아웃</a>
+                        <div class="account_sub">
+                            <span>
+                                <a th:href="@{'/user/gallogmain?loginId=' + ${#authentication.principal.username}}" style="padding: 0">나의 가든</a>
+                            </span>
+                        </div>
                     </div>
-                </div>
                 </th:block>
                 
               <!-- main_right_shop -->
-                <div id="main_right_banner"></div>
+                <div id="main_right_banner">
+                    <a href="https://bit.ly/42F1ini" class="Aside__aside_mid_banner--bBLfi" target="" >
+                       <img style="width:348px; height:198px;" 
+                        src="https://naverwebtoon-phinf.pstatic.net/20230614_244/168671980313198oSG_JPEG/upload_6858730047254020577.JPEG" alt="">
+                    </a>
+                </div>
                     <div id="shop_wrap">
                         <div class="shop_title">
                             <h3><a href="#">인기사이트</a></h3>
@@ -244,6 +268,12 @@
                                     <a id="aw0" target="_blank" 
                                         href="https://www.googleadservices.com/pagead/aclk?nis=4&amp;sa=L&amp;ai=Cu1ERjtfdZPSrMcqRvcAPwdWx0AyJneGrcuuf4_r4Eb_hHhABILnV1Blgm4PphJwpoAG-8vjbAsgBAqkCLZs5iTqeCT6oAwHIA8kEqgSGAk_Q1hox08lLsDZ4UmnzEYcIU2KRLsXBXpxVNvojoa1iqvhEf4aXZh63DAEgUK6NyPGuR5_iKvWFlO25SE7Iwy6PCR2_8IIJc0IOUHsisnSjKyeeb_Eyn6-Q9rXBNsuEuVYekgHjVSEIo3xVA1qjd3Cxm-tDUrvQ_qZJ6a7tBnZ_t-j6U9Lji4EoLEAzQbFz0sSTF7HLq28walfM_WVxnrTGOD8bEVWJfTCqUEsA7obWyuxNnczEXCEx9gPr69CxkIUaCglDYZ71K_akaWPHEVKZiJ1lqWJ31Gk2bxI0KuYbxB6EVArufmlbahsyWMcyq6JniZpK_iMfxKexWIO1Nwf97jAJUDTABILevLa0BJAGAaAGAoAHqo2HpAGIBwGQBwKoB9m2sQKoB47OG6gHk9gbqAfulrECqAf-nrECqAeko7ECqAfVyRuoB6a-G6gHmgaoB_PRG6gHltgbqAeqm7ECqAeDrbECqAf_nrECqAffn7ECqAfKqbECqAfrpbEC2AcB0ggYCAAQAhgaMgEAOgif0ICAgIAEEEi9_cE6sQlI84xS7AoenIAKAZgLAcgLAbgMAdoMEAoKEICeyZicwqjxLBICAQOqDQJLUsgNAdgTDdAVAfgWAYAXAQ&amp;ase=2&amp;gclid=CjwKCAjwivemBhBhEiwAJxNWNx19fLmoW1vKXlzExplEyzeiPvnbYBklg2eTdG7vKByBopIUVE1gWRoCGj0QAvD_BwE&amp;num=1&amp;cid=CAQSQgBpAlJW9KoJKDEHoP3xukiN_2qS9QBsyb7bQrkw_MyUG7s3kbdFzsA0_p9udXLNPB__A3hjXGKygLv2Wo1YjXcylBgB&amp;sig=AOD64_3lOV9m_5nWNBQKcIHRTBuhoZ41Dg&amp;client=ca-pub-6560071108158087&amp;rf=2&amp;nb=17&amp;adurl=http://www.bbqopen.co.kr/%3Futm_campaign%3Dg%255Fbanner%26utm_source%3Dgdn%255Fpc%26utm_medium%3Dcpc%26utm_term%3D160%25EB%25A7%258C%25EC%259B%2590%25EC%25B0%25BD%25EC%2597%2585a" data-asoch-targets="ad0" attributionsrc=""><img src="https://tpc.googlesyndication.com/simgad/121790490964510398?sqp=4sqPyQQ7QjkqNxABHQAAtEIgASgBMAk4A0DwkwlYAWBfcAKAAQGIAQGdAQAAgD-oAQGwAYCt4gS4AV_FAS2ynT4&amp;rs=AOga4qmQW7Z68DVX2Zt2IbAeWP3SwVA8uA" 
                                         border="0" width="160" alt="" class="img_ad">
+                                    </a>
+                                    </ul>
+                                <ul class="product_list">
+                                    <a id="aw0" target="_blank" 
+                                    href="https://www.googleadservices.com/pagead/aclk?sa=L&amp;ai=CNtgtVw7fZN-YH4SH8wPu5KPoA6GV3PRxsMaEt7oRrO7CnNkYEAEg_OKEL2Cbg-mEnCmgAaCqioADyAECqQL62ah9n6oJPqgDAcgDyQSqBPwBT9BSeuLskcQ6YuWFAsKvxaqoG8DLrqzS9jlDXbd0ncSCy0pddzJJmz7ff5zFyjaH2Rk_2RXiIVxCEXxbKGYQODOkNF2k8jhgXO-eJabC3fY4t778hHYa2nppcyEQP-EoJKun67VUlYW99tjJFvyZfNC7Md_7Z-wxGuU3hTTVgsjO9ZUx4_oYKOFs5pcYpA4KRplQ6cYhnINsRqNNUhX8yCc3gmZ-h_OrAyihKHnmerIGsxLwI2jUH3PKfCvcMu6vNogjR_-D4RoAkQqA0jPpIJH77oHLDGe-gvgj61Atq3H5pIVzb1jHq_JY2YCZbLVHX8V9tWk6if00SMtPwAS9o9GwhgOQBgGgBgKAB8jV9X-IBwGQBwKoB9m2sQKoB47OG6gHk9gbqAfulrECqAf-nrECqAeko7ECqAfVyRuoB6a-G6gHmgaoB_PRG6gHltgbqAeqm7ECqAeDrbECqAf_nrECqAffn7ECqAfKqbECqAfrpbEC2AcB0ggYCAAQAhgaMgEAOgif0ICAgIAEEEi9_cE6sQl_FWMiGnI1DYAKAZgLAcgLAdoMEQoLEODz9OqC2eTnjgESAgEDqg0CS1LIDQHYEw7QFQH4FgGAFwE&amp;ase=2&amp;gclid=CjwKCAjwivemBhBhEiwAJxNWN1XmnHzg-Xd3MuOcHsGUyHeP73i57MVqhB_DBbauN2ucwgj1a7DCehoCX3sQAvD_BwE&amp;num=1&amp;cid=CAQSMABpAlJWDF8L2fr9NeV1dWz2wSqSeZwhDzQC4bGgxdkUE_YKFz53eZ1D-Do73WaexBgB&amp;sig=AOD64_21bwcPJqLIEcJxD1MfKEi_IdJRAA&amp;client=ca-pub-8758689959025602&amp;rf=2&amp;nb=17&amp;nx=90&amp;ny=327&amp;mb=1&amp;bg=!Li2lLXnNAAZGPLJIZjw7ADkAdvg8Wo_6_OnTq6KfJOBE-ps0UTUmsFwZKwyc2_gDRa3k8rcRccYVcW9UOKnMGhh0BYExSPAINjoCAAAAQ1IAAAAGaAEHCgCvkIWu-rk1NDtAsl9mJPLTJpGFyLbxchOQX-sxRhuQyaQcpff1vSJ9fJu-DaQs1G0Pk9ThO0gFvPnt8YZQfMumTzZagyGLcfhaOjq9vRGkc9CH9iOAJr9GrAg4yGVtgiYSgQkmLLY2Dwfsf_EkrdzXFAH89ZuQKqDK6Cq4-gxucoJoZlQTfVhsRdssHlLj7wZ35ZEtEzYW4UKy4cY1IFRAOmzU_TONfA3tKDWmgBt71ZkCWePbEBmphoyj3BMZ8Uwf-qGzrf4IdIG0JAGPuQvcVVkGLAmUrE3GXRFa9q_msiC7DDoiYXZREcyJRi-9GSn8mN1qnAcEnZf7zGHRB2nibermNY2qwb8A26r9cm83bac5vfkhkON_oJT5TCYbvMfo-meW89z5tZ128RT6_S0YrxV9KbjLPzsXR6WrMFBQWLa_QNY4_LAEnXz7YnSrQQQ9vl48l5CXRmI03wf_jb4OWJpeYmOviP3NsbydFjWCfTzbOctrnyu0K5MvRhHUsnMqkO8O7Ix4_fN4Of5FTPZmTvbM3Y_mhu9jyeJtaKQ0FC_XKe2Wdz50YL12wZA_eOCqdEYS7IrcJDYMwW9eNLpcUGjEwfQyi_gur_3JlVL4nUjVHLyyZzfDYFo1tf_c6Qqf76fL8czEXMoNh5G8bpiCCFUFhNbZe3Mh-DdcQWLeaPBb8FQBgrFb3-h78KiFcIPq_pepp6AN2l2XegrYD4KwVdwt2iOpgc7Fs1Km4B7e9eau-HrUjeMnWH61epey4Ibo_cUL39XeaVhIOYtOMOjrBpjoGPAX6QMkw1bd6SRf0LKJY5vUNMM0zJns7WN0r8MoU3qd-69txgxC5eF9kJFEw4Wo5hgOI97ivnPlDZp_WvBfZqddin8-23qnKzSzPaEQ95Hna0UOZDH-3u1jZX8BWU5v3_J0mRS4UI-nRssICJcpGSkvOEqFRjpDreCw59ap43mtr2grxPmFjbMzIfQ6c-TvaMkG07Pyx8vriths8xKbKZkdJfHeOkG_PtRzLJYVn05oGBm5nL9SNXE&amp;nm=3&amp;uach=WyJtYWNPUyIsIjEzLjMuMSIsIng4NiIsIiIsIjExNi4wLjU4NDUuOTYiLFtdLDAsbnVsbCwiNjQiLFtbIkNocm9taXVtIiwiMTE2LjAuNTg0NS45NiJdLFsiTm90KUE7QnJhbmQiLCIyNC4wLjAuMCJdLFsiR29vZ2xlIENocm9tZSIsIjExNi4wLjU4NDUuOTYiXV0sMF0.&amp;adurl=https://www.inflearn.com/courses/it-programming%3Fdiscounted%3Dtrue%26order%3Dseq%26utm_source%3Dgoogle%26utm_medium%3Ddisplay%26utm_campaign%3Dtraffic_branding_dynamic%26utm_content%3Dstatic_handy_img%26utm_term%3D160-600_MK" data-asoch-targets="ad0" attributionsrc=""><img src="https://tpc.googlesyndication.com/simgad/14528917014333115773?sqp=4sqPyQQrQikqJwhfEAEdAAC0QiABKAEwCTgDQPCTCUgAUAFYAWBfcAJ4AcUBLbKdPg&amp;rs=AOga4qnVc3n4t46eMxJ5OmoBajH6yUsWLw" 
+                                    border="0" width="160" alt="" class="img_ad">
                                     </a>
                                 </ul>
                             </div>
