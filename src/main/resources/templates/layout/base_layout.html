@@ -15,7 +15,6 @@
 <link rel="stylesheet" href="/css/main/main.css" />
 <link rel="stylesheet"
     href="https://use.fontawesome.com/releases/v5.15.0/css/all.css">
-<!-- <link rel="stylesheet" th:href="@{/css/base_layout/darkmode/darkmode.css}" /> -->
 
 </head>
 <body>
@@ -37,37 +36,33 @@
                                 </h1>
                                 <!--  // 로고 영역! -->
                             </div>
-
-	<ul class="nav_ul">
-		<li><a href="/board/mainLand">메인 랜드</a></li>
-		<li><a href="/board/subLand">서브 랜드</a></li>
-		
-		<!-- 관리자 페이지에서만 보임 -->
-		<li sec:authorize="hasRole('ADMIN')"><a href="/admin/board/list">내 게시판 목록</a></li>
-		<li sec:authorize="hasRole('ADMIN')"><a href="/admin/board/unapproved">승인 대기 게시판 목록</a></li>
-		<li sec:authorize="hasRole('ADMIN')"><a href="/admin/board/approved">승인된 게시판 목록</a></li>
-		
-		
-		<li><a href="/">이벤트</a></li>
-		<li><a href="/chat/list">오픈 채팅</a></li>
-		<li><a href="/donation/donation">후원</a></li>
-		<li sec:authorize="isAnonymous()"><a href="/user/login">로그인</a></li>
-		<li sec:authorize="isAnonymous()"><a href="/user/signup">회원가입</a></li>
-		<li sec:authorize="hasRole('USER')"><a href="/board/list">내 게시판 목록</a></li>
-		<li sec:authorize="isAuthenticated()"><a href="/user/logout">로그아웃</a></li>
-                <li sec:authorize="isAuthenticated()"><a href="/user/myinfopage"><span th:text="${#authentication.principal.nickname}"></span>></a></li>
-                <li sec:authorize="isAuthenticated()">
-                <div>
-                   
-                    <span><a th:href="@{'/user/gallogmain?Garden=' + ${#authentication.principal.username}}">가든></a></span>
-                </div>
-                </li>
-                <li sec:authorize="isAuthenticated()"><a href="/garden/gardenmain">잠깐 씀</a></li>
-              
-                </ul>  
-               
-   
-
+                            
+                            <!-- navigation -->
+                            <div id="navbar">
+                                <div class="container">
+                                    <ul>
+                                        <li><a href="/board/mainLand">메인 랜드</a></li>
+                                        <li><a href="/board/subLand">서브 랜드</a></li>
+                                        
+                                        <!-- 관리자 페이지에서만 보임 -->
+                                        <li sec:authorize="hasRole('ADMIN')"><a href="/admin/board/list">내 게시판 목록</a></li>
+                                        <li sec:authorize="hasRole('ADMIN')"><a href="/admin/board/unapproved">승인 대기 게시판 목록</a></li>
+                                        <li sec:authorize="hasRole('ADMIN')"><a href="/admin/board/approved">승인된 게시판 목록</a></li>
+                                        
+                                        <li><a href="/event">이벤트</a></li>
+                                        <li><a href="/chat/list">오픈 채팅</a></li>
+                                        <li><a href="/donation/donation">후원</a></li>
+                                        <li sec:authorize="isAnonymous()"><a href="/user/login">로그인</a></li>
+                                        <li sec:authorize="isAnonymous()"><a href="/user/signup">회원가입</a></li>
+                                        <li sec:authorize="hasRole('USER')"><a href="/board/list">내 게시판 목록</a></li>
+                                        <li sec:authorize="isAuthenticated()"><a href="/user/logout">로그아웃</a></li>
+                                        <li sec:authorize="isAuthenticated()"><a href="/user/myinfopage"><span th:text="${#authentication.principal.nickname}"></span>></a></li>
+                                        <li sec:authorize="isAuthenticated()">
+                                            <span><a th:href="@{'/user/gallogmain?loginId=' + ${#authentication.principal.username}}">가든</a></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
