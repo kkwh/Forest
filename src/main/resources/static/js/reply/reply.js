@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // div 안에 삽입할 HTML 코드 초기화.
         
         let htmlStr = '';
-        for (let reply of data.list) {
+        for (let reply of data.list) {//0익명 익명댓글.
         if(reply.userId == 0 & reply.replyPassword !== null) {    
             htmlStr += `
             
@@ -196,8 +196,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="cmt_nickbox">
                         <span class="gall_writer ub-writer">
                             <span class="nicknameReply">
-                                <span class="d-none" id=reID>${reply.id}</span>
-                                <em title>${reply.replyNickname}</em>
+                                <span class="d-none" id=reID >${reply.id}</span>
+                                <em title>${reply.replyNickname}></em>
                                 <span class="ip fw-bold">(${reply.replyIp})</span>
                             </span>
                         </span>
@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div id="rereplies_${reply.id}"></div> <!-- 대댓글이 들어갈 공간 -->
                 </div>
             `;
-        } else if(reply.userId == 0 & reply.replyPassword === null) {    
+        } else if(reply.userId == 0 & reply.replyPassword === null) {    //익명 댓글.
             htmlStr += `
             <div class="card my-2">
                 <div class="cmt_info clear">
@@ -250,16 +250,17 @@ document.addEventListener('DOMContentLoaded', () => {
             
         
         } else {
-            if(reply.userId == data.userId) {
+            if(reply.userId == data.userId) { //로그인한 유저가 댓글을 쓴 사람과 로그인한 사람이 똑같을 때 선아 추가 262줄 
             htmlStr += `
- 
             <div class="card my-2">
                 <div class="cmt_info clear">
                     <div class="cmt_nickbox">
                         <span class="gall_writer ub-writer">
                             <span class="nicknameReply">                   
                                 <span class="d-none">${reply.id}</span>
-                                <em title>${reply.replyNickname}</em>
+                                        <em title>
+                                                <a href="/garden/gardenmain?nickname=${reply.replyNickname}">${reply.replyNickname}</a>
+                                        </em>
                                 <span class="ip fw-bold">(${reply.replyIp})</span>
                             </span>
                         </span>  
@@ -284,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 `;
             }
-            else {
+            else { //로그인한 유저가 댓글을 쓴 것. 하지만 로그인한 사람과 댓글 쓴 사람이 다름. 선아 추가 299
             htmlStr += `
             
             <div class="card my-2">
@@ -293,7 +294,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         <span class="gall_writer ub-writer">
                             <span class="nicknameReply">
                                 <span class="d-none">${reply.id}</span>
-                                <em title>${reply.replyNickname}</em>
+                                <em title>
+                                        <a href="/garden/gardenmain?nickname=${reply.replyNickname}">${reply.replyNickname}</a>
+                                </em>
                                 <span class="ip fw-bold">(${reply.replyIp})</span>
                             </span>
                         </span>
@@ -313,12 +316,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         htmlStr += '</div>';
         
-        
-    }            
-        
+       
+        }            
+     
         // 작성된 HTML 문자열을 div 요소에 innerHTML로 설정.
         replies.innerHTML = htmlStr;
-        
         
         // 대댓글 입력
         for(let reply of data.list) {

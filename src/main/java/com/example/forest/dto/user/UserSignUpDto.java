@@ -18,5 +18,7 @@ public class UserSignUpDto {
     private String password;
 
     private String email;
+    
+    
 
 }

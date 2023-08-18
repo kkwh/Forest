@@ -229,5 +229,13 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             + " where p.user = :user "
             + " order by p.id desc")
     List<Post> findAllPostByUserOrderByIdDesc(@Param("user") User user);
+
+    
+    @Transactional
+    @Query( "select p from Post p "
+            + " where p.user = :user "
+            + " order by p.id desc ")
+    List<Post> findByOrderByuserIdDesc(@Param("user") User user);
+   
     
 }
