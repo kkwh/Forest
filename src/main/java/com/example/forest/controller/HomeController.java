@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+
 import com.example.forest.dto.board.BoardListDto;
 import com.example.forest.dto.board.BoardRankListDto;
 import com.example.forest.model.BoardCategory;
@@ -26,7 +27,6 @@ public class HomeController {
     
 	@GetMapping("/")
 	public String home(Model model) {
-	      
 	        Map<BoardCategory, List<BoardListDto>> boardMap = new HashMap<>();
         
 	        // 랭킹 목록(인기순위, 최근개설)
@@ -37,7 +37,7 @@ public class HomeController {
 	        BoardRankListDto rankDtoMain = boardService.findPopularBoard("Main", 4);
 	        log.info("rankDtoMain = {}", rankDtoMain);
 	        model.addAttribute("rankListMain", rankDtoMain);
-	       
+
 	    
 		return "index";
 	}
