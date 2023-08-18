@@ -43,15 +43,51 @@
                             <span class="title_subject" th:text="${post.postTitle}"></span>
                         </h3>
                             <div class="gall_writer ub-writer" data-nick="ㅇㅇ" data-uid="" data-ip="183.100" data-loc="view">
+                            
+                        <!-- 가든 조회하고자하는 유저가 로그인 한 유저일 때 -->
+                        <!-- 관리자 유저 -->
+                        <th:block th:if="${ post.user != null}">
+                          <th:block th:if="${ board.user.nickname } == ${post.postNickname}">
                             <div class="fl">
-                                <span class="nickname" title="ㅇㅇ" th:text="${post.postNickname}"><em></em></span>
-                                <span class="ip" th:text="'(' + ${ post.postIp } + ')'"></span>                                                               
+                              <span style="color: orange;" class="author">
+                                <span class="nickname" title="ㅇㅇ" th:text="${post.postNickname} + '&nbsp;&nbsp;'"><em></em></span>
+                                    <span class="author-accordion" style="display:none;">
+                                        <a th:href="@{ /user/gallogmain } + '?loginId=' + ${ user.loginId }">정원 가기</a>
+                                    </span>
+                              </span>                                                               
                                 <span class="gall_date" title="2023-08-01 12:03:25" th:text="${ #temporals.format(post.createdTime, 'yyyy.MM.dd HH:mm:ss') }"></span>
                             </div>
+                          </th:block>
+                          
+                          <!-- 일반 로그인 유저 -->
+                          <th:block th:unless="${ board.user.nickname } == ${post.postNickname}">
+                            <div class="fl">
+                              <span style="color: green;" class="author">
+                                <span class="nickname" title="ㅇㅇ" th:text="${post.postNickname} + '&nbsp;&nbsp;'"><em></em></span>
+                                    <span class="author-accordion" style="display:none;">
+                                        <a th:href="@{ /user/gallogmain } + '?loginId=' + ${ user.loginId }">정원 가기</a>
+                                    </span>
+                              </span>                                                               
+                                <span class="gall_date" title="2023-08-01 12:03:25" th:text="${ #temporals.format(post.createdTime, 'yyyy.MM.dd HH:mm:ss') }"></span>
+                            </div>
+                          </th:block>
+                        </th:block>
+                           
+                           <!-- 가든 조회하고자하는 유저가 익명 유저일 때 -->
+                           <th:block th:unless="${ post.user != null}">
+                            <div class="fl">
+                              <span class="author">
+                                <span class="nickname" title="ㅇㅇ" th:text="${post.postNickname}"><em></em></span>
+                              </span>
+                                <span class="ip" th:text="'(' + ${ post.postIp } + ')' + '&nbsp;&nbsp;'"></span>                                                               
+                                <span class="gall_date" title="2023-08-01 12:03:25" th:text="${ #temporals.format(post.createdTime, 'yyyy.MM.dd HH:mm:ss') }"></span>
+                            </div>
+                           </th:block>
+                           
                             <div class="fr">
                                 <span class="gall_count" th:text="'조회 ' + ${ viewCount }">조회 0</span>
                                 <span class="gall_reply_num" th:text="'좋아요 ' + ${ likesCount }">좋아요 0</span>
-                                <span class="gall_comment" th:text="'댓글 ' + ${ replyCount }">댓글 0</a></span>
+                                <span class="gall_comment" th:text="'댓글 ' + ${ replyTotal }">댓글 0</a></span>
                             </div>
                         </div>
                     </div>
@@ -121,9 +157,9 @@
                                 </div> -->
                             </div>
                         </div><!-- 둥 -->
-                                                             <div class="recom_bottom_box clear">
-                                                                
-                                <button type="button" class="btn_report" data-no="2764692"><em class="sp_img icon_report"></em>신고</button>
+                        
+                            <div class="recom_bottom_box clear">                                                    
+                                <button type="button" class="btn_report" data-no="2764692" onclick="reportFunction()"><em class="sp_img icon_report"></em>신고</button>
                             </div>
                         </div>
                         <!-- //추천 비추천 -->
@@ -340,7 +376,7 @@
             </script>
         </th:block>
         
-        <!--  //열매(댓글) 부분 -->
+        <!--  //열매(댓글) 부분 --> 
         
 
     </main>

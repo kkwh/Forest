@@ -221,4 +221,25 @@ document.addEventListener('DOMContentLoaded', () => {
 		btn.addEventListener('click', selectCategory);
 	}
 	
+	/**
+	 * 선택된 카테고리, 정렬 순서, 검색어를 초기 상태로 초기화하는 메서드
+	 */
+	const resetFilter = () => {
+		// 정렬 기준을 최신순으로 초기화
+		document.querySelector('option[value="recent"]').selected = true;
+		
+		// 모든 카테고리가 선택 여부 초기화
+		const checkBtns = document.querySelectorAll('input.checkBtn');
+		for(let btn of checkBtns) {
+			btn.checked = true;
+		}
+		
+		// 입력된 검색어를 초기화
+		document.querySelector('input#keyword').value = '';
+	};
+	
+	const clearBtn = document.querySelector('button#clearBtn');
+	clearBtn.addEventListener('click', resetFilter);
+	
+	
 });

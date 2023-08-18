@@ -209,18 +209,15 @@ document.addEventListener('DOMContentLoaded', () => {
 								<td>
 									<button type="button" data-id="${board.id}" class="btn btn-outline-success upgradeBtn">승격</button>
 								</td>
-						`;
-						
-						if(board.user.role != 'ADMIN') {
-							htmlStr += `
 								<td>
-									<button type="button" th:data-user-id="${board.user.id}" 
-										th:data-board-id="${board.id}" class="btn btn-outline-danger revokeBtn">권한 뺏기</button>
-							`;
-						}
-						htmlStr += `
-								<button type="button" th:data-board-id="${board.id}" class="btn btn-outline-primary deleteBtn">삭제</button>
-							</td></tr>
+									<button type="button" data-user-id="${board.user.id}"  
+										data-board-id="${board.id}" class="btn btn-outline-danger revokeBtn">권한 넘기기</button>
+								</td>
+								<td>
+									<button type="button" data-board-id="${board.id}" 
+										class="btn btn-outline-primary deleteBtn">삭제</button>
+								</td>
+							</tr>
 						`;
 						
 					} else {
@@ -237,18 +234,16 @@ document.addEventListener('DOMContentLoaded', () => {
 								<td>
 									<button type="button" data-id="${board.id}" class="btn btn-outline-danger relegateBtn">강등</button>
 								</td>
-						`;
-						if(board.user.role != 'ADMIN') {
-							htmlStr += `
 								<td>
-									<button type="button" th:data-user-id="${board.user.id}" 
-										th:data-board-id="${board.id}" class="btn btn-outline-danger revokeBtn">권한 뺏기</button>
-							`;
-						}
-						htmlStr += `
-								<button type="button" th:data-board-id="${board.id}" class="btn btn-outline-primary deleteBtn">삭제</button>
-							</td></tr>
-						`;
+									<button type="button" data-user-id="${board.user.id}"  
+										data-board-id="${board.id}" class="btn btn-outline-danger revokeBtn">권한 넘기기</button>
+								</td>
+								<td>
+									<button type="button" data-board-id="${board.id}" 
+										class="btn btn-outline-primary deleteBtn">삭제</button>
+								</td>
+							</tr>
+						`
 					}
 				}
 				boardList.innerHTML = htmlStr;
@@ -318,7 +313,25 @@ document.addEventListener('DOMContentLoaded', () => {
 		btn.addEventListener('click', deleteBoard);
 	}
 	
+	/**
+	 * 선택된 카테고리, 정렬 순서, 검색어를 초기 상태로 초기화하는 메서드
+	 */
+	const resetFilter = () => {
+		// 정렬 기준을 최신순으로 초기화
+		document.querySelector('option[value="recent"]').selected = true;
+		
+		// 모든 카테고리가 선택 여부 초기화
+		const checkBtns = document.querySelectorAll('input.checkBtn');
+		for(let btn of checkBtns) {
+			btn.checked = true;
+		}
+		
+		// 입력된 검색어를 초기화
+		document.querySelector('input#keyword').value = '';
+	};
 	
+	const clearBtn = document.querySelector('button#clearBtn');
+	clearBtn.addEventListener('click', resetFilter);
 	
 	
 	

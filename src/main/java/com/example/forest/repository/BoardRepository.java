@@ -289,10 +289,25 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 		    + " GROUP BY b.id, b.boardName,  b.boardCategory, f")
 	List<BoardRankDto> findTop10Boards(@Param("grade") String grade);
 	
+	/**
+	 * 메인/서브 랜드에 있는 게시판을 생성 시간 내림차순으로 불러옴
+	 * @param boardGrade
+	 * @return
+	 */
 	@Query("select b from Board b "
 			+ " where b.boardGrade = :boardGrade "
 			+ " and b.isApproved = 1 "
 			+ " order by b.id desc")
 	List<Board> findAllByBoardGradeOrderByCreatedTimeDesc(@Param("boardGrade") String boardGrade);
+
+	/**
+	 * 김선아 보드 리스트 
+	 * @param entity
+	 * @return
+	 */
+	@Query(" select b from Board b "
+	        + " where b.user = :user "
+	        + " order by b.id desc ")
+    List<Board> findByOrderByuserIdDesc(@Param("user") User entity);
 
 }

@@ -28,14 +28,14 @@ public class Blog extends BaseTimeEntity {
 	@GeneratedValue(generator = "BLOG_SEQ_GEN", strategy = GenerationType.SEQUENCE)
 	private long id;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	private User user;
 	
 	// 본인 게시물 공개 여부
-	private boolean postPrivate;
+	private int postPrivate;
 	
 	// 본인 작성 댓글 공개 여부
-	private boolean replyPrivate;
+	private int replyPrivate;
 
     
 

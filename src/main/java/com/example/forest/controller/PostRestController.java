@@ -1,5 +1,7 @@
 package com.example.forest.controller;
 
+import java.security.Principal;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -22,6 +24,7 @@ import com.example.forest.dto.post.PostWithLikesCount;
 import com.example.forest.model.Post;
 import com.example.forest.service.LikesService;
 import com.example.forest.service.PostService;
+import com.example.forest.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +37,7 @@ public class PostRestController {
     
 	private final PostService postService;
 	private final LikesService likesService;
+	private final UserService userService;
 	
 	@PostMapping("/check-password")
     public boolean checkPassword(@RequestBody ModifyPasswordCheckDto dto) {
@@ -48,14 +52,21 @@ public class PostRestController {
         return inputPassword.equals(post.getPostPassword());
     }
 	
+	// 삭제
 	@Transactional
 	@DeleteMapping("/{postId}")
-    public ResponseEntity<String> deletePost(@PathVariable long postId) {
+    public ResponseEntity<String> deletePost(@PathVariable long postId, Principal principal) {
         log.info("deletePost(id={})", postId);
         
         likesService.deleteByPost_Id(postId);
         
-        postService.delete(postId);
+        long userId = 0;
+        if(principal != null) {
+            userId = userService.getUserId(principal.getName());
+        }
+        log.info("userId: {}", userId);
+        
+        postService.delete(postId, userId);
         
         return ResponseEntity.ok("Likes for postId " + postId + " has been deleted.");
     }

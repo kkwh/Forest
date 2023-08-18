@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.example.forest.dto.gallog.GallogBoardListDto;
 import com.example.forest.dto.user.UserInfoUpdateDto;
 import com.example.forest.dto.user.UserReplyDto;
 import com.example.forest.dto.user.UserSignUpDto;
@@ -49,6 +47,7 @@ public class UserController {
         log.info("createuser(dto={})",dto);
         
        Long id = userService.registerUser(dto);
+       
        log.info("회원 가입 id", id);
        
        return "/user/login";
@@ -101,20 +100,9 @@ public class UserController {
         
         return ResponseEntity.ok("성공");
     }
-  /**
-    @GetMapping("/gallogmain")
-    public String gallogMainRead(Model model) {
-        log.info("read()");
-        
-        List<Post> list = userService.read();
-        
-        model.addAttribute("boards", list);
-        
-        return "/user/gallogmain";
-       
-    }
-    **/
  
+ 
+    //갤로그 관련.
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/gallogmain")
     public String gallogMain(String loginId, Model model,Principal principal) {
@@ -146,19 +134,13 @@ public class UserController {
             model.addAttribute("user", user);
         }
         
-        
-         // 댓글 리스트
-           List<UserReplyDto> replies = userService.findAllByUserReply(uId);
-           model.addAttribute("replies", replies);
-       
-        
         // 포스트 리스트
         List<Post> posts = userService.findAllByUserPost(uId);
         model.addAttribute("posts",posts);
-       
-        
-       
-       
+      
+        // 댓글 리스트
+        List<UserReplyDto> replies = userService.findAllByUserReply(uId);
+        model.addAttribute("replies", replies);
         
         return "user/gallogmain"; // 해당 뷰 이름 반환
         //패스는 자스에서 넘겨주는 값이 있어야함.

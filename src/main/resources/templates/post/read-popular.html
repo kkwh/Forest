@@ -80,9 +80,17 @@
           <div class="minor_ranking_box">
                <div id="login_box" class="login_box login_box2">
                   <div class="user_info newarea">
-                        <strong>인기 랜드 순위</strong>
+                     <th:block th:if="${board.boardGrade} eq 'Main'">
+                        <strong>인기 메인 랜드 순위</strong>
                         <div th:if="${rank} >= 0" style="font-weight: bold; font-size: 24px;" th:text="${rank} + '위'"></div>
-          				<div th:if="${rank} == -1" style="font-weight: bold; font-size: 24px;">순위 밖</div> 
+                        <div th:if="${rank} == -1" style="font-weight: bold; font-size: 24px;">순위 밖</div>
+                    </th:block>
+                    
+                    <th:block th:if="${board.boardGrade} eq 'Sub'">
+                        <strong>인기 서브 랜드 순위</strong>
+                        <div th:if="${rank} >= 0" style="font-weight: bold; font-size: 24px;" th:text="${rank} + '위'"></div>
+                        <div th:if="${rank} == -1" style="font-weight: bold; font-size: 24px;">순위 밖</div>
+                    </th:block>
                   </div>
               </div>
           </div>
@@ -244,13 +252,31 @@ $(document).ready(function(){
 				                		style="background: none; border: none; cursor: pointer; text-decoration: none; color: black;" 
 				                		onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'"></button>
 				            </td>
-				            <th:block th:if="${ board.user.nickname } != ${post.postNickname}"> 
+                            
+				         <th:block th:if="${ post.userId } != 0">
+                            <th:block th:if="${ board.user.nickname } == ${post.postNickname}">
+                                <td style="color: orange;" class="author">
+                                    <span th:text="${post.postNickname}"></span>
+                                    <div class="author-accordion" style="display:none;">
+                                        <a th:href="@{ /user/gallogmain } + '?loginId=' + ${ post.userLoginId }">정원 가기</a>
+                                    </div>
+                                </td>
+                            </th:block>
+                            
+                            <th:block th:unless="${ board.user.nickname } == ${post.postNickname}">
+                                <td style="color: green;" class="author">
+                                    <span th:text="${post.postNickname}"></span>
+                                    <div class="author-accordion" style="display:none;">
+                                        <a th:href="@{ /user/gallogmain } + '?loginId=' + ${ post.userLoginId }">정원 가기</a>
+                                    </div>
+                                </td>
+                            </th:block>
+                         </th:block>
+                                   
+                            <th:block th:if="${ post.userId } == 0"> 
                                 <td th:text="${post.postNickname} + '(' + ${ post.postIp } + ')'"></td>
                             </th:block>
-                                
-                            <th:block th:if="${ board.user.nickname } == ${post.postNickname}"> 
-                                <td style="color: orange;" th:text="${post.postNickname}"></td>
-                            </th:block>
+                            
 				            <td th:text="${ #temporals.format(post.createdTime, 'yyyy-MM-dd HH:mm:ss') }"></td>
 				            <td class="post-views" th:text="${post.postViews}"></td>
 				            <td th:text="${ post.likesCount }"></td>

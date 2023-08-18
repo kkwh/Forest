@@ -18,7 +18,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     //로그인할떄 찾기 
     User findByLoginId(@Param("loginId") String loginId);
 
-    //유저 아이디 create
+   
+    
    
     //유저 아이디 중복확인
     @Query("select u from User u where u.loginId = :loginId")
@@ -50,6 +51,17 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u "
     		+ " where lower(u.nickname) LIKE lower('%' || :keyword || '%')") 
     List<User> findAllByKeyword(@Param("keyword") String keyword);
+    
+   @Query(" select u.id from User u "
+           + " where u.loginId = :nickname ")
+    Long findUserIdByNickname(@Param("nickname") String nickname);
+   
+   @Query(" select u from User u where u.loginId = nickname ")
+   User findUserByNickname(@Param("nickname") String nickname);
+    
+    
+
+  
    
     
 }

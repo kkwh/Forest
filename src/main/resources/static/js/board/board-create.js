@@ -39,6 +39,25 @@ document.addEventListener('DOMContentLoaded', () => {
 	
 	createBtn.addEventListener('click', createBoard);
 	
+	/**
+	 * 입력된 랜드 생성 폼을 초기화
+	 */
+	const resetForm = () => {
+		const result = confirm('작성한 내용을 삭제하시겠습니까?');
+		
+		if(!result) {
+			return false;
+		}
+		
+		document.querySelector('input#boardName').value = '';
+		document.querySelector('span#message').innerHTML = '';
+		document.querySelector('textarea#boardInfo').value = '';
+		document.querySelector('input#imageFile').value = null;
+	};
+	
+	const clearBtn = document.querySelector('button#clearBtn');
+	clearBtn.addEventListener('click', resetForm);
+	
 });
 
 function loadImage(input) {
