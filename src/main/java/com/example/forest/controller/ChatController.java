@@ -6,12 +6,14 @@ import java.util.List;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.forest.dto.chat.ChatMessageDto;
 import com.example.forest.dto.chat.ChatRoomDto;
 import com.example.forest.model.ChatRoom;
 import com.example.forest.model.User;
@@ -25,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/chat")
+@CrossOrigin(origins = "http://localhost:8090")
 public class ChatController {
 	
 	private final UserService userService;
@@ -77,11 +80,10 @@ public class ChatController {
 	public String room(@PathVariable("id") long id, Principal principal, Model model) {
 		log.info("room(id = {})", id);
 		
-		User user = userService.findUserByLoginId(principal.getName());
-		model.addAttribute("user", user);
+		model.addAttribute("roomId", id);
 		
-		ChatRoom room = chatService.getRoom(id);
-		model.addAttribute("room", room);
+		List<ChatMessageDto> list = chatService.getMessages(id);
+		model.addAttribute("list", list);
 		
 		return "chat/room";
 	}

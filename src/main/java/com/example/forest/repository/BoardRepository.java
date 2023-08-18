@@ -287,6 +287,11 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 		    + " GROUP BY p.board.id, p.board.boardName")
 	List<BoardRankDto> findTop10Boards(@Param("grade") String grade);
 	
+	/**
+	 * 메인/서브 랜드에 있는 게시판을 생성 시간 내림차순으로 불러옴
+	 * @param boardGrade
+	 * @return
+	 */
 	@Query("select b from Board b "
 			+ " where b.boardGrade = :boardGrade "
 			+ " and b.isApproved = 1 "

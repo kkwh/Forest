@@ -12,6 +12,7 @@
     integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
     crossorigin="anonymous">
 <link rel="stylesheet" href="/css/base_layout/main.css" />
+<link rel="stylesheet" href="/css/main/main.css" />
 <link rel="stylesheet"
     href="https://use.fontawesome.com/releases/v5.15.0/css/all.css">
 <!-- <link rel="stylesheet" th:href="@{/css/base_layout/darkmode/darkmode.css}" /> -->
@@ -35,29 +36,25 @@
                                     </a>
                                 </h1>
                                 <!--  // 로고 영역! -->
-
-                                <!-- 전체 검색 -->
-                                
-                                
                             </div>
 
-							<ul class="nav_ul">
-								<li><a href="/board/mainLand">메인 랜드</a></li>
-								<li><a href="/board/subLand">서브 랜드</a></li>
-								
-								<!-- 관리자 페이지에서만 보임 -->
-								<li sec:authorize="hasRole('ADMIN')"><a href="/admin/board/list">내 게시판 목록</a></li>
-								<li sec:authorize="hasRole('ADMIN')"><a href="/admin/board/unapproved">승인 대기 게시판 목록</a></li>
-								<li sec:authorize="hasRole('ADMIN')"><a href="/admin/board/approved">승인된 게시판 목록</a></li>
-								
-								
-								<li><a href="/">이벤트</a></li>
-								<li><a href="/chat/list">오픈 채팅</a></li>
-								<li><a href="/donation/donation">후원</a></li>
-								<li sec:authorize="isAnonymous()"><a href="/user/login">로그인</a></li>
-								<li sec:authorize="isAnonymous()"><a href="/user/signup">회원가입</a></li>
-								<li sec:authorize="hasRole('USER')"><a href="/board/list">내 게시판 목록</a></li>
-								<li sec:authorize="isAuthenticated()"><a href="/user/logout">로그아웃</a></li>
+	<ul class="nav_ul">
+		<li><a href="/board/mainLand">메인 랜드</a></li>
+		<li><a href="/board/subLand">서브 랜드</a></li>
+		
+		<!-- 관리자 페이지에서만 보임 -->
+		<li sec:authorize="hasRole('ADMIN')"><a href="/admin/board/list">내 게시판 목록</a></li>
+		<li sec:authorize="hasRole('ADMIN')"><a href="/admin/board/unapproved">승인 대기 게시판 목록</a></li>
+		<li sec:authorize="hasRole('ADMIN')"><a href="/admin/board/approved">승인된 게시판 목록</a></li>
+		
+		
+		<li><a href="/">이벤트</a></li>
+		<li><a href="/chat/list">오픈 채팅</a></li>
+		<li><a href="/donation/donation">후원</a></li>
+		<li sec:authorize="isAnonymous()"><a href="/user/login">로그인</a></li>
+		<li sec:authorize="isAnonymous()"><a href="/user/signup">회원가입</a></li>
+		<li sec:authorize="hasRole('USER')"><a href="/board/list">내 게시판 목록</a></li>
+		<li sec:authorize="isAuthenticated()"><a href="/user/logout">로그아웃</a></li>
                 <li sec:authorize="isAuthenticated()"><a href="/user/myinfopage"><span th:text="${#authentication.principal.nickname}"></span>></a></li>
                 <li sec:authorize="isAuthenticated()">
                 <div>
@@ -71,7 +68,6 @@
                
    
 
-
                         </div>
                     </div>
                 </div>
@@ -84,8 +80,51 @@
         <!-- main 컨텐츠가 삽입될 위치 -->
         <th:block layout:fragment="main"></th:block>
 
-
+        
     </div>
+    <footer id="main_footer">
+         <div class="container">
+            <ul class="footer_news_list">
+                <li>
+                    <img src="https://via.placeholder.com/160x86">
+                    <div class="footer_news_info">
+                        <span>부스트캠프 2021</span>
+                        <h3>온라인 설명회 신청하기</h3>
+                        <p>SW 개발자를 위한 교육<br>
+                           지원꿀팁과 생생한 후기들!</p>
+                    </div>
+                </li>
+                <li>
+                    <img src="https://via.placeholder.com/160x86">
+                    <div class="footer_news_info">
+                        <span>부스트캠프 2021</span>
+                        <h3>온라인 설명회 신청하기</h3>
+                        <p>SW 개발자를 위한 교육<br>
+                           지원꿀팁과 생생한 후기들!</p>
+                    </div>
+                </li>
+                <li>
+                    <img src="https://via.placeholder.com/160x86">
+                    <div class="footer_news_info">
+                        <span>부스트캠프 2021</span>
+                        <h3>온라인 설명회 신청하기</h3>
+                        <p>SW 개발자를 위한 교육<br>
+                           지원꿀팁과 생생한 후기들!</p>
+                    </div>
+                </li>
+            </ul>
+            <ul class="corp_list">
+                <li><a href="#">회사소개</a></li>
+                <li><a href="#">인재채용</a></li>
+                <li><a href="#">제휴제안</a></li>
+                <li><a href="#">이용약관</a></li>
+                <li><a href="#">개인정보처리방침</a></li>
+                <li><a href="#">청소년보호정책</a></li>
+                <li><a href="#">포레스트 정책</a></li>
+                <li><a href="#">고객센터</a></li>
+                <li><a href="#">FOREST</a></li>
+            </ul>
+         </div>
     <!-- 부트스트랩 -->
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"

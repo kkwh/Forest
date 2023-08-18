@@ -4,8 +4,6 @@
     layout:decorate="~{layout/base_layout}">
 
 <div layout:fragment="main" class="mt-5 p-3">
-    
-    <hr/>
 	
 	<div id="form-section" class="p-3 align-items-center justify-content-center">
 	<div class="container w-50 py-3">
@@ -40,7 +38,10 @@
 		    <button id="createBtn" type="button" class="btn btn-outline-success w-100">랜드 생성</button>
 		  </div>
 		  <div class="col-12">
-		  	<a href="/board/subLand" class="btn btn-outline-danger w-100">취소</a>
+		    <button id="clearBtn" type="button" class="btn btn-outline-danger w-100">초기화</button>
+		  </div>
+		  <div class="col-12">
+		  	<a href="/board/subLand" class="btn btn-outline-primary w-100">취소</a>
 		  </div>
 		</form>
 	</div>
