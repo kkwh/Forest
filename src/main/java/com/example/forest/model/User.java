@@ -65,7 +65,8 @@ public class User extends BaseTimeEntity implements UserDetails {
 	private ImageFile imageFile;
 
     @Builder 
-    private User(String loginId, String password, String nickname, String email, ImageFile imageFile) {
+    private User(long id,String loginId, String password, String nickname, String email, ImageFile imageFile) {
+        this.id = id;
         this.loginId = loginId;
         this.nickname = nickname;
         this.password = password;

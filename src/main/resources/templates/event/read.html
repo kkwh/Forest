@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"    
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/base_layout}">
+    
+    <head>
+        <link rel="stylesheet" th:href="@{/css/event/read.css}">
+    </head>
+
+<main layout:fragment="main" class="mt-5 p-3">
+  <div class="container">  
+    <div class="my-2 card">
+        
+        <div class="page_head clear">
+            <div class = "fl clear">
+                <h2>
+                    <a href="/event"> 포레스트 이벤트</a>
+                </h2>
+            </div>
+        </div>
+        
+        
+        <div class="gall_listwrap list">
+            <table class="table gall_list">
+                <colgroup>
+                        <col style="width:7%">
+                        <col>
+                        <col style="width:18%">
+                </colgroup>
+                
+                <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>제목</th>
+                         <!-- <th>내용</th> -->
+                        <th>등록일</th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    <tr class="ub-content"  th:each="event : ${event}">
+                        <td th:text="${event.id}"></td>
+                        <td> 
+                            <form th:action="@{/event/details}" th:method="get">
+                                <input type="hidden" name="id" th:value="${event.id}" />
+                                <button class="text-link view-post" type="submit">
+                                    <span th:text="${event.title}"></span>
+                                </button>
+                            </form>
+                        </td>
+                        
+                        <!-- <td  th:utext= "${event.content}" style="width:100px;"></td>-->
+                        <td th:text="${ #temporals.format(event.modifiedTime, 'yyyy-MM-dd:mm:ss') }"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- 페이징 -->   
+        <nav class="my-custom-pagination" aria-label="...">
+            <ul class="pagination justify-content-center pagination-sm">
+                <!-- 이전 페이지 -->
+                <li th:if="${startPage > 1}" class="page-item">
+                    <a th:href="@{/event(page=${startPage - 2})}" class="page-link" aria-label="Previous">
+                        <span aria-hidden="true">&laquo; Prev</span>
+                    </a>
+                </li>
+                <!-- 페이지 번호들 -->
+                <li th:each="page : ${#numbers.sequence(startPage, endPage)}" class="page-item">
+                    <a th:if="${page == nowPage}" class="page-link active" th:text="${page}" style= "color: white; background-color: #b53409;"></a>
+                    <a th:if="${page != nowPage}" th:href="@{/event(page=${page - 1})}" class="page-link" th:text="${page}" style="color: red;"></a>
+                </li>
+                <!-- 다음 페이지 -->
+                <li th:if="${endPage < event.totalPages}" class="page-item">
+                    <a th:href="@{/event(page=${endPage})}" class="page-link" aria-label="Next">
+                        <span aria-hidden="true">Next &raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <style>
+            /* 페이지 윤곽선 색상 변경 */
+            .page-item .page-link {
+                border-color: #b53409 !important;
+            }
+        </style>
+        <!-- 페이징 끝 -->
+            
+        <div th:if="${#authentication.name == 'admin'}">
+            <div class="list_array_option clear">
+                    <div class="array_tab left_box">          
+                        <a class="nav-link form-control btn btn-outline-success" th:href="@{/event/create}">작성</a>  
+                    </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <form method="get" th:action="@{/event/search}">
+                <div class="row">
+                    <div class="col-3">
+                        <select class="form-control" name="type">
+                            <option value="t">제목</option>
+                            <option value="c">내용</option>
+                            <option value="tc">제목 + 내용</option>
+                            <!--<option value="a">작성자</option> -->
+                        </select>
+                    </div>
+                    <div class="col-8">
+                        <input class="form-control" name="keyword"
+                        type="text" placeholder="검색어 입력" required />
+                    </div>
+                    <div class="col-1">
+                        <input class="form-control btn btn-outline-dark" type="submit" value="검색"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+    </div>
+  </div>  
+</main>
+
+ 
+
+</html>

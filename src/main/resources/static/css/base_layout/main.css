@@ -68,3 +68,25 @@ div.header_nav ul.nav_ul li a {
 }
 
 
+/*navigation*/
+#navbar {
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 12%);
+}
+
+#navbar ul {
+    padding: 4px 0;
+}
+
+#navbar ul li {
+    /*inline-block의 공백이 신경쓰일 경우 flex를 사용하여도 좋다*/
+    display: inline-block;
+    margin-right: 5px;
+}
+
+#navbar ul li a {
+    font-size: 15px;
+    font-weight: 700;
+    color: #03c75a;
+}
+
+

@@ -100,6 +100,8 @@ public class ValidationRestController {
     }
     
     //임시 비밀번호로 바꾸기 (수정하기 기능)
+    //갤로그 회원가입 동시에 DB만들기
+    
     
     
 
