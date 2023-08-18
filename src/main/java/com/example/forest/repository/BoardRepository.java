@@ -281,10 +281,12 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	 * @return
 	 */
 	@Query("SELECT new com.example.forest.dto.board.BoardRankDto"
-			+ " (p.board.id as id, p.board.boardName AS boardName, ROW_NUMBER() OVER (ORDER BY COUNT(p.id) DESC) AS boardRank, COUNT(p.id) AS postCount) "
-			+ " FROM Post p JOIN p.board b "
-		    + " WHERE b.boardGrade = :grade "
-		    + " GROUP BY p.board.id, p.board.boardName")
+			+ " (b.id as id, b.boardName AS boardName, b.boardCategory AS category, ROW_NUMBER() OVER (ORDER BY COUNT(p.id) DESC) AS boardRank, COUNT(p.id) AS postCount, f AS file) "
+			+ " FROM Post p, Board b, ImageFile f  "
+			+ " where p.board = b"
+			+ " and b.id = f.boardId "
+		    + " and b.boardGrade = :grade "
+		    + " GROUP BY b.id, b.boardName,  b.boardCategory, f")
 	List<BoardRankDto> findTop10Boards(@Param("grade") String grade);
 	
 	/**
