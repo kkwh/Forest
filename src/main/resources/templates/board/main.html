@@ -4,11 +4,19 @@
     xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
     layout:decorate="~{layout/base_layout}">
 
+<head>
+	<style>
+		a:hover { 
+			text-decoration: underline;
+		}
+	</style>
+</head>
+
 <div layout:fragment="main" class="mt-5 p-4">
 	<hr/>
 	
 	<div>
-		<button type="button" id="openTabBtn" class="btn btn-outline-success">랜드 전체 보기</button>
+		<button type="button" id="openTabBtn" class="btn btn-outline-success">랜드 검색</button>
 	</div>
 	
 
@@ -112,7 +120,7 @@
 	<div id="board-section" class="my-3">
 		<div>
 			<div class="card my-3" th:each="entry : ${boardMap}">
-			  <div class="card-header" th:text="|${entry.key.value} (${entry.value.size})|"></div>
+			  <div class="card-header" th:text="|${entry.key.value} [${entry.value.size}]|"></div>
 			  <ul class="list-group list-group-flush">
 		  		<th:block th:each="board : ${entry.value}">
 				    <li class="list-group-item">

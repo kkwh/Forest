@@ -70,7 +70,7 @@ public class BoardController {
 		
 		model.addAttribute("boardMap", boardMap);
 		
-		BoardRankListDto rankDto = boardService.findPopularBoard("Main");
+		BoardRankListDto rankDto = boardService.findPopularBoard("Main", 5);
 		log.info("rankDto = {}", rankDto);
 		model.addAttribute("rankList", rankDto);
 		
@@ -101,7 +101,7 @@ public class BoardController {
 		
 		model.addAttribute("boardMap", boardMap);
 		
-		BoardRankListDto rankDto = boardService.findPopularBoard("Sub");
+		BoardRankListDto rankDto = boardService.findPopularBoard("Sub", 5);
 		log.info("rankDto = {}", rankDto);
 		model.addAttribute("rankList", rankDto);
 		

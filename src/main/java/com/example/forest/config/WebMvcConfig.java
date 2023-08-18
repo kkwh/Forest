@@ -21,8 +21,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/stomp/**") // 원하는 경로 설정
-                .allowedOrigins("http://localhost:8090") // 허용할 Origin 주소
+        registry.addMapping("/**") // 원하는 경로 설정
+                .allowedOrigins("http://localhost:8090", "http://1.1.1.19:8090", "http://192.168.20.14:8090") // 허용할 Origin 주소
                 .allowedMethods("GET", "POST", "PUT", "DELETE") // 허용할 HTTP 메서드
                 .allowedHeaders("*") // 허용할 헤더
                 .allowCredentials(true); // 쿠키 사용 허용 여부
