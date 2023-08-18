@@ -18,72 +18,103 @@ import com.example.forest.model.User;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    // id 내림차순 정렬:
-    // select * from POSTS order by ID desc
+    /**
+     * id 내림차순 정렬:
+     * select * from POSTS order by ID desc
+     * @return
+     */
     List<Post> findByOrderByIdDesc();
     
-    // 제목으로 검색:
-    // select * from posts p
-    // where lower(p.title) like lower('%' || ? || '%')
-    // order by p.id desc
-    // List<Post> findByPostTitleContainsIgnoreCaseOrderByIdDesc(String title);
+    /**
+     * 제목으로 검색:
+     * select * from posts p
+     * where lower(p.title) like lower('%' || ? || '%')
+     * order by p.id desc
+     * @param title
+     * @param boardId
+     * @param pageable
+     * @return
+     */
     @Query("SELECT new com.example.forest.dto.post.PostWithLikesCount(p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, p.postIp, "
             + " (SELECT COUNT(l.id) FROM Likes l WHERE l.post = p AND l.likeDislike = 1), "
-            + " (SELECT COUNT(r.id) FROM Reply r WHERE r.post = p)) as replyCount" // replyCount 추가
+            + " (SELECT COUNT(r.id) FROM Reply r where r.post = p) + (SELECT COUNT(rr.id) FROM ReReply rr JOIN rr.reply r where r.post = p) as replyCount, "
+            + " u.id, u.loginId) " // User의 ID와 loginId만 가져옴
             + " FROM Post p "
+            + " LEFT JOIN Likes l ON p = l.post "
+            + " LEFT JOIN p.user u " // User와의 LEFT JOIN 추가
             + " WHERE lower(p.postTitle) like lower(concat('%', :title, '%'))"
             + " AND p.board.id = :boardId"
             + " ORDER BY p.id desc")
     Page<PostWithLikesCount> findByPostTitleContainsIgnoreCaseOrderByIdDesc(@Param("title") String title, @Param("boardId") Long boardId, Pageable pageable);
 
-    
-    // 내용으로 검색:
-    // select * from posts p
-    // where lower(p.content) like lower('%' || ? || '%')
-    // order by p.id desc
-    // List<Post> findByPostContentContainsIgnoreCaseOrderByIdDesc(String content);
+    /**
+     * 내용으로 검색:
+     * select * from posts p
+     * where lower(p.content) like lower('%' || ? || '%')
+     * order by p.id desc
+     * @param content
+     * @param boardId
+     * @param pageable
+     * @return
+     */
     @Query("SELECT new com.example.forest.dto.post.PostWithLikesCount(p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, p.postIp, "
             + " (SELECT COUNT(l.id) FROM Likes l WHERE l.post = p AND l.likeDislike = 1), "
-            + " (SELECT COUNT(r.id) FROM Reply r WHERE r.post = p)) as replyCount" // replyCount 추가
+            + " (SELECT COUNT(r.id) FROM Reply r where r.post = p) + (SELECT COUNT(rr.id) FROM ReReply rr JOIN rr.reply r where r.post = p) as replyCount, "
+            + " u.id, u.loginId) " // User의 ID와 loginId만 가져옴
             + " FROM Post p "
+            + " LEFT JOIN Likes l ON p = l.post "
+            + " LEFT JOIN p.user u " // User와의 LEFT JOIN 추가
             + " WHERE lower(p.postContent) like lower(concat('%', :content, '%'))"
             + " AND p.board.id = :boardId"
             + " ORDER BY p.id desc")
     Page<PostWithLikesCount> findByPostContentContainsIgnoreCaseOrderByIdDesc(@Param("content") String content, @Param("boardId") Long boardId, Pageable pageable);
-    
-    // 작성자로 검색:
-    // select * from posts p
-    // where lower(p.nickname) like lower('%' || ? || '%')
-    // order by p.id desc
-    // List<Post> findByPostNicknameContainsIgnoreCaseOrderByIdDesc(String nickname);
+
+    /**
+     * 작성자로 검색:
+     * select * from posts p
+     * where lower(p.nickname) like lower('%' || ? || '%')
+     * order by p.id desc
+     * @param nickname
+     * @param boardId
+     * @param pageable
+     * @return
+     */
     @Query("SELECT new com.example.forest.dto.post.PostWithLikesCount(p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, p.postIp, "
             + " (SELECT COUNT(l.id) FROM Likes l WHERE l.post = p AND l.likeDislike = 1), "
-            + " (SELECT COUNT(r.id) FROM Reply r WHERE r.post = p)) as replyCount" // replyCount 추가
+            + " (SELECT COUNT(r.id) FROM Reply r where r.post = p) + (SELECT COUNT(rr.id) FROM ReReply rr JOIN rr.reply r where r.post = p) as replyCount, "
+            + " u.id, u.loginId) " // User의 ID와 loginId만 가져옴
             + " FROM Post p "
+            + " LEFT JOIN Likes l ON p = l.post "
+            + " LEFT JOIN p.user u " // User와의 LEFT JOIN 추가
             + " WHERE lower(p.postNickname) like lower(concat('%', :nickname, '%'))"
             + " AND p.board.id = :boardId"
             + " ORDER BY p.id desc")
     Page<PostWithLikesCount> findByPostNicknameContainsIgnoreCaseOrderByIdDesc(@Param("nickname") String nickname, @Param("boardId") Long boardId, Pageable pageable);
-    
-    // 제목 또는 내용으로 검색:
-    // select * from posts p
-    // where lower(p.title) like lower('%' || ? || '%')
-    //    or lower(p.content) like lower('%' || ? || '%')
-    // order by p.id desc
-    // List<Post> findByTitleContainsIgnoreCaseOrContentContainsIgnoreCaseOrderByIdDesc(String title, String content);
+
+    /**
+     * 제목 또는 내용으로 검색:
+     * select * from posts p
+     * where lower(p.title) like lower('%' || ? || '%')
+     *    or lower(p.content) like lower('%' || ? || '%')
+     * order by p.id desc
+     * @param title
+     * @param content
+     * @param boardId
+     * @param pageable
+     * @return
+     */
     @Query("SELECT new com.example.forest.dto.post.PostWithLikesCount(p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, p.postIp, "
             + " (SELECT COUNT(l.id) FROM Likes l WHERE l.post = p AND l.likeDislike = 1), "
-            + " (SELECT COUNT(r.id) FROM Reply r WHERE r.post = p)) as replyCount" // replyCount 추가
+            + " (SELECT COUNT(r.id) FROM Reply r where r.post = p) + (SELECT COUNT(rr.id) FROM ReReply rr JOIN rr.reply r where r.post = p) as replyCount, "
+            + " u.id, u.loginId) " // User의 ID와 loginId만 가져옴
             + " FROM Post p "
+            + " LEFT JOIN Likes l ON p = l.post "
+            + " LEFT JOIN p.user u " // User와의 LEFT JOIN 추가
             + " WHERE (lower(p.postTitle) like lower(concat('%', :title, '%')) AND p.board.id = :boardId"
             + " OR lower(p.postContent) like lower(concat('%', :content, '%')) AND p.board.id = :boardId)"
             + " ORDER BY p.id desc")
     Page<PostWithLikesCount> findByTitleContainsIgnoreCaseOrContentContainsIgnoreCaseOrderByIdDesc(@Param("title") String title, @Param("content") String content, @Param("boardId") Long boardId, Pageable pageable);
 
-    
-    // JPQL(JPA Query Language) 문법으로 쿼리를 작성하고, 그 쿼리를 실행하는 메서드 이름을 설정:
-    // JPQL은 Entity 클래스의 이름과 필드 이름들을 사용해서 작성.
-    // (주의) DB 테이블 이름과 컬럼 이름을 사용하지 않음!
     @Query(
         "select p from Post p " +
         " where lower(p.postTitle) like lower('%' || :keyword || '%') " + 
@@ -91,43 +122,65 @@ public interface PostRepository extends JpaRepository<Post, Long> {
         " order by p.id desc"
     )
     List<Post> searchByKeyword(@Param("keyword") String keyword);
-    
-    
-    // POST + 좋아요 수 조회
+
+    /**
+     * POST + 좋아요 수 + 댓글 수 조회 (전체글)
+     * @param boardId
+     * @param pageable
+     * @return
+     */
     @Query("SELECT new com.example.forest.dto.post.PostWithLikesCount(p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, p.postIp, "
             + " (SELECT COUNT(l.id) FROM Likes l where l.post = p and l.likeDislike = 1) as likesCount, "
-            + " (SELECT COUNT(r.id) FROM Reply r where r.post = p) as replyCount) "
-            + " FROM Post p LEFT JOIN Likes l "
-            + " ON p = l.post "
-            + " WHERE p.board.id = :boardId " // 해당 board.id
-            + " GROUP BY p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, p.postIp "
+            + " (SELECT COUNT(r.id) FROM Reply r where r.post = p) + (SELECT COUNT(rr.id) FROM ReReply rr JOIN rr.reply r where r.post = p) as replyCount, "
+            + " u.id, u.loginId) " // User의 ID와 loginId만 가져옴
+            + " FROM Post p "
+            + " LEFT JOIN Likes l ON p = l.post "
+            + " LEFT JOIN p.user u " // User와의 LEFT JOIN 추가
+            + " WHERE p.board.id = :boardId "
+            + " GROUP BY p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, p.postIp, u.id, u.loginId " // User의 ID와 loginId 추가
             + " ORDER BY p.id desc")
     Page<PostWithLikesCount> findAllPostsWithLikesCount(@Param("boardId") Long boardId, Pageable pageable);
+
+
+
     
-    
-    // 인기글 조회(POST + 좋아요 수)
+    /**
+     * 인기글 조회(POST + 좋아요 수  + 댓글 수)
+     * @param boardId
+     * @param pageable
+     * @return
+     */
     @Query("SELECT new com.example.forest.dto.post.PostWithLikesCount2(p.id as id, p.postType as postType, p.postTitle as postTitle, p.postNickname as postNickname, p.createdTime as createdTime, p.postViews as postViews, p.postIp as postIp, "
             + " (SELECT COUNT(l.id) FROM Likes l WHERE l.post = p AND l.likeDislike = 1) as likesCount, "
             + " (SELECT COUNT(l.id) FROM Likes l WHERE l.post = p AND l.likeDislike = 1) - "
             + " (SELECT COUNT(l.id) FROM Likes l WHERE l.post = p AND l.likeDislike = 0) as likesDifference, "
-            + " (SELECT COUNT(r.id) FROM Reply r where r.post = p) as replyCount) " // 댓글 개수 추가
-            + " FROM Post p "
+            + " (SELECT COUNT(r.id) FROM Reply r where r.post = p) + (SELECT COUNT(rr.id) FROM ReReply rr JOIN rr.reply r where r.post = p) as replyCount, "
+            + " p.user.id as userId, p.user.loginId as userLoginId) " // User의 ID와 loginId 추가
+            + " FROM Post p LEFT JOIN p.user u " // User 엔터티에 대한 LEFT JOIN 추가
             + " WHERE p.board.id = :boardId " // board.id가 boardId와 일치
-            + " GROUP BY p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, p.postIp "
+            + " GROUP BY p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, p.postIp, p.user.id, p.user.loginId " // User의 ID와 loginId 추가
             + " HAVING (SELECT COUNT(l.id) FROM Likes l WHERE l.post = p AND l.likeDislike = 1) - "
             + " (SELECT COUNT(l.id) FROM Likes l WHERE l.post = p AND l.likeDislike = 0) >= 5 "
             + " ORDER BY p.id DESC")
     Page<PostWithLikesCount2> findAllPostsWithLikesDifference(@Param("boardId") Long boardId, Pageable pageable);
+
     
-    // 공지글(NOTICE) 조회
+    /**
+     * 공지글 조회(POST + 좋아요 수  + 댓글 수)
+     * @param boardId
+     * @param pageable
+     * @return
+     */
     @Query("SELECT new com.example.forest.dto.post.PostWithLikesCount(p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, p.postIp, "
             + " (SELECT COUNT(l.id) FROM Likes l where l.post = p and l.likeDislike = 1) as likesCount, "
-            + " (SELECT COUNT(r.id) FROM Reply r where r.post = p) as replyCount) "
-            + " FROM Post p LEFT JOIN Likes l "
-            + " ON p = l.post "
-            + " WHERE p.board.id = :boardId " // 해당 board.id
+            + " (SELECT COUNT(r.id) FROM Reply r where r.post = p) + (SELECT COUNT(rr.id) FROM ReReply rr JOIN rr.reply r where r.post = p) as replyCount, "
+            + " u.id, u.loginId) " // User의 ID와 loginId만 가져옴
+            + " FROM Post p "
+            + " LEFT JOIN Likes l ON p = l.post "
+            + " LEFT JOIN p.user u " // User와의 LEFT JOIN 추가
+            + " WHERE p.board.id = :boardId "
             + " AND p.postType = '공지' "
-            + " GROUP BY p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, p.postIp "
+            + " GROUP BY p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, p.postIp, u.id, u.loginId " // User의 ID와 loginId 추가
             + " ORDER BY p.id desc")
     Page<PostWithLikesCount> findAllPostsWithLikesCountWhenNotice(@Param("boardId") Long boardId, Pageable pageable);
     
@@ -191,22 +244,32 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             + " ORDER BY p.id desc")
     Page<PostWithLikesCount> findAllPostsWithLikesCountWhenEvent(@Param("boardId") Long boardId, Pageable pageable);
     
-    
-    // 게시글 말머리 별 필터 조회
+    /**
+     * 게시글 말머리 별 필터 조회
+     * 말머리 별 조회(POST + 좋아요 수  + 댓글 수)
+     * @param boardId
+     * @param postType
+     * @param pageable
+     * @return
+     */
     @Query("SELECT new com.example.forest.dto.post.PostWithLikesCount(p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, p.postIp, "
             + " (SELECT COUNT(l.id) FROM Likes l where l.post = p and l.likeDislike = 1) as likesCount, "
-            + " (SELECT COUNT(r.id) FROM Reply r where r.post = p) as replyCount) "
-            + " FROM Post p LEFT JOIN Likes l "
-            + " ON p = l.post "
+            + " (SELECT COUNT(r.id) FROM Reply r where r.post = p) + (SELECT COUNT(rr.id) FROM ReReply rr JOIN rr.reply r where r.post = p) as replyCount, "
+            + " p.user.id, p.user.loginId) " // User의 ID와 loginId 추가
+            + " FROM Post p LEFT JOIN p.user u " // User 엔터티에 대한 LEFT JOIN 추가
+            + " LEFT JOIN Likes l ON p = l.post "
             + " WHERE p.board.id = :boardId " // 해당 board.id
             + " AND p.postType = :postType "
-            + " GROUP BY p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, p.postIp "
+            + " GROUP BY p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, p.postIp, p.user.id, p.user.loginId " // User의 ID와 loginId 추가
             + " ORDER BY p.id desc")
     Page<PostWithLikesCount> findAllPostsWithLikesCountByType(@Param("boardId") Long boardId, @Param("postType") String postType, Pageable pageable);
+
     
-    
-    
-    // postId로 board.id를 구하기 위함
+    /**
+     * postId로 board.id를 구하기 위함
+     * @param postId
+     * @return
+     */
     @Query("SELECT p.board.id FROM Post p WHERE p.id = :postId")
     Long findBoardIdByPostId(@Param("postId") Long postId);
 
