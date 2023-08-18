@@ -477,19 +477,19 @@ public class BoardService {
 	 * @param boardGrade
 	 * @return
 	 */
-	public BoardRankListDto findPopularBoard(String boardGrade) {
+	public BoardRankListDto findPopularBoard(String boardGrade, int size) {
 		log.info("findPopularBoard(grade = {})", boardGrade);
 		
 		List<BoardRankDto> list = boardRepository.findTop10Boards(boardGrade);
 		List<BoardRankDto> rank1 = new ArrayList<>();
 		List<BoardRankDto> rank2 = new ArrayList<>();
 		int idx = 0;
-		while(idx < 5 && idx < list.size()) {
+		while(idx < size && idx < list.size()) {
 			rank1.add(list.get(idx));
 			idx++;
 		}
 		
-		while(idx >= 5 && idx < list.size() && idx < 10) {
+		while(idx >= size && idx < list.size() && idx < size * 2) {
 			rank2.add(list.get(idx));
 			idx++;
 		}
@@ -499,12 +499,12 @@ public class BoardService {
 		List<BoardListDto> date2 = new ArrayList<>();
 		
 		idx = 0;
-		while(idx < 5 && idx < boards.size()) {
+		while(idx < size && idx < boards.size()) {
 			date1.add(BoardListDto.fromEntity(boards.get(idx)));
 			idx++;
 		}
 		
-		while(idx >= 5 && idx < boards.size() && idx < 10) {
+		while(idx >= size && idx < boards.size() && idx < size * 2) {
 			date2.add(BoardListDto.fromEntity(boards.get(idx)));
 			idx++;
 		}

@@ -13,7 +13,7 @@
                 <h2>후원하기</h2>
             </div>  
         </div>
-         <div class="card-body bg-white mt-0 shadow">
+         <div class="card-body bg-white mt-0 shadow p-2">
                 <p style="font-weight: bold">카카오페이 현재 사용가능</p>
 
                 <label class="box-radio-input"><input type="radio" name="cp_item" value="100"><span>100원</span></label>
@@ -38,12 +38,12 @@
                     <label class="donation-nickname" for="name" th:value="${ #authentication.name }"
                        id="name" th:text="${ #authentication.name + ' 님'  }" style="margin-left: 10px; margin-top:5px" ></label>
                     <input type="hidden" id="name" name="name" th:value="${ #authentication.name }"required readonly />
-                    <button type="button" onclick="requestPay()" class="btn btn-lg btn-block  btn-custom" id="charge_kakao">후 원 하 기</button>
+                    <button type="button" onclick="requestPay()" class="btn btn-outline-success" id="charge_kakao">후 원 하 기</button>
                 </th:block>
         </div>
         
         
-        <div id="donator-list" class="card-body bg-white mt-3 shadow">
+        <div id="donator-list" class="card-body bg-white mt-3 shadow p-2">
         
         	<h2>후원자 목록</h2>
 	        <table class="table">

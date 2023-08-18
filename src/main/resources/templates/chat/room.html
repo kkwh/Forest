@@ -46,8 +46,10 @@
           var stomp = Stomp.over(sockJs);
 
           //2. connection이 맺어지면 실행
-          stomp.connect({}, function (){
-             console.log("STOMP Connection")
+          stomp.connect({}, function (frame) {
+             console.log("STOMP Connection");
+             
+             console.log('Connected: '+ frame);
 
              //4. subscribe(path, callback)으로 메세지를 받을 수 있음
              stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
