@@ -52,7 +52,7 @@
                               <span style="color: orange;" class="author">
                                 <span class="nickname" title="ㅇㅇ" th:text="${post.postNickname} + '&nbsp;&nbsp;'"><em></em></span>
                                     <span class="author-accordion" style="display:none;">
-                                        <a th:href="@{ /user/gallogmain } + '?loginId=' + ${ user.loginId }">정원 가기</a>
+                                        <a th:href="@{ /garden/gardenmain } + '?loginId=' + ${ user.loginId }">정원 가기</a>
                                     </span>
                               </span>                                                               
                                 <span class="gall_date" title="2023-08-01 12:03:25" th:text="${ #temporals.format(post.createdTime, 'yyyy.MM.dd HH:mm:ss') }"></span>
@@ -65,7 +65,7 @@
                               <span style="color: green;" class="author">
                                 <span class="nickname" title="ㅇㅇ" th:text="${post.postNickname} + '&nbsp;&nbsp;'"><em></em></span>
                                     <span class="author-accordion" style="display:none;">
-                                        <a th:href="@{ /user/gallogmain } + '?loginId=' + ${ user.loginId }">정원 가기</a>
+                                        <a th:href="@{ /garden/gardenmain } + '?loginId=' + ${ user.loginId }">정원 가기</a>
                                     </span>
                               </span>                                                               
                                 <span class="gall_date" title="2023-08-01 12:03:25" th:text="${ #temporals.format(post.createdTime, 'yyyy.MM.dd HH:mm:ss') }"></span>

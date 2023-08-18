@@ -259,7 +259,7 @@ $(document).ready(function(){
                                 <td style="color: orange;" class="author">
                                     <span th:text="${post.postNickname}"></span>
                                     <div class="author-accordion" style="display:none;">
-                                        <a th:href="@{ /user/gallogmain } + '?loginId=' + ${ post.userLoginId }">정원 가기</a>
+                                        <a th:href="@{ /garden/gardenmain } + '?loginId=' + ${ post.userLoginId }">정원 가기</a>
                                     </div>
                                 </td>
                             </th:block>
@@ -268,7 +268,7 @@ $(document).ready(function(){
                                 <td style="color: green;" class="author">
                                     <span th:text="${post.postNickname}"></span>
                                     <div class="author-accordion" style="display:none;">
-                                        <a th:href="@{ /user/gallogmain } + '?loginId=' + ${ post.userLoginId }">정원 가기</a>
+                                        <a th:href="@{ /garden/gardenmain } + '?loginId=' + ${ post.userLoginId }">정원 가기</a>
                                     </div>
                                 </td>
                             </th:block>
