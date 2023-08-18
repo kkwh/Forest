@@ -37,8 +37,11 @@ public interface PostRepository extends JpaRepository<Post, Long> {
      */
     @Query("SELECT new com.example.forest.dto.post.PostWithLikesCount(p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, p.postIp, "
             + " (SELECT COUNT(l.id) FROM Likes l WHERE l.post = p AND l.likeDislike = 1), "
-            + " (SELECT COUNT(r.id) FROM Reply r WHERE r.post = p)) as replyCount" // replyCount 추가
+            + " (SELECT COUNT(r.id) FROM Reply r where r.post = p) + (SELECT COUNT(rr.id) FROM ReReply rr JOIN rr.reply r where r.post = p) as replyCount, "
+            + " u.id, u.loginId) " // User의 ID와 loginId만 가져옴
             + " FROM Post p "
+            + " LEFT JOIN Likes l ON p = l.post "
+            + " LEFT JOIN p.user u " // User와의 LEFT JOIN 추가
             + " WHERE lower(p.postTitle) like lower(concat('%', :title, '%'))"
             + " AND p.board.id = :boardId"
             + " ORDER BY p.id desc")
@@ -56,8 +59,11 @@ public interface PostRepository extends JpaRepository<Post, Long> {
      */
     @Query("SELECT new com.example.forest.dto.post.PostWithLikesCount(p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, p.postIp, "
             + " (SELECT COUNT(l.id) FROM Likes l WHERE l.post = p AND l.likeDislike = 1), "
-            + " (SELECT COUNT(r.id) FROM Reply r WHERE r.post = p)) as replyCount" // replyCount 추가
+            + " (SELECT COUNT(r.id) FROM Reply r where r.post = p) + (SELECT COUNT(rr.id) FROM ReReply rr JOIN rr.reply r where r.post = p) as replyCount, "
+            + " u.id, u.loginId) " // User의 ID와 loginId만 가져옴
             + " FROM Post p "
+            + " LEFT JOIN Likes l ON p = l.post "
+            + " LEFT JOIN p.user u " // User와의 LEFT JOIN 추가
             + " WHERE lower(p.postContent) like lower(concat('%', :content, '%'))"
             + " AND p.board.id = :boardId"
             + " ORDER BY p.id desc")
@@ -75,8 +81,11 @@ public interface PostRepository extends JpaRepository<Post, Long> {
      */
     @Query("SELECT new com.example.forest.dto.post.PostWithLikesCount(p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, p.postIp, "
             + " (SELECT COUNT(l.id) FROM Likes l WHERE l.post = p AND l.likeDislike = 1), "
-            + " (SELECT COUNT(r.id) FROM Reply r WHERE r.post = p)) as replyCount" // replyCount 추가
+            + " (SELECT COUNT(r.id) FROM Reply r where r.post = p) + (SELECT COUNT(rr.id) FROM ReReply rr JOIN rr.reply r where r.post = p) as replyCount, "
+            + " u.id, u.loginId) " // User의 ID와 loginId만 가져옴
             + " FROM Post p "
+            + " LEFT JOIN Likes l ON p = l.post "
+            + " LEFT JOIN p.user u " // User와의 LEFT JOIN 추가
             + " WHERE lower(p.postNickname) like lower(concat('%', :nickname, '%'))"
             + " AND p.board.id = :boardId"
             + " ORDER BY p.id desc")
@@ -96,8 +105,11 @@ public interface PostRepository extends JpaRepository<Post, Long> {
      */
     @Query("SELECT new com.example.forest.dto.post.PostWithLikesCount(p.id, p.postType, p.postTitle, p.postNickname, p.createdTime, p.postViews, p.postIp, "
             + " (SELECT COUNT(l.id) FROM Likes l WHERE l.post = p AND l.likeDislike = 1), "
-            + " (SELECT COUNT(r.id) FROM Reply r WHERE r.post = p)) as replyCount" // replyCount 추가
+            + " (SELECT COUNT(r.id) FROM Reply r where r.post = p) + (SELECT COUNT(rr.id) FROM ReReply rr JOIN rr.reply r where r.post = p) as replyCount, "
+            + " u.id, u.loginId) " // User의 ID와 loginId만 가져옴
             + " FROM Post p "
+            + " LEFT JOIN Likes l ON p = l.post "
+            + " LEFT JOIN p.user u " // User와의 LEFT JOIN 추가
             + " WHERE (lower(p.postTitle) like lower(concat('%', :title, '%')) AND p.board.id = :boardId"
             + " OR lower(p.postContent) like lower(concat('%', :content, '%')) AND p.board.id = :boardId)"
             + " ORDER BY p.id desc")

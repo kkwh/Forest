@@ -279,11 +279,13 @@ public class PostController {
         log.info("userId: {}", userId);
         model.addAttribute("userId", userId);
         
+        User user = new User();       
         if(userId != 0) {
-            User user = userService.findUserById(userId);
-            model.addAttribute("user", user);
-            log.info("user: {}", user);
+            user = userService.findUserById(userId);
         }
+        
+        model.addAttribute("user", user);
+        log.info("user: {}", user);
         
         // 채한별 추가 : 
         // REPLIES 테이브에서 해당 포스트에 달린 댓글 개수를 검색.
@@ -358,15 +360,25 @@ public class PostController {
     }
     
     @GetMapping("/search")
-    public String search(PostSearchDto dto, Model model, @PageableDefault(page = 0, size = 100) Pageable pageable) {
+    public String search(PostSearchDto dto, Model model, Principal principal, @PageableDefault(page = 0, size = 100) Pageable pageable, HttpServletRequest request) {
         log.info("search(dto={})", dto);
         
         // postService의 검색 기능 호출:
         Page<PostWithLikesCount> list = postService.search(dto, pageable);
         
-        int nowPage = list.getPageable().getPageNumber() + 1;
-		int startPage = Math.max(nowPage - 4, 1);
-		int endPage = Math.min(nowPage + 5, list.getTotalPages());
+        int nowPage = 0;
+        int startPage = 0;
+        int endPage = 0;
+        
+        if (list.getTotalPages() == 0) {
+            nowPage = 0; // 페이지가 비어 있으면 현재 페이지를 0으로 설정
+            startPage = 0;
+            endPage = 0;
+        } else {
+            nowPage = list.getPageable().getPageNumber() + 1;
+            startPage = Math.max(nowPage - 4, 1);
+            endPage = Math.min(nowPage + 5, list.getTotalPages());
+        }
         
         // 검색 결과를 Model에 저장해서 뷰로 전달:
         model.addAttribute("posts", list);
@@ -375,22 +387,74 @@ public class PostController {
 	    model.addAttribute("endPage", endPage);
         log.info("search(list={})", list);
         
+        long userId = 0;
+        if(principal != null) {
+            userId = userService.getUserId(principal.getName());
+        }
+        log.info("userId: {}", userId);
+        model.addAttribute("userId", userId);
+        
+        if(userId != 0) {
+            User user = userService.findUserById(userId);
+            model.addAttribute("user", user);
+            log.info("user: {}", user);
+        }
+        
         BoardDetailDto dto2 = boardService.findById(dto.getBoardId());
         model.addAttribute("board", dto2);
+        
+        // 최근 방문 랜드
+        LinkedList<Long> recentLands = (LinkedList<Long>) request.getSession().getAttribute("recentLands");
+        if (recentLands == null) {
+            recentLands = new LinkedList<>();
+        }
+        
+        recentLands.remove((Long) dto2.getId());
+        recentLands.addFirst(dto2.getId());
+        
+        while (recentLands.size() > 10) {
+            recentLands.removeLast();
+        }
+
+        request.getSession().setAttribute("recentLands", recentLands);
+        
+        List<BoardDetailDto> recentLandBoards = recentLands.stream().map(boardService::findById).collect(Collectors.toList());
+        model.addAttribute("recentLands", recentLandBoards);
+        
+        // 인기 순위 표시
+        String grade = "Sub"; // 기본값으로 서브랜드 설정
+        log.info("boardGrade: {}", dto2.getBoardGrade());
+        if ("Main".equalsIgnoreCase(dto2.getBoardGrade())) {
+            grade = "Main"; // 사용자가 메인랜드를 선택한 경우
+        }
+        
+        long rank = postService.findRankByLandId(dto2.getId(), grade);
+        log.info("rank: {}", rank);
+        model.addAttribute("rank", rank);
         
         return "/board/read";
     }
     
     @GetMapping("/search2")
-    public String search2(PostSearchDto dto, Model model, @PageableDefault(page = 0, size = 100) Pageable pageable) {
+    public String search2(PostSearchDto dto, Model model, Principal principal, @PageableDefault(page = 0, size = 100) Pageable pageable, HttpServletRequest request) {
         log.info("search2(dto={})", dto);
         
         // postService의 검색 기능 호출:
         Page<PostWithLikesCount> list = postService.search(dto, pageable);
         
-        int nowPage = list.getPageable().getPageNumber() + 1;
-		int startPage = Math.max(nowPage - 4, 1);
-		int endPage = Math.min(nowPage + 5, list.getTotalPages());
+        int nowPage = 0;
+        int startPage = 0;
+        int endPage = 0;
+        
+        if (list.getTotalPages() == 0) {
+            nowPage = 0; // 페이지가 비어 있으면 현재 페이지를 0으로 설정
+            startPage = 0;
+            endPage = 0;
+        } else {
+            nowPage = list.getPageable().getPageNumber() + 1;
+            startPage = Math.max(nowPage - 4, 1);
+            endPage = Math.min(nowPage + 5, list.getTotalPages());
+        }
         
         // 검색 결과를 Model에 저장해서 뷰로 전달:
         model.addAttribute("posts", list);
@@ -399,9 +463,51 @@ public class PostController {
 	    model.addAttribute("endPage", endPage);
         log.info("search2(list={})", list);
         
+        long userId = 0;
+        if(principal != null) {
+            userId = userService.getUserId(principal.getName());
+        }
+        log.info("userId: {}", userId);
+        model.addAttribute("userId", userId);
+        
+        if(userId != 0) {
+            User user = userService.findUserById(userId);
+            model.addAttribute("user", user);
+            log.info("user: {}", user);
+        }
+        
         BoardDetailDto dto2 = boardService.findById(dto.getBoardId());
         model.addAttribute("board", dto2);
         log.info("board={}", dto2);
+        
+        // 최근 방문 랜드
+        LinkedList<Long> recentLands = (LinkedList<Long>) request.getSession().getAttribute("recentLands");
+        if (recentLands == null) {
+            recentLands = new LinkedList<>();
+        }
+        
+        recentLands.remove((Long) dto2.getId());
+        recentLands.addFirst(dto2.getId());
+        
+        while (recentLands.size() > 10) {
+            recentLands.removeLast();
+        }
+
+        request.getSession().setAttribute("recentLands", recentLands);
+        
+        List<BoardDetailDto> recentLandBoards = recentLands.stream().map(boardService::findById).collect(Collectors.toList());
+        model.addAttribute("recentLands", recentLandBoards);
+        
+        // 인기 순위 표시
+        String grade = "Sub"; // 기본값으로 서브랜드 설정
+        log.info("boardGrade: {}", dto2.getBoardGrade());
+        if ("Main".equalsIgnoreCase(dto2.getBoardGrade())) {
+            grade = "Main"; // 사용자가 메인랜드를 선택한 경우
+        }
+        
+        long rank = postService.findRankByLandId(dto2.getId(), grade);
+        log.info("rank: {}", rank);
+        model.addAttribute("rank", rank);
         
         return "/post/read-popular";
     }
@@ -412,7 +518,8 @@ public class PostController {
                         @RequestParam(value = "postType", required = false) String postType,
                         Model model,
                         Principal principal,
-                        @PageableDefault(page = 0, size = 3) Pageable pageable) {
+                        @PageableDefault(page = 0, size = 3) Pageable pageable, 
+                        HttpServletRequest request) {
         log.info("posts(id={})", boardId);
         BoardDetailDto dto = boardService.findById(boardId);
         model.addAttribute("board", dto);
@@ -456,6 +563,24 @@ public class PostController {
             User user = userService.findUserById(userId);
             model.addAttribute("user", user);
         }
+        
+        // 최근 방문 랜드
+        LinkedList<Long> recentLands = (LinkedList<Long>) request.getSession().getAttribute("recentLands");
+        if (recentLands == null) {
+            recentLands = new LinkedList<>();
+        }
+        
+        recentLands.remove((Long) boardId);
+        recentLands.addFirst(boardId);
+        
+        while (recentLands.size() > 10) {
+            recentLands.removeLast();
+        }
+
+        request.getSession().setAttribute("recentLands", recentLands);
+        
+        List<BoardDetailDto> recentLandBoards = recentLands.stream().map(boardService::findById).collect(Collectors.toList());
+        model.addAttribute("recentLands", recentLandBoards);
         
         // 인기 순위 표시
         String grade = "Sub"; // 기본값으로 서브랜드 설정
