@@ -106,29 +106,29 @@
 			  </div>
 			  <div class="card-body">
 			  	<div>
-		  		<div id="search-bar" class="d-flex py-2 bg-success-subtle">
-				  <div class="px-2 flex-grow-1">
-				  	<input type="text" id="userKeyword" class="w-100 form-control" placeholder="유저 닉네임 입력" />
-				  </div>
-				  <div class="px-2"><button id="clearBtn" class="btn btn-outline-primary">X</button></div>
-				  <div class="px-2"><button type="button" id="userSearchBtn" class="btn btn-outline-success">검색</button></div>
-				</div>
-				<div class="border border-dark">
-					<ul id="user-list" class="list-group overflow-auto" style="height: 250px;">
-					  	<th:block th:each="user : ${userList}">
-					    	<li class="list-group-item">
-					    		<div class="row">
-					    			<div class="col-9">
-					    				[[${user.nickname}]]
-					    			</div>
-					    			<div class="col-3">
-					    				<button type="button" class="btn btn-outline-dark blockBtn w-100" th:data-id="${user.id}">권한 부여</button>
-					    			</div>
-					    		</div>
-				    		</li>
-					    </th:block>
-					  </ul>
-				</div>
+			  		<div id="search-bar" class="d-flex py-2 bg-success-subtle">
+					  <div class="px-2 flex-grow-1">
+					  	<input type="text" id="userKeyword" class="w-100 form-control" placeholder="유저 닉네임 입력" />
+					  </div>
+					  <div class="px-2"><button id="userClearBtn" class="btn btn-outline-primary">X</button></div>
+					  <div class="px-2"><button type="button" id="userSearchBtn" class="btn btn-outline-success">검색</button></div>
+					</div>
+					<div class="border border-dark">
+						<ul id="user-list" class="list-group overflow-auto" style="height: 250px;">
+						  	<th:block th:each="user : ${userList}">
+						    	<li class="list-group-item">
+						    		<div class="row">
+						    			<div class="col-9">
+						    				[[${user.nickname}]]
+						    			</div>
+						    			<div class="col-3">
+						    				<button type="button" class="btn btn-outline-dark blockBtn w-100" th:data-id="${user.id}">권한 부여</button>
+						    			</div>
+						    		</div>
+					    		</li>
+						    </th:block>
+						  </ul>
+					</div>
 				</div>
 			  </div>
 			  
