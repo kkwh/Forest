@@ -46,44 +46,49 @@
                     <div class="blog_media_wrap">
                         <div class="news_header">
                             <h2>메인 랜드
-                                <a style="margin-top: 2px;"href="/board/mainLand"></a>
+                                <a style="margin-top: 2px;" href="/board/mainLand"></a>
                             </h2>
                             <ul>
-                              <th:block th:each="board: ${rankListMain.top5List}">
-                                <li>
-                                    <img th:src="${board.file.uploadPath}" style="width: 320px; height:180px;">
-                                    <div class="blog_media_info">
-                                        <h4>[[${board.boardRank}]].
-                                            <a th:href="@{ /board/ } + ${board.id}" th:data-id="${board.id}"  th:text="${board.boardName}"
-                                                class="link-dark link-offset-2 link-underline link-underline-opacity-0 loadBoardBtn">
-                                            </a>
-                                        </h4>
-                                        <span th:text="${board.category.value}"></span>     
-                                    </div>
-                                </li>
-                              </th:block>
+                                <th:block th:each="board: ${rankListMain.top5List}">
+                                    <li>
+                                        <a th:href="@{/board/{id}(id=${board.id})}" th:data-id="${board.id}" class="loadBoardBtn">
+                                            <img th:src="${board.file.uploadPath}" style="width: 320px; height:180px;">
+                                        </a>
+                                        <div class="blog_media_info">
+                                            <h4>[[${board.boardRank}]].
+                                                <a th:href="@{/board/{id}(id=${board.id})}" th:data-id="${board.id}" th:text="${board.boardName}"
+                                                   class="link-dark link-offset-2 link-underline link-underline-opacity-0 loadBoardBtn">
+                                                </a>
+                                            </h4>
+                                            <span th:text="${board.category.value}"></span>     
+                                        </div>
+                                    </li>
+                                </th:block>
                             </ul>
                         </div>
                     </div>
+                    
                     <div class="blog_media_wrap">
                         <div class="news_header">
                             <h2>서브 랜드
                                 <a style="margin-top: 2px;" href="/board/subLand"></a>
                             </h2>
                             <ul>
-                              <th:block th:each="board: ${rankListSub.top5List}">
-                                <li>
-                                    <img th:src="${board.file.uploadPath}" style="width: 320px; height:180px;">
-                                    <div class="blog_media_info">
-                                        <h4>[[${board.boardRank}]].
-                                            <a th:href="@{ /board/ } + ${board.id}" th:data-id="${board.id}"  th:text="${board.boardName}"
-                                                class="link-dark link-offset-2 link-underline link-underline-opacity-0 loadBoardBtn">
-                                            </a>
-                                        </h4>
-                                        <span th:text="${board.category.value}"></span>     
-                                    </div>
-                                </li>
-                              </th:block>
+                                <th:block th:each="board: ${rankListSub.top5List}">
+                                    <li>
+                                        <a th:href="@{/board/{id}(id=${board.id})}" th:data-id="${board.id}" class="loadBoardBtn">
+                                            <img th:src="${board.file.uploadPath}" style="width: 320px; height:180px;">
+                                        </a>
+                                        <div class="blog_media_info">
+                                            <h4>[[${board.boardRank}]].
+                                                <a th:href="@{/board/{id}(id=${board.id})}" th:data-id="${board.id}" th:text="${board.boardName} +' 랜드'"
+                                                   class="link-dark link-offset-2 link-underline link-underline-opacity-0 loadBoardBtn">
+                                                </a>
+                                            </h4>
+                                            <span th:text="${board.category.value}"></span>     
+                                        </div>
+                                    </li>
+                                </th:block>
                             </ul>
                         </div>
                     </div>
@@ -96,7 +101,9 @@
                         <ul>
                             <th:block th:each="board: ${rankListSub.list1}">
                                 <li>
-                                    <img th:src="${board.file.uploadPath}" style="width: 320px; height:180px;">
+                                     <a th:href="@{ /board/ } + ${board.id}" th:data-id="${board.id}"  class="loadBoardBtn">
+                                        <img th:src="${board.file.uploadPath}" style="width: 320px; height:180px;">
+                                     </a>
                                      <div class="blog_media_info">
                                         <h4>
                                             <a th:href="@{ /board/ } + ${board.id}" th:data-id="${board.id}"  th:text="${board.boardName} +' 랜드'"
