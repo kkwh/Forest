@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+        <h1>방명록입니다</h1>
+        <div class="my-2 card">
+            <div class="card-header">
+                <span>댓글</span>
+                <span id="replyCount" ></span>개
+            </div>
+            <div class="" id="authName" ></div>
+            <div class="card-body collapse" id="replyToggleDiv">
+                <div class="my-2 row">
+                    <div class="col-10">
+                        <textarea class="form-control" id="replyText" 
+                            placeholder="댓글 내용 입력"></textarea>
+                    </div>
+                    <div class="col-2">
+                        <button class="form-control btn btn-outline-success"
+                            id="btnReplyCreate">등록</button>
+                    </div>
+                </div>
+                
+                <!-- 댓글 목록을 보여줄 영역 -->
+                <div class="my-2 row" id="replies"></div>
+            </div>
+        </div>
+</body>
+</html>

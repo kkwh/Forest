@@ -10,14 +10,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.forest.dto.gallog.GallogBoardListDto;
+import com.example.forest.dto.gallog.GallogBoardCreateDto.GallogBoardCreateDtoBuilder;
 import com.example.forest.dto.user.UserFindPasswordDto;
 import com.example.forest.dto.user.UserInfoUpdateDto;
 import com.example.forest.dto.user.UserReplyDto;
 import com.example.forest.dto.user.UserSignUpDto;
+import com.example.forest.model.Blog;
 import com.example.forest.model.Board;
 import com.example.forest.model.Post;
 import com.example.forest.model.Reply;
 import com.example.forest.model.User;
+import com.example.forest.repository.GardenRepsitory;
 import com.example.forest.repository.BoardRepository;
 import com.example.forest.repository.PostRepository;
 import com.example.forest.repository.ReplyRepository;
@@ -38,6 +41,7 @@ public class UserService implements UserDetailsService {
     private final BoardRepository boardRepository;
     private final ReplyRepository replyRepository;
     private final PostRepository postRepository;
+    private final GardenRepsitory blogRepository;  
     
     public Long registerUser(UserSignUpDto dto) { //유저 회원가입
         log.info("registerUser(dto={})", dto);
@@ -53,11 +57,21 @@ public class UserService implements UserDetailsService {
         
         log.info("save 전: entity={}", entity);
         
-        userRepository.save(entity); // 디비 집어넣기
+        User user = userRepository.save(entity); // 디비 집어넣기
+       
         log.info("save후 : entity={}", entity);
+        
+        Blog blog = Blog.builder()
+        .user(user)
+        .build();
+                
+        blogRepository.save(blog);
         
         return entity.getId();
     }
+    
+   
+    
     
     public long getUserId(String loginId) {
     	long userId = userRepository.findByLoginId(loginId).getId();
@@ -79,6 +93,7 @@ public class UserService implements UserDetailsService {
 	
 	public User findUserById(Long id) {
         return userRepository.findById(id).orElseThrow();
+	   
     }
 	
 	public User findUserByLoginId(String loginId) {
@@ -197,5 +212,15 @@ public class UserService implements UserDetailsService {
         return replies;
     }
 
+
+
+
+  
+
+
+
+    
+
+   
    
 }

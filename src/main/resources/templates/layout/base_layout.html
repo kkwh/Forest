@@ -50,7 +50,7 @@
 								<li sec:authorize="hasRole('ADMIN')"><a href="/admin/board/unapproved">승인 대기 게시판 목록</a></li>
 								<li sec:authorize="hasRole('ADMIN')"><a href="/admin/board/approved">승인된 게시판 목록</a></li>
 								
-								<li><a href="/">가든</a></li>
+								
 								<li><a href="/">이벤트</a></li>
 								<li><a href="/chat/list">오픈 채팅</a></li>
 								<li><a href="/donation/donation">후원</a></li>
@@ -60,12 +60,15 @@
 								<li sec:authorize="isAuthenticated()"><a href="/user/logout">로그아웃</a></li>
                 <li sec:authorize="isAuthenticated()"><a href="/user/myinfopage"><span th:text="${#authentication.principal.nickname}"></span>></a></li>
                 <li sec:authorize="isAuthenticated()">
-                    <span><a th:href="@{'/user/gallogmain?loginId=' + ${#authentication.principal.username}}">My Gallog></a></span>
+                <div>
+                   
+                    <span><a th:href="@{'/user/gallogmain?Garden=' + ${#authentication.principal.username}}">가든></a></span>
+                </div>
                 </li>
-                <li sec:authorize="hasRole('USER')"><a href="/user/myinfopage"><span th:text="${#authentication.principal.nickname}"></span>></a></li>
-
-							</ul>  
-
+                <li sec:authorize="isAuthenticated()"><a href="/garden/gardenmain">잠깐 씀</a></li>
+              
+                </ul>  
+               
    
 
 
