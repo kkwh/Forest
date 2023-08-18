@@ -32,7 +32,7 @@
                     <tr>
                         <th>번호</th>
                         <th>제목</th>
-                         <th>내용</th> 
+                         <!-- <th>내용</th> -->
                         <th>등록일</th>
                     </tr>
                 </thead>
@@ -49,7 +49,7 @@
                             </form>
                         </td>
                         
-                        <td  th:utext= "${event.content}" style="width:100px;"></td>
+                        <!-- <td  th:utext= "${event.content}" style="width:100px;"></td>-->
                         <td th:text="${ #temporals.format(event.modifiedTime, 'yyyy-MM-dd:mm:ss') }"></td>
                     </tr>
                 </tbody>
