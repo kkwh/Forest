@@ -43,25 +43,27 @@
                     <!-- main_blog_nav -->
                     <nav class="blog_nav">
                         <ul>
-                            <li class="category mainLand">
-                                <a href="/board/mainLand">메인 렌드</a>
-                                <div>
-                                    <a href="/board/7"> 블리치 랜드 </a>
-                                    <a href="/board/22"> 중앙대학교 랜드 </a>
-                                    <a href="/board/15"> 피파온라인4 랜드 </a>
-                                    <a href="/board/43"> 첼시 랜드 </a>
-                                </div>
-                            </li>
-                            <li class="category subLand">
-                                <a href="/board/subLand">서브 랜드</a>
-                                <div>
-                                     <a href="/board/13"> 비스크돌은 사랑을 한다 랜드 </a>
-                                     <a href="/board/3"> 뉴진스 랜드 </a>
-                                     <a href="/board/16"> 르세라핌 랜드 </a>
-                                     <a href="/board/9"> 봇치더락 랜드 </a>
-                                     <a href="/board/10"> 하이큐 랜드 </a>
-                                </div>    
-                            </li>
+                            <a style="margin-top: 2px;"href="/board/mainLand">메인 랜드</a>
+                            <th:block th:each="board: ${rankListMain.top5List}">
+                                <li>
+                                    <div class="blog_media_info">
+                                        <b>[[${board.boardRank}]].</b> <a th:href="@{ /board/ } + ${board.id}" th:data-id="${board.id}"  th:text="${board.boardName}"
+                                            class="link-dark link-offset-2 link-underline link-underline-opacity-0 loadBoardBtn"></a>
+                                    </div>
+                                </li>
+                            </th:block>
+                            </ul>
+                            
+                            <ul>
+                            <a style="margin-top: 2px;" href="/board/subLand">서브 랜드</a>
+                            <th:block th:each="board: ${rankListSub.top5List}">
+                                <li>
+                                    <div class="blog_media_info">
+                                        <b>[[${board.boardRank}]].</b> <a th:href="@{ /board/ } + ${board.id}" th:data-id="${board.id}"  th:text="${board.boardName}"
+                                            class="link-dark link-offset-2 link-underline link-underline-opacity-0 loadBoardBtn"></a>
+                                    </div>
+                                </li>
+                            </th:block>
                         </ul>
                     </nav>
                 </div>
@@ -69,47 +71,29 @@
                 <!-- main_blog_list -->
                 <div class="blog_media_wrap">
                     <div class="news_header">
-                        <h2>급상승 랜드 ></h2>
+                        <h2>최근 개설 랜드 ></h2>
                     </div>
                     <ul>
-                        <li>
-                            <a href="/board/3">
-                                <img src="/img/main/newjeans.jpg" style="width: 300px">
-                            </a>
-                            <div class="blog_media_info">
-                                <h4>뉴진스 랜드</h4>
-                                <span>아이돌</span>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="/board/16">
-                                <img src="/img/main/chaewon.jpg" style="width: 300px">
-                            </a>
-                            <div class="blog_media_info">
-                                <h4>르세라핌 랜드</h4>
-                                <span>아이돌</span>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="/board/8">
-                                <img src="/img/main/zzanggu.jpg" style="width: 300px">
-                            </a>
-                            <div class="blog_media_info">
-                                <h4>짱구 랜드</h4>
-                                <span>만화/애니</span>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="/board/2">
-                                <img src="/img/main/overwatch.jpeg" style="width: 300px">
-                            </a>
-                            <div class="blog_media_info">
-                                <h4>오버워치 랜드</h4>
-                                <span>게임</span>
-                            </div>
-                        </li>
+                        <th:block th:each="board: ${rankListSub.list1}">
+                            <li>
+                                <img th:src="${board.file.uploadPath}" style="width: 320px; height:180px;">
+                                 <div class="blog_media_info">
+                                    <h4>
+                                        <a th:href="@{ /board/ } + ${board.id}" th:data-id="${board.id}"  th:text="${board.boardName} +' 랜드'"
+                                            class="link-dark link-offset-2 link-underline link-underline-opacity-0 loadBoardBtn">
+                                        </a>
+                                   </h4>
+                                   <span th:text="${board.categoryName}"></span>    
+                                </div>
+                                
+                            </li>
+                        </th:block>
                     </ul>
                 </div>
+                
+
+                
+                
                 
                 <!-- main_news -->
                 <div id="news_wrap">
@@ -282,6 +266,7 @@
    <th:block layout:fragment="myscripts">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="text/javascript" src="/js/board/main-board.js"></script>
+     
 </th:block>
    
 </html>

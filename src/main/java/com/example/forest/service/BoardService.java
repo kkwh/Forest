@@ -500,12 +500,18 @@ public class BoardService {
 		
 		idx = 0;
 		while(idx < size && idx < boards.size()) {
-			date1.add(BoardListDto.fromEntity(boards.get(idx)));
+			ImageFile file = fileRepository.findByBoardId(boards.get(idx).getId());
+			BoardListDto dto  = BoardListDto.fromEntity(boards.get(idx));
+			dto.setFile(file);
+			date1.add(dto);
 			idx++;
 		}
 		
 		while(idx >= size && idx < boards.size() && idx < size * 2) {
-			date2.add(BoardListDto.fromEntity(boards.get(idx)));
+		    ImageFile file = fileRepository.findByBoardId(boards.get(idx).getId());
+            BoardListDto dto  = BoardListDto.fromEntity(boards.get(idx));
+            dto.setFile(file);
+			date2.add(dto);
 			idx++;
 		}
 		
