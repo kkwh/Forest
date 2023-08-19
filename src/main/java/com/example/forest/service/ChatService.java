@@ -84,12 +84,10 @@ public class ChatService {
 	 * @param dto
 	 */
 	public void create(ChatMessageCreateDto dto) {
-		User user = userRepository.findByLoginId(dto.getLoginId());
-		
 		ChatMessage entity = ChatMessage.builder()
-				.content(dto.getMessage())
+				.message(dto.getMessage())
 				.roomId(dto.getRoomId())
-				.senderId(user.getId())
+				.nickname(dto.getNickname())
 				.build();
 		
 		log.info("create(entity = {})", entity);
@@ -102,7 +100,7 @@ public class ChatService {
 	 * @param roomId
 	 * @return
 	 */
-	public List<ChatMessageDto> getMessages(long roomId) {
+	public List<ChatMessage> getMessages(long roomId) {
 		log.info("getMessages(id = {})", roomId);
 		
 		return messageRepository.getAllByRoomId(roomId);

@@ -6,12 +6,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.forest.dto.chat.ChatMessageCreateDto;
 import com.example.forest.dto.chat.ChatMessageDto;
 import com.example.forest.dto.chat.ChatRoomDto;
+import com.example.forest.model.ChatMessage;
 import com.example.forest.service.ChatService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,12 +35,21 @@ public class ChatApiController {
 	 * @return
 	 */
 	@GetMapping("/messages/{roomId}")
-	public ResponseEntity<List<ChatMessageDto>> getMessages(@PathVariable("roomId") long roomId) {
+	public ResponseEntity<List<ChatMessage>> getMessages(@PathVariable("roomId") long roomId) {
 		log.info("getMessages(id = {})", roomId);
 		
-		List<ChatMessageDto> list = chatService.getMessages(roomId);
+		List<ChatMessage> list = chatService.getMessages(roomId);
 		
 		return ResponseEntity.ok(list);
+	}
+	
+	@PostMapping("/save")
+	public ResponseEntity<String> saveMessage(@RequestBody ChatMessageCreateDto dto) {
+		log.info("saveMessage(dto = {})", dto);
+		
+		chatService.create(dto);
+		
+		return ResponseEntity.ok("Success");
 	}
 	
 	/**

@@ -13,11 +13,9 @@ import com.example.forest.model.ChatMessage;
 public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> {
 
 	@Transactional
-	@Query("select new com.example.forest.dto.chat.ChatMessageDto(m.id, m.content, u as sender, to_char(m.createdTime, 'yyyy-MM-dd hh:mi')) "
-			+ " from ChatMessage m, User u "
-			+ " where m.senderId = u.id "
-			+ " and m.roomId = :roomId "
+	@Query("select m from ChatMessage m  "
+			+ " where m.roomId = :roomId "
 			+ " order by m.id")
-	List<ChatMessageDto> getAllByRoomId(@Param("roomId") long roomId);
+	List<ChatMessage> getAllByRoomId(@Param("roomId") long roomId);
 	
 }
