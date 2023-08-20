@@ -33,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/board")
-public class BoardApiController {
+public class BoardRestController {
 	
 	private final BoardService boardService;
 	private final UserService userService;

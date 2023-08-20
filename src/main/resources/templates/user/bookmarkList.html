@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/base_layout}">
+
+<div layout:fragment="main" class="mt-5 p-3">
+
+	<div class="d-none">
+		<input type="hidden" id="userId" th:value="${userId}" />
+	</div>
+	
+	<div class="py-3 w-75 justify-content-center align-items-middle" style="margin: 0 auto; min-height: 300px;">
+		<h3>내 즐겨찾기 목록</h3>
+		
+		<br>
+		
+		<table class="table table-striped text-center align-middle">
+			<thead>
+				<tr>
+					<th scope="col">아이디</th>
+					<th scope="col">이미지</th>
+					<th scope="col">랜드이름</th>
+					<th scope="col">카테고리</th>
+					<th scope="col">버튼</th>
+				</tr>
+			</thead>
+			<tbody id="bookmark-list">
+				<th:block th:each="bookmark : ${list}">
+					<tr>
+						<td th:text="${bookmark.boardId}" class="boardId"></td>
+						<td>
+							<a th:href="@{'/board/' + ${bookmark.boardId}}">
+								<img th:src="${bookmark.file.uploadPath}" alt="Not found" width="100px" height="auto" />
+							</a>
+						</td>
+						<td>
+							<a th:href="@{'/board/' + ${bookmark.boardId}}" th:text="${bookmark.boardName}" class="link-dark"></a>
+						</td>
+						<td th:text="${bookmark.category.value}"></td>
+						<td>
+							<button type="button" class="btn btn-warning w-100 bookmarkBtn" th:data-id="${bookmark.id}"> ☆ </button>
+						</td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+		
+		<ul class="pagination justify-content-center custom-pagination mt-3">
+			 <!--굳이 태그로 감쌀 필요 없는 부분을 타임리프 문법으로 사용할 때 사용-->
+		    <th:block th:each="page:${#numbers.sequence(startPage, endPage)}">
+		        <a th:if="${page != currPage}" th:href="@{/user/bookmarkList(page=${page -1})}" th:text="${page}"></a>
+		        <strong th:if="${page == currPage}" th:text="${page}" style="color:red"></strong>
+		    </th:block>
+		</ul>
+	</div>
+
+</div>
+
+<th:block layout:fragment="myscripts">
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="/js/bookmark/user-bookmark.js"></script>
+</th:block>
+
+</html>

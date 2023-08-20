@@ -28,6 +28,7 @@ import com.example.forest.dto.post.PostWithLikesCount;
 import com.example.forest.model.BoardCategory;
 import com.example.forest.model.User;
 import com.example.forest.service.BoardService;
+import com.example.forest.service.BookmarkService;
 import com.example.forest.service.PostService;
 import com.example.forest.service.UserService;
 
@@ -45,6 +46,7 @@ public class BoardController {
 	private final PostService postService;
 	private final UserService userService;
 	private final BoardService boardService;
+	private final BookmarkService bookmarkService;
 	
 	@GetMapping("/mainLand")
 	public String getMainBoard(Model model, HttpServletRequest request) {
@@ -177,6 +179,13 @@ public class BoardController {
         long rank = postService.findRankByLandId(dto.getId(), grade);
         log.info("rank: {}", rank);
         model.addAttribute("rank", rank);
+        
+        int clicked = bookmarkService.isExisting(id, userId);
+        log.info("clicked = {}", clicked);
+        model.addAttribute("clicked", clicked);
+        
+        long bookmarkCount = bookmarkService.countByBoard(id);
+        model.addAttribute("bookmarkCount", bookmarkCount);
 
 		return "board/read";
 	}
