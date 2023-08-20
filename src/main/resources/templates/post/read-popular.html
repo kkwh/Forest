@@ -28,9 +28,13 @@
 				<div class="fl clear">
       				<h2>
       					<a th:href="@{ /board/ } + ${board.id}">[[${board.boardName}]] 랜드
-	      					<div class="pagehead_titicon mgall sp_img">
-	      						<span class="blind">마이너</span>
-	      					</div>
+	      					  <th:block th:if="${board.boardGrade} eq 'Main'">
+		      					<img src="/img/post/tree1.png" alt="마이너" width="22" height="22" style="margin-top: -6px;" />
+		      				  </th:block>
+		      				  
+		      				  <th:block th:if="${board.boardGrade} eq 'Sub'">
+		      					<img src="/img/post/tree2.png" alt="마이너" width="22" height="22" style="margin-top: -6px;" />
+		      				  </th:block>
       					</a>
       				</h2>
       				</div>
