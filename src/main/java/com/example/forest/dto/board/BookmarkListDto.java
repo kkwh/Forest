@@ -10,13 +10,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BoardRankDto {
+public class BookmarkListDto {
 	
-	private Long id;
+	private long id;
+	private long boardId;
 	private String boardName;
 	private BoardCategory category;
-	private Long boardRank;
-	private Long postCount;
 	private ImageFile file;
 
 }

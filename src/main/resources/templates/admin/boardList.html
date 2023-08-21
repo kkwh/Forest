@@ -70,7 +70,7 @@
 						<td th:text="${board.user.nickname}"></td>
 						<td class="createdDate" th:text="${board.createdTime}"></td>
 						<td>
-							<a th:href="@{'/board/details/' + ${board.id}}" th:data-id="${board.id}" th:data-category="${board.category}" 
+							<a th:href="@{'/admin/board/details/' + ${board.id}}" th:data-id="${board.id}" th:data-category="${board.category}" 
 								class="btn btn-outline-success modifyBtn">수정</a>
 						</td>
 					</tr>

@@ -15,21 +15,19 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Builder
 @Getter
+@Builder
 @Entity
-@Table(name = "CHAT_MESSAGES")
-@SequenceGenerator(name = "CHAT_MESSAGES_SEQ_GEN", sequenceName = "CHAT_MESSAGES_SEQ", allocationSize = 1)
-public class ChatMessage extends BaseTimeEntity {
+@Table(name = "BOOKMARKS")
+@SequenceGenerator(name = "BOOKMARKS_SEQ_GEN", sequenceName = "BOOKMARKS_SEQ", allocationSize = 1)
+public class Bookmark {
 	
 	@Id
-	@GeneratedValue(generator = "CHAT_MESSAGES_SEQ_GEN", strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "BOOKMARKS_SEQ_GEN", strategy = GenerationType.SEQUENCE)
 	private long id;
 	
-	private String message; // 메세지 내용
+	private long boardId;
 	
-	private String nickname; // 작성자 닉네임
-	
-	private long roomId; // 채팅방 아이디
+	private long userId;
 
 }

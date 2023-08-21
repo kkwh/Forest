@@ -3,19 +3,31 @@
     xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
     layout:decorate="~{layout/base_layout}">
 
+<th:block layout:fragment="myscripts">
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/js/chat/chat-message.js"></script>
+</th:block>    
+
 <div layout:fragment="main" class="mt-5 p-4">
 	
 	<div class="container">
         <div id="chatting-room" class="border border-dark rounded-2 w-50" style="margin: 0 auto;">
             <div class="p-2">
 
-	            <div id="messages" class=" overflow-auto" style="height: 700px;">
+				<div id="conversation">
+		            <div id="messages" class=" overflow-auto" style="height: 700px;">
+		            </div>
 	            </div>
 	            <div class="input-group mt-1">
-	                <input type="text" id="msg" class="form-control" placeholder="메세지를 입력하세요.">
-	                <div class="input-group-append">
-	                    <button class="btn btn-outline-secondary" type="button" id="btnSend">전송</button>
-	                </div>
+		            <form class="w-100">
+		                <input type="text" id="message" class="form-control" placeholder="메세지를 입력하세요.">
+		                <div class="input-group-append">
+		                    <button class="btn btn-outline-secondary" type="button" id="btnSend">전송</button>
+		                </div>
+	                </form>
 	            </div>
 	            
 	            <div class="mt-1">
@@ -25,89 +37,12 @@
         </div>
         
         <input type="hidden" id="roomId" th:value="${roomId}" />
-        <input type="hidden" id="loginId" th:value="${#authentication.principal.username}"/>
+        <input type="hidden" id="nickname" th:value="${nickname}"/>
         
         
     </div>
 </div>
 
-<th:block layout:fragment="myscripts">
-	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script th:inline="javascript">
-        $(document).ready(function() {
-        	
-		  var roomId = $('#roomId').val();
-          var loginId = $('#loginId').val();
 
-          var sockJs = new SockJS("/stomp-chat");
-          //1. SockJS를 내부에 들고있는 stomp를 내어줌
-          var stomp = Stomp.over(sockJs);
-
-          //2. connection이 맺어지면 실행
-          stomp.connect({}, function (frame) {
-             console.log("STOMP Connection");
-             
-             console.log('Connected: '+ frame);
-
-             //4. subscribe(path, callback)으로 메세지를 받을 수 있음
-             stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
-                 var data = JSON.parse(chat.body);
-
-                 console.log(data);
-
-                 let htmlStr = '';
-          		for(let chat of data) {	
-          			if(chat.sender.loginId == loginId) {
-          				htmlStr += `
-          					<div class="d-flex align-items-center alert alert-warning border border-dark">
-          					  <div class="flex-shrink-0">
-          					    <img src="https://storage.googleapis.com/itwill-forest-bucket/bd64b031-42c8-4229-a734-b8d25f0fd9f0" alt="..." style="width: 50px; height: 50px;">
-          					  </div>
-          					  <div class="flex-grow-1 ms-3">
-          					  	<div><h5>${chat.sender.nickname}</h5></div>
-          					  	<div class="chat-content" style="word-break: break-word;"><p>${chat.content}</p></div>
-          					  	<div><p>${chat.createdTime}</p></div>	    
-          					  </div>
-          					</div>
-          				`;
-          			} else {
-          				htmlStr += `
-          					<div class="d-flex align-items-center alert alert-primary border border-dark">
-          					  <div class="flex-shrink-0">
-          					    <img src="https://storage.googleapis.com/itwill-forest-bucket/bd64b031-42c8-4229-a734-b8d25f0fd9f0" alt="..." style="width: 50px; height: 50px;">
-          					  </div>
-          					  <div class="flex-grow-1 ms-3">
-          					  	<div><h5>${chat.sender.nickname}</h5></div>
-          					  	<div class="chat-content" style="word-break: break-word;"><p>${chat.content}</p></div>
-          					  	<div><p>${chat.createdTime}</p></div>					    
-          					  </div>
-          					</div>
-          				`;
-          			}
-          		}
-          		
-          		// 채팅 내역을 불러올 때 가장 최근 메세지가 보이도록 함
-          		const messageArea = document.querySelector('div#messages');
-          		messageArea.innerHTML = htmlStr;
-          		messageArea.scrollTop = messageArea.scrollHeight;
-             });
-
-             //3. send(path, header, message)로 메세지를 보낼 수 있음
-             stomp.send('/pub/chat/enter', {}, JSON.stringify({roomId: roomId, loginId: loginId}))
-          });
-
-          $("#btnSend").on("click", function(e){
-              var msg = document.getElementById("msg");
-
-              console.log(loginId + ":" + msg.value);
-              stomp.send('/pub/chat/message/' + roomId, {}, JSON.stringify({roomId: roomId, message: msg.value, loginId: loginId}));
-              msg.value = '';
-          });
-            
-        });
-    </script>
-</th:block>
 
 </html>

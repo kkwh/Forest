@@ -6,7 +6,7 @@ import lombok.Data;
 public class ChatMessageCreateDto {
 	
 	private long roomId;
-	private String loginId;
+	private String nickname;
 	private String message;
 
 }

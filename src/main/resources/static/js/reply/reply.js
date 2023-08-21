@@ -428,9 +428,13 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.addEventListener('click', deleteReply);
         }    
       
-
     
     };
+
+
+
+    
+    
     
     
     // 순서 2!!!!    

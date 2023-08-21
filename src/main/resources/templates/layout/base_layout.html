@@ -15,7 +15,6 @@
 <link rel="stylesheet" href="/css/main/main.css" />
 <link rel="stylesheet"
     href="https://use.fontawesome.com/releases/v5.15.0/css/all.css">
-<!-- <link rel="stylesheet" th:href="@{/css/base_layout/darkmode/darkmode.css}" /> -->
 
 </head>
 <body>
@@ -37,38 +36,35 @@
                                 </h1>
                                 <!--  // 로고 영역! -->
                             </div>
+                            
+                            <!-- navigation -->
+                            <div id="navbar">
+                                <div class="container">
+                                    <ul>
+                                        <li><a href="/board/mainLand">메인 랜드</a></li>
+                                        <li><a href="/board/subLand">서브 랜드</a></li>
+                                        
+                                        <!-- 관리자 페이지에서만 보임 -->
+                                        <li sec:authorize="hasRole('ADMIN')"><a href="/admin/board/list">내 게시판 목록</a></li>
+                                        <li sec:authorize="hasRole('ADMIN')"><a href="/admin/board/unapproved">승인 대기 게시판 목록</a></li>
+                                        <li sec:authorize="hasRole('ADMIN')"><a href="/admin/board/approved">승인된 게시판 목록</a></li>
+                                        
+                                        <li><a href="/event">이벤트</a></li>
+                                        <li><a href="/chat/list">오픈 채팅</a></li>
 
-	<ul class="nav_ul">
-		<li><a href="/board/mainLand">메인 랜드</a></li>
-		<li><a href="/board/subLand">서브 랜드</a></li>
-		
-		<!-- 관리자 페이지에서만 보임 -->
-		<li sec:authorize="hasRole('ADMIN')"><a href="/admin/board/list">내 게시판 목록</a></li>
-		<li sec:authorize="hasRole('ADMIN')"><a href="/admin/board/unapproved">승인 대기 게시판 목록</a></li>
-		<li sec:authorize="hasRole('ADMIN')"><a href="/admin/board/approved">승인된 게시판 목록</a></li>
-		
-		
-		<li><a href="/">이벤트</a></li>
-		<li><a href="/chat/list">오픈 채팅</a></li>
-		<li><a href="/donation/donation">후원</a></li>
-		<li sec:authorize="isAnonymous()"><a href="/user/login">로그인</a></li>
-		<li sec:authorize="isAnonymous()"><a href="/user/signup">회원가입</a></li>
-		<li sec:authorize="hasRole('USER')"><a href="/board/list">내 게시판 목록</a></li>
-		<li sec:authorize="isAuthenticated()"><a href="/user/logout">로그아웃</a></li>
-                <li sec:authorize="isAuthenticated()"><a href="/user/myinfopage"><span th:text="${#authentication.principal.nickname}"></span>></a></li>
-                <li sec:authorize="isAuthenticated()">
-                <div>
-                   
-                    <span><a th:href="@{'/user/gallogmain?Garden=' + ${#authentication.principal.username}}">가든></a></span>
-                </div>
-                </li>
-                <li sec:authorize="isAuthenticated()">
-                <a href="/garden/gardenmain">잠깐 씀</a>
-                </li>
-              
-                </ul>  
-               
-   
+                                        <li><a href="/donation/donation">후원</a></li>
+                                        <li sec:authorize="isAnonymous()"><a href="/user/login">로그인</a></li>
+                                        <li sec:authorize="isAnonymous()"><a href="/user/signup">회원가입</a></li>
+                                        <li sec:authorize="hasRole('USER')"><a href="/board/list">내 게시판 목록</a></li>
+                                        <li sec:authorize="hasRole('USER')"><a href="/user/bookmarkList">즐겨찾기 목록</a></li>
+                                        <li sec:authorize="isAuthenticated()"><a href="/user/logout">로그아웃</a></li>
+                                        <li sec:authorize="isAuthenticated()"><a href="/user/myinfopage"><span th:text="${#authentication.principal.nickname}"></span>></a></li>
+                                        <li sec:authorize="isAuthenticated()">
+                                            <span><a th:href="@{'/user/gallogmain?loginId=' + ${#authentication.principal.username}}">가든</a></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
 
                         </div>
                     </div>
@@ -88,30 +84,36 @@
          <div class="container">
             <ul class="footer_news_list">
                 <li>
-                    <img src="https://via.placeholder.com/160x86">
+                    <img src="/img/main/bigdate.jpeg" style="width:160px; height:86px;">
                     <div class="footer_news_info">
-                        <span>부스트캠프 2021</span>
-                        <h3>온라인 설명회 신청하기</h3>
-                        <p>SW 개발자를 위한 교육<br>
-                           지원꿀팁과 생생한 후기들!</p>
+                        <span>빅데이터 전문가 양성과정  43기</span>
+                        <a href="https://www.itwill.co.kr/cmn/eduCrseMain/1000000/all/CRSE_00000000000637eduCrseMainDetail.do">
+                            <h3>수강 신청하기</h3>
+                        </a>
+                        <p>프로 분석러가 되자!<br>
+                           K-Digital Training</p>
                     </div>
                 </li>
                 <li>
-                    <img src="https://via.placeholder.com/160x86">
+                    <img src="/img/main/java.png" style="width:160px; height:86px;">
                     <div class="footer_news_info">
-                        <span>부스트캠프 2021</span>
-                        <h3>온라인 설명회 신청하기</h3>
-                        <p>SW 개발자를 위한 교육<br>
-                           지원꿀팁과 생생한 후기들!</p>
+                        <span>자바 개발자 양성과정  146기</span>
+                        <a href="https://www.itwill.co.kr/cmn/eduCrseMain/1000000/all/CRSE_00000000000639eduCrseMainDetail.do">
+                            <h3>수강 신청하기</h3>
+                        </a>
+                        <p>백엔드 개발자 100% 최적화<br>
+                          비전공자도 가능한 취업클래스</p>
                     </div>
                 </li>
                 <li>
-                    <img src="https://via.placeholder.com/160x86">
+                    <img src="/img/main/oracle.png" style="width:160px; height:86px;">
                     <div class="footer_news_info">
-                        <span>부스트캠프 2021</span>
-                        <h3>온라인 설명회 신청하기</h3>
-                        <p>SW 개발자를 위한 교육<br>
-                           지원꿀팁과 생생한 후기들!</p>
+                        <span>오라클 DBA 양성과정  80기</span>
+                        <a href="https://www.itwill.co.kr/cmn/eduCrseMain/1000000/all/CRSE_00000000000638eduCrseMainDetail.do">
+                            <h3>수강 신청하기</h3>
+                        </a>
+                        <p>데이터 베이스 핵심분야<br>
+                           오라클 DBA 취업교육과정</p>
                     </div>
                 </li>
             </ul>

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.forest.dto.chat.ChatMessageDto;
 import com.example.forest.dto.chat.ChatRoomDto;
+import com.example.forest.model.ChatMessage;
 import com.example.forest.model.ChatRoom;
 import com.example.forest.model.User;
 import com.example.forest.service.ChatService;
@@ -82,8 +83,13 @@ public class ChatController {
 		
 		model.addAttribute("roomId", id);
 		
-		List<ChatMessageDto> list = chatService.getMessages(id);
-		model.addAttribute("list", list);
+		if(principal != null) {
+			String nickname = userService.findUserByLoginId(principal.getName()).getNickname();
+			model.addAttribute("nickname", nickname);
+		}
+		
+//		List<ChatMessage> list = chatService.getMessages(id);
+//		model.addAttribute("list", list);
 		
 		return "chat/room";
 	}

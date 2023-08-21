@@ -3,6 +3,9 @@ package com.example.forest.controller;
 import java.security.Principal;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.example.forest.dto.board.BookmarkListDto;
 import com.example.forest.dto.user.UserInfoUpdateDto;
 import com.example.forest.dto.user.UserReplyDto;
 import com.example.forest.dto.user.UserSignUpDto;
@@ -22,6 +27,7 @@ import com.example.forest.model.BoardCategory;
 import com.example.forest.model.Post;
 import com.example.forest.model.Reply;
 import com.example.forest.model.User;
+import com.example.forest.service.BookmarkService;
 import com.example.forest.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -34,6 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController {
 	
     private final UserService userService;
+    private final BookmarkService bookmarkService;
     
     @GetMapping("/signup")
     public String createuser() {
@@ -144,6 +151,35 @@ public class UserController {
         
         return "user/gallogmain"; // 해당 뷰 이름 반환
         //패스는 자스에서 넘겨주는 값이 있어야함.
+    }
+    
+    
+    // 서원준 즐겨찾기 목록 추가
+    /**
+     * 유저의 즐겨찾기 목록을 불러오는 페이지
+     * @param principal
+     * @param model
+     * @return
+     */
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/bookmarkList")
+    public String bookmarkList(Principal principal, Model model, @PageableDefault(page = 0, size = 3) Pageable pageable) {
+    	log.info("bookmarkList()");
+    	
+    	long userId = userService.findUserByLoginId(principal.getName()).getId();
+    	model.addAttribute("userId", userId);
+    	
+    	Page<BookmarkListDto> list = bookmarkService.findAllByUserId(userId, pageable);
+    	int currPage = list.getPageable().getPageNumber() + 1;
+    	int startPage = Math.max(currPage - 4, 1);
+    	int endPage = Math.min(currPage + 5, list.getTotalPages());
+    	
+    	model.addAttribute("list", list);
+    	model.addAttribute("currPage", currPage);
+    	model.addAttribute("startPage", startPage);
+    	model.addAttribute("endPage", endPage);
+    	
+    	return "user/bookmarkList";
     }
     
     

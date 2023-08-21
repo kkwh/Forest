@@ -54,12 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
 			});
 		}
 		
-		
-		
-		let htmlStr = '';
-		
 		const response = await axios.get('/api/v1/board/getUserList');
 		console.log(response.data);
+		
+		let htmlStr = '';
 		
 		for(let user of response.data) {
 			if(user.id == userId) {
@@ -72,6 +70,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			    			<div class="col-3">
 			    				<button type="button" class="btn btn-dark w-100" data-board-id="${boardId}" 
 			    					data-user-id="${user.id}" data-board-user-id="${userId}">관리자</button>
+			    			</div>
+			    			<div class="d-none">
+			    				<input type="hidden" value="${boardId}" id="userBoardId" >
 			    			</div>
 			    		</div>
 		    		</li>
@@ -86,6 +87,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			    			<div class="col-3">
 			    				<button type="button" class="btn btn-outline-success grantBtn w-100" data-board-id="${boardId}" 
 			    					data-user-id="${user.id}" data-board-user-id="${userId}">권한 부여</button>
+			    			</div>
+			    			<div class="d-none">
+			    				<input type="hidden" value="${boardId}" id="userBoardId" >
 			    			</div>
 			    		</div>
 		    		</li>
@@ -250,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				
 				revokeBtns = document.querySelectorAll('button.revokeBtn');
 				for(let btn of revokeBtns) {
-					btn.addEventListener('click', revoke);
+					btn.addEventListener('click', openModal);
 				}
 				
 				upgradeBtns = document.querySelectorAll('button.upgradeBtn');
@@ -279,7 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const searchBtn = document.querySelector('button#searchBtn');
 	searchBtn.addEventListener('click', loadBoardListByFilter);
 	
-	const checkBtns = document.querySelectorAll('input.checkBtn');
+	let checkBtns = document.querySelectorAll('input.checkBtn');
 	for(let btn of checkBtns) {
 		btn.addEventListener('click', loadBoardListByFilter);
 	}
@@ -328,11 +332,81 @@ document.addEventListener('DOMContentLoaded', () => {
 		
 		// 입력된 검색어를 초기화
 		document.querySelector('input#keyword').value = '';
+		
+		loadBoardListByFilter();
 	};
 	
 	const clearBtn = document.querySelector('button#clearBtn');
 	clearBtn.addEventListener('click', resetFilter);
 	
+	const searchUserList = async () => {
+		const userId = document.querySelector('input#userId').value;
+		const keyword = document.querySelector('input#userKeyword').value;
+		const boardId = document.querySelector('input#userBoardId').value;
+		
+		const url = `/api/v1/board/getUserList?keyword=${keyword}`;
+		
+		const response = await axios.get(url);
+		
+		let htmlStr = '';
+		
+		for(let user of response.data) {
+			if(user.id == userId) {
+				htmlStr += `
+					<li class="list-group-item">
+			    		<div class="row">
+			    			<div class="col-9">
+			    				${user.nickname}
+			    			</div>
+			    			<div class="col-3">
+			    				<button type="button" class="btn btn-dark w-100" data-board-id="${boardId}" 
+			    					data-user-id="${user.id}" data-board-user-id="${userId}">관리자</button>
+			    			</div>
+			    			<div class="d-none">
+			    				<input type="hidden" value="${boardId}" id="userBoardId" >
+			    			</div>
+			    		</div>
+		    		</li>
+				`;
+			} else {
+				htmlStr += `
+					<li class="list-group-item">
+			    		<div class="row">
+			    			<div class="col-9">
+			    				${user.nickname}
+			    			</div>
+			    			<div class="col-3">
+			    				<button type="button" class="btn btn-outline-success grantBtn w-100" data-board-id="${boardId}" 
+			    					data-user-id="${user.id}" data-board-user-id="${userId}">권한 부여</button>
+			    			</div>
+			    			<div class="d-none">
+			    				<input type="hidden" value="${boardId}" id="userBoardId" >
+			    			</div>
+			    		</div>
+		    		</li>
+				`;
+			}
+
+		}
+		
+		document.querySelector('ul#user-list').innerHTML = htmlStr;
+		
+		const grantBtns = document.querySelectorAll('button.grantBtn');
+		for(let btn of grantBtns) {
+			btn.addEventListener('click', revoke);
+		}
+	};
 	
+	const userSearchBtn = document.querySelector('button#userSearchBtn');
+	userSearchBtn.addEventListener('click', searchUserList);
+	
+	const clearUserSearch = () => {
+		document.querySelector('input#userKeyword').value = '';
+		
+		searchUserList();
+	};
+	
+	const userClearBtn = document.querySelector('button#userClearBtn');
+	userClearBtn.addEventListener('click', clearUserSearch);
 	
 });
