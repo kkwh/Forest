@@ -11,8 +11,8 @@ import com.example.forest.model.Blog;
 public interface GardenRepsitory extends JpaRepository<Blog, Long> {
 
     @Transactional
-    @Query("select b from Blog b " + " where b.user.nickname = :nickname ")
-    Blog findByUserNickname(@Param("nickname") String nickname );
+    @Query("select b from Blog b " + " where b.user.loginId = :loginId ")
+    Blog findByUserLoginId(@Param("loginId") String loginId );
 
     
 

@@ -53,8 +53,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAllByKeyword(@Param("keyword") String keyword);
     
    @Query(" select u.id from User u "
-           + " where u.loginId = :nickname ")
-    Long findUserIdByNickname(@Param("nickname") String nickname);
+           + " where u.loginId = :loginId ")
+    Long findUserIdByNickname(@Param("loginId") String loginId);
    
    @Query(" select u from User u where u.loginId = nickname ")
    User findUserByNickname(@Param("nickname") String nickname);

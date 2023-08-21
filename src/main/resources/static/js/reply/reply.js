@@ -259,7 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <span class="nicknameReply">                   
                                 <span class="d-none">${reply.id}</span>
                                         <em title>
-                                                <a href="/garden/gardenmain?nickname=${reply.replyNickname}">${reply.replyNickname}</a>
+                                                <a href="/garden/gardenmain?loginId=${reply.replyNickname}">${reply.replyNickname}</a>
                                         </em>
                                 <span class="ip fw-bold">(${reply.replyIp})</span>
                             </span>
@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <span class="nicknameReply">
                                 <span class="d-none">${reply.id}</span>
                                 <em title>
-                                        <a href="/garden/gardenmain?nickname=${reply.replyNickname}">${reply.replyNickname}</a>
+                                        <a href="/garden/gardenmain?loginId=${reply.replyNickname}">${reply.replyNickname}</a>
                                 </em>
                                 <span class="ip fw-bold">(${reply.replyIp})</span>
                             </span>

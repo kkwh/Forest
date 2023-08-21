@@ -15,6 +15,7 @@ import com.example.forest.model.Post;
 import com.example.forest.model.Reply;
 import com.example.forest.model.User;
 import com.example.forest.service.GardenService;
+import com.example.forest.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,25 +26,26 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/garden")
 public class UserGardenController {
 
+    private final UserService userService;
     private final GardenService gardenService;
 
     @PreAuthorize("hasRole('USER')") 
     @GetMapping("/gardenmain")
-    public String gardenmainPage(@RequestParam String nickname,  Model model) {
+    public String gardenmainPage(@RequestParam String loginId,  Model model) {
         
         log.info("garden()GET");
         
         //닉네임 부르기
-        Blog garden = gardenService.read(nickname);
+        Blog garden = gardenService.read(loginId);
         model.addAttribute("garden", garden);
-        log.info("nickname={}", nickname);
+        log.info("loginId={}", loginId);
         
      // 닉네임으로 사용자 ID 가져오기
-        Long userId = gardenService.findUserIdByNickname(nickname);
+        Long userId = userService.getUserId(loginId);
         
         if (userId != -1) {
             model.addAttribute("userId", userId);
-            log.info("nickname={}, userId={}", nickname, userId);
+            log.info("loginId={}, userId={}", loginId, userId);
         }
         
         log.info("userId={}",userId);
@@ -56,7 +58,7 @@ public class UserGardenController {
         log.info("boaldist={}",boardlist);
         model.addAttribute("boardlist", boardlist);
         
-        List<Reply> replylist = gardenService.findByuserIdReplys(nickname);
+        List<Reply> replylist = gardenService.findByuserIdReplys(userId);
         log.info("replylist={}", replylist);
         model.addAttribute("replylist",replylist);
         
