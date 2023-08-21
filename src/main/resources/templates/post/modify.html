@@ -12,7 +12,7 @@
         <link rel="stylesheet" th:href="@{/css/post/read.css}">
 	 </head>
     
-    <main layout:fragment="main"  class="mt-5 p-3">
+    <main layout:fragment="main"  class="p-3" style="margin-top: 80px;">
         <div class="container">
         <div class="my-2 card">
             <div class="card-header text-center">
@@ -35,14 +35,14 @@
 		      				  </th:block>
 		      				  
 		      				  <th:block th:if="${board.boardGrade} eq 'Sub'">
-		      					<img src="/img/post/tree2.png" alt="마이너" width="22" height="22" style="margin-top: -6px;" />
+		      					<img src="/img/post/leaf.png" alt="마이너" width="22" height="22" style="margin-top: -9px;" />
 		      				  </th:block>
                         </a>
                     </h2>
                 </div>
             </div>
             
-            <div class="card-body">
+            <div class="card-body" style="padding: 33px 68px 40px; border: 2px solid #d5d5d5;">
             
                 <form method="post" name="write" id="write" action="/post/modify" autocomplete="off" novalidate="novalidate">       
         

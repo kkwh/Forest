@@ -64,7 +64,7 @@ public class PostController {
 //    }
     
     @GetMapping("/popular")
-    public String popular(@RequestParam("id") long id, Model model, Principal principal, @PageableDefault(page = 0, size = 3) Pageable pageable, HttpServletRequest request) { // id - boardId
+    public String popular(@RequestParam("id") long id, Model model, Principal principal, @PageableDefault(page = 0, size = 10) Pageable pageable, HttpServletRequest request) { // id - boardId
         log.info("popular(id={})", id);
         BoardDetailDto dto = boardService.findById(id);
         model.addAttribute("board", dto);
@@ -137,7 +137,7 @@ public class PostController {
     }
     
     @GetMapping("/notice")
-    public String notice(@RequestParam("id") long id, Model model, Principal principal, @PageableDefault(page = 0, size = 3) Pageable pageable, HttpServletRequest request) { // id - boardId
+    public String notice(@RequestParam("id") long id, Model model, Principal principal, @PageableDefault(page = 0, size = 10) Pageable pageable, HttpServletRequest request) { // id - boardId
         log.info("notice(id={})", id);
         BoardDetailDto dto = boardService.findById(id);
         model.addAttribute("board", dto);
@@ -574,7 +574,7 @@ public class PostController {
                         @RequestParam(value = "postType", required = false) String postType,
                         Model model,
                         Principal principal,
-                        @PageableDefault(page = 0, size = 3) Pageable pageable, 
+                        @PageableDefault(page = 0, size = 10) Pageable pageable, 
                         HttpServletRequest request) {
         log.info("posts(id={})", boardId);
         BoardDetailDto dto = boardService.findById(boardId);

@@ -101,6 +101,7 @@ tr {
 
 th {
     height: 37px;
+    line-height: 37px;
     border-width: 2px 0 1px;
     border-style: solid;
     border-color: #188038;
@@ -176,8 +177,9 @@ td {
 
 .page_head {
     height: 37px;
-    margin-bottom: 3px;
+    margin-top: 3px;
     padding-top: 4px;
+    margin-bottom: 14px;
 }
 
 .fl {
@@ -199,6 +201,7 @@ td {
     white-space: nowrap;
     color: #188038;
     float: left;
+    margin-left: 24px;
 }
 
 h2 {
@@ -548,6 +551,7 @@ button {
     width: 840px;
     height: 32px;
     margin: 15px 0 5px;
+    margin-left: 24px
 }
 
 .array_tab a.on {

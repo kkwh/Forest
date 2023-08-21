@@ -367,6 +367,7 @@ button {
 .inner_box {
     display: flex;
     justify-content: space-between; /* 자식 요소 사이의 간격을 동일하게 조정 */
+    margin-bottom: 16px;
 }
 
 .inner {
