@@ -188,6 +188,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         let htmlStr = '';
         for (let reply of data.list) {//0익명 익명댓글.
+            const createdTime = reply.createdTime; // 시간 문자열
+            const dateTime = new Date(createdTime); // 문자열을 Date 객체로 변환
+            const formattedTime = dateTime.toISOString().substr(0, 19).replace('T', ' '); // 원하는 형식으로 포맷
+        
         if(reply.userId == 0 & reply.replyPassword !== null) {    
             htmlStr += `
             
@@ -197,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <span class="gall_writer ub-writer">
                             <span class="nicknameReply">
                                 <span class="d-none" id=reID >${reply.id}</span>
-                                <em title>${reply.replyNickname}></em>
+                                <em title>${reply.replyNickname}</em>
                                 <span class="ip fw-bold">(${reply.replyIp})</span>
                             </span>
                         </span>
@@ -208,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     
                     <div class="fr clear">
-                        <div>${reply.createdTime}
+                        <div>${formattedTime}
                         </div>
                         <div class= "cmt_mdf_del">
                             <button type="button" class="btn_cmt_delete" data-password="${reply.replyPassword}" data-user-id="${reply.userId}" data-id="${reply.id}">썩은 열매 제거</button>
@@ -240,7 +244,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="clear cmt_txtbox btn_reply_write_all">
                         <p class="usertxt ub-word" id="replyText_${reply.id}">${reply.replyText}</p>
                     </div>
-                    
+                    <div class="fr clear">
+                        <div>${formattedTime}
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="card my-2">
@@ -271,6 +278,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>                                        
    
                     <div class="fr clear">
+                        <div>${formattedTime}
+                        </div>
                         <div class= "cmt_mdf_del">
                             <button type="button" class="btn_cmt_delete" data-password="${reply.replyPassword}" data-user-id="${reply.userId}" data-id="${reply.id}">썩은 열매 제거</button>
                         </div>
@@ -305,7 +314,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="clear cmt_txtbox btn_reply_write_all">
                         <p class="usertxt ub-word" id="replyText_${reply.id}">${reply.replyText}</p>
                     </div>
-                    
+                    <div class="fr clear">
+                        <div>${formattedTime}
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="card my-2">
@@ -337,6 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="fl">
                             <div class="user_info_input nomem_nick">
                                 <label class="reply-nickname" for="replyNickname2">${authName}</label>
+                                
                                 <input  id="replyNickname2_${reply.id}" type="hidden" value="${authName}" name="replyNickname2_${reply.id}"/>
                             </div>
                             <div class="user_info_input">
@@ -483,11 +496,16 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const divTag = `rereply_list_${replyId}`;
             const rereplyDiv = document.querySelector(`div#${divTag}`);
+
             
             
             // 대댓글 리스트를 보여줄 HTML 생성
             let htmlStr = '';
             for (let reReply of reReplies) {
+            const createdTime = reReply.createdTime; // 시간 문자열
+            const dateTime = new Date(createdTime); // 문자열을 Date 객체로 변환
+            const formattedTime = dateTime.toISOString().substr(0, 19).replace('T', ' '); // 원하는 형식으로 포맷
+                
             if(reReply.userId == 0) {    
                 htmlStr += `
                     <div class="reply-container2 card my-2">
@@ -505,7 +523,7 @@ document.addEventListener('DOMContentLoaded', () => {
                            <p class="usertxt ub-word" id="replyText2_${reReply.id}">${reReply.replyText2}</p>
                            
                            <div class="fr clear">
-                                <div>${reReply.createdTime}
+                                <div>${formattedTime}
                                 </div>
                                 <div class="cmt_mdf_del">
                                     <button type="button" class="btn_cmt_delete2" 
@@ -537,7 +555,7 @@ document.addEventListener('DOMContentLoaded', () => {
                            <p class="usertxt ub-word" id="replyText2_${reReply.id}">${reReply.replyText2}</p>
                            
                            <div class="fr clear">
-                                <div>${reReply.createdTime}
+                                <div>${formattedTime}
                                 </div>
                                 <div class="cmt_mdf_del">
                                     <button type="button" class="btn_cmt_delete2" 
@@ -569,7 +587,7 @@ document.addEventListener('DOMContentLoaded', () => {
                            <p class="usertxt ub-word" id="replyText2_${reReply.id}">${reReply.replyText2}</p>
                            
                            <div class="fr clear">
-                                <div>${reReply.createdTime}
+                                <div>${formattedTime}
                                 </div>
                             </div>
                         </div>
