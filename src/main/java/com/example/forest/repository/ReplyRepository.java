@@ -63,9 +63,9 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
      * @return
      */
     @Query(" select r from Reply r "
-            + " where r.userId = :nickname "
+            + " where r.userId = :userId "
             + " order by r.id desc ") 
-    List<Reply> findByOrderByuserIdDesc(@Param("nickname") Long entity);
+    List<Reply> findByOrderByuserIdDesc(@Param("userId") Long userId);
    
  
 

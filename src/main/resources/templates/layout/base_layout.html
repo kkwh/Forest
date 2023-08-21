@@ -62,7 +62,9 @@
                     <span><a th:href="@{'/user/gallogmain?Garden=' + ${#authentication.principal.username}}">가든></a></span>
                 </div>
                 </li>
-                <li sec:authorize="isAuthenticated()"><a href="/garden/gardenmain">잠깐 씀</a></li>
+                <li sec:authorize="isAuthenticated()">
+                <a href="/garden/gardenmain">잠깐 씀</a>
+                </li>
               
                 </ul>  
                
