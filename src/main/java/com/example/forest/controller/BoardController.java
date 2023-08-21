@@ -111,7 +111,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/{id}") // 해당 랜드의 home
-	public String board(@PathVariable("id") long id, Model model, Principal principal, @PageableDefault(page = 0, size = 3) Pageable pageable, HttpServletRequest request) {
+	public String board(@PathVariable("id") long id, Model model, Principal principal, @PageableDefault(page = 0, size = 10) Pageable pageable, HttpServletRequest request) {
 		BoardDetailDto dto = boardService.findById(id);
 		model.addAttribute("board", dto);
 		

@@ -12,28 +12,37 @@
         <link rel="stylesheet" th:href="@{/css/post/read.css}">
 	 </head>
     
-    <main layout:fragment="main"  class="mt-5 p-3">
+    <main layout:fragment="main"  class="p-3" style="margin-top: 80px;">
         <div class="container">
         <div class="my-2 card">
             <div class="card-header text-center">
-                <h1>[[${board.boardName}]] 랜드</h1>
+                <div class="recent-lands">
+                    <h3 style="color: #188038;">최근 방문한 랜드</h3>
+                    <div class="land-names">
+                        <div th:each="land : ${recentLands}" class="land-name">
+                            <a th:href="@{ /board/ } + ${land.id}" th:text="${land.boardName}"></a>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <div class="page_head clear">
                 <div class="fl clear">
                     <h2>
                         <a th:href="@{ /board/ } + ${board.id}">[[${board.boardName}]] 랜드
-                            <div class="pagehead_titicon mgall sp_img">
-                                <th:block th:if="${board.boardGrade} eq 'Sub'">
-                                    <span class="blind">마이너</span>
-                                </th:block>
-                            </div>
+                              <th:block th:if="${board.boardGrade} eq 'Main'">
+		      					<img src="/img/post/tree1.png" alt="마이너" width="22" height="22" style="margin-top: -6px;" />
+		      				  </th:block>
+		      				  
+		      				  <th:block th:if="${board.boardGrade} eq 'Sub'">
+		      					<img src="/img/post/leaf.png" alt="마이너" width="22" height="22" style="margin-top: -9px;" />
+		      				  </th:block>
                         </a>
                     </h2>
                 </div>
             </div>
             
-            <div class="card-body">
+            <div class="card-body" style="padding: 33px 68px 40px; border: 2px solid #d5d5d5;">
             
                 <form method="post" name="write" id="write" action="/post/modify" autocomplete="off" novalidate="novalidate">       
         

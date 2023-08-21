@@ -7,8 +7,8 @@
     <head>
         <link rel="stylesheet" th:href="@{/css/reply/reply.css}">
         <link rel="stylesheet" th:href="@{/css/post/create.css}">
-        <link rel="stylesheet" th:href="@{/css/post/read.css}">
         <link rel="stylesheet" th:href="@{/css/post/detail.css}">
+        <link rel="stylesheet" th:href="@{/css/post/read.css}">
     </head>
     
     <main layout:fragment="main"  class="mt-5 p-4">
@@ -16,16 +16,27 @@
 
         <div class="my-2 card">
             <div class="card-header text-center">
-                <h1>[[${board.boardName}]] 랜드</h1>
+                <div class="recent-lands">
+                    <h3 style="color: #188038; margin-top: 0px;">최근 방문한 랜드</h3>
+                    <div class="land-names">
+                        <div th:each="land : ${recentLands}" class="land-name">
+                            <a th:href="@{ /board/ } + ${land.id}" th:text="${land.boardName}"></a>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <div class="page_head clear">
                 <div class="fl clear">
                     <h2>
                         <a th:href="@{ /board/ } + ${boardId}">[[${board.boardName}]] 랜드
-                            <div class="pagehead_titicon mgall sp_img">
-                                <span class="blind">마이너</span>
-                            </div>
+                              <th:block th:if="${board.boardGrade} eq 'Main'">
+		      					<img src="/img/post/tree1.png" alt="마이너" width="22" height="22" style="margin-top: -6px;" />
+		      				  </th:block>
+		      				  
+		      				  <th:block th:if="${board.boardGrade} eq 'Sub'">
+		      					<img src="/img/post/leaf.png" alt="마이너" width="22" height="22" style="margin-top: -9px;" />
+		      				  </th:block>
                         </a>
                     </h2>
                     </div>
@@ -52,7 +63,7 @@
                               <span style="color: orange;" class="author">
                                 <span class="nickname" title="ㅇㅇ" th:text="${post.postNickname} + '&nbsp;&nbsp;'"><em></em></span>
                                     <span class="author-accordion" style="display:none;">
-                                        <a th:href="@{ /user/gallogmain } + '?loginId=' + ${ user.loginId }">정원 가기</a>
+                                        <a th:href="@{ /garden/gardenmain } + '?loginId=' + ${ user.loginId }">정원 가기</a>
                                     </span>
                               </span>                                                               
                                 <span class="gall_date" title="2023-08-01 12:03:25" th:text="${ #temporals.format(post.createdTime, 'yyyy.MM.dd HH:mm:ss') }"></span>
@@ -65,7 +76,7 @@
                               <span style="color: green;" class="author">
                                 <span class="nickname" title="ㅇㅇ" th:text="${post.postNickname} + '&nbsp;&nbsp;'"><em></em></span>
                                     <span class="author-accordion" style="display:none;">
-                                        <a th:href="@{ /user/gallogmain } + '?loginId=' + ${ user.loginId }">정원 가기</a>
+                                        <a th:href="@{ /garden/gardenmain } + '?loginId=' + ${ user.loginId }">정원 가기</a>
                                     </span>
                               </span>                                                               
                                 <span class="gall_date" title="2023-08-01 12:03:25" th:text="${ #temporals.format(post.createdTime, 'yyyy.MM.dd HH:mm:ss') }"></span>
@@ -179,7 +190,7 @@
                                             target_type: 'mix'
                                           });
                                         </script><div style="width:100%;overflow:hidden;text-align:center;margin-top:10px;">
-    <script type="text/javascript" src="https://ad.xc.netinsight.co.kr/xc/j/ccDkYbfd/x/fst" referrerpolicy="no-referrer-when-downgrade"></script><script async="async" type="text/javascript" src="https://static.criteo.net/js/ld/publishertag.js"></script><div id="criteo_slot_6381"><iframe id="criteo_slot_6381_iframe" frameborder="0" allowtransparency="true" hspace="0" marginwidth="0" marginheight="0" scrolling="no" vspace="0" width="728" height="90"></iframe></div>
+    <script type="text/javascript" src="https://ad.xc.netinsight.co.kr/xc/j/ccDkYbfd/x/fst" referrerpolicy="no-referrer-when-downgrade"></script><script async="async" type="text/javascript" src="https://static.criteo.net/js/ld/publishertag.js"></script>
 <script>
 !function(){
  var criteoZoneId = 1634700;

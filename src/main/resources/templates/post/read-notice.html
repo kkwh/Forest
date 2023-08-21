@@ -28,9 +28,13 @@
 				<div class="fl clear">
       				<h2>
       					<a th:href="@{ /board/ } + ${board.id}">[[${board.boardName}]] 랜드
-	      					<div class="pagehead_titicon mgall sp_img">
-	      						<span class="blind">마이너</span>
-	      					</div>
+	      					  <th:block th:if="${board.boardGrade} eq 'Main'">
+		      					<img src="/img/post/tree1.png" alt="마이너" width="22" height="22" style="margin-top: -6px;" />
+		      				  </th:block>
+		      				  
+		      				  <th:block th:if="${board.boardGrade} eq 'Sub'">
+		      					<img src="/img/post/leaf.png" alt="마이너" width="22" height="22" style="margin-top: -9px;" />
+		      				  </th:block>
       					</a>
       				</h2>
       				</div>
@@ -135,13 +139,13 @@
                 
                     
                     <!-- 카테고리 별 말머리 구분 버튼들 -->
-                    <a class="custom-link" style="margin-top: 6px; margin-left: 85px; text-decoration: none; font-size: 12px; border: none; background: none; padding: 0;" th:href="@{/post/posts(id=${board.id}, postType='일반')}">일반</a>
+                    <a class="custom-link" style="margin-top: 6px; margin-left: 230px; text-decoration: none; font-size: 12px; border: none; background: none; padding: 0;" th:href="@{/post/posts(id=${board.id}, postType='일반')}">일반</a>
                     <a class="custom-link" style="margin-top: 6px; text-decoration: none; font-size: 12px; border: none; background: none; padding: 0;" th:href="@{/post/posts(id=${board.id}, postType='뉴스')}">뉴스</a>
                     <a class="custom-link" style="margin-top: 6px; text-decoration: none; font-size: 12px; border: none; background: none; padding: 0;" th:href="@{/post/posts(id=${board.id}, postType='SNS')}">SNS</a>
                     <a class="custom-link" style="margin-top: 6px; text-decoration: none; font-size: 12px; border: none; background: none; padding: 0;" th:href="@{/post/posts(id=${board.id}, postType='사진/움짤')}">사진/움짤</a>
                     <a class="custom-link" style="margin-top: 6px; margin-left: 30px; text-decoration: none; font-size: 12px; border: none; background: none; padding: 0;" th:href="@{/post/posts(id=${board.id}, postType='이벤트')}">이벤트</a>     
                     
-                    <a class="nav-link form-control btn btn-outline-success" style="margin-left: 30px;" th:href="@{/post/create?id={id} (id = ${board.id})}">나무심기</a>              
+                    <a class="nav-link form-control btn btn-outline-success" style="margin-left: 235px;" th:href="@{/post/create?id={id} (id = ${board.id})}">나무심기</a>              
                 </div>
              </div>
             <!-- 전체글, 인기글, 공지글 등 버튼 -->
@@ -158,7 +162,7 @@
 	<button type="button" class="" onclick="ub_remove_text(this)"><span class="blind">차단설정 단어 삭제</span><em class="sp_img icon_bword_del"></em></button>
 </li>
 </script>	  
-	  <div class="banner_box">
+	  <div class="banner_box" style="margin-top: 30px;">
 	  <script type="text/javascript" src="https://addc.dcinside.com/NetInsight/js/dcinside/pc/list@top_minor_sport"></script><style type="text/css">.ad-layer {display:none; position:absolute; top:0px; left:0px; width:840px; height:243px; z-index:1000;}
 .ad-pop-layer {display:none; position: relative; top:0px; left: 0px; width: 0px; height:0px; border: 0px; z-index: 2000;}
 .ad-layer-closer {display:none; position:absolute; top:0px; left:0px; width:0px; height:0px; z-index:3000;}
@@ -259,7 +263,7 @@ $(document).ready(function(){
                                 <td style="color: orange;" class="author">
                                     <span th:text="${post.postNickname}"></span>
                                     <div class="author-accordion" style="display:none;">
-                                        <a th:href="@{ /user/gallogmain } + '?loginId=' + ${ post.userLoginId }">정원 가기</a>
+                                        <a th:href="@{ /garden/gardenmain } + '?loginId=' + ${ post.userLoginId }">정원 가기</a>
                                     </div>
                                 </td>
                             </th:block>
@@ -268,7 +272,7 @@ $(document).ready(function(){
                                 <td style="color: green;" class="author">
                                     <span th:text="${post.postNickname}"></span>
                                     <div class="author-accordion" style="display:none;">
-                                        <a th:href="@{ /user/gallogmain } + '?loginId=' + ${ post.userLoginId }">정원 가기</a>
+                                        <a th:href="@{ /garden/gardenmain } + '?loginId=' + ${ post.userLoginId }">정원 가기</a>
                                     </div>
                                 </td>
                             </th:block>

@@ -34,10 +34,11 @@ div {
     vertical-align: baseline;
     background: transparent;
     font-style: normal;
+    text-align: center;
 }
 
 .no_member_cont .inner {
-    width: 176px;
+    width: 251px;
     margin: 0 auto;
 }
 
