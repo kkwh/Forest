@@ -116,6 +116,7 @@ function connect() {
     stompClient.connect({}, function (frame) {
 		loadMessages();
         setConnected(true);
+        
         console.log('Connected: ' + frame);
         
         stompClient.subscribe('/topic/chatting', function (message) {
@@ -196,6 +197,7 @@ function sendMessage() {
 	};
 	
 	stompClient.send('/app/sendMessage', {}, JSON.stringify(data));
+	$('#message').val('');
 }
 
 /**
