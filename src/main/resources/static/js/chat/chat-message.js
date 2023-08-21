@@ -197,7 +197,7 @@ function sendMessage() {
 	};
 	
 	stompClient.send('/app/sendMessage', {}, JSON.stringify(data));
-	$('#message').val('');
+	
 }
 
 /**
@@ -214,11 +214,11 @@ function saveMessage() {
 	axios.post(url, data)
 		.then((response) => {
 			console.log(response.data);
-			$('#message').val('');
 		})
 		.catch((error) => {
 			console.log(error);
 		});
+	$('#message').val('');
 }
 
 /**
