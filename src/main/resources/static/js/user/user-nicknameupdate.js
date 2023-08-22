@@ -15,6 +15,7 @@ document.getElementById("btnUpdate").addEventListener("click", function() {
        
                 .then(function(response) {
                         console.log(response.data);
+                        alert("로그아웃 후 로그인을 다시 해주세요.")
                         window.location.href = '/user/myinfopage';
                 })
                 .catch(function(error) {

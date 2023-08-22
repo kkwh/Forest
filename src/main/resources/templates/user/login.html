@@ -123,13 +123,13 @@
                     </div>
 
                     <div class="">
-                        <a href="/user/findid"><button class="findid" type="button">id찾기</button></a>
-                        <a href="/user/finduserinfo"><button class="findpw" type="button">id/pw찾기</button></a>
+                        
+                        <a href="/user/finduserinfo"><button class="findpw" type="button">id찾기</button></a>
                         <a href="/user/signup"><button type="button">회원가입</button></a>
                     </div>
                 </form>
             </section>
-            <div th:if="${errorMessage}" style="color: red;">
+            <div th:if="${errorMessage}" style="color: red; text-align: center;">
                 <p th:text="${errorMessage}"></p>
             </div>
 

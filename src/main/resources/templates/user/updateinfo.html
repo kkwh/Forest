@@ -3,32 +3,29 @@
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
     layout:decorate="~{layout/base_layout}">
-    <head>
-    
+<head>
+
 <style>
 </style>
 </head>
 
-<div layout:fragment="main" class="mt-5 p-3"     > 
-    <table class="table table-bordered border-primary" id="table1">
-        <tr>
-            <th style="width: 150px" scope="row">프로필 사진</th>
-            <td style="width: 150px">test</td>
-        </tr>
-        <tr>
-            <th style="width: 150px" scope="row">Nickname</th>
-            <td style="width: 150px">
-                <ul>
-                      <li class="list-group-item" sec:authorize="isAuthenticated()">
-                        <input class="nickname" id="nickname" type="text" placeholder="닉네임"  />
-                        <input type="hidden" class="id" id="id" name="id" th:value="${userId}" />
-                    </li>
-                </ul>
-            </td>
-            <td><button type="button" id="btnUpdate" class="btn btn-outline-primary"></button></td>
-        </tr>
-    </table>
+<div layout:fragment="main" class="mt-5 p-3">
     
+
+    <div class="card" style="width: 20rem; margin: 0 auto; margin-top: 20px;">
+        <div class="card-body" >
+            <ul>
+                <li class="list-group-item"
+                    sec:authorize="isAuthenticated()"><input
+                    class="nickname" id="nickname" type="text"
+                    placeholder="닉네임" /> <input type="hidden"
+                    class="id" id="id" name="id" th:value="${userId}" /></li>
+                
+            </ul>
+            <ul><li><button type="button" class="btn btn-success btn-sm" id="btnUpdate">수정하기</button></li></ul>
+        </div>
+    </div>
+
 </div>
 <!-- 레이아웃 끝입니다. 넘어가지 마세요. -->
 

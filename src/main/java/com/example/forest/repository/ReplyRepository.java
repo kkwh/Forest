@@ -1,5 +1,6 @@
 package com.example.forest.repository;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,6 +67,8 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
             + " where r.userId = :userId "
             + " order by r.id desc ") 
     List<Reply> findByOrderByuserIdDesc(@Param("userId") Long userId);
+
+   
    
  
 
