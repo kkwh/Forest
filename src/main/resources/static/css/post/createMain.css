@@ -16,7 +16,6 @@ html, body, div, span, iframe, h1, h2, h3, h4, h5, h6, p, a, em, img, strong, b,
 
 #write_wrap {
     padding: 33px 68px 40px;
-    margin-top: 15px;
     border: 2px solid #d5d5d5;
 }
 
@@ -29,10 +28,10 @@ fieldset {
     padding-inline-end: 0.75em;
     padding-block-end: 0.625em;
     min-inline-size: min-content;
-    border-width: 2px;
     border-style: groove;
     border-color: rgb(192, 192, 192);
     border-image: initial;
+    padding-left: 0px;
 }
 
 .blind {
@@ -101,7 +100,7 @@ input:not([type="file" i], [type="image" i], [type="checkbox" i], [type="radio" 
     min-width: 715px;
     border: 1px solid #cecdce;
     padding-right: 11px;
-    margin-top: 10px;
+    margin-top: 14px;
 }
 
 .write_subject > .tit {
@@ -212,7 +211,7 @@ li {
 }
 
 .input_write_tit .put_inquiry {
-    width: 702px;
+    width: 715px;
 }
 
 .write_infobox {

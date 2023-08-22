@@ -50,6 +50,21 @@ main {
     padding-top: 20px;
 }
 
+#navbar .top_list li {
+    display: inline-block;
+    vertical-align: middle; 
+}
+
+#navbar .top_list li:before {
+    content: '';
+    display: inline-block;
+    width: 1px;
+    height: 11px;
+    margin: 0 8px;
+    background-color: #e4e8eb;
+    vertical-align: -1px;
+}
+
 /*main_left*/
 #main_left {
     float: left;
@@ -342,6 +357,7 @@ main {
     background-color: #e4e8eb;
     vertical-align: -1px;
 }
+
 
 /*#main_footer .corp_list li:first-child:before {
     display: none;

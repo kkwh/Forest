@@ -26,6 +26,7 @@ import com.example.forest.service.LikesService;
 import com.example.forest.service.PostService;
 import com.example.forest.service.UserService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -73,10 +74,10 @@ public class PostRestController {
 	
 	// 조회수
 	@PostMapping("/increaseViewCount")
-    public int increaseViewCount(@RequestParam Long postId) {
+    public int increaseViewCount(@RequestParam Long postId, HttpSession session) {
     	log.info("increaseViewCount(postId={})", postId);
     	
-        return postService.increaseViewCount(postId);
+        return postService.increaseViewCount(postId, session);
     }
 	
 	// 총 좋아요 개수

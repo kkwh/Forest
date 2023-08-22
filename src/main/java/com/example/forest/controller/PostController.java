@@ -33,6 +33,7 @@ import com.example.forest.service.ReplyService;
 import com.example.forest.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -65,7 +66,7 @@ public class PostController {
 //    }
     
     @GetMapping("/popular")
-    public String popular(@RequestParam("id") long id, Model model, Principal principal, @PageableDefault(page = 0, size = 3) Pageable pageable, HttpServletRequest request) { // id - boardId
+    public String popular(@RequestParam("id") long id, Model model, Principal principal, @PageableDefault(page = 0, size = 10) Pageable pageable, HttpServletRequest request) { // id - boardId
         log.info("popular(id={})", id);
         BoardDetailDto dto = boardService.findById(id);
         model.addAttribute("board", dto);
@@ -146,7 +147,7 @@ public class PostController {
     }
     
     @GetMapping("/notice")
-    public String notice(@RequestParam("id") long id, Model model, Principal principal, @PageableDefault(page = 0, size = 3) Pageable pageable, HttpServletRequest request) { // id - boardId
+    public String notice(@RequestParam("id") long id, Model model, Principal principal, @PageableDefault(page = 0, size = 10) Pageable pageable, HttpServletRequest request) { // id - boardId
         log.info("notice(id={})", id);
         BoardDetailDto dto = boardService.findById(id);
         model.addAttribute("board", dto);
@@ -228,7 +229,7 @@ public class PostController {
     
 //    @PreAuthorize("hasRole('USER')") // 페이지 접근 이전에 인증(권한, 로그인) 여부를 확인.
     @GetMapping("/create")
-    public void create(@RequestParam("id") long id, Principal principal, Model model) { // id - boardId
+    public void create(@RequestParam("id") long id, Principal principal, Model model, HttpServletRequest request) { // id - boardId
         log.info("create() GET");
         
         long boardId = boardService.findById(id).getId();
@@ -255,6 +256,25 @@ public class PostController {
         log.info("Short IP 주소: {}", shortIp);
         
         model.addAttribute("shortIp", shortIp);
+        
+        // 최근 방문 랜드
+        LinkedList<Long> recentLands = (LinkedList<Long>) request.getSession().getAttribute("recentLands");
+        if (recentLands == null) {
+            recentLands = new LinkedList<>();
+        }
+        
+        recentLands.remove((Long) id);
+        recentLands.addFirst(id);
+        
+        while (recentLands.size() > 10) {
+            recentLands.removeLast();
+        }
+
+        request.getSession().setAttribute("recentLands", recentLands);
+        
+        List<BoardDetailDto> recentLandBoards = recentLands.stream().map(boardService::findById).collect(Collectors.toList());
+        model.addAttribute("recentLands", recentLandBoards);
+        
     }
     
     @PostMapping("/create")
@@ -270,7 +290,7 @@ public class PostController {
     
     // 채한별  추가:  댓글 개수 불러오기
     @GetMapping("/details")
-    public void details(@RequestParam("boardId") long boardId, @RequestParam("id") long id, Principal principal, Model model) { 
+    public void details(@RequestParam("boardId") long boardId, @RequestParam("id") long id, Principal principal, Model model, HttpSession session, HttpServletRequest request) { 
         log.info("details(boardId={})", boardId);
         log.info("details(id={})", id);
         model.addAttribute("boardId", boardId);
@@ -281,7 +301,7 @@ public class PostController {
         Post post = postService.read(id);
         long likesCount = likesService.countLikesByPostId(id);
         long dislikesCount = likesService.countDislikesByPostId(id);
-        long viewCount = postService.increaseViewCount(id) - 1;
+        long viewCount = postService.increaseViewCount(id, session);
         long replyCount = replyService.countByPostId(id);
                
         model.addAttribute("post", post);
@@ -304,6 +324,24 @@ public class PostController {
         
         model.addAttribute("user", user);
         log.info("user: {}", user);
+        
+        // 최근 방문 랜드
+        LinkedList<Long> recentLands = (LinkedList<Long>) request.getSession().getAttribute("recentLands");
+        if (recentLands == null) {
+            recentLands = new LinkedList<>();
+        }
+        
+        recentLands.remove((Long) boardId);
+        recentLands.addFirst(boardId);
+        
+        while (recentLands.size() > 10) {
+            recentLands.removeLast();
+        }
+
+        request.getSession().setAttribute("recentLands", recentLands);
+        
+        List<BoardDetailDto> recentLandBoards = recentLands.stream().map(boardService::findById).collect(Collectors.toList());
+        model.addAttribute("recentLands", recentLandBoards);
         
         // 채한별 추가 : 
         // REPLIES 테이브에서 해당 포스트에 달린 댓글 개수를 검색.
@@ -329,7 +367,7 @@ public class PostController {
     }
     
     @GetMapping("/modify")
-    public void modify(Long id, Principal principal, Model model) {
+    public void modify(Long id, Principal principal, Model model, HttpServletRequest request) {
         log.info("modify(id={})", id);
         
         Long boardId = postService.findBoardIdByPostId(id);
@@ -354,6 +392,24 @@ public class PostController {
         Post post = postService.read(id);
                
         model.addAttribute("post", post);
+        
+        // 최근 방문 랜드
+        LinkedList<Long> recentLands = (LinkedList<Long>) request.getSession().getAttribute("recentLands");
+        if (recentLands == null) {
+            recentLands = new LinkedList<>();
+        }
+        
+        recentLands.remove((Long) boardId);
+        recentLands.addFirst(boardId);
+        
+        while (recentLands.size() > 10) {
+            recentLands.removeLast();
+        }
+
+        request.getSession().setAttribute("recentLands", recentLands);
+        
+        List<BoardDetailDto> recentLandBoards = recentLands.stream().map(boardService::findById).collect(Collectors.toList());
+        model.addAttribute("recentLands", recentLandBoards);
     }
     
     @PostMapping("/modify")
@@ -536,7 +592,7 @@ public class PostController {
                         @RequestParam(value = "postType", required = false) String postType,
                         Model model,
                         Principal principal,
-                        @PageableDefault(page = 0, size = 3) Pageable pageable, 
+                        @PageableDefault(page = 0, size = 10) Pageable pageable, 
                         HttpServletRequest request) {
         log.info("posts(id={})", boardId);
         BoardDetailDto dto = boardService.findById(boardId);

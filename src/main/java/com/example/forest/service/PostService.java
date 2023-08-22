@@ -1,7 +1,9 @@
 package com.example.forest.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +26,7 @@ import com.example.forest.repository.ReReplyRepository;
 import com.example.forest.repository.ReplyRepository;
 import com.example.forest.repository.UserRepository;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -165,11 +168,24 @@ public class PostService {
     
     /**
 	 * 게시글 조회수의 증가를 반영하여 보여주는 메서드
+	 * 세션을 이용하여 조회수 중복 카운트를 방지
 	 * @param postId
 	 * @return
 	 */
-    public int increaseViewCount(Long postId) {
+    public int increaseViewCount(Long postId, HttpSession session) {
     	log.info("increaseViewCount(postId={})", postId);
+    	
+    	Set<Long> viewedPosts = (Set<Long>) session.getAttribute("viewedPosts");
+        if (viewedPosts == null) {
+            viewedPosts = new HashSet<>();
+        }
+
+        if (viewedPosts.contains(postId)) {
+            return postRepository.findById(postId).orElseThrow().getPostViews();
+        }
+
+        viewedPosts.add(postId);
+        session.setAttribute("viewedPosts", viewedPosts);
     	
         Post post = postRepository.findById(postId).orElseThrow();
                                   
