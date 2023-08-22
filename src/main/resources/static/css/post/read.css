@@ -176,8 +176,9 @@ td {
 }
 
 .page_head {
-    height: 37px;
-    margin-top: 3px;
+    height: 48px;
+    margin-bottom: 3px;
+
     padding-top: 4px;
     margin-bottom: 14px;
 }

@@ -24,8 +24,8 @@
                 </div>
             </div>
             
-            <div class="page_head clear">
-				<div class="fl clear">
+            <div class="page_head clear d-flex">
+				<div class="fl clear p-1 flex-grow-1">
       				<h2>
       					<a th:href="@{ /board/ } + ${board.id}">[[${board.boardName}]] 랜드
 	      					  <th:block th:if="${board.boardGrade} eq 'Main'">
@@ -37,7 +37,19 @@
 		      				  </th:block>
       					</a>
       				</h2>
-      				</div>
+    			</div>
+    			<div class="d-none">
+    				<input type="hidden" th:value=${userId} id="userId" />
+    			</div>
+    			<div id="bookmark-section" class="p-1">
+    				<th:block th:if="${ clicked == 0 }">
+    					<button id="bookmarkBtn" type="button" class="btn btn-outline-warning w-100">☆ [[${bookmarkCount}]]</button>
+    				</th:block>
+    				
+    				<th:block th:if="${ clicked == 1 }">
+    					<button id="bookmarkBtn" type="button" class="btn btn-warning w-100">☆ [[${bookmarkCount}]]</button>
+    				</th:block>
+    			</div>
       		</div>
       		
       		
@@ -391,6 +403,10 @@ $(document).ready(function(){
 			  });
 			});
 			</script>
+			
+		<!-- 서원준 즐겨찾기 추가 -->
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+		<script src="/js/bookmark/board-bookmark.js"></script>
     </th:block>
     
 </html>

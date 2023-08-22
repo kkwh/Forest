@@ -24,6 +24,7 @@ import com.example.forest.dto.post.PostWithLikesCount2;
 import com.example.forest.model.Post;
 import com.example.forest.model.User;
 import com.example.forest.service.BoardService;
+import com.example.forest.service.BookmarkService;
 import com.example.forest.service.IpService;
 import com.example.forest.service.LikesService;
 import com.example.forest.service.PostService;
@@ -50,6 +51,7 @@ public class PostController {
     private final UserService userService; 
     private final IpService ipService;
     private final ReReplyService reReplyService; 
+    private final BookmarkService bookmarkService;
     
 //    @GetMapping
 //    public String post(Model model) {
@@ -133,6 +135,14 @@ public class PostController {
         log.info("rank: {}", rank);
         model.addAttribute("rank", rank);
         
+        // 서원준 추가
+        int clicked = bookmarkService.isExisting(id, userId);
+        log.info("clicked = {}", clicked);
+        model.addAttribute("clicked", clicked);
+        
+        long bookmarkCount = bookmarkService.countByBoard(id);
+        model.addAttribute("bookmarkCount", bookmarkCount);
+        
         return "/post/read-popular";
     }
     
@@ -205,6 +215,14 @@ public class PostController {
         long rank = postService.findRankByLandId(dto.getId(), grade);
         log.info("rank: {}", rank);
         model.addAttribute("rank", rank);
+        
+        // 서원준 추가
+        int clicked = bookmarkService.isExisting(id, userId);
+        log.info("clicked = {}", clicked);
+        model.addAttribute("clicked", clicked);
+        
+        long bookmarkCount = bookmarkService.countByBoard(id);
+        model.addAttribute("bookmarkCount", bookmarkCount);
         
         return "/post/read-notice";
     }
