@@ -3,36 +3,56 @@
     xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
 <meta charset="UTF-8">
-<title>gallog</title>
+<title>Forest</title>
 <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
     rel="stylesheet"
     integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
     crossorigin="anonymous" />
+     <link rel="stylesheet" th:href="@{/css/garden/garden.css}">
+     <link rel="stylesheet" href="/css/base_layout/main.css" />
+    <link rel="stylesheet" href="/css/main/main.css" />
+    <link rel="stylesheet"
+    href="https://use.fontawesome.com/releases/v5.15.0/css/all.css">
 </head>
 
-<body style="height: 100%">
-<div><a href="/">HOME</a></div>
-<div class="mainDiv" style="background-color: white; width: 100%; height: 100%; " >
-
-       <div class="headDiv"
-                style="width: 75%; height: 150px; background-color: white; margin: 0 auto">
-                <div class="headDiv2"
-                    style="background-color:white; width: 90%; height: 145px; margin: 0 auto; border-radius: 30px;">
-                    <header style="text-align: center; border: groove;">
-                        <th:block>
-                            <h1>"[[${user.nickname}]]" : My Garden</h1>
-                        </th:block>
-                    </header>
-                </div>
-         
-              <div class="d-none">
-            <input type="hidden" th:value="${userId}" id="userId" />
-        </div> 
-      <div class="row" style="width: 75%;background-color: white; margin: 0 auto; " >
+    <div class="headbox">
+        <div class="dchead">
+            <a href="/" class="dcmain_go">HOME</a>
+            <em class="sp_img icon_dcmain_go"></em>
+        </div>
+    </div>
+    
+    <div class="top_bar">
+        <div id="top_bg" class="bar clear" >
+            <div class="photo sp_img">
+              <img id="profile_img" src="" alt="" onload="$(this).parent().show();" onerror="$(this).hide().parent().show();" style="display: none;">
+            </div>
+            
+           <div class="galler_info">
+                            <th:block>
+                                <strong class="nick_name">[[${user.nickname}]] </strong>의 가든
+                            </th:block>
+                  <div class="d-none"></div>
+                <input type="hidden" th:value="${userId}" id="userId" />
+            </div> 
+        </div>
+     </div>
+      
+     
        
        <hr/>
-            <div>
+       
+       <section>
+            <div class="wrap_right">
+                
+                    <div class="gallog_cont">
+                        <header>
+                            <div class="cont_head clear">
+                                 <h2 class="tit" style="cursor:pointer">나의 랜드</h2>
+                                <span class="bluebox">공개</span>
+                            </div>
+                        </header>
                     <table class="table table-striped">
                         <thead id="category-list">
                                 <tr>
@@ -47,62 +67,124 @@
                                     <td>
                                         <a th:href="@{'/board/details/' + ${board.id}}" th:text="${board.boardName}" class="link-dark"></a>
                                     </td>
-                                    <td class="createdDate" th:text="${board.createdTime}"></td>
-                            </tr>
+                                    <td class="createdDate" th:text="${#temporals.format(board.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                           </tr>
                         </tbody>  
                     </table>
+                    </div>
             </div>
             <hr/>
-            <div>
-                    <table class="table table-striped">
-                            
-                            <thead id="category-list">
-                                    <tr>
-                                            <th>댓글</th>
-                                            <th>시간</th>
-                                    </tr>
-                            </thead>
-                 
             
-    
-                            
-                            <tbody id="list-section">
-                                    <tr th:each="reply : ${replies}">
-                                        <!--http://localhost:8090/post/details?boardId=4&id=21    우현
-                                        http://localhost:8090/post/details?boardId=21&id=1    내꺼  --> 
-                                     <td><a th:href="@{'/post/details?boardId=' + ${reply.boardId} + '&id=' + ${reply.postId}}" th:text="${reply.replyText}" class="link-dark"></a></td>
-                                     <td th:text="${reply.createdTime}"></td>
-                                    </tr>
-                            </tbody>
-                    </table>
-            </div>
-            <hr/>
-            <div>
+           <div class="wrap_right">
+             <div class="gallog_cont">
+                        <header>
+                            <div class="cont_head clear">
+                                 <h2 class="tit" style="cursor:pointer">나의 나무</h2>
+                                <span class="bluebox">공개</span>
+                            </div>
+                        </header>
                     <table class="table table-striped">
             
                             <thead id="category-list">
                                     <tr>
                                             <th>랜드이름</th>
-                                            <th>포스트 제목</th>                                        
-                                            <th>시간</th>
+                                            <th>나무 이름</th>                                        
+                                            <th>심은 시간</th>
                                     </tr>
                             </thead>
                             <tbody id="list-section">
                                     <tr th:each="post : ${posts}">
                                              <td><a th:href="@{'/post/details?boardId=' + ${post.board.id} + '&id=' + ${post.id}}" th:text="${post.board.boardName}" class="link-dark"></a></td>
                                              <td th:text="${post.postTitle}"></td>
-                                             <td class="createdDate" th:text="${post.createdTime}"></td>
-                                    </tr>
+                                             <td class="createdDate" th:text="${#temporals.format(post.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                     </tr>
                             </tbody>
                     </table>
             </div>
-            
         </div>
- </div>
- </div>
+        <hr/>
+        
+        <div class="wrap_right">
+             <div class="gallog_cont">
+                        <header>
+                            <div class="cont_head clear">
+                                 <h2 class="tit" style="cursor:pointer">나의 열매</h2>
+                                <span class="bluebox">공개</span>
+                            </div>
+                        </header>
+                    <table class="table table-striped">
+                            <thead id="category-list">
+                                    <tr>
+                                            <th>열매 내용</th>
+                                            <th>단 시간</th>
+                                    </tr>
+                            </thead>
+                            <tbody id="list-section">
+                                    <tr th:each="reply : ${replies}">
+                                        <!--http://localhost:8090/post/details?boardId=4&id=21    우현
+                                        http://localhost:8090/post/details?boardId=21&id=1    내꺼  --> 
+                                     <td><a th:href="@{'/post/details?boardId=' + ${reply.boardId} + '&id=' + ${reply.postId}}" th:text="${reply.replyText}" class="link-dark"></a></td>
+                                     <td class="createdDate" th:text="${#temporals.format(reply.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                     </tr>
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+    </section>
+    
+       <footer id="main_footer">
+         <div class="container">
+            <ul class="footer_news_list">
+                <li>
+                    <img src="/img/main/bigdate.jpeg" style="width:160px; height:86px;">
+                    <div class="footer_news_info">
+                        <span>빅데이터 전문가 양성과정  43기</span>
+                        <a href="https://www.itwill.co.kr/cmn/eduCrseMain/1000000/all/CRSE_00000000000637eduCrseMainDetail.do">
+                            <h3>수강 신청하기</h3>
+                        </a>
+                        <p>프로 분석러가 되자!<br>
+                           K-Digital Training</p>
+                    </div>
+                </li>
+                <li>
+                    <img src="/img/main/java.png" style="width:160px; height:86px;">
+                    <div class="footer_news_info">
+                        <span>자바 개발자 양성과정  146기</span>
+                        <a href="https://www.itwill.co.kr/cmn/eduCrseMain/1000000/all/CRSE_00000000000639eduCrseMainDetail.do">
+                            <h3>수강 신청하기</h3>
+                        </a>
+                        <p>백엔드 개발자 100% 최적화<br>
+                          비전공자도 가능한 취업클래스</p>
+                    </div>
+                </li>
+                <li>
+                    <img src="/img/main/oracle.png" style="width:160px; height:86px;">
+                    <div class="footer_news_info">
+                        <span>오라클 DBA 양성과정  80기</span>
+                        <a href="https://www.itwill.co.kr/cmn/eduCrseMain/1000000/all/CRSE_00000000000638eduCrseMainDetail.do">
+                            <h3>수강 신청하기</h3>
+                        </a>
+                        <p>데이터 베이스 핵심분야<br>
+                           오라클 DBA 취업교육과정</p>
+                    </div>
+                </li>
+            </ul>
+            <ul class="corp_list">
+                <li><a href="#">회사소개</a></li>
+                <li><a href="#">인재채용</a></li>
+                <li><a href="#">제휴제안</a></li>
+                <li><a href="#">이용약관</a></li>
+                <li><a href="#">개인정보처리방침</a></li>
+                <li><a href="#">청소년보호정책</a></li>
+                <li><a href="#">포레스트 정책</a></li>
+                <li><a href="#">고객센터</a></li>
+                <li><a href="#">FOREST</a></li>
+            </ul>
+         </div>
+    
   <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
-</body>
+
 </html>
