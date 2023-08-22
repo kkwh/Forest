@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.forest.dto.stats.UserJoinDto;
 import com.example.forest.model.Post;
 import com.example.forest.model.User;
 
@@ -59,7 +60,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
    @Query(" select u from User u where u.loginId = nickname ")
    User findUserByNickname(@Param("nickname") String nickname);
     
-    
+   @Query("select new com.example.forest.dto.stats.UserJoinDto("
+   		+ " 	to_char(u.createdTime, 'yyyy-mm-dd') AS startDate,"
+   		+ "		count(u.id) AS count "
+   		+ " ) "
+   		+ " from User u "
+   		+ " group by to_char(u.createdTime, 'yyyy-mm-dd') "
+   		+ " order by to_char(u.createdTime, 'yyyy-mm-dd') ")
+   List<UserJoinDto> getUserJoinStats();
 
   
    

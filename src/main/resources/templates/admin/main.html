@@ -4,11 +4,185 @@
 	layout:decorate="~{layout/base_layout}">
 
 <div layout:fragment="main" class="mt-5 p-3">
+	
+	<div class="mt-4">
+		<h2>Forest 통계 보기</h2>
+	</div>
+
+	<div class="mt-3">
+		<button id="btnChart1" type="button" onclick="showChart1()" 
+			class="btn btn-outline-primary">카테고리 별 랜드 수</button>
+		<button id="btnChart1" type="button" onclick="showChart2()" 
+			class="btn btn-outline-primary">날짜별 회원 가입자 수</button>
+		<button id="btnChart1" type="button" onclick="showChart3()" 
+			class="btn btn-outline-primary">게시글 작성자 회원/익명 비율</button>
+	</div>
+	
+	<div class="mt-3" style="margin: 0 auto;">
+		<div class="w-50" style="margin: 0 auto;">
+			<canvas id="myChart1" class="w-100" 
+				style="margin: 0 auto;"></canvas>
+			
+			<canvas id="myChart2" class="w-100" 
+				style="margin: 0 auto; display: none;"></canvas>
+			
+			<canvas id="myChart3"  
+				style="margin: 0 auto; display: none; "></canvas>
+		</div>
+	</div>
 
 </div>
 
-
 <th:block layout:fragment="myscripts">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script th:inline="javascript">
+		var ctx = document.getElementById('myChart1');
+
+        // JSON 문자열을 JavaScript 배열로 파싱
+        var jsonString = [[${jsonBoardCounts}]];
+        var dataList = JSON.parse(jsonString);
+
+        // dataList를 사용하여 원하는 작업을 수행
+        console.log(dataList);
+
+        // 나머지 코드는 차트 또는 데이터 시각화에 대한 코드일 것입니다.
+        var labels = [];
+        var data = [];
+        
+        for(let stat of dataList) {
+        	labels.push(stat.category);
+        	data.push(stat.count);
+        }
+        
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: labels,
+              datasets: [{
+                label: '카테고리 별 랜드 수',
+                data: data,
+                borderWidth: 1
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+        });
+    </script>
+    <script th:inline="javascript">
+    	var ctx = document.getElementById('myChart2');
+
+        // JSON 문자열을 JavaScript 배열로 파싱
+        var jsonString = [[${jsonJoinCounts}]];
+        var dataList = JSON.parse(jsonString);
+
+        // dataList를 사용하여 원하는 작업을 수행
+        console.log(dataList);
+
+        // 나머지 코드는 차트 또는 데이터 시각화에 대한 코드일 것입니다.
+        var labels = [];
+        var data = [];
+        
+        for(let stat of dataList) {
+        	labels.push(stat.startDate);
+        	data.push(stat.count);
+        }
+        
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: labels,
+              datasets: [{
+                label: '날짜별 회원 가입자 수',
+                data: data,
+                borderWidth: 1
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+        });
+    </script>
+    <script th:inline="javascript">
+    	var ctx = document.getElementById('myChart3');
+
+        // JSON 문자열을 JavaScript 배열로 파싱
+        var jsonString = [[${jsonWriterCounts}]];
+        var dataList = JSON.parse(jsonString);
+
+        // dataList를 사용하여 원하는 작업을 수행
+        console.log(dataList);
+
+        // 나머지 코드는 차트 또는 데이터 시각화에 대한 코드일 것입니다.
+        var labels = [];
+        var data = [];
+        
+        for(let stat of dataList) {
+        	labels.push(stat.userType);
+        	data.push(stat.count);
+        }
+        
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+              labels: labels,
+              datasets: [{
+                label: '게시글 작성자 회원/익명 비율',
+                data: data,
+                borderWidth: 1
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+        });
+    </script>
+    <script>
+    	function showChart1() {
+    		const myChart1 = document.getElementById('myChart1');
+    		const myChart2 = document.getElementById('myChart2');
+    		const myChart3 = document.getElementById('myChart3');
+    		
+    		myChart1.style.display = '';
+    		myChart2.style.display = 'none';
+    		myChart3.style.display = 'none';
+    	}
+    </script>
+    <script>
+    	function showChart2() {
+    		const myChart1 = document.getElementById('myChart1');
+    		const myChart2 = document.getElementById('myChart2');
+    		const myChart3 = document.getElementById('myChart3');
+    		
+    		myChart1.style.display = 'none';
+    		myChart2.style.display = '';
+    		myChart3.style.display = 'none';
+    	}
+    </script>
+    <script>
+    	function showChart3() {
+    		const myChart1 = document.getElementById('myChart1');
+    		const myChart2 = document.getElementById('myChart2');
+    		const myChart3 = document.getElementById('myChart3');
+    		
+    		myChart1.style.display = 'none';
+    		myChart2.style.display = 'none';
+    		myChart3.style.display = '';
+    	}
+    </script>
 </th:block>
 
 </html>
