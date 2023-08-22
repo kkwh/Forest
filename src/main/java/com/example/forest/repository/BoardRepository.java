@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.forest.dto.board.BoardRankDto;
+import com.example.forest.dto.stats.BoardCountDto;
 import com.example.forest.model.Board;
 import com.example.forest.model.BoardCategory;
 import com.example.forest.model.Post;
@@ -301,7 +302,16 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 			+ " order by b.id desc")
 	List<Board> findAllByBoardGradeOrderByCreatedTimeDesc(@Param("boardGrade") String boardGrade);
 
-	
+	/**
+	 * 카테고리 별로 생성된 랜드의 숫자를 가져옴
+	 * @return
+	 */
+	@Query("select new com.example.forest.dto.stats.BoardCountDto( "
+			+ " b.boardCategory AS category, count(b.id) AS count ) "
+			+ " from Board b "
+			+ " group by b.boardCategory "
+			+ " order by b.boardCategory")
+	List<BoardCountDto> countBoardByCategory();
 	
 	/**
 	 * 김선아 보드 리스트 

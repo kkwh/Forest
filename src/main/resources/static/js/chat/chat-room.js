@@ -1,5 +1,5 @@
 /**
- * chat-create.js
+ * chat-room.js
  */
 document.addEventListener('DOMContentLoaded', () => {
 	
@@ -23,16 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	const createBtn = document.querySelector('button#createBtn');
 	createBtn.addEventListener('click', createChatRoom);
 	
-	const searchChatRoom = async () => {
-		const keyword = document.querySelector('input#keyword').value;
-		
-		const url = `/api/v1/chat/getList?keyword=${keyword}`;
-		const response = await axios.get(url);
-		
-		createChatList(response.data);
-	};
-	
 	const createChatList = (data) => {
+		console.log(data);
+		
 		let htmlStr = '';
 		
 		for(let room of data) {
@@ -47,6 +40,15 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 		
 		document.querySelector('tbody#chatroom-list').innerHTML = htmlStr;
+	};
+	
+	const searchChatRoom = async () => {
+		const keyword = document.querySelector('input#keyword').value;
+		
+		const url = `/api/v1/chat/getList?keyword=${keyword}`;
+		const response = await axios.get(url);
+		
+		createChatList(response.data);
 	};
 	
 	const searchBtn = document.querySelector('button#searchBtn');

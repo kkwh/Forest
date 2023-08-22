@@ -27,14 +27,26 @@
                         <div class="header_nav">
                             <!-- 로고 영역! -->
                             <div class="logo_search_container">
-                                <h1 id="forest_logo">
-                                    <a href="/"> <img
-                                        src="/img/forest_logo.png"
-                                        alt="포레스트 로고" width="250px"
-                                        height="auto" />
-                                    </a>
-                                </h1>
+                            	<th:block sec:authorize="hasRole('ADMIN')">
+                            		<h1 id="forest_logo">
+	                                    <a href="/admin/main"> <img
+	                                        src="/img/forest_logo.png"
+	                                        alt="포레스트 로고" width="250px"
+	                                        height="auto" />
+	                                    </a>
+	                                </h1>
+                            	</th:block>
+                                
                                 <!--  // 로고 영역! -->
+                                <th:block sec:authorize="!hasRole('ADMIN')">
+                                	<h1 id="forest_logo">
+	                                    <a href="/"> <img
+	                                        src="/img/forest_logo.png"
+	                                        alt="포레스트 로고" width="250px"
+	                                        height="auto" />
+	                                    </a>
+	                                </h1>
+                                </th:block>
                             </div>
                             
                             <!-- navigation -->

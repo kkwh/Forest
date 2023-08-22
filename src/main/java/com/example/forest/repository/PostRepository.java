@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.forest.dto.post.PostWithLikesCount;
 import com.example.forest.dto.post.PostWithLikesCount2;
+import com.example.forest.dto.stats.PostUserDto;
 import com.example.forest.model.Board;
 import com.example.forest.model.Post;
 import com.example.forest.model.User;
@@ -283,6 +284,19 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Transactional
 	@Modifying
     void deleteByBoard(@Param("board") Board board);
+    
+    @Query("select new com.example.forest.dto.stats.PostUserDto ( "
+    		+ " CASE "
+    		+ "		WHEN p.user.id IS NULL THEN '익명 유저' "
+    		+ "		ELSE '회원' "
+    		+ " END AS userType, COUNT(p.id) AS count) "
+    		+ " from Post p"
+    		+ " group by "
+    		+ " CASE "
+    		+ " 	WHEN p.user.id IS NULL THEN '익명 유저' "
+    		+ " 	ELSE '회원' "
+    		+ " END")
+    List<PostUserDto> getPostWriterStats();
 
     /**
      * 김선아
