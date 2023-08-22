@@ -1,4 +1,4 @@
-package com.example.forest.service;
+package com.example.forest.handler.exception;
 
 public class DuplicateLoginIdException extends Exception {
     public DuplicateLoginIdException(String message) {

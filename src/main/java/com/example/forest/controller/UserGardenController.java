@@ -1,7 +1,9 @@
 package com.example.forest.controller;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +33,7 @@ public class UserGardenController {
 
     @PreAuthorize("hasRole('USER')") 
     @GetMapping("/gardenmain")
-    public String gardenmainPage(@RequestParam String loginId,  Model model) {
+    public String gardenmainPage(@RequestParam String loginId, Model model) {
         
         log.info("garden()GET");
         
@@ -62,10 +64,40 @@ public class UserGardenController {
         log.info("replylist={}", replylist);
         model.addAttribute("replylist",replylist);
         
+        
+        
         return "/garden/gardenmain";
         
     }
     
+    @GetMapping("/gardenReply")
+public String gardeReplypage(@RequestParam String loginId, Model model) {
+        
+        log.info("garden()GET");
+        
+        //닉네임 부르기
+        Blog garden = gardenService.read(loginId);
+        model.addAttribute("garden", garden);
+        log.info("loginId={}", loginId);
+        
+     // 닉네임으로 사용자 ID 가져오기
+        Long userId = userService.getUserId(loginId);
+        
+        if (userId != -1) {
+            model.addAttribute("userId", userId);
+            log.info("loginId={}, userId={}", loginId, userId);
+        }
+        List<Reply> replylist = gardenService.findByuserIdReplys(userId);
+        log.info("replylist={}", replylist);
+        model.addAttribute("replylist",replylist);
+        
+        
+        
+        return "/garden/gardenReply";
+    }
+        
+        
+        
     @GetMapping("/gardenDiary")
     public void Diary() {
         log.info("방명록 페이지");
