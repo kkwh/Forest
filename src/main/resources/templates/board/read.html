@@ -28,7 +28,7 @@
          
             
             <div class="page_head clear d-flex">
-				<div class="fl clear p-2 flex-grow-1">
+				<div class="fl clear p-1 flex-grow-1">
       				<h2>
       					<a th:href="@{ /board/ } + ${board.id}">[[${board.boardName}]] 랜드
 	      					<div class="pagehead_titicon mgall sp_img">
@@ -42,7 +42,7 @@
     			<div class="d-none">
     				<input type="hidden" th:value=${userId} id="userId" />
     			</div>
-    			<div id="bookmark-section" class="p-2">
+    			<div id="bookmark-section" class="p-1">
     				<th:block th:if="${ clicked == 0 }">
     					<button id="bookmarkBtn" type="button" class="btn btn-outline-warning w-100">☆ [[${bookmarkCount}]]</button>
     				</th:block>

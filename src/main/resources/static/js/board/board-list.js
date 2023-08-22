@@ -236,6 +236,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		
 		// 입력된 검색어를 초기화
 		document.querySelector('input#keyword').value = '';
+		
+		searchByKeyword();
 	};
 	
 	const clearBtn = document.querySelector('button#clearBtn');
