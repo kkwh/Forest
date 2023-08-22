@@ -5,59 +5,74 @@
 
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Forest title here</title>
 <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
     rel="stylesheet"
     integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
     crossorigin="anonymous" />
+         <link rel="stylesheet" th:href="@{/css/garden/garden.css}">
+     <link rel="stylesheet" href="/css/base_layout/main.css" />
+    <link rel="stylesheet" href="/css/main/main.css" />
+    <link rel="stylesheet"
+    href="https://use.fontawesome.com/releases/v5.15.0/css/all.css">
 </head>
 
 
-<body>
-<div><a href="/">HOME</a></div>
-    <div class="mainDiv row w-100 h-100 d-inline-block"
-        style="background-color: white; ">
+    <div class="headbox">
+        <div class="dchead">
+            <a href="/" class="dcmain_go">HOME</a>
+            <em class="sp_img icon_dcmain_go"></em>
+        </div>
+    </div>
+
         
-        <div class="headDiv"
-                style="width: 75%; height: 150px; background-color: white; margin: 0 auto">
-                <div class="headDiv2"
-                    style="background-color:white; width: 90%; height: 145px; margin: 0 auto; border-radius: 30px;">
-                    <header style="text-align: center; border: groove;">
+    <div class="top_bar">
+        <div id="top_bg" class="bar clear" >
+            <div class="photo sp_img">
+                <img id="profile_im g" src="" alt="" onload="$(this).parent().show();" onerror="$(this).hide().parent().show();" style="display: none;">
+            </div>
+                    <div class="galler_info">
                         <th:block>
-                            <h1>"[[${garden.user.nickname}]]"님의 가든 입니다.</h1>
+                            <strong class="nick_name">[[${garden.user.nickname}]]</strong>님의 가든 입니다.
                         </th:block>
-                    </header>
-                </div>
-                 <nav class="navbar navbar-expand-lg bg-body-tertiary" style="margin-bottom: 2px;">
+                    </div>
+         </div>
+     </div>           
+                
+           <nav class="navbar navbar-expand-lg bg-body-tertiary">
               <div class="container-fluid">
                 <!-- <a class="navbar-brand" th:href="@{'/garden/gardenmain?loginId=' + ${garden.user.loginId}}">게시물</a> -->
-                <a class="navbar-brand categoryBtn" data-id="post">게시물</a>
+                <!-- <a class="on navbar-brand categoryBtn" data-id="post">게시물</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
                 </button>
+                 -->
                 <div class="collapse navbar-collapse" id="navbarNav">
                   <ul class="navbar-nav">
                     <li class="nav-item">
-                      <a class="nav-link active categoryBtn" data-id="reply">댓글</a>
+                      <a class="on navbar-brand categoryBtn" data-id="post" style="font-size:12px;">게시물</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link active categoryBtn" data-id="board">게시판</a>
+                      <a class="on2 nav-link active categoryBtn" data-id="reply" style="font-size:12px;">댓글</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="on3 nav-link active categoryBtn" data-id="board" style="font-size:12px;">게시판</a>
                     </li>
                    
                   </ul>
                 </div>
               </div>
             </nav>
-            </div>
-        
+            
+           
         <div class="d-none">
             <input type="hidden" th:value="${userId}" id="userId" />
         </div>   
    
         <div class="row" 
-                style="width: 75%; background-color: white; margin: 0 auto; margin-top: 2px;">
-                <table class="table table-striped">
+                style="width: 75%; background-color: white; margin: 0 auto; margin-top: 2px; margin-left:100px;">
+                <table class="table table-striped" style="margin-left:245px;">
                     <thead id="category-list">
                         <tr>
                             <th>랜드이름</th>
@@ -84,6 +99,56 @@
             <div class="subDiv col-5">
             </div>  콜 오 끝 넘지마 -->
         </div> <!-- 콜 칠 끝 넘지마 -->
+        
+               <footer id="main_footer">
+         <div class="container">
+            <ul class="footer_news_list">
+                <li>
+                    <img src="/img/main/bigdate.jpeg" style="width:160px; height:86px;">
+                    <div class="footer_news_info">
+                        <span>빅데이터 전문가 양성과정  43기</span>
+                        <a href="https://www.itwill.co.kr/cmn/eduCrseMain/1000000/all/CRSE_00000000000637eduCrseMainDetail.do">
+                            <h3>수강 신청하기</h3>
+                        </a>
+                        <p>프로 분석러가 되자!<br>
+                           K-Digital Training</p>
+                    </div>
+                </li>
+                <li>
+                    <img src="/img/main/java.png" style="width:160px; height:86px;">
+                    <div class="footer_news_info">
+                        <span>자바 개발자 양성과정  146기</span>
+                        <a href="https://www.itwill.co.kr/cmn/eduCrseMain/1000000/all/CRSE_00000000000639eduCrseMainDetail.do">
+                            <h3>수강 신청하기</h3>
+                        </a>
+                        <p>백엔드 개발자 100% 최적화<br>
+                          비전공자도 가능한 취업클래스</p>
+                    </div>
+                </li>
+                <li>
+                    <img src="/img/main/oracle.png" style="width:160px; height:86px;">
+                    <div class="footer_news_info">
+                        <span>오라클 DBA 양성과정  80기</span>
+                        <a href="https://www.itwill.co.kr/cmn/eduCrseMain/1000000/all/CRSE_00000000000638eduCrseMainDetail.do">
+                            <h3>수강 신청하기</h3>
+                        </a>
+                        <p>데이터 베이스 핵심분야<br>
+                           오라클 DBA 취업교육과정</p>
+                    </div>
+                </li>
+            </ul>
+            <ul class="corp_list">
+                <li><a href="#">회사소개</a></li>
+                <li><a href="#">인재채용</a></li>
+                <li><a href="#">제휴제안</a></li>
+                <li><a href="#">이용약관</a></li>
+                <li><a href="#">개인정보처리방침</a></li>
+                <li><a href="#">청소년보호정책</a></li>
+                <li><a href="#">포레스트 정책</a></li>
+                <li><a href="#">고객센터</a></li>
+                <li><a href="#">FOREST</a></li>
+            </ul>
+         </div>
        
            
         <script
@@ -96,6 +161,5 @@
         <script type="text/javascript" src="/js/user/garden-display.js"></script>
 </th:block>
         
-</body>
 
 </html>
