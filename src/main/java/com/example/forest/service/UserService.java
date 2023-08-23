@@ -22,6 +22,7 @@ import com.example.forest.model.Reply;
 import com.example.forest.model.User;
 import com.example.forest.repository.GardenRepsitory;
 import com.example.forest.repository.BoardRepository;
+import com.example.forest.repository.ChatMessageRepository;
 import com.example.forest.repository.PostRepository;
 import com.example.forest.repository.ReplyRepository;
 import com.example.forest.repository.UserRepository;
@@ -41,7 +42,8 @@ public class UserService implements UserDetailsService {
     private final BoardRepository boardRepository;
     private final ReplyRepository replyRepository;
     private final PostRepository postRepository;
-    private final GardenRepsitory blogRepository;  
+    private final GardenRepsitory blogRepository;
+    private final ChatMessageRepository messageRepository;
     
     public Long registerUser(UserSignUpDto dto) { //유저 회원가입
         log.info("registerUser(dto={})", dto);
@@ -169,6 +171,8 @@ public class UserService implements UserDetailsService {
         
 //        User entity = userRepository.findById(dto.getId()).orElseThrow();
         //entity.setNickname(dto.getNickname());
+        
+        messageRepository.updateUserNickname(entity.getNickname(), dto.getNickname());
        
         entity.update(dto);
         log.info("entity: {}", entity);

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.forest.dto.chat.ChatMessageCreateDto;
 import com.example.forest.dto.chat.ChatMessageDto;
+import com.example.forest.dto.chat.ChatMessageListDto;
 import com.example.forest.dto.chat.ChatRoomDto;
 import com.example.forest.model.ChatMessage;
 import com.example.forest.model.ChatRoom;
@@ -100,10 +101,13 @@ public class ChatService {
 	 * @param roomId
 	 * @return
 	 */
-	public List<ChatMessage> getMessages(long roomId) {
+	public List<ChatMessageListDto> getMessages(long roomId) {
 		log.info("getMessages(id = {})", roomId);
 		
-		return messageRepository.getAllByRoomId(roomId);
+		List<ChatMessageListDto> list = messageRepository.getAllByChatRoomId(roomId);
+		log.info("list = {}", list);
+		
+		return list;
 	}
 
 	/**
