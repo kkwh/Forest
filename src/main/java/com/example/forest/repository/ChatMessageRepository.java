@@ -14,12 +14,22 @@ import com.example.forest.model.ChatMessage;
 
 public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> {
 
+	/**
+	 * 채팅방에 있는 메세지들을 불러옴
+	 * @param roomId
+	 * @return
+	 */
 	@Transactional
 	@Query("select m from ChatMessage m  "
 			+ " where m.roomId = :roomId "
 			+ " order by m.id")
 	List<ChatMessage> getAllByRoomId(@Param("roomId") long roomId);
 	
+	/**
+	 * 채팅방에 있는 메세지들을 불러옴
+	 * @param roomId
+	 * @return
+	 */
 	@Transactional
 	@Query("select new com.example.forest.dto.chat.ChatMessageListDto( "
 			+ " m.roomId, u.loginId, m.message, m.nickname, m.createdTime) "
@@ -29,6 +39,11 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> 
 			+ " order by m.id")
 	List<ChatMessageListDto> getAllByChatRoomId(@Param("roomId") long roomId);
 	
+	/**
+	 * 회원이 닉네임을 변경하면 해당 회원이 작성했던 메세지들의 닉네임도 업데이트 해줌
+	 * @param currNickname
+	 * @param newNickname
+	 */
 	@Transactional
 	@Modifying
 	@Query("update ChatMessage cm "

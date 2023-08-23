@@ -314,7 +314,12 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             + " where p.user = :user "
             + " order by p.id desc ")
     List<Post> findByOrderByuserIdDesc(@Param("user") User user);
-
     
+    @Transactional
+    @Modifying
+    @Query("update Post p "
+    		+ " set p.postNickname = :newNickname "
+    		+ " where p.postNickname = :currNickname")
+	 void updateUserNickname(@Param("currNickname") String currNickname, @Param("newNickname") String newNickname);  
     
 }

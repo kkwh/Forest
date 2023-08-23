@@ -71,7 +71,7 @@
                                         <li sec:authorize="hasRole('USER')"><a href="/user/bookmarkList">즐겨찾기 목록</a></li>
                                         <li sec:authorize="isAuthenticated()"><a href="/user/logout">로그아웃</a></li>
                                         <li sec:authorize="isAuthenticated()"><a href="/user/myinfopage"><span th:text="${#authentication.principal.nickname}"></span>></a></li>
-                                        <li sec:authorize="isAuthenticated()">
+                                        <li sec:authorize="hasRole('USER')">
                                             <span><a th:href="@{'/user/gallogmain?loginId=' + ${#authentication.principal.username}}">가든</a></span>
                                         </li>
                                     </ul>
