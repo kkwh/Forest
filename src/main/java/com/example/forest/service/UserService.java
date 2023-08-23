@@ -172,6 +172,8 @@ public class UserService implements UserDetailsService {
 //        User entity = userRepository.findById(dto.getId()).orElseThrow();
         //entity.setNickname(dto.getNickname());
         
+        postRepository.updateUserNickname(entity.getNickname(), dto.getNickname());
+ 
         messageRepository.updateUserNickname(entity.getNickname(), dto.getNickname());
        
         entity.update(dto);
