@@ -36,6 +36,7 @@ function formatDate(date) {
 function writeMessages(data) {
 	console.log(data);
 	
+	const loginId = $('#loginId').val();
 	const nickname = $('#nickname').val();
 
 	let htmlStr = '';
@@ -43,7 +44,7 @@ function writeMessages(data) {
 		
 		const formattedDate = formatDate(new Date(chat.createdTime.replace("T", " ")));
 		
-		if(chat.nickname == nickname) {
+		if(chat.loginId == loginId) {
 			htmlStr += `
 				<div class="d-flex align-items-center alert alert-warning border border-dark">
 				  <div class="flex-shrink-0">
@@ -129,13 +130,14 @@ function connect() {
  * 메세지를 전송 후 작성된 메세지를 append하는 메서드
  */
 const appendChat = (chat) => {
+	const loginId = $('#loginId').val();
 	const nickname = $('#nickname').val();
 	
 	console.log(chat);
 	
 	const formattedDate = formatDate(new Date());
 	
-	if(chat.nickname === nickname) {
+	if(chat.loginId === loginId) {
 		$("#messages").append(
 			`
 				<div class="d-flex align-items-center alert alert-warning border border-dark">

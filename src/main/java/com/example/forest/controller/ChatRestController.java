@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.forest.dto.chat.ChatMessageCreateDto;
 import com.example.forest.dto.chat.ChatMessageDto;
+import com.example.forest.dto.chat.ChatMessageListDto;
 import com.example.forest.dto.chat.ChatRoomDto;
 import com.example.forest.model.ChatMessage;
 import com.example.forest.service.ChatService;
@@ -35,10 +36,10 @@ public class ChatRestController {
 	 * @return
 	 */
 	@GetMapping("/messages/{roomId}")
-	public ResponseEntity<List<ChatMessage>> getMessages(@PathVariable("roomId") long roomId) {
+	public ResponseEntity<List<ChatMessageListDto>> getMessages(@PathVariable("roomId") long roomId) {
 		log.info("getMessages(id = {})", roomId);
 		
-		List<ChatMessage> list = chatService.getMessages(roomId);
+		List<ChatMessageListDto> list = chatService.getMessages(roomId);
 		
 		return ResponseEntity.ok(list);
 	}
