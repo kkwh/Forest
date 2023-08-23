@@ -266,16 +266,16 @@
 
 
         
-        <!-- 채한별: --> 
+        <!-- 채한별: 댓글시작!--> 
         <!-- 열매(댓글) 부분 -->
-       <div class="view_comment my-2 card">
+        <div class="view_comment my-2 card">
             <h2 class="blind">댓글 영역</h2>
             <div class="comment_wrap show">
-            <input type="hidden" id="userId" name="userId" th:value="${userId}" />
-            <input type="hidden" id="postId" name="postId" th:value="${post.id}" />
-               <div class="d-none" id="authName" th:text="${ #authentication.name }"></div>
-                
-                <div class= "comment_count">
+                <input type="hidden" id="userId" name="userId" th:value="${userId}" />
+                <input type="hidden" id="postId" name="postId" th:value="${post.id}" />
+               <div class="d-none" id="authName" th:text="${ #authentication.name }">
+               </div>
+               <div class= "comment_count">
                     <div class="fl num_box">
                     나무 열매
                         <em class="font_red">
@@ -287,15 +287,10 @@
                                     <option value="D">등록순</option>
                                     <option value="N">최신순</option>
                             </select>
-                            
-                         </div>
-                         
+                        </div>
                       </div>
                    </div>
             
-
-
-                
                 <!-- 로그인 상태이면 -->
                 <th:block sec:authorize="isAuthenticated()">
                 <div class="cmt_write_box clear">
@@ -345,21 +340,20 @@
                     <div class="cmt_txt_cont">
                         <div class="cmt_write2">
                             <textarea id="replyText"  placeholder="타인의 권리를 침해하거나 명예를 훼손하는 댓글은 운영원칙 및 관련 법률에 제재를 받을 수 있습니다."></textarea>
-                         </div>
+                        </div>
                     </div>
                     
                     
-                     <div class="cmt_cont_bottm clear">
-                         <div class="dccon_guidebox">
+                    <div class="cmt_cont_bottm clear">
+                        <div class="dccon_guidebox">
                             <button type="button" class="btn_white small tx_dccon" id="btnReplyCreate">
                                 <em class="sp_img icon_dccon"></em>열매달기
                             </button>
-                            
-                         </div>
-                     </div>
+                        </div>
+                    </div>
                 </div>
                 </th:block>       
-           </div>     
+            </div>     
         
            
                 <!-- 댓글 목록을 보여줄 영역 -->
@@ -374,8 +368,9 @@
                             </div>
                         </div>
                     </div>
+                    
         </div>
-        
+        <!-- 댓글 끝! -->
         
         <!-- 로그인 여부를 스크립트에 전달 -->
         <th:block th:if="${ #authentication.principal != null }">
