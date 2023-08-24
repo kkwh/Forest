@@ -44,7 +44,7 @@ function writeMessages(data) {
 		
 		const formattedDate = formatDate(new Date(chat.createdTime.replace("T", " ")));
 		
-		if(chat.loginId == loginId) {
+		if(chat.nickname == nickname) {
 			htmlStr += `
 				<div class="d-flex align-items-center alert alert-warning border border-dark">
 				  <div class="flex-shrink-0">
@@ -137,7 +137,7 @@ const appendChat = (chat) => {
 	
 	const formattedDate = formatDate(new Date());
 	
-	if(chat.loginId === loginId) {
+	if(chat.nickname === nickname) {
 		$("#messages").append(
 			`
 				<div class="d-flex align-items-center alert alert-warning border border-dark">
